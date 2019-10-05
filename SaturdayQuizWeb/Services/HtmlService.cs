@@ -32,8 +32,6 @@ namespace SaturdayQuizWeb.Services
 
             for (var number = 1; number <= NumberOfQuestions; number++)
             {
-                string question;
-                string answer;
                 var regex = BuildRegex(number);
 
                 // Find the question
@@ -49,7 +47,7 @@ namespace SaturdayQuizWeb.Services
                     answerStartIndex = questionStartIndex;
                 }
 
-                question = match.Groups[1].Value;
+                var question = match.Groups[1].Value;
 
                 // Find the answer
                 match = regex.Match(html, answerStartIndex);
@@ -59,7 +57,7 @@ namespace SaturdayQuizWeb.Services
                 }
 
                 answerStartIndex = match.Index + match.Length;
-                answer = match.Groups[1].Value;
+                var answer = match.Groups[1].Value;
                 
                 questions.Add(new Question
                 {
