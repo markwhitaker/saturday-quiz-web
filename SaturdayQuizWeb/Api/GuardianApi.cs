@@ -18,12 +18,10 @@ namespace SaturdayQuizWeb.Api
         
         private readonly HttpClient _httpClient;
 
-        public GuardianApi()
+        public GuardianApi(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri(UrlBase)
-            };
+            _httpClient = httpClientFactory.CreateClient();
+            _httpClient.BaseAddress = new Uri(UrlBase);
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MimeTypeApplicationJson));
         }
