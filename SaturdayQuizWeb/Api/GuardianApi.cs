@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 
 namespace SaturdayQuizWeb.Api
 {
-    public class GuardianApi
+    public interface IGuardianApi
+    {
+        Task<GuardianApiResponse> ListQuizzes(string apiKey, int pageSize = 5);
+    }
+
+    public class GuardianApi : IGuardianApi
     {
         private const string MimeTypeApplicationJson = "application/json";
         private const string UrlBase = "https://content.guardianapis.com/theguardian/";

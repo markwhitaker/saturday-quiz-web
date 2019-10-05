@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using SaturdayQuizWeb.Api;
+using SaturdayQuizWeb.Services;
+using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb
 {
@@ -29,6 +32,13 @@ namespace SaturdayQuizWeb
                     Version = "v1"
                 });
             });
+
+            services.AddHttpClient();
+            services.AddSingleton<IConfigVariables, ConfigVariables>();
+            services.AddSingleton<IQuizService, QuizService>();
+            services.AddSingleton<IQuizMetadataService, QuizMetadataService>();
+            services.AddSingleton<IHtmlService, HtmlService>();
+            services.AddSingleton<IGuardianApi, GuardianApi>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

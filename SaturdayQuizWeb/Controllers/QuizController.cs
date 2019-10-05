@@ -11,13 +11,13 @@ namespace SaturdayQuizWeb.Controllers
     [ApiController]
     public class QuizController : ControllerBase
     {
-        // TODO: inject
-        private readonly QuizService _quizService = new QuizService();
-        private readonly ConfigVariables _configVariables;
+        private readonly IQuizService _quizService;
+        private readonly IConfigVariables _configVariables;
 
-        public QuizController(IConfiguration config)
+        public QuizController(IQuizService quizService, IConfigVariables configVariables)
         {
-            _configVariables = new ConfigVariables(config);
+            _quizService = quizService;
+            _configVariables = configVariables;
         }
 
         // GET /api/quiz

@@ -5,14 +5,26 @@ using SaturdayQuizWeb.Model;
 
 namespace SaturdayQuizWeb.Services
 {
-    public class QuizService
+    public interface IQuizService
+    {
+        Task<Quiz> GetQuiz(string apiKey, string id = null);
+        Task<Quiz> GetQuiz(QuizMetadata quizMetadata);
+    }
+
+    public class QuizService : IQuizService
     {
         private const string GuardianUrlBase = "https://www.theguardian.com/";
         
-        // TODO: inject
-        private readonly HttpClient _httpClient = new HttpClient();
-        private readonly HtmlService _htmlService = new HtmlService();
-        private readonly QuizMetadataService _quizMetadataService = new QuizMetadataService();
+        private readonly HttpClient _httpClient;
+        private readonly IHtmlService _htmlService;
+        private readonly IQuizMetadataService _quizMetadataService;
+
+        public QuizService(IHttpClientFactory httpClientFactory, IHtmlService htmlService, IQuizMetadataService quizMetadataService)
+        {
+            _httpClient = httpClientFactory.CreateClient();
+            _htmlService = htmlService;
+            _quizMetadataService = quizMetadataService;
+        }
         
         public async Task<Quiz> GetQuiz(string apiKey, string id = null)
         {

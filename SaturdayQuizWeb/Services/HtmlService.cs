@@ -14,7 +14,12 @@ namespace SaturdayQuizWeb.Services
         }
     }
 
-    public class HtmlService
+    public interface IHtmlService
+    {
+        List<Question> FindQuestions(string html);
+    }
+
+    public class HtmlService : IHtmlService
     {
         private const int NumberOfQuestions = 15;
         private const int NumberOfNormalQuestions = 8;

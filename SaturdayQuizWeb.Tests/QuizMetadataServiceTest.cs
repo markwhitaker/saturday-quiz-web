@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
+using SaturdayQuizWeb.Api;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Utils;
 
@@ -9,8 +10,8 @@ namespace SaturdayQuizWeb.Tests
     {
         private IConfiguration Configuration { get; }
 
-        private readonly QuizMetadataService _service = new QuizMetadataService();
-        private readonly ConfigVariables _configVariables;
+        private readonly IQuizMetadataService _service = new QuizMetadataService(new GuardianApi());
+        private readonly IConfigVariables _configVariables;
 
         public QuizMetadataServiceTest()
         {

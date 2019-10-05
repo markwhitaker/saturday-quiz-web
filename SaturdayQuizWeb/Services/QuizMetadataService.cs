@@ -7,9 +7,19 @@ using System.Threading.Tasks;
 
 namespace SaturdayQuizWeb.Services
 {
-    public class QuizMetadataService
+    public interface IQuizMetadataService
     {
-        private readonly GuardianApi _guardianApi = new GuardianApi();
+        Task<List<QuizMetadata>> GetQuizMetadata(string apiKey, int count);
+    }
+
+    public class QuizMetadataService : IQuizMetadataService
+    {
+        private readonly IGuardianApi _guardianApi;
+
+        public QuizMetadataService(IGuardianApi guardianApi)
+        {
+            _guardianApi = guardianApi;
+        }
 
         public async Task<List<QuizMetadata>> GetQuizMetadata(string apiKey, int count)
         {

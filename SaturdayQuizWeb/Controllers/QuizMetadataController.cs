@@ -14,19 +14,19 @@ namespace SaturdayQuizWeb.Controllers
     {
         private const int DefaultQuizCount = 10;
         
-        // TODO: inject
-        private readonly QuizMetadataService _service = new QuizMetadataService();
-        private readonly ConfigVariables _configVariables;
+        private readonly IQuizMetadataService _quizMetadataService;
+        private readonly IConfigVariables _configVariables;
 
-        public QuizMetadataController(IConfiguration config)
+        public QuizMetadataController(IQuizMetadataService quizMetadataService, IConfigVariables configVariables)
         {
-            _configVariables = new ConfigVariables(config);
+            _quizMetadataService = quizMetadataService;
+            _configVariables = configVariables;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<QuizMetadata>>> GetQuizMetadata([FromQuery] int count = DefaultQuizCount)
         {
-            return await _service.GetQuizMetadata(_configVariables.GuardianApiKey, count);
+            return await _quizMetadataService.GetQuizMetadata(_configVariables.GuardianApiKey, count);
         }
     }
 }

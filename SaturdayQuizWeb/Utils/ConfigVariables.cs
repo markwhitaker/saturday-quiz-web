@@ -3,7 +3,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace SaturdayQuizWeb.Utils
 {
-    public class ConfigVariables
+    public interface IConfigVariables
+    {
+        string GuardianApiKey { get; }
+    }
+
+    public class ConfigVariables : IConfigVariables
     {
         private static class Keys
         {
@@ -17,6 +22,9 @@ namespace SaturdayQuizWeb.Utils
             _configuration = configuration;
         }
 
-        public string GuardianApiKey => _configuration[Keys.GuardianApiKey] ?? Environment.GetEnvironmentVariable(Keys.GuardianApiKey);
+        public string GuardianApiKey =>
+            _configuration[Keys.GuardianApiKey]
+            ?? Environment.GetEnvironmentVariable(Keys.GuardianApiKey)
+            ?? throw new Exception("Guardian API key not found");
     }
 }
