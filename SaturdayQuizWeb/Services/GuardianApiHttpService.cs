@@ -27,7 +27,7 @@ namespace SaturdayQuizWeb.Services
                 .AddQueryParameter("api-key", _configVariables.GuardianApiKey)
                 .AddQueryParameter("page-size", pageSize.ToString());
             var response = await _restClient.ExecuteGetTaskAsync<GuardianApiResponse>(request);
-            return (response.IsSuccessful) ? response.Data : null;
+            return response.IsSuccessful ? response.Data : null;
         }
     }
 }
