@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using RestSharp;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Utils;
 
@@ -51,12 +51,13 @@ namespace SaturdayQuizWeb
 
         private static void RegisterDependencies(IServiceCollection services)
         {
-            services.AddHttpClient<IGuardianApiHttpService, GuardianApiHttpService>();
             services.AddHttpClient<IGuardianScraperHttpService, GuardianScraperHttpService>();
+            services.AddSingleton<IGuardianApiHttpService, GuardianApiHttpService>();
             services.AddSingleton<IConfigVariables, ConfigVariables>();
             services.AddSingleton<IQuizService, QuizService>();
             services.AddSingleton<IQuizMetadataService, QuizMetadataService>();
             services.AddSingleton<IHtmlService, HtmlService>();
+            services.AddSingleton<IRestClient>(new RestClient("https://content.guardianapis.com/theguardian/"));
         }
     }
 }
