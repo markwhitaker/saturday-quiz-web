@@ -21,4 +21,4 @@ jobs:
       - run:
           name: Run tests
           command:
-            dotnet test SaturdayQuizWeb.Tests
+            dotnet test SaturdayQuizWeb.UnitTests

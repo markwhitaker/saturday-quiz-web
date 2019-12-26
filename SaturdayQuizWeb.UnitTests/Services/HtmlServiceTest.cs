@@ -4,7 +4,7 @@ using NUnit.Framework;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 
-namespace SaturdayQuizWeb.Tests.Services
+namespace SaturdayQuizWeb.UnitTests.Services
 {
     [TestFixture]
     public class HtmlServiceTest

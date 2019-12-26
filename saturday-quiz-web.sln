@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayQuizWeb", "SaturdayQuizWeb\SaturdayQuizWeb.csproj", "{60DDB7D5-0D98-4E24-BCFE-003E0202C3E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayQuizWeb.Tests", "SaturdayQuizWeb.Tests\SaturdayQuizWeb.Tests.csproj", "{E7190CBB-CA28-4B22-98C9-BC8250847C28}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayQuizWeb.UnitTests", "SaturdayQuizWeb.UnitTests\SaturdayQuizWeb.UnitTests.csproj", "{E7190CBB-CA28-4B22-98C9-BC8250847C28}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayQuizWeb.IntegrationTests", "SaturdayQuizWeb.IntegrationTests\SaturdayQuizWeb.IntegrationTests.csproj", "{59257613-CEE4-49E8-9DB8-BF73157C0877}"
 EndProject
