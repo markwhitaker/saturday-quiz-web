@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayQuizWeb", "Saturday
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayQuizWeb.Tests", "SaturdayQuizWeb.Tests\SaturdayQuizWeb.Tests.csproj", "{E7190CBB-CA28-4B22-98C9-BC8250847C28}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayQuizWeb.IntegrationTests", "SaturdayQuizWeb.IntegrationTests\SaturdayQuizWeb.IntegrationTests.csproj", "{59257613-CEE4-49E8-9DB8-BF73157C0877}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{E7190CBB-CA28-4B22-98C9-BC8250847C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7190CBB-CA28-4B22-98C9-BC8250847C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7190CBB-CA28-4B22-98C9-BC8250847C28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59257613-CEE4-49E8-9DB8-BF73157C0877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59257613-CEE4-49E8-9DB8-BF73157C0877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59257613-CEE4-49E8-9DB8-BF73157C0877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59257613-CEE4-49E8-9DB8-BF73157C0877}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

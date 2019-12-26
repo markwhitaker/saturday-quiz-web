@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -9,11 +8,9 @@ using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Utils;
 
-namespace SaturdayQuizWeb.Tests.Integration
+namespace SaturdayQuizWeb.IntegrationTests.Integration
 {
     [TestFixture]
-    [Ignore(Consts.IntegrationTest)]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class IntegrationTests
     {
         private readonly IQuizMetadataService _quizMetadataService;
