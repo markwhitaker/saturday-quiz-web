@@ -10,15 +10,19 @@ namespace SaturdayQuizWeb.UnitTests.Services
     [TestFixture]
     public class HtmlServiceTest
     {
-        // Object under test
-        private readonly HtmlService _htmlService = new HtmlService();
-        
-        private readonly IList<Question> _questions;
+        private readonly IHtmlService _htmlService = new HtmlService();
+        private readonly string _html;
+        private IList<Question> _questions;
 
         public HtmlServiceTest()
         {
-            var html = File.ReadAllText(TestContext.CurrentContext.TestDirectory + "/TestData/2019_07_20_quiz.html");
-            _questions = _htmlService.FindQuestions(html).ToList();
+            _html = File.ReadAllText(TestContext.CurrentContext.TestDirectory + "/TestData/2019_07_20_quiz.html");
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            _questions = _htmlService.FindQuestions(_html).ToList();
         }
         
         [Test]

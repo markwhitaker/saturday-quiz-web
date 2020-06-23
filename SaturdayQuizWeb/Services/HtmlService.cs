@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using RegexToolbox;
@@ -11,26 +12,24 @@ using RegexOptions = RegexToolbox.RegexOptions;
 
 namespace SaturdayQuizWeb.Services
 {
-    public class HtmlException : Exception
-    {
-        public HtmlException(string message) : base(message)
-        {
-        }
-    }
-
-    public interface IHtmlService
-    {
-        IEnumerable<Question> FindQuestions(string html);
-    }
-
     public class HtmlService : IHtmlService
     {
-        private static readonly Regex AnchorTagRegex = new RegexBuilder()
-            .Text("<")
-            .Text("/", ZeroOrOne)
-            .Text("a")
-            .AnyCharacterExcept(">", ZeroOrMore)
-            .Text(">")
+        private const int MinQuestionCount = 15;
+        private static readonly IEnumerable<int> MinQuestionNumbers = Enumerable.Range(1, MinQuestionCount);
+
+        private static readonly Regex WhatLinksRegex = new RegexBuilder()
+            .Text("what")
+            .PossibleHtmlWhitespace()
+            .Text("links")
+            .Text(":", ZeroOrOne)
+            .BuildRegex(RegexOptions.IgnoreCase);
+
+        private static readonly Regex ATagRegex = BuildTagRegex("a");
+        private static readonly Regex BrTagRegex = BuildTagRegex("br");
+        private static readonly Regex PTagRegex = BuildTagRegex("p");
+        private static readonly Regex StrongTagRegex = BuildTagRegex("strong");
+        private static readonly Regex MultipleSpaceRegex = new RegexBuilder()
+            .Whitespace(OneOrMore)
             .BuildRegex();
 
         private static readonly Regex HtmlTagRegex = new RegexBuilder()
@@ -39,114 +38,128 @@ namespace SaturdayQuizWeb.Services
             .Text(">")
             .BuildRegex();
 
-        private static readonly Regex WhatLinksRegex = new RegexBuilder()
-            .Text("what")
-            .HtmlWhitespace()
-            .Text("links")
-            .BuildRegex(RegexOptions.IgnoreCase);
-
-        private const int MinNumberOfQuestions = 15;
-
+        private static readonly Regex RawQuestionAnswerRegex = new RegexBuilder()
+            .StartOfString()
+            // Question/answer number
+            .StartGroup()
+            .Digit(OneOrMore)
+            .EndGroup()
+            .Whitespace(OneOrMore)
+            // Question/answer text
+            .StartGroup()
+            .AnyCharacter(OneOrMore.ButAsFewAsPossible)
+            .EndGroup()
+            .Text(".", ZeroOrOne)
+            .PossibleWhitespace()
+            .EndOfString()
+            .BuildRegex();
+            
         public IEnumerable<Question> FindQuestions(string html)
         {
-            var questionStartIndex = 0;
-            var answerStartIndex = 0;
-            var questions = new List<Question>();
-            var type = QuestionType.Normal;
+            var htmlLines = html
+                .Split("\n")
+                .Select(line => line.Trim())
+                .Where(line => line.StartsWith("<p>", StringComparison.OrdinalIgnoreCase))
+                .Where(line => MinQuestionNumbers.All(number => line.Contains(number.ToString())))
+                .Select(SanitiseHtml)
+                .ToList();
 
-            for (var number = 1;; number++)
+            if (htmlLines.Count != 2)
             {
-                var regex = BuildRegex(number);
+                throw new HtmlException($"Found {htmlLines.Count} matching lines in source HTML (expected 2)");
+            }
 
-                // Find the question
-                var match = regex.Match(html, questionStartIndex);
-                if (!match.Success)
+            // Parse questions
+            var questions = ParseRawQuestions(htmlLines[0]).ToList();
+            
+            // Parse answers
+            ParseRawAnswers(htmlLines[1], questions);
+            
+            return questions;
+        }
+
+        private static IEnumerable<Question> ParseRawQuestions(string rawQuestionsHtml)
+        {
+            var questionSections = WhatLinksRegex
+                .Split(rawQuestionsHtml)
+                .ToList();
+
+            if (questionSections.Count != 2)
+            {
+                throw new HtmlException($"Found {questionSections.Count} question section(s) (expected 2)");
+            }
+            
+            var normalQuestions = ParseRawQuestionSection(questionSections.First(), QuestionType.Normal);
+            var whatLinksQuestions = ParseRawQuestionSection(questionSections.Last(), QuestionType.WhatLinks);
+
+            var questions = new List<Question>();
+            questions.AddRange(normalQuestions);
+            questions.AddRange(whatLinksQuestions);
+
+            return questions;
+        }
+
+        private static IEnumerable<Question> ParseRawQuestionSection(string rawQuestionSectionHtml, QuestionType type)
+        {
+            var questions = new List<Question>();
+            
+            var rawQuestions = BrTagRegex
+                .Split(rawQuestionSectionHtml)
+                .Where(q => !string.IsNullOrWhiteSpace(q));
+
+            foreach (var rawQuestion in rawQuestions)
+            {
+                var regexMatch = RawQuestionAnswerRegex.Match(rawQuestion);
+                if (!regexMatch.Success)
                 {
-                    if (number > MinNumberOfQuestions)
-                    {
-                        break;
-                    }
-                    throw new HtmlException($"Failed to find question {number}");
-                }
-
-                var prevQuestionStartIndex = questionStartIndex;
-                questionStartIndex = match.Index + match.Length;
-
-                if (type == QuestionType.Normal && prevQuestionStartIndex > 0)
-                {
-                    // Check if we've passed "what links"
-                    var previousChunk = html.Substring(
-                        prevQuestionStartIndex,
-                        questionStartIndex - prevQuestionStartIndex);
-                    if (WhatLinksRegex.IsMatch(previousChunk))
-                    {
-                        type = QuestionType.WhatLinks;
-                    }
-                }
-                
-                if (answerStartIndex == 0)
-                {
-                    answerStartIndex = questionStartIndex;
-                }
-
-                var question = match.Groups[1].Value;
-
-                // Find the answer
-                match = regex.Match(html, answerStartIndex);
-                if (!match.Success)
-                {
-                    throw new HtmlException($"Failed to find answer {number}");
-                }
-
-                answerStartIndex = match.Index + match.Length;
-                var answer = match.Groups[1].Value;
-
-                // Check questions and answers are different
-                if (question.Equals(answer))
-                {
-                    throw new HtmlException($"Parsing error: question and answer {number} are the same");
+                    throw new HtmlException($"Could not parse {rawQuestion}");
                 }
                 
                 questions.Add(new Question
                 {
-                    Number = number,
+                    Number = int.Parse(regexMatch.Groups[1].Value),
                     Type = type,
-                    QuestionText = MakeTextSafe(question),
-                    QuestionHtml = MakeHtmlSafe(question),
-                    AnswerText = MakeTextSafe(answer),
-                    AnswerHtml = MakeHtmlSafe(answer)
+                    QuestionHtml = regexMatch.Groups[2].Value,
+                    QuestionText = MakeTextSafe(regexMatch.Groups[2].Value)
                 });
             }
 
             return questions;
         }
 
-        private static Regex BuildRegex(int questionNumber)
+        private static void ParseRawAnswers(string rawAnswersHtml, IEnumerable<Question> questions)
         {
-            return new RegexBuilder()
-                .WordBoundary()
-                .Text(questionNumber.ToString())
-                .PossibleHtmlWhitespace()
-                .Text("</strong").PossibleWhitespace().Text(">")
-                .PossibleHtmlWhitespace()
-                // Capture group: the question/answer text we want to extract
-                .StartGroup()
-                .AnyCharacter(OneOrMore.ButAsFewAsPossible)
-                .EndGroup()
-                // Optional full stop (to remove it from the end of the answer)
-                .Text(".", ZeroOrOne)
-                .PossibleHtmlWhitespace()
-                .Text("<")
-                .AnyOf("br", "/p", "p", "/strong")
-                .PossibleWhitespace()
-                .Text("/", ZeroOrOne)
-                .Text(">")
-                .BuildRegex();
-        }
+            var rawAnswers = BrTagRegex
+                .Split(rawAnswersHtml)
+                .Where(q => !string.IsNullOrWhiteSpace(q));
 
-        private static string MakeHtmlSafe(string source)
+            foreach (var rawAnswer in rawAnswers)
+            {
+                var regexMatch = RawQuestionAnswerRegex.Match(rawAnswer);
+                if (!regexMatch.Success)
+                {
+                    throw new HtmlException($"Could not parse {rawAnswer}");
+                }
+
+                var questionNumber = int.Parse(regexMatch.Groups[1].Value);
+                var answerHtml = regexMatch.Groups[2].Value;
+                var question = questions.Single(q => q.Number == questionNumber);
+                question.AnswerHtml = answerHtml;
+                question.AnswerText = MakeTextSafe(answerHtml);
+            }
+        }
+        
+        private static string SanitiseHtml(string html)
         {
-            return source.Remove(AnchorTagRegex);
+            var sanitisedHtml = html
+                .Remove(PTagRegex)
+                .Remove(StrongTagRegex)
+                .Remove(ATagRegex)
+                .Replace("&nbsp;", " ");
+
+            sanitisedHtml = MultipleSpaceRegex.Replace(sanitisedHtml, " ");
+
+            return sanitisedHtml;
         }
 
         private static string MakeTextSafe(string source)
@@ -159,5 +172,13 @@ namespace SaturdayQuizWeb.Services
             var safeSource = HttpUtility.HtmlDecode(source);
             return safeSource.Remove(HtmlTagRegex);
         }
+
+        private static Regex BuildTagRegex(string tagName) => new RegexBuilder()
+            .Text("<")
+            .Text("/", ZeroOrOne)
+            .Text(tagName)
+            .AnyCharacterExcept(">", ZeroOrMore)
+            .Text(">")
+            .BuildRegex(RegexOptions.IgnoreCase);
     }
 }
