@@ -7,6 +7,7 @@ using NUnit.Framework;
 using RestSharp;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
+using SaturdayQuizWeb.Services.Parsing;
 using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.IntegrationTests.Integration
@@ -29,7 +30,11 @@ namespace SaturdayQuizWeb.IntegrationTests.Integration
             _quizMetadataService = new QuizMetadataService(guardianApiHttpService);
             _quizService = new QuizService(
                 new GuardianScraperHttpService(new HttpClient()),
-                new HtmlService(),
+                new HtmlService(
+                    new SectionExtractor(),
+                    new HtmlStripper(),
+                    new SectionSplitter(),
+                    new QuestionAssembler()),
                 _quizMetadataService);
         }
 
