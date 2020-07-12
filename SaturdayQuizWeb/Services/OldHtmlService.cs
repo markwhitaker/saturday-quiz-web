@@ -4,6 +4,7 @@ using System.Web;
 using RegexToolbox;
 using RegexToolbox.Extensions;
 using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Services.Parsing;
 using SaturdayQuizWeb.Utils;
 using static RegexToolbox.RegexQuantifier;
 using RegexOptions = RegexToolbox.RegexOptions;
@@ -53,7 +54,7 @@ namespace SaturdayQuizWeb.Services
                     {
                         break;
                     }
-                    throw new HtmlException($"Failed to find question {number}");
+                    throw new ParsingException($"Failed to find question {number}");
                 }
 
                 var prevQuestionStartIndex = questionStartIndex;
@@ -82,7 +83,7 @@ namespace SaturdayQuizWeb.Services
                 match = regex.Match(html, answerStartIndex);
                 if (!match.Success)
                 {
-                    throw new HtmlException($"Failed to find answer {number}");
+                    throw new ParsingException($"Failed to find answer {number}");
                 }
 
                 answerStartIndex = match.Index + match.Length;
@@ -91,7 +92,7 @@ namespace SaturdayQuizWeb.Services
                 // Check questions and answers are different
                 if (question.Equals(answer))
                 {
-                    throw new HtmlException($"Parsing error: question and answer {number} are the same");
+                    throw new ParsingException($"Parsing error: question and answer {number} are the same");
                 }
                 
                 questions.Add(new Question

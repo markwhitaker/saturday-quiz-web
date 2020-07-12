@@ -6,6 +6,7 @@ using System.Web;
 using RegexToolbox;
 using RegexToolbox.Extensions;
 using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Services.Parsing;
 using SaturdayQuizWeb.Utils;
 using static RegexToolbox.RegexQuantifier;
 using RegexOptions = RegexToolbox.RegexOptions;
@@ -66,7 +67,7 @@ namespace SaturdayQuizWeb.Services
 
             if (htmlLines.Count != 2)
             {
-                throw new HtmlException($"Found {htmlLines.Count} matching lines in source HTML (expected 2)");
+                throw new ParsingException($"Found {htmlLines.Count} matching lines in source HTML (expected 2)");
             }
 
             // Parse questions
@@ -86,7 +87,7 @@ namespace SaturdayQuizWeb.Services
 
             if (questionSections.Count != 2)
             {
-                throw new HtmlException($"Found {questionSections.Count} question section(s) (expected 2)");
+                throw new ParsingException($"Found {questionSections.Count} question section(s) (expected 2)");
             }
             
             var normalQuestions = ParseRawQuestionSection(questionSections.First(), QuestionType.Normal);
@@ -112,7 +113,7 @@ namespace SaturdayQuizWeb.Services
                 var regexMatch = RawQuestionAnswerRegex.Match(rawQuestion);
                 if (!regexMatch.Success)
                 {
-                    throw new HtmlException($"Could not parse {rawQuestion}");
+                    throw new ParsingException($"Could not parse {rawQuestion}");
                 }
                 
                 questions.Add(new Question
@@ -138,7 +139,7 @@ namespace SaturdayQuizWeb.Services
                 var regexMatch = RawQuestionAnswerRegex.Match(rawAnswer);
                 if (!regexMatch.Success)
                 {
-                    throw new HtmlException($"Could not parse {rawAnswer}");
+                    throw new ParsingException($"Could not parse {rawAnswer}");
                 }
 
                 var questionNumber = int.Parse(regexMatch.Groups[1].Value);

@@ -26,7 +26,7 @@ namespace SaturdayQuizWeb.Services.Parsing
 
             if (sectionLines.Count != 2)
             {
-                throw new HtmlException($"Found {sectionLines.Count} matching lines in source HTML (expected 2)");
+                throw new ParsingException($"Found {sectionLines.Count} matching lines in source HTML (expected 2)");
             }
 
             return new Sections
