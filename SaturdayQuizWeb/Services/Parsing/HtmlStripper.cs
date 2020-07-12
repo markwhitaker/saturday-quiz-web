@@ -15,7 +15,10 @@ namespace SaturdayQuizWeb.Services.Parsing
 
     public class HtmlStripper : IHtmlStripper
     {
-        private static readonly IEnumerable<string> TagsToStrip = new[] {"a", "b", "p", "strong"};
+        private static readonly IEnumerable<string> TagsToStrip = new[]
+        {
+            "a", "b", "cite", "code", "p", "s", "small", "span", "strong", "sub", "sup", "u"
+        };
         private static readonly IEnumerable<Regex> TagRegexes = TagsToStrip.Select(BuildTagRegex);
         private static readonly Regex BrTagRegex = BuildBrTagRegex();
 
