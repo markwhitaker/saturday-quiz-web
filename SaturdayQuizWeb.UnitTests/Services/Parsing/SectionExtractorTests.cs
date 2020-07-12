@@ -5,12 +5,12 @@ using SaturdayQuizWeb.Services.Parsing;
 namespace SaturdayQuizWeb.UnitTests.Services.Parsing
 {
     [TestFixture]
-    public class SectionExtractorTest
+    public class SectionExtractorTests
     {
         private readonly ISectionExtractor _sectionExtractor = new SectionExtractor();
         private string _wholePageHtml;
 
-        public SectionExtractorTest()
+        public SectionExtractorTests()
         {
             _wholePageHtml = File.ReadAllText(
                 TestContext.CurrentContext.TestDirectory + "/TestData/2019_07_20_quiz.html");

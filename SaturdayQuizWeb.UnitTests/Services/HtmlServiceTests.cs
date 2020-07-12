@@ -8,13 +8,13 @@ using SaturdayQuizWeb.Services;
 namespace SaturdayQuizWeb.UnitTests.Services
 {
     [TestFixture]
-    public class HtmlServiceTest
+    public class HtmlServiceTests
     {
         private readonly IHtmlService _htmlService = new HtmlService();
         private readonly string _html;
         private IList<Question> _questions;
 
-        public HtmlServiceTest()
+        public HtmlServiceTests()
         {
             _html = File.ReadAllText(TestContext.CurrentContext.TestDirectory + "/TestData/2019_07_20_quiz.html");
         }

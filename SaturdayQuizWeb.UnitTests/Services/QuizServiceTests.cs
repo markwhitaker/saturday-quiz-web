@@ -9,7 +9,7 @@ using SaturdayQuizWeb.Services;
 namespace SaturdayQuizWeb.UnitTests.Services
 {
     [TestFixture]
-    public class QuizServiceTest
+    public class QuizServiceTests
     {
         // Constants
         private const string TestQuizId = "test quiz id";
@@ -48,7 +48,7 @@ namespace SaturdayQuizWeb.UnitTests.Services
         // Object under test
         private readonly IQuizService _quizService;
 
-        public QuizServiceTest()
+        public QuizServiceTests()
         {
             _mockScraperHttpService = Substitute.For<IGuardianScraperHttpService>();
             _mockHtmlService = Substitute.For<IHtmlService>();
