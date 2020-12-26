@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿/*
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using NUnit.Framework;
 using SaturdayQuizWeb.Services.Parsing;
@@ -57,7 +58,7 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing
                 "<strong>15</strong> Caskets chosen by Portia’s suitors in The Merchant Of Venice: gold; silver; lead.</p>";
 
             // When
-            var sections = _sectionExtractor.ExtractSections(_wholePageHtml);
+            var sections = _sectionExtractor.ExtractSectionParagraphs(_wholePageHtml);
 
             // Then
             Assert.That(sections, Is.Not.Null);
@@ -66,3 +67,4 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing
         }
     }
 }
+*/

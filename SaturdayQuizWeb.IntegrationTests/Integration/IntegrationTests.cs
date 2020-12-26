@@ -39,13 +39,12 @@ namespace SaturdayQuizWeb.IntegrationTests.Integration
         }
 
         [Test]
-        public void TestGetQuizMetadata()
+        public async Task TestGetQuizMetadata()
         {
             const int numberOfQuizzes = 7;
 
-            var request = _quizMetadataService.GetQuizMetadataAsync(numberOfQuizzes);
-            request.Wait();
-            Assert.AreEqual(numberOfQuizzes, request.Result.Count);
+            var quizMetadata = await _quizMetadataService.GetQuizMetadataAsync(numberOfQuizzes);
+            Assert.AreEqual(numberOfQuizzes, quizMetadata.Count);
         }
 
         [Test]

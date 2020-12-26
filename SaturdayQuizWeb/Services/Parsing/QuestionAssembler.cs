@@ -6,13 +6,14 @@ using System.Web;
 using RegexToolbox;
 using RegexToolbox.Extensions;
 using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Model.Parsing;
 using static RegexToolbox.RegexQuantifier;
 
 namespace SaturdayQuizWeb.Services.Parsing
 {
     public interface IQuestionAssembler
     {
-        IEnumerable<Question> AssembleQuestions(IEnumerable<string> questionsSection, IEnumerable<string> answersSection);
+        IEnumerable<Question> AssembleQuestions(Sections sections);
     }
 
     public class QuestionAssembler : IQuestionAssembler
@@ -38,10 +39,10 @@ namespace SaturdayQuizWeb.Services.Parsing
             .Text(">")
             .BuildRegex();
 
-        public IEnumerable<Question> AssembleQuestions(IEnumerable<string> questionsSection, IEnumerable<string> answersSection)
+        public IEnumerable<Question> AssembleQuestions(Sections sections)
         {
-            var questions = ProcessQuestionsSection(questionsSection);
-            ProcessAnswersSection(answersSection, questions);
+            var questions = ProcessQuestionsSection(sections.QuestionsSection);
+            ProcessAnswersSection(sections.AnswersSection, questions);
             AddPlainTextStrings(questions);
 
             return questions;

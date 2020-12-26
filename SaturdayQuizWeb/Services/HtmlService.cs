@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services.Parsing;
 
@@ -30,17 +31,12 @@ namespace SaturdayQuizWeb.Services
 
         public IEnumerable<Question> FindQuestions(string html)
         {
-            var sections = _sectionExtractor.ExtractSections(html);
+            var rawSections = _sectionExtractor.ExtractSectionParagraphs(html)
+                .Select(section => _htmlStripper.StripHtml(section));
 
-            var questionsSection = _htmlStripper.StripHtml(sections.QuestionsSectionHtml);
-            var answersSection = _htmlStripper.StripHtml(sections.AnswersSectionHtml);
+            var splitSections = _sectionSplitter.SplitSections(rawSections);
 
-            var questionsSectionSplit = _sectionSplitter.SplitSection(questionsSection);
-            var answersSectionSplit = _sectionSplitter.SplitSection(answersSection);
-
-            var questions = _questionAssembler.AssembleQuestions(
-                questionsSectionSplit,
-                answersSectionSplit);
+            var questions = _questionAssembler.AssembleQuestions(splitSections);
 
             return questions;
         }

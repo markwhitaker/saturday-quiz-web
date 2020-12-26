@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿/*
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using NUnit.Framework;
@@ -55,7 +56,7 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing
             };
 
             // When
-            var actualSplitSection = _sectionSplitter.SplitSection(questionsSection).ToList();
+            var actualSplitSection = _sectionSplitter.SplitSections(questionsSection).ToList();
 
             // Then
             Assert.That(actualSplitSection, Is.EqualTo(expectedSplitSection));
@@ -106,10 +107,11 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing
             };
 
             // When
-            var actualSplitSection = _sectionSplitter.SplitSection(answersSection).ToList();
+            var actualSplitSection = _sectionSplitter.SplitSections(answersSection).ToList();
 
             // Then
             Assert.That(actualSplitSection, Is.EqualTo(expectedSplitSection));
         }
     }
 }
+*/

@@ -1,8 +1,10 @@
-﻿namespace SaturdayQuizWeb.Model.Parsing
+﻿using System.Collections.Generic;
+
+namespace SaturdayQuizWeb.Model.Parsing
 {
     public class Sections
     {
-        public string QuestionsSectionHtml { get; set; }
-        public string AnswersSectionHtml { get; set; }
+        public List<string> QuestionsSection { get; } = new List<string>();
+        public List<string> AnswersSection { get; } = new List<string>();
     }
 }
