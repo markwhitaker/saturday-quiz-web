@@ -49,16 +49,14 @@ namespace SaturdayQuizWeb.UnitTests.Services
             };
             var expectedQuestionsList = new List<string> {"questions"};
             var expectedAnswersList = new List<string> {"answers"};
-            var expectedQuestions = new List<Question>
+            var expectedQuestions = new List<QuestionModel>
             {
-                new Question
+                new QuestionModel
                 {
                     Number = 1,
                     Type = QuestionType.Normal,
-                    QuestionHtml = "questionHtml",
-                    QuestionText = "questionText",
-                    AnswerHtml = "answerHtml",
-                    AnswerText = "answerText"
+                    Question = "question",
+                    Answer = "answer"
                 }
             };
 

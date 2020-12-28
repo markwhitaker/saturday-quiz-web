@@ -12,7 +12,7 @@ namespace SaturdayQuizWeb.Services.Parsing
 {
     public interface IQuestionAssembler
     {
-        IEnumerable<Question> AssembleQuestions(IEnumerable<string> questionsSection, IEnumerable<string> answersSection);
+        IEnumerable<QuestionModel> AssembleQuestions(IEnumerable<string> questionsSection, IEnumerable<string> answersSection);
     }
 
     public class QuestionAssembler : IQuestionAssembler
@@ -38,18 +38,16 @@ namespace SaturdayQuizWeb.Services.Parsing
             .Text(">")
             .BuildRegex();
 
-        public IEnumerable<Question> AssembleQuestions(IEnumerable<string> questionsSection, IEnumerable<string> answersSection)
+        public IEnumerable<QuestionModel> AssembleQuestions(IEnumerable<string> questionsSection, IEnumerable<string> answersSection)
         {
             var questions = ProcessQuestionsSection(questionsSection);
             ProcessAnswersSection(answersSection, questions);
-            AddPlainTextStrings(questions);
-
             return questions;
         }
 
-        private static IList<Question> ProcessQuestionsSection(IEnumerable<string> questionsSection)
+        private static IList<QuestionModel> ProcessQuestionsSection(IEnumerable<string> questionsSection)
         {
-            var questions = new List<Question>();
+            var questions = new List<QuestionModel>();
 
             var questionType = QuestionType.Normal;
             foreach (var question in questionsSection)
@@ -66,10 +64,10 @@ namespace SaturdayQuizWeb.Services.Parsing
                     throw new ParsingException($"Question text in unexpected format: {question}");
                 }
 
-                questions.Add(new Question
+                questions.Add(new QuestionModel
                 {
                     Number = int.Parse(match.Groups[GroupNameNumber].Value),
-                    QuestionHtml = match.Groups[GroupNameText].Value,
+                    Question = MakeTextSafe(match.Groups[GroupNameText].Value),
                     Type = questionType
                 });
             }
@@ -77,7 +75,7 @@ namespace SaturdayQuizWeb.Services.Parsing
             return questions;
         }
 
-        private static void ProcessAnswersSection(IEnumerable<string> answersSection, IList<Question> questions)
+        private static void ProcessAnswersSection(IEnumerable<string> answersSection, IList<QuestionModel> questions)
         {
             var answersSectionList = answersSection.ToList();
             if (answersSectionList.Count != questions.Count)
@@ -94,16 +92,7 @@ namespace SaturdayQuizWeb.Services.Parsing
                     throw new ParsingException($"Answer text in unexpected format: {answer}");
                 }
 
-                questions[i].AnswerHtml = match.Groups[GroupNameText].Value;
-            }
-        }
-
-        private static void AddPlainTextStrings(IEnumerable<Question> questions)
-        {
-            foreach (var question in questions)
-            {
-                question.QuestionText = MakeTextSafe(question.QuestionHtml);
-                question.AnswerText = MakeTextSafe(question.AnswerHtml);
+                questions[i].Answer = MakeTextSafe(match.Groups[GroupNameText].Value);
             }
         }
 

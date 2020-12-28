@@ -119,28 +119,7 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing
         public void GivenQuestionAndAnswerSections_WhenAssembled_ThenQuestionTextIsCorrect(int questionIndex, string expectedQuestionText)
         {
             var questions = _questionAssembler.AssembleQuestions(QuestionsSection, AnswersSection).ToList();
-            Assert.That(questions[questionIndex].QuestionText, Is.EqualTo(expectedQuestionText));
-        }
-
-        [TestCase(0, "Which Nazi leader died in Paddington in 1981?")]
-        [TestCase(1, "What are produced at <i>La Masia</i> &amp; <i>La Fábrica</i>?")]
-        [TestCase(2, "In publishing, what does ISBN stand for?")]
-        [TestCase(3, "Adopted in 1625, what symbol is the Dannebrog?")]
-        [TestCase(4, "Gabriele Münter was a founder member of what expressionist group?")]
-        [TestCase(5, "What was nicknamed the Honourable John Company?")]
-        [TestCase(6, "Which country separates Guyana and French Guiana?")]
-        [TestCase(7, "In what novel is Constance unhappily married to Sir Clifford?")]
-        [TestCase(8, "Asgard and Midgard, in the form of a rainbow?")]
-        [TestCase(9, "Singer O’Dowd; outlaw McCarty; slugger Ruth; bank robber Nelson?")]
-        [TestCase(10, "Statant; sejant; rampant; passant; dormant?")]
-        [TestCase(11, "Victoria Embankment; Cardiff City Hall; Colchester station?")]
-        [TestCase(12, "Khumbu icefall; Kangshung face; Hornbein couloir; Hillary step?")]
-        [TestCase(13, "Prayers at 6am; 0 degrees longitude; 2, 3, 5, 7, etc?")]
-        [TestCase(14, "Prince of Morocco (Au); Prince of Arragon (Ag); Bassanio (Pb)?")]
-        public void GivenQuestionAndAnswerSections_WhenAssembled_ThenQuestionHtmlIsCorrect(int questionIndex, string expectedQuestionHtml)
-        {
-            var questions = _questionAssembler.AssembleQuestions(QuestionsSection, AnswersSection).ToList();
-            Assert.That(questions[questionIndex].QuestionHtml, Is.EqualTo(expectedQuestionHtml));
+            Assert.That(questions[questionIndex].Question, Is.EqualTo(expectedQuestionText));
         }
 
         [TestCase(0, "Albert Speer")]
@@ -161,28 +140,7 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing
         public void GivenQuestionAndAnswerSections_WhenAssembled_ThenAnswerTextIsCorrect(int questionIndex, string expectedAnswerText)
         {
             var questions = _questionAssembler.AssembleQuestions(QuestionsSection, AnswersSection).ToList();
-            Assert.That(questions[questionIndex].AnswerText, Is.EqualTo(expectedAnswerText));
-        }
-
-        [TestCase(0, "Albert Speer")]
-        [TestCase(1, "Footballers (academies of <i>Barcelona</i> and <i>Real Madrid</i>)")]
-        [TestCase(2, "International Standard Book Number")]
-        [TestCase(3, "Danish flag")]
-        [TestCase(4, "Der Blaue Reiter (Blue Rider)")]
-        [TestCase(5, "East India Company")]
-        [TestCase(6, "Suriname")]
-        [TestCase(7, "Lady Chatterley’s Lover")]
-        [TestCase(8, "Bifrost (bridge in Norse myth, linking gods’ realm and Earth)")]
-        [TestCase(9, "Young nicknames: Boy George; Billy the Kid; Babe Ruth; Baby Face Nelson")]
-        [TestCase(10, "Attitudes of animals in heraldry: standing; sitting; rearing; walking; lying down")]
-        [TestCase(11, "Statues of Boudicca")]
-        [TestCase(12, "Parts of Mount Everest")]
-        [TestCase(13, "Prime: canonical hour of prayer; prime meridian; prime numbers")]
-        [TestCase(14, "Caskets chosen by Portia’s suitors in The Merchant Of Venice: gold; silver; lead")]
-        public void GivenQuestionAndAnswerSections_WhenAssembled_ThenAnswerHtmlIsCorrect(int questionIndex, string expectedAnswerHtml)
-        {
-            var questions = _questionAssembler.AssembleQuestions(QuestionsSection, AnswersSection).ToList();
-            Assert.That(questions[questionIndex].AnswerHtml, Is.EqualTo(expectedAnswerHtml));
+            Assert.That(questions[questionIndex].Answer, Is.EqualTo(expectedAnswerText));
         }
 
         [Test]

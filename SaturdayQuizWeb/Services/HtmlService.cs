@@ -6,7 +6,7 @@ namespace SaturdayQuizWeb.Services
 {
     public interface IHtmlService
     {
-        IEnumerable<Question> FindQuestions(string html);
+        IEnumerable<QuestionModel> FindQuestions(string html);
     }
 
     public class HtmlService : IHtmlService
@@ -28,7 +28,7 @@ namespace SaturdayQuizWeb.Services
             _questionAssembler = questionAssembler;
         }
 
-        public IEnumerable<Question> FindQuestions(string html)
+        public IEnumerable<QuestionModel> FindQuestions(string html)
         {
             var sections = _sectionExtractor.ExtractSections(html);
 

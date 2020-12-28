@@ -8,6 +8,6 @@ namespace SaturdayQuizWeb.Model
         public string Id { get; set; }
         public DateTime Date { get; set; }
         public string Title { get; set; }
-        public IEnumerable<Question> Questions { get; set; }
+        public IEnumerable<QuestionModel> Questions { get; set; }
     }
 }

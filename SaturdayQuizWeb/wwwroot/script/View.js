@@ -2,13 +2,13 @@
     View.prototype.setController = function(controller) {
         this.controller = controller;
     };
-    
+
     View.prototype.onQuizLoading = function() {
         $('.page').hide();
     };
-    
+
     View.prototype.enableNavigation = function() {
-        var controller = this.controller;
+        const controller = this.controller;
         $('#nav-left').click(function(){
             controller.onPrevious();
         });
@@ -16,7 +16,7 @@
             controller.onNext();
         });
         $(document).keyup(function(e) {
-            switch (e.which) {
+            switch (e.keyCode) {
                 case 37: // Left
                     controller.onPrevious();
                     break;
@@ -41,7 +41,7 @@
     };
 
     View.prototype.showQuestionsTitle = function(date) {
-        var dateString = new Date(date).toLocaleDateString(
+        const dateString = new Date(date).toLocaleDateString(
             'en-GB',
             {
                 day: 'numeric',
@@ -57,22 +57,22 @@
         $('#title').text('Answers');
         $('#quiz-date').text('');
     };
-    
+
     View.prototype.showEndTitle = function() {
         $('#title').text('End');
         $('#quiz-date').text('');
     };
-    
+
     View.prototype.showQuestionNumber = function(number) {
         $('#question-number').text(number + '.');
     };
-    
-    View.prototype.showQuestion = function(questionHtml, isWhatLinks) {
-        $('#question').html(questionHtml);
+
+    View.prototype.showQuestion = function(question, isWhatLinks) {
+        $('#question').text(question);
         $('#question-what-links').toggleClass('visible', isWhatLinks);
     };
-    
-    View.prototype.showAnswer = function(answerHtml) {
-        $('#answer').html(answerHtml);
+
+    View.prototype.showAnswer = function(answer) {
+        $('#answer').text(answer);
     };
 }

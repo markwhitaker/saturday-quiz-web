@@ -30,14 +30,14 @@ namespace SaturdayQuizWeb.UnitTests.Services
             Url = TestQuizUrl
         };
 
-        private readonly List<Question> _questions = new List<Question>
+        private readonly List<QuestionModel> _questions = new List<QuestionModel>
         {
-            new Question
+            new QuestionModel
             {
                 Number = TestQuestionNumber,
                 Type = TestQuestionType,
-                QuestionText = TestQuestionText,
-                AnswerText = TestQuestionAnswer
+                Question = TestQuestionText,
+                Answer = TestQuestionAnswer
             }
         };
 

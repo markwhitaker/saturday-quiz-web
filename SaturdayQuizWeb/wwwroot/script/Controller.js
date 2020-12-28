@@ -1,26 +1,26 @@
 ﻿function Controller() {
-    var SceneType = Object.freeze({
+    const SceneType = Object.freeze({
         QUESTIONS_TITLE: 0,
         QUESTION: 1,
         ANSWERS_TITLE: 2,
         QUESTION_ANSWER: 3,
         END_TITLE: 4
     });
-    
-    var QuestionType = Object.freeze({
+
+    const QuestionType = Object.freeze({
         NORMAL: 'NORMAL',
         WHAT_LINKS: 'WHAT_LINKS'
     });
 
     this.sceneIndex = 0;
-    
+
     Controller.prototype.onViewReady = function(view) {
         this.view = view;
         this.view.setController(this);
         this.view.onQuizLoading();
         this.loadQuiz();
     };
-    
+
     Controller.prototype.onNext = function() {
         if (this.sceneIndex < this.scenes.length - 1) {
             this.sceneIndex++;
@@ -36,22 +36,22 @@
     };
 
     Controller.prototype.loadQuiz = function() {
-        var _this = this;
+        const _this = this;
         $.get("api/quiz", function (quiz) {
             _this.onQuizLoaded(quiz);
         });
     };
-    
+
     Controller.prototype.onQuizLoaded = function(quiz) {
         this.scenes = buildScenes(quiz);
         this.showScene();
         this.view.enableNavigation();
     };
-    
+
     Controller.prototype.showScene = function() {
-        var scene = this.scenes[this.sceneIndex];
-        var question = scene.question;
-        var view = this.view;
+        const scene = this.scenes[this.sceneIndex];
+        const question = scene.question;
+        const view = this.view;
 
         switch(scene.type) {
             case SceneType.QUESTIONS_TITLE:
@@ -61,7 +61,7 @@
             case SceneType.QUESTION:
                 view.showQuestionNumber(question.number);
                 view.showQuestion(
-                    question.questionHtml,
+                    question.question,
                     question.type === QuestionType.WHAT_LINKS
                 );
                 view.showAnswer('');
@@ -74,10 +74,10 @@
             case SceneType.QUESTION_ANSWER:
                 view.showQuestionNumber(question.number);
                 view.showQuestion(
-                    question.questionHtml,
+                    question.question,
                     question.type === QuestionType.WHAT_LINKS
                 );
-                view.showAnswer(question.answerHtml);
+                view.showAnswer(question.answer);
                 view.showQuestionPage();
                 break;
             case SceneType.END_TITLE:
@@ -86,15 +86,16 @@
                 break;
         }
     };
-    
+
     function buildScenes(quiz) {
-        var scenes = [];
+        let i;
+        const scenes = [];
         // First just show the questions
         scenes.push({
             type: SceneType.QUESTIONS_TITLE,
             date: quiz.date
         });
-        for (var i = 0; i < quiz.questions.length; i++) {
+        for (i = 0; i < quiz.questions.length; i++) {
             scenes.push({
                 type: SceneType.QUESTION,
                 question: quiz.questions[i]
@@ -117,7 +118,7 @@
         scenes.push({
             type: SceneType.END_TITLE
         });
-        
+
         return scenes;
     }
 }
