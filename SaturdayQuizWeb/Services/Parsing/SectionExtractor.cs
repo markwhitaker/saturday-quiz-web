@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using RegexToolbox;
+using RegexToolbox.Extensions;
 using SaturdayQuizWeb.Model.Parsing;
 using SaturdayQuizWeb.Utils;
 using static RegexToolbox.RegexOptions;
@@ -29,9 +30,9 @@ namespace SaturdayQuizWeb.Services.Parsing
             .HtmlOpenTag("strong")
             .AnyCharacter(ZeroOrMore.ButAsFewAsPossible)
             .WordBoundary()
-            .StartGroup()
-            .Digit(OneOrMore)
-            .EndGroup()
+            .Group(r => r
+                .Digit(OneOrMore)
+            )
             .WordBoundary()
             .AnyCharacter(ZeroOrMore.ButAsFewAsPossible)
             .HtmlCloseTag("strong")

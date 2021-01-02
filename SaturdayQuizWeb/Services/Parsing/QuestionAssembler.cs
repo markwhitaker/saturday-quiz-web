@@ -21,13 +21,13 @@ namespace SaturdayQuizWeb.Services.Parsing
         private const string GroupNameText = "text";
 
         private static readonly Regex NumberTextRegex = new RegexBuilder()
-            .StartNamedGroup(GroupNameNumber)
-            .Digit(OneOrMore)
-            .EndGroup()
+            .NamedGroup(GroupNameNumber, r => r
+                .Digit(OneOrMore)
+            )
             .Whitespace(OneOrMore)
-            .StartNamedGroup(GroupNameText)
-            .AnyCharacter(OneOrMore.ButAsFewAsPossible)
-            .EndGroup()
+            .NamedGroup(GroupNameText, r => r
+                .AnyCharacter(OneOrMore.ButAsFewAsPossible)
+            )
             .Text(".", ZeroOrOne)
             .EndOfString()
             .BuildRegex();
