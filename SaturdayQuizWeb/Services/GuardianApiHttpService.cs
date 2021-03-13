@@ -26,7 +26,7 @@ namespace SaturdayQuizWeb.Services
             var request = new RestRequest("series/the-quiz-thomas-eaton", DataFormat.Json)
                 .AddQueryParameter("api-key", _configVariables.GuardianApiKey)
                 .AddQueryParameter("page-size", pageSize.ToString());
-            var response = await _restClient.ExecuteGetTaskAsync<GuardianApiResponse>(request);
+            var response = await _restClient.ExecuteGetAsync<GuardianApiResponse>(request);
             return response.IsSuccessful ? response.Data : null;
         }
     }

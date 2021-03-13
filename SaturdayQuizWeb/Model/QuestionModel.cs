@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace SaturdayQuizWeb.Model
+﻿namespace SaturdayQuizWeb.Model
 {
     public class QuestionModel
     {
