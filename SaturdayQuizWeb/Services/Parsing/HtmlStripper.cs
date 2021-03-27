@@ -17,7 +17,7 @@ namespace SaturdayQuizWeb.Services.Parsing
     {
         private static readonly IEnumerable<string> TagsToStrip = new[]
         {
-            "a", "b", "cite", "code", "p", "s", "small", "span", "strong", "sub", "sup", "u"
+            "a", "b", "cite", "code", "em", "p", "s", "small", "span", "strong", "sub", "sup", "u"
         };
 
         private static readonly IEnumerable<Regex> TagRegexes = TagsToStrip.Select(BuildTagRegex);
