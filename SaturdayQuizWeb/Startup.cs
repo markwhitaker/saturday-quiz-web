@@ -48,6 +48,7 @@ namespace SaturdayQuizWeb
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Guardian Quiz API v1"); });
 
             // This lets us serve up index.html from wwwroot
+            app.UseDefaultFiles();
             app.UseStaticFiles();
         }
 
