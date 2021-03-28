@@ -13,7 +13,7 @@ namespace SaturdayQuizWeb
     public class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
 
@@ -47,7 +47,7 @@ namespace SaturdayQuizWeb
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Guardian Quiz API v1"); });
 
-            // Allow us to serve index.html from wwwroot
+            // This lets us serve up index.html from wwwroot
             app.UseDefaultFiles();
             app.UseStaticFiles();
         }
