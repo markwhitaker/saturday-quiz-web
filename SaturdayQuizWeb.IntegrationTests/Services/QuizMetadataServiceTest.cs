@@ -9,10 +9,10 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
     [TestFixture]
     public class QuizMetadataServiceTest
     {
-        // Object under test
-        private readonly IQuizMetadataService _quizMetadataService;
+        private IQuizMetadataService _quizMetadataService;
 
-        public QuizMetadataServiceTest()
+        [SetUp]
+        public void SetUp()
         {
             var configuration = new ConfigurationBuilder()
                 .AddUserSecrets<QuizMetadataServiceTest>()

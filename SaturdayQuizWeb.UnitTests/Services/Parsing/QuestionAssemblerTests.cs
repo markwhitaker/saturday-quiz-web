@@ -11,8 +11,6 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing
     [SuppressMessage("ReSharper", "StringLiteralTypo")]
     public class QuestionAssemblerTests
     {
-        private readonly IQuestionAssembler _questionAssembler = new QuestionAssembler();
-
         private static readonly IEnumerable<string> QuestionsSection = new List<string>
         {
             "1 Which Nazi leader died in Paddington in 1981?",
@@ -51,6 +49,14 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing
             "14 Prime: canonical hour of prayer; prime meridian; prime numbers.",
             "15 Caskets chosen by Portia’s suitors in The Merchant Of Venice: gold; silver; lead."
         };
+
+        private IQuestionAssembler _questionAssembler;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _questionAssembler = new QuestionAssembler();
+        }
 
         [Test]
         public void GivenQuestionAndAnswerSections_WhenAssembled_ThenQuestionCountIs15()

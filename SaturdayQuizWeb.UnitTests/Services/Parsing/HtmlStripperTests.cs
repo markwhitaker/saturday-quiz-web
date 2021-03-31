@@ -8,7 +8,13 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing
     [SuppressMessage("ReSharper", "StringLiteralTypo")]
     public class HtmlStripperTests
     {
-        private readonly IHtmlStripper _htmlStripper = new HtmlStripper();
+        private IHtmlStripper _htmlStripper;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _htmlStripper = new HtmlStripper();
+        }
 
         [Test]
         public void GivenHtmlText_WhenHtmlIsStripped_ThenExpectedTagsAreRemoved()

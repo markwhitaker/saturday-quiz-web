@@ -15,10 +15,11 @@ namespace SaturdayQuizWeb.IntegrationTests.Integration
     [TestFixture]
     public class IntegrationTests
     {
-        private readonly IQuizMetadataService _quizMetadataService;
-        private readonly IQuizService _quizService;
+        private IQuizMetadataService _quizMetadataService;
+        private IQuizService _quizService;
 
-        public IntegrationTests()
+        [SetUp]
+        public void SetUp()
         {
             var configuration = new ConfigurationBuilder()
                 .AddUserSecrets<IntegrationTests>()

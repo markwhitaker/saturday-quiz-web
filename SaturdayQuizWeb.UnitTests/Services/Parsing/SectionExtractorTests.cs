@@ -9,13 +9,18 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing
     [SuppressMessage("ReSharper", "StringLiteralTypo")]
     public class SectionExtractorTests
     {
-        private readonly ISectionExtractor _sectionExtractor = new SectionExtractor();
-        private readonly string _wholePageHtml;
+        private ISectionExtractor _sectionExtractor;
+        private string _wholePageHtml;
 
-        public SectionExtractorTests()
+        [SetUp]
+        public void SetUp()
         {
-            _wholePageHtml = File.ReadAllText(
-                TestContext.CurrentContext.TestDirectory + "/TestData/2019_07_20_quiz.html");
+            _sectionExtractor = new SectionExtractor();
+            var testHtmlFilePath = Path.Combine(
+                TestContext.CurrentContext.TestDirectory,
+                "TestData",
+                "2019_07_20_quiz.html");
+            _wholePageHtml = File.ReadAllText(testHtmlFilePath);
         }
 
         [Test]
