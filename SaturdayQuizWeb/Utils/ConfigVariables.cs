@@ -10,11 +10,6 @@ namespace SaturdayQuizWeb.Utils
 
     public class ConfigVariables : IConfigVariables
     {
-        private static class Keys
-        {
-            public const string GuardianApiKey = "GuardianApiKey";
-        }
-
         private readonly IConfiguration _configuration;
 
         public ConfigVariables(IConfiguration configuration)
@@ -22,9 +17,9 @@ namespace SaturdayQuizWeb.Utils
             _configuration = configuration;
         }
 
-        public string GuardianApiKey =>
-            _configuration[Keys.GuardianApiKey]
-            ?? Environment.GetEnvironmentVariable(Keys.GuardianApiKey)
-            ?? throw new Exception("Guardian API key not found");
+        public string GuardianApiKey => GetValue("GuardianApiKey");
+
+        private string GetValue(string key) =>
+            _configuration[key] ?? throw new Exception($"Config value {key} not found");
     }
 }
