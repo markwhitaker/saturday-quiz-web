@@ -6,6 +6,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayQuizWeb.UnitTests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayQuizWeb.IntegrationTests", "SaturdayQuizWeb.IntegrationTests\SaturdayQuizWeb.IntegrationTests.csproj", "{59257613-CEE4-49E8-9DB8-BF73157C0877}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{AD776F57-5D2E-4995-8835-7C385EFB9D06}"
+ProjectSection(SolutionItems) = preProject
+	.circleci\config.yml = .circleci\config.yml
+	README.md = README.md
+	.gitignore = .gitignore
+	.github\dependabot.yml = .github\dependabot.yml
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
