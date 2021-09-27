@@ -11,11 +11,11 @@ namespace SaturdayQuizWeb.Model.Api
     {
         public class ResponseBody
         {
-            public List<GuardianApiQuizSummary> Results { get; set; }
+            public List<GuardianApiQuizSummary> LeadContent { get; set; }
         }
 
         public ResponseBody Response { get; set; }
 
-        public IEnumerable<GuardianApiQuizSummary> Results => Response.Results;
+        public IEnumerable<GuardianApiQuizSummary> Results => Response.LeadContent;
     }
 }
