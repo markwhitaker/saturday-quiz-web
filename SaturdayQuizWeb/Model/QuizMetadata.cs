@@ -2,11 +2,11 @@
 
 namespace SaturdayQuizWeb.Model
 {
-    public class QuizMetadata
+    public record QuizMetadata
     {
-        public string Id { get; set; }
-        public DateTime Date { get; set; }
-        public string Title { get; set; }
-        public string Url { get; set; }
+        public string Id { get; init; }
+        public DateTime Date { get; init; }
+        public string Title { get; init; }
+        public string Url { get; init; }
     }
 }

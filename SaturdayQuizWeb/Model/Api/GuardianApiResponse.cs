@@ -7,14 +7,14 @@ namespace SaturdayQuizWeb.Model.Api
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     [SuppressMessage("ReSharper", "CollectionNeverUpdated.Global")]
-    public class GuardianApiResponse
+    public record GuardianApiResponse
     {
         public class ResponseBody
         {
-            public List<GuardianApiQuizSummary> Results { get; set; }
+            public List<GuardianApiQuizSummary> Results { get; init; }
         }
 
-        public ResponseBody Response { get; set; }
+        public ResponseBody Response { get; init; }
 
         public IEnumerable<GuardianApiQuizSummary> Results => Response.Results;
     }

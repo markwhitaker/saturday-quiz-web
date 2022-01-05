@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace SaturdayQuizWeb.Model
 {
-    public class Quiz
+    public record Quiz
     {
-        public string Id { get; set; }
-        public DateTime Date { get; set; }
-        public string Title { get; set; }
-        public IEnumerable<QuestionModel> Questions { get; set; }
+        public string Id { get; init; }
+        public DateTime Date { get; init; }
+        public string Title { get; init; }
+        public IEnumerable<QuestionModel> Questions { get; init; }
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace SaturdayQuizWeb.Model
 {
-    public class QuestionModel
+    public record QuestionModel
     {
-        public int Number { get; set; }
-        public QuestionType Type { get; set; }
-        public string Question { get; set; }
+        public int Number { get; init; }
+        public QuestionType Type { get; init; }
+        public string Question { get; init; }
         public string Answer { get; set; }
     }
 }

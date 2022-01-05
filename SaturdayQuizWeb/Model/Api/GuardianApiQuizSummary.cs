@@ -5,11 +5,11 @@ namespace SaturdayQuizWeb.Model.Api
 {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class GuardianApiQuizSummary
+    public record GuardianApiQuizSummary
     {
-        public string Id { get; set; }
-        public DateTime WebPublicationDate { get; set; }
-        public string WebTitle { get; set; }
-        public string WebUrl { get; set; }
+        public string Id { get; init; }
+        public DateTime WebPublicationDate { get; init; }
+        public string WebTitle { get; init; }
+        public string WebUrl { get; init; }
     }
 }
