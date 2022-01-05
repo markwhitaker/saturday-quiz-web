@@ -2,47 +2,46 @@
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services.Parsing;
 
-namespace SaturdayQuizWeb.Services
+namespace SaturdayQuizWeb.Services;
+
+public interface IHtmlService
 {
-    public interface IHtmlService
+    IEnumerable<QuestionModel> FindQuestions(string html);
+}
+
+public class HtmlService : IHtmlService
+{
+    private readonly ISectionExtractor _sectionExtractor;
+    private readonly IHtmlStripper _htmlStripper;
+    private readonly ISectionSplitter _sectionSplitter;
+    private readonly IQuestionAssembler _questionAssembler;
+
+    public HtmlService(
+        ISectionExtractor sectionExtractor,
+        IHtmlStripper htmlStripper,
+        ISectionSplitter sectionSplitter,
+        IQuestionAssembler questionAssembler)
     {
-        IEnumerable<QuestionModel> FindQuestions(string html);
+        _sectionExtractor = sectionExtractor;
+        _htmlStripper = htmlStripper;
+        _sectionSplitter = sectionSplitter;
+        _questionAssembler = questionAssembler;
     }
 
-    public class HtmlService : IHtmlService
+    public IEnumerable<QuestionModel> FindQuestions(string html)
     {
-        private readonly ISectionExtractor _sectionExtractor;
-        private readonly IHtmlStripper _htmlStripper;
-        private readonly ISectionSplitter _sectionSplitter;
-        private readonly IQuestionAssembler _questionAssembler;
+        var sections = _sectionExtractor.ExtractSections(html);
 
-        public HtmlService(
-            ISectionExtractor sectionExtractor,
-            IHtmlStripper htmlStripper,
-            ISectionSplitter sectionSplitter,
-            IQuestionAssembler questionAssembler)
-        {
-            _sectionExtractor = sectionExtractor;
-            _htmlStripper = htmlStripper;
-            _sectionSplitter = sectionSplitter;
-            _questionAssembler = questionAssembler;
-        }
+        var questionsSection = _htmlStripper.StripHtml(sections.QuestionsSectionHtml);
+        var answersSection = _htmlStripper.StripHtml(sections.AnswersSectionHtml);
 
-        public IEnumerable<QuestionModel> FindQuestions(string html)
-        {
-            var sections = _sectionExtractor.ExtractSections(html);
+        var questionsSectionSplit = _sectionSplitter.SplitSection(questionsSection);
+        var answersSectionSplit = _sectionSplitter.SplitSection(answersSection);
 
-            var questionsSection = _htmlStripper.StripHtml(sections.QuestionsSectionHtml);
-            var answersSection = _htmlStripper.StripHtml(sections.AnswersSectionHtml);
+        var questions = _questionAssembler.AssembleQuestions(
+            questionsSectionSplit,
+            answersSectionSplit);
 
-            var questionsSectionSplit = _sectionSplitter.SplitSection(questionsSection);
-            var answersSectionSplit = _sectionSplitter.SplitSection(answersSection);
-
-            var questions = _questionAssembler.AssembleQuestions(
-                questionsSectionSplit,
-                answersSectionSplit);
-
-            return questions;
-        }
+        return questions;
     }
 }

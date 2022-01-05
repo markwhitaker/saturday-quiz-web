@@ -4,40 +4,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SaturdayQuizWeb.Services
+namespace SaturdayQuizWeb.Services;
+
+public interface IQuizMetadataService
 {
-    public interface IQuizMetadataService
+    Task<List<QuizMetadata>> GetQuizMetadataAsync(int count);
+}
+
+public class QuizMetadataService : IQuizMetadataService
+{
+    private readonly IGuardianApiHttpService _guardianApiHttpService;
+
+    public QuizMetadataService(IGuardianApiHttpService guardianApiHttpService)
     {
-        Task<List<QuizMetadata>> GetQuizMetadataAsync(int count);
+        _guardianApiHttpService = guardianApiHttpService;
     }
 
-    public class QuizMetadataService : IQuizMetadataService
+    public async Task<List<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
-        private readonly IGuardianApiHttpService _guardianApiHttpService;
+        var response = await _guardianApiHttpService.ListQuizzesAsync(count);
 
-        public QuizMetadataService(IGuardianApiHttpService guardianApiHttpService)
+        if (response == null)
         {
-            _guardianApiHttpService = guardianApiHttpService;
+            throw new Exception("Something went wrong with the Guardian API call");
         }
 
-        public async Task<List<QuizMetadata>> GetQuizMetadataAsync(int count)
-        {
-            var response = await _guardianApiHttpService.ListQuizzesAsync(count);
-
-            if (response == null)
+        return response.Results
+            .Select(item => new QuizMetadata
             {
-                throw new Exception("Something went wrong with the Guardian API call");
-            }
-
-            return response.Results
-                .Select(item => new QuizMetadata
-                {
-                    Id = item.Id,
-                    Title = item.WebTitle,
-                    Date = item.WebPublicationDate,
-                    Url = item.WebUrl
-                })
-                .ToList();
-        }
+                Id = item.Id,
+                Title = item.WebTitle,
+                Date = item.WebPublicationDate,
+                Url = item.WebUrl
+            })
+            .ToList();
     }
 }

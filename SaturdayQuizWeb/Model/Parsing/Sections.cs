@@ -1,8 +1,7 @@
-﻿namespace SaturdayQuizWeb.Model.Parsing
+﻿namespace SaturdayQuizWeb.Model.Parsing;
+
+public record Sections
 {
-    public record Sections
-    {
-        public string QuestionsSectionHtml { get; set; }
-        public string AnswersSectionHtml { get; set; }
-    }
+    public string QuestionsSectionHtml { get; set; }
+    public string AnswersSectionHtml { get; set; }
 }

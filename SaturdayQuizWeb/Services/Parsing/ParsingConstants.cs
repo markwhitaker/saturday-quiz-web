@@ -1,7 +1,6 @@
-﻿namespace SaturdayQuizWeb.Services.Parsing
+﻿namespace SaturdayQuizWeb.Services.Parsing;
+
+internal static class ParsingConstants
 {
-    internal static class ParsingConstants
-    {
-        internal const string WhatLinks = "what links";
-    }
+    internal const string WhatLinks = "what links";
 }

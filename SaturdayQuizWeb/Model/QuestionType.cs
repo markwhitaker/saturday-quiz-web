@@ -2,14 +2,13 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace SaturdayQuizWeb.Model
+namespace SaturdayQuizWeb.Model;
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum QuestionType
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum QuestionType
-    {
-        [EnumMember(Value = "NORMAL")]
-        Normal,
-        [EnumMember(Value = "WHAT_LINKS")]
-        WhatLinks
-    }
+    [EnumMember(Value = "NORMAL")]
+    Normal,
+    [EnumMember(Value = "WHAT_LINKS")]
+    WhatLinks
 }
