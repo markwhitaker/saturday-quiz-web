@@ -56,7 +56,7 @@ public class Startup
     {
         services.AddHttpClient<IGuardianScraperHttpService, GuardianScraperHttpService>();
 
-        services.AddSingleton<IRestClient>(new RestClient("https://content.guardianapis.com/theguardian/"));
+        services.AddSingleton(new RestClient("https://content.guardianapis.com/theguardian/"));
 
         services.AddSingleton<IConfigVariables, ConfigVariables>();
         services.AddSingleton<IGuardianApiHttpService, GuardianApiHttpService>();
