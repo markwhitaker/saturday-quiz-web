@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using RestSharp;
 using SaturdayQuizWeb.Services;
@@ -25,11 +26,10 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
         }
 
         [Test]
-        public void TestGetQuizMetadata()
+        public async Task TestGetQuizMetadata()
         {
-            var request = _quizMetadataService.GetQuizMetadataAsync(7);
-            request.Wait();
-            Assert.AreEqual(7, request.Result.Count);
+            var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(7);
+            Assert.AreEqual(7, quizMetadataList.Count);
         }
     }
 }
