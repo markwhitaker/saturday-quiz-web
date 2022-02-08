@@ -22,7 +22,7 @@ public class QuizServiceTests
     private const string TestQuestionAnswer = "test question answer";
     private const string TestHtmlContent = "test html content";
 
-    private readonly QuizMetadata _quizMetadata = new QuizMetadata
+    private readonly QuizMetadata _quizMetadata = new()
     {
         Id = TestQuizId,
         Date = TestQuizDate,
@@ -30,7 +30,7 @@ public class QuizServiceTests
         Url = TestQuizUrl
     };
 
-    private readonly List<QuestionModel> _questions = new List<QuestionModel>
+    private readonly List<QuestionModel> _questions = new()
     {
         new QuestionModel
         {

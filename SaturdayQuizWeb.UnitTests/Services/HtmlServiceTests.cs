@@ -51,7 +51,7 @@ public class HtmlServiceTests
         var expectedAnswersList = new List<string> {"answers"};
         var expectedQuestions = new List<QuestionModel>
         {
-            new QuestionModel
+            new()
             {
                 Number = 1,
                 Type = QuestionType.Normal,
