@@ -35,6 +35,7 @@
   width: 50%;
   top: 0;
   bottom: 0;
+  z-index: 500;
 }
 
 .indented() {
@@ -52,9 +53,33 @@
   font-weight: @font-weight-light;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: @colour-background;
-  padding: @dimen-outer-padding;
+}
+
+#box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+
+  #quiz-box {
+    flex: 0 1 auto;
+    padding: @dimen-outer-padding;
+  }
+  #space-box {
+    flex: 1 1 auto;
+  }
+  #score-box {
+    flex: 0 1 40px;
+    padding: @dimen-outer-padding;
+    position: relative;
+  }
 }
 
 #page-title {
@@ -114,6 +139,14 @@ body {
 #nav-right {
   .nav-panel;
   right: 0;
+}
+
+#score {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 1000;
 }
 
 @media(max-width: 700px) {

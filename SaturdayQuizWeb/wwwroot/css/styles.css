@@ -2,9 +2,31 @@
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
 }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 body {
   background: #000000;
+}
+#box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+#box #quiz-box {
+  flex: 0 1 auto;
   padding: 20pt;
+}
+#box #space-box {
+  flex: 1 1 auto;
+}
+#box #score-box {
+  flex: 0 1 40px;
+  padding: 20pt;
+  position: relative;
 }
 #page-title {
   margin-top: 30pt;
@@ -54,6 +76,7 @@ body {
   width: 50%;
   top: 0;
   bottom: 0;
+  z-index: 500;
   left: 0;
 }
 #nav-right {
@@ -61,7 +84,15 @@ body {
   width: 50%;
   top: 0;
   bottom: 0;
+  z-index: 500;
   right: 0;
+}
+#score {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 1000;
 }
 @media (max-width: 700px) {
   body {
@@ -85,3 +116,4 @@ body {
     margin-left: 0;
   }
 }
+/*# sourceMappingURL=styles.css.map */
