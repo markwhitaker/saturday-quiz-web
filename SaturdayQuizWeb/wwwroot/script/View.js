@@ -29,7 +29,7 @@
             e.preventDefault();
         });
 
-        $("#score").click(function(){
+        $("#score-container").click(function(){
             controller.toggleScore();
         })
     };
