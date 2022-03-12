@@ -2,12 +2,34 @@
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
 }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 body {
   background: #000000;
-  padding: 20pt;
+  color: #dddddd;
+}
+#box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+#box #quiz-box {
+  flex: 0 1 auto;
+  padding: 20px;
+}
+#box #space-box {
+  flex: 1 1 auto;
+}
+#box #score-box {
+  flex: 0 1 90px;
+  position: relative;
 }
 #page-title {
-  margin-top: 30pt;
+  margin-top: 30px;
 }
 #page-title div {
   text-align: center;
@@ -20,8 +42,12 @@ body {
   color: #dddddd;
   font-size: 40pt;
 }
+#total-score {
+  color: #ffdd00;
+  font-size: 16pt;
+}
 #question-what-links {
-  margin-left: 45pt;
+  margin-left: 45px;
   color: #000000;
   font-size: 12pt;
   font-weight: 700;
@@ -39,21 +65,22 @@ body {
   float: left;
 }
 #question {
-  margin-left: 45pt;
+  margin-left: 45px;
   color: #dddddd;
   font-size: 24pt;
 }
 #answer {
-  margin-left: 45pt;
+  margin-left: 45px;
   color: #ffdd00;
   font-size: 24pt;
-  margin-top: 10pt;
+  margin-top: 10px;
 }
 #nav-left {
   position: absolute;
   width: 50%;
   top: 0;
   bottom: 0;
+  z-index: 500;
   left: 0;
 }
 #nav-right {
@@ -61,12 +88,32 @@ body {
   width: 50%;
   top: 0;
   bottom: 0;
+  z-index: 500;
   right: 0;
 }
+#score-container {
+  position: absolute;
+  z-index: 100;
+  padding: 20px;
+}
+#score {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #666666;
+  border-radius: 100%;
+}
+#score img {
+  width: 50px;
+  height: 50px;
+  visibility: visible;
+}
+#score.full {
+  border-color: #ffdd00;
+}
+#score.none img {
+  visibility: hidden;
+}
 @media (max-width: 700px) {
-  body {
-    padding: 10pt;
-  }
   #question-what-links {
     margin-left: 0;
   }
@@ -85,3 +132,4 @@ body {
     margin-left: 0;
   }
 }
+/*# sourceMappingURL=styles.css.map */

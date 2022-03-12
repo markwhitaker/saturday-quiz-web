@@ -24,27 +24,46 @@
 </head>
 <body>
 
-<div id="page-title" class="page">
-    <div id="quiz-date"></div>
-    <div id="title"></div>
-</div>
+<div id="box">
+    <div id="quiz-box">
+        <div id="page-title" class="page">
+            <div id="quiz-date"></div>
+            <div id="title"></div>
+            <div id="total-score"></div>
+        </div>
 
-<div id="page-question" class="page">
-    <div id="question-what-links"><i class="material-icons">link</i> What links</div>
-    <div id="question-number"></div>
-    <div id="question"></div>
-    <div id="answer"></div>
+        <div id="page-question" class="page">
+            <div id="question-what-links"><i class="material-icons">link</i> What links</div>
+            <div id="question-number"></div>
+            <div id="question"></div>
+            <div id="answer"></div>
+        </div>
+    </div>
+    <div id="space-box"></div>
+    <div id="score-box">
+        <div id="score-container">
+            <div id="score" style="display: none"><img src="images/score_tick.svg" alt="score"/></div>
+        </div>
+    </div>
 </div>
 
 <div id="nav-left"></div>
 <div id="nav-right"></div>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="/script/Question.js"></script>
+<script src="/script/Quiz.js"></script>
 <script src="/script/View.js"></script>
+<script src="/script/ScoreRepository.js"></script>
+<script src="/script/Scene.js"></script>
 <script src="/script/Controller.js"></script>
 <script>
     $(function(){
-        new Controller().onViewReady(new View());
+        let scoreRepository = new ScoreRepository();
+        let controller = new Controller(scoreRepository);
+        let view = new View(controller);
+
+        controller.onViewReady(view);
     });
 </script>
 </body>
