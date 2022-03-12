@@ -93,6 +93,22 @@
     }
 
     showScore(score) {
-        $("#score").text(score).show();
+        let scoreClass = "";
+        switch (score)
+        {
+            case QuestionScore.NONE:
+                scoreClass = "none";
+                break;
+            case QuestionScore.HALF:
+                scoreClass = "half";
+                break;
+            case QuestionScore.FULL:
+                scoreClass = "full";
+        }
+
+        $("#score")
+            .removeClass()
+            .addClass(scoreClass)
+            .show();
     }
 }

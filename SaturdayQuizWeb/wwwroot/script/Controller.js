@@ -98,12 +98,12 @@ class Controller {
         switch (score)
         {
             case QuestionScore.NONE:
-                score = QuestionScore.HALF;
-                break;
-            case QuestionScore.HALF:
                 score = QuestionScore.FULL;
                 break;
             case QuestionScore.FULL:
+                score = QuestionScore.HALF;
+                break;
+            case QuestionScore.HALF:
                 score = QuestionScore.NONE;
                 break;
         }

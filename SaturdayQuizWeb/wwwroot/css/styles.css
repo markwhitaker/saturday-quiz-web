@@ -43,6 +43,10 @@ body {
   color: #dddddd;
   font-size: 40pt;
 }
+#total-score {
+  color: #ffdd00;
+  font-size: 16pt;
+}
 #question-what-links {
   margin-left: 45pt;
   color: #000000;
@@ -89,11 +93,23 @@ body {
   right: 0;
 }
 #score {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   position: absolute;
   z-index: 1000;
-  border: 1px solid #333;
+  border: 2px solid #666666;
+  border-radius: 100%;
+}
+#score img {
+  width: 50px;
+  height: 50px;
+  visibility: visible;
+}
+#score.full {
+  border-color: #ffdd00;
+}
+#score.none img {
+  visibility: hidden;
 }
 @media (max-width: 700px) {
   body {
