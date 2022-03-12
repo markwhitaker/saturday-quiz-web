@@ -93,7 +93,7 @@ body {
 }
 #score-container {
   position: absolute;
-  z-index: 100;
+  z-index: 1000;
   padding: 20px;
 }
 #score {
@@ -132,4 +132,3 @@ body {
     margin-left: 0;
   }
 }
-/*# sourceMappingURL=styles.css.map */
