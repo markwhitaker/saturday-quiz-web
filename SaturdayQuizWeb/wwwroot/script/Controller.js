@@ -38,7 +38,7 @@ class Controller {
 
     onQuizLoaded(quiz) {
         this.scoreRepository.initialiseScores(quiz);
-        this.scenes = Controller.#buildScenes(quiz, this.scoreRepository.hasScores);
+        this.scenes = Controller._buildScenes(quiz, this.scoreRepository.hasScores);
         this.showScene();
         this.view.enableNavigation();
     };
@@ -111,7 +111,7 @@ class Controller {
         this.view.showScore(score);
     }
 
-    static #buildScenes(quiz, jumpToAnswers) {
+    static _buildScenes(quiz, jumpToAnswers) {
         let i;
         const scenes = [];
 

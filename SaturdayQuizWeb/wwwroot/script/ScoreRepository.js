@@ -8,14 +8,14 @@ const QuestionScore = Object.freeze({
 });
 
 class ScoreRepository {
-    #scores = []
+    _scores = []
 
     get totalScore() {
-        return this.#scores.reduce((a, b) => a + b);
+        return this._scores.reduce((a, b) => a + b);
     }
 
     get hasScores() {
-        return !this.#scores.every(s => s === QuestionScore.NONE);
+        return !this._scores.every(s => s === QuestionScore.NONE);
     }
 
     initialiseScores(quiz) {
@@ -27,25 +27,25 @@ class ScoreRepository {
 
         localStorage.setItem(KEY_DATE, dateString);
 
-        this.#scores = ScoreRepository.#loadScores() ?? new Array(quiz.questions.length).fill(QuestionScore.NONE);
-        this.#saveScores();
+        this._scores = ScoreRepository._loadScores() ?? new Array(quiz.questions.length).fill(QuestionScore.NONE);
+        this._saveScores();
     }
 
     getScore(questionNumber) {
-        return this.#scores[questionNumber - 1];
+        return this._scores[questionNumber - 1];
     }
 
     setScore(questionNumber, score) {
-        this.#scores[questionNumber - 1] = score;
-        this.#saveScores();
+        this._scores[questionNumber - 1] = score;
+        this._saveScores();
     }
 
-    static #loadScores() {
+    static _loadScores() {
         let scoreString = localStorage.getItem(KEY_SCORES);
         return scoreString?.split(",").map(s => parseFloat(s));
     }
 
-    #saveScores() {
-        localStorage.setItem(KEY_SCORES, this.#scores.toString());
+    _saveScores() {
+        localStorage.setItem(KEY_SCORES, this._scores.toString());
     }
 }
