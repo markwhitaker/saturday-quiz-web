@@ -114,9 +114,6 @@ body {
   visibility: hidden;
 }
 @media (max-width: 700px) {
-  body {
-    padding: 10px;
-  }
   #question-what-links {
     margin-left: 0;
   }
