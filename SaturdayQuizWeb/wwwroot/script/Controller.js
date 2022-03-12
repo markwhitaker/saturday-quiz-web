@@ -1,54 +1,56 @@
-﻿function Controller() {
-    const SceneType = Object.freeze({
-        QUESTIONS_TITLE: 0,
-        QUESTION: 1,
-        ANSWERS_TITLE: 2,
-        QUESTION_ANSWER: 3,
-        END_TITLE: 4
-    });
+﻿const SceneType = Object.freeze({
+    QUESTIONS_TITLE: 0,
+    QUESTION: 1,
+    ANSWERS_TITLE: 2,
+    QUESTION_ANSWER: 3,
+    END_TITLE: 4
+});
 
-    const QuestionType = Object.freeze({
-        NORMAL: 'NORMAL',
-        WHAT_LINKS: 'WHAT_LINKS'
-    });
+const QuestionType = Object.freeze({
+    NORMAL: 'NORMAL',
+    WHAT_LINKS: 'WHAT_LINKS'
+});
 
-    this.sceneIndex = 0;
+class Controller {
+    constructor() {
+        this.sceneIndex = 0;
+    }
 
-    Controller.prototype.onViewReady = function(view) {
+    onViewReady(view) {
         this.view = view;
         this.view.setController(this);
         this.view.onQuizLoading();
         this.loadQuiz();
     };
 
-    Controller.prototype.onNext = function() {
+    onNext() {
         if (this.sceneIndex < this.scenes.length - 1) {
             this.sceneIndex++;
             this.showScene();
         }
     };
 
-    Controller.prototype.onPrevious = function() {
+    onPrevious() {
         if (this.sceneIndex > 0) {
             this.sceneIndex--;
             this.showScene();
         }
     };
 
-    Controller.prototype.loadQuiz = function() {
+    loadQuiz() {
         const _this = this;
         $.get("api/quiz", function (quiz) {
             _this.onQuizLoaded(quiz);
         });
     };
 
-    Controller.prototype.onQuizLoaded = function(quiz) {
-        this.scenes = buildScenes(quiz);
+    onQuizLoaded(quiz) {
+        this.scenes = Controller.#buildScenes(quiz);
         this.showScene();
         this.view.enableNavigation();
     };
 
-    Controller.prototype.showScene = function() {
+    showScene() {
         const scene = this.scenes[this.sceneIndex];
         const question = scene.question;
         const view = this.view;
@@ -87,7 +89,7 @@
         }
     };
 
-    function buildScenes(quiz) {
+    static #buildScenes(quiz) {
         let i;
         const scenes = [];
         // First just show the questions
