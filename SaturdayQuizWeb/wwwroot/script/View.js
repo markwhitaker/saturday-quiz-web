@@ -1,5 +1,5 @@
 ﻿class View {
-    setController(controller) {
+    constructor(controller) {
         this.controller = controller;
     };
 
@@ -28,6 +28,10 @@
             }
             e.preventDefault();
         });
+
+        $("#score").click(function(){
+            controller.toggleScore();
+        })
     };
 
     showTitlePage() {
@@ -51,16 +55,19 @@
 
         $('#title').text('Ready?');
         $('#quiz-date').text(dateString);
+        $('#total-score').text('');
     };
 
     showAnswersTitle() {
         $('#title').text('Answers');
         $('#quiz-date').text('');
+        $('#total-score').text('');
     };
 
-    showEndTitle() {
+    showEndTitle(totalScore) {
         $('#title').text('End');
         $('#quiz-date').text('');
+        $('#total-score').text("Total score: " + totalScore);
     };
 
     showQuestionNumber(number) {
@@ -75,4 +82,12 @@
     showAnswer(answer) {
         $('#answer').text(answer);
     };
+
+    hideScore() {
+        $("#score").hide();
+    }
+
+    showScore(score) {
+        $("#score").text(score).show();
+    }
 }

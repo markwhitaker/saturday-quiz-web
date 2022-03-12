@@ -29,6 +29,7 @@
         <div id="page-title" class="page">
             <div id="quiz-date"></div>
             <div id="title"></div>
+            <div id="total-score"></div>
         </div>
 
         <div id="page-question" class="page">
@@ -50,12 +51,13 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="/script/View.js"></script>
 <script src="/script/ScoreRepository.js"></script>
+<script src="/script/Scene.js"></script>
 <script src="/script/Controller.js"></script>
 <script>
     $(function(){
         let scoreRepository = new ScoreRepository();
         let controller = new Controller(scoreRepository);
-        let view = new View();
+        let view = new View(controller);
 
         controller.onViewReady(view);
     });
