@@ -15,7 +15,7 @@ class ScoreRepository {
     }
 
     get hasScores() {
-        return this.#scores.every(s => s !== QuestionScore.NONE);
+        return !this.#scores.every(s => s === QuestionScore.NONE);
     }
 
     initialiseScores(quiz) {

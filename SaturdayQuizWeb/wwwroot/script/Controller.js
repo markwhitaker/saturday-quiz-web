@@ -38,7 +38,7 @@ class Controller {
 
     onQuizLoaded(quiz) {
         this.scoreRepository.initialiseScores(quiz);
-        this.scenes = Controller.#buildScenes(quiz);
+        this.scenes = Controller.#buildScenes(quiz, this.scoreRepository.hasScores);
         this.showScene();
         this.view.enableNavigation();
     };
@@ -111,14 +111,17 @@ class Controller {
         this.view.showScore(score);
     }
 
-    static #buildScenes(quiz) {
+    static #buildScenes(quiz, jumpToAnswers) {
         let i;
         const scenes = [];
-        // First just show the questions
+
         scenes.push(new Scene(SceneType.QUESTIONS_TITLE, quiz.date));
 
-        for (i = 0; i < quiz.questions.length; i++) {
-            scenes.push(new Scene(SceneType.QUESTION, null, quiz.questions[i]));
+        if (!jumpToAnswers) {
+            // First just show the questions
+            for (i = 0; i < quiz.questions.length; i++) {
+                scenes.push(new Scene(SceneType.QUESTION, null, quiz.questions[i]));
+            }
         }
 
         scenes.push(new Scene(SceneType.ANSWERS_TITLE));
