@@ -12,8 +12,9 @@ const QuestionType = Object.freeze({
 });
 
 class Controller {
-    constructor() {
+    constructor(scoreRepository) {
         this.sceneIndex = 0;
+        this.scoreRepository = scoreRepository;
     }
 
     onViewReady(view) {
@@ -45,6 +46,7 @@ class Controller {
     };
 
     onQuizLoaded(quiz) {
+        this.scoreRepository.initialiseScores(quiz);
         this.scenes = Controller.#buildScenes(quiz);
         this.showScene();
         this.view.enableNavigation();
