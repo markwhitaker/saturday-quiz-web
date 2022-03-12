@@ -1,5 +1,5 @@
-﻿const KEY_DATE = "DATE";
-const KEY_SCORES = "SCORES";
+﻿const KEY_DATE = "date";
+const KEY_SCORES = "scores";
 
 const QuestionScore = Object.freeze({
     NONE: 0,

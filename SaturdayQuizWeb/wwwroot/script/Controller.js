@@ -31,8 +31,8 @@ class Controller {
 
     loadQuiz() {
         const _this = this;
-        $.get("api/quiz", function (quiz) {
-            _this.onQuizLoaded(quiz);
+        $.get("api/quiz", function (quizObject) {
+            _this.onQuizLoaded(new Quiz(quizObject));
         });
     };
 

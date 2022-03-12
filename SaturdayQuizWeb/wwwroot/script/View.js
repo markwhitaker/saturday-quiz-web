@@ -67,7 +67,12 @@
     showEndTitle(totalScore) {
         $('#title').text('End');
         $('#quiz-date').text('');
-        $('#total-score').text("Total score: " + totalScore);
+
+        let totalScoreString = Math.floor(totalScore);
+        if (totalScore % 1 === 0.5) {
+            totalScoreString += "½"
+        }
+        $('#total-score').text("Total score: " + totalScoreString);
     };
 
     showQuestionNumber(number) {
