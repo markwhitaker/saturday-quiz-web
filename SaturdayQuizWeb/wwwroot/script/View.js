@@ -23,6 +23,9 @@
                 case 39: // Right
                     controller.onNext();
                     break;
+                case 32: // Space
+                    controller.toggleScore();
+                    break;
                 default:
                     return;
             }
