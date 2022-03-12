@@ -88,12 +88,12 @@ class Controller {
     };
 
     toggleScore() {
-        let scene = this.scenes[this.sceneIndex];
+        const scene = this.scenes[this.sceneIndex];
         if (scene.type !== SceneType.QUESTION_ANSWER) {
             return;
         }
 
-        let questionNumber = scene.question.number;
+        const questionNumber = scene.question.number;
         let score = this.scoreRepository.getScore(questionNumber);
         switch (score)
         {

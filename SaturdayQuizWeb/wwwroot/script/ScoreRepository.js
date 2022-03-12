@@ -19,7 +19,7 @@ class ScoreRepository {
     }
 
     initialiseScores(quiz) {
-        let dateString = new Date(quiz.date).toDateString();
+        const dateString = new Date(quiz.date).toDateString();
 
         if (localStorage.getItem(KEY_DATE) !== dateString) {
             localStorage.removeItem(KEY_SCORES)
@@ -41,8 +41,8 @@ class ScoreRepository {
     }
 
     static #loadScores() {
-        let scoreString = localStorage.getItem(KEY_SCORES);
-        return scoreString?.split(",").map(s => parseFloat(s));
+        const scoreString = localStorage.getItem(KEY_SCORES);
+        return scoreString?.split(",").map(parseFloat);
     }
 
     #saveScores() {

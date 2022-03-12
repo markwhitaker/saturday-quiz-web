@@ -1,6 +1,6 @@
 ﻿class Quiz {
-    constructor(quizObject) {
-        this.date = quizObject.date;
-        this.questions = quizObject.questions.map(q => new Question(q));
+    constructor(object) {
+        this.date = object.date;
+        this.questions = object.questions.map(q => new Question(q));
     }
 }
