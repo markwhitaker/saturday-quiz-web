@@ -32,8 +32,9 @@
             e.preventDefault();
         });
 
-        $("#score-container").click(function(){
+        $("#score-tick").click(function(e){
             controller.toggleScore();
+            e.preventDefault();
         })
     };
 
@@ -92,7 +93,7 @@
     };
 
     hideScore() {
-        $("#score").hide();
+        $("#score-tick").hide();
     }
 
     showScore(score) {
@@ -109,7 +110,7 @@
                 scoreClass = "full";
         }
 
-        $("#score")
+        $("#score-tick")
             .removeClass()
             .addClass(scoreClass)
             .show();

@@ -13,18 +13,21 @@
 @colour-answer-text: @colour-foreground-highlight;
 
 // Dimensions
-@dimen-outer-padding: 20px;
-@dimen-outer-padding-narrow: 10px;
-@dimen-indent: 45px;
+@dimen-outer-padding: 50px;
+@dimen-indent: 60px;
 @dimen-title-top-margin: 30px;
 @dimen-answer-top-margin: 10px;
+@dimen-score-tick-size: 50px;
+@dimen-score-border-thickness: 2px;
+@dimen-score-box-height: @dimen-score-tick-size + (2 * @dimen-outer-padding);
 @font-size-date: 16pt;
 @font-size-title: 40pt;
 @font-size-question: 24pt;
 @font-size-what-links: 12pt;
-@score-tick-size: 50px;
-@score-border-thickness: 2px;
-@score-container-size: @score-tick-size + (2 * @dimen-outer-padding);
+
+// Mobile dimensions
+@dimen-outer-padding-mobile: 25px;
+@dimen-score-box-height-mobile: @dimen-score-tick-size + (2 * @dimen-outer-padding-mobile);
 
 // Fonts
 @font-family: 'Open Sans', sans-serif;
@@ -57,16 +60,11 @@
 }
 
 html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
 }
-
-html {
-  height: 100%;
-}
-
 body {
-  height: 95%;
   background: @colour-background;
   color: @colour-foreground;
 }
@@ -84,8 +82,8 @@ body {
     flex: 1 1 auto;
   }
   #score-box {
-    flex: 0 1 @score-container-size;
     position: relative;
+    flex: 0 1 @dimen-score-box-height;
   }
 }
 
@@ -99,6 +97,7 @@ body {
 #quiz-date {
   color: @colour-foreground-highlight;
   font-size: @font-size-date;
+  text-transform: uppercase;
 }
 
 #title {
@@ -153,21 +152,18 @@ body {
   right: 0;
 }
 
-#score-container {
+#score-tick {
   position: absolute;
   z-index: 1000;
-  padding: @dimen-outer-padding;
-}
-
-#score {
-  width: @score-tick-size;
-  height: @score-tick-size;
-  border: @score-border-thickness solid @colour-foreground-dimmed;
+  width: @dimen-score-tick-size;
+  height: @dimen-score-tick-size;
+  border: @dimen-score-border-thickness solid @colour-foreground-dimmed;
   border-radius: 100%;
+  margin: @dimen-outer-padding;
 
   img {
-    width: @score-tick-size;
-    height: @score-tick-size;
+    width: @dimen-score-tick-size;
+    height: @dimen-score-tick-size;
     visibility: visible;
 
   }
@@ -181,6 +177,17 @@ body {
 }
 
 @media(max-width: 700px) {
+  #box {
+    #quiz-box {
+      padding: @dimen-outer-padding-mobile;
+    }
+    #score-box {
+      flex-basis: @dimen-score-box-height-mobile;
+    }
+  }
+  #score-tick {
+    margin: @dimen-outer-padding-mobile;
+  }
   #question-what-links {
     .non-indented;
   }

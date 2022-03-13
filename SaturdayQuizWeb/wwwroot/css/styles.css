@@ -4,14 +4,11 @@
 }
 html,
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
 }
-html {
-  height: 100%;
-}
 body {
-  height: 95%;
   background: #000000;
   color: #dddddd;
 }
@@ -22,14 +19,14 @@ body {
 }
 #box #quiz-box {
   flex: 0 1 auto;
-  padding: 20px;
+  padding: 50px;
 }
 #box #space-box {
   flex: 1 1 auto;
 }
 #box #score-box {
-  flex: 0 1 90px;
   position: relative;
+  flex: 0 1 150px;
 }
 #page-title {
   margin-top: 30px;
@@ -40,6 +37,7 @@ body {
 #quiz-date {
   color: #ffdd00;
   font-size: 16pt;
+  text-transform: uppercase;
 }
 #title {
   color: #dddddd;
@@ -50,7 +48,7 @@ body {
   font-size: 16pt;
 }
 #question-what-links {
-  margin-left: 45px;
+  margin-left: 60px;
   color: #000000;
   font-size: 12pt;
   font-weight: 700;
@@ -68,12 +66,12 @@ body {
   float: left;
 }
 #question {
-  margin-left: 45px;
+  margin-left: 60px;
   color: #dddddd;
   font-size: 24pt;
 }
 #answer {
-  margin-left: 45px;
+  margin-left: 60px;
   color: #ffdd00;
   font-size: 24pt;
   margin-top: 10px;
@@ -94,29 +92,36 @@ body {
   z-index: 500;
   right: 0;
 }
-#score-container {
+#score-tick {
   position: absolute;
   z-index: 1000;
-  padding: 20px;
-}
-#score {
   width: 50px;
   height: 50px;
   border: 2px solid #666666;
   border-radius: 100%;
+  margin: 50px;
 }
-#score img {
+#score-tick img {
   width: 50px;
   height: 50px;
   visibility: visible;
 }
-#score.full {
+#score-tick.full {
   border-color: #ffdd00;
 }
-#score.none img {
+#score-tick.none img {
   visibility: hidden;
 }
 @media (max-width: 700px) {
+  #box #quiz-box {
+    padding: 25px;
+  }
+  #box #score-box {
+    flex-basis: 100px;
+  }
+  #score-tick {
+    margin: 25px;
+  }
   #question-what-links {
     margin-left: 0;
   }
