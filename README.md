@@ -2,8 +2,8 @@
 
 ## Web App
 
-https://saturday-quiz.herokuapp.com/
+https://fiendish-eaton.herokuapp.com/
 
 ## REST API
 
-https://saturday-quiz.herokuapp.com/swagger/
+https://fiendish-eaton.herokuapp.com/swagger/
