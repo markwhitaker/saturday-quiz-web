@@ -9,11 +9,13 @@
 
     enableNavigation() {
         const presenter = this.presenter;
-        $('#nav-left').click(function(){
+        $('#nav-left').click(function(e){
             presenter.onPrevious();
+            e.preventDefault();
         });
-        $('#nav-right').click(function(){
+        $('#nav-right').click(function(e){
             presenter.onNext();
+            e.preventDefault();
         });
         $(document).keyup(function(e) {
             switch (e.keyCode) {
