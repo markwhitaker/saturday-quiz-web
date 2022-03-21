@@ -112,7 +112,8 @@ body {
 
 #question-what-links {
   .indented;
-  color: @colour-background;
+  visibility: hidden;
+  color: @colour-foreground-dimmed;
   font-size: @font-size-what-links;
   font-weight: @font-weight-heavy;
   text-transform: uppercase;
@@ -120,7 +121,7 @@ body {
     vertical-align: middle !important;
   }
   &.visible {
-    color: @colour-foreground-dimmed;
+    visibility: visible;
   }
 }
 

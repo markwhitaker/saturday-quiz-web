@@ -49,7 +49,8 @@ body {
 }
 #question-what-links {
   margin-left: 60px;
-  color: #000000;
+  visibility: hidden;
+  color: #666666;
   font-size: 12pt;
   font-weight: 700;
   text-transform: uppercase;
@@ -58,7 +59,7 @@ body {
   vertical-align: middle !important;
 }
 #question-what-links.visible {
-  color: #666666;
+  visibility: visible;
 }
 #question-number {
   color: #dddddd;
