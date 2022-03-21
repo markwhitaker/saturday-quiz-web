@@ -3,7 +3,7 @@
     WHAT_LINKS: 'WHAT_LINKS'
 });
 
-class Controller {
+class Presenter {
     constructor(scoreRepository) {
         this.sceneIndex = 0;
         this.scoreRepository = scoreRepository;
@@ -38,7 +38,7 @@ class Controller {
 
     onQuizLoaded(quiz) {
         this.scoreRepository.initialiseScores(quiz);
-        this.scenes = Controller.#buildScenes(quiz, this.scoreRepository.hasScores);
+        this.scenes = Presenter.#buildScenes(quiz, this.scoreRepository.hasScores);
         this.showScene();
         this.view.enableNavigation();
     };

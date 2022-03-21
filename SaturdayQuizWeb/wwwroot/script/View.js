@@ -1,6 +1,6 @@
 ﻿class View {
-    constructor(controller) {
-        this.controller = controller;
+    constructor(presenter) {
+        this.presenter = presenter;
     };
 
     onQuizLoading() {
@@ -8,23 +8,23 @@
     };
 
     enableNavigation() {
-        const controller = this.controller;
+        const presenter = this.presenter;
         $('#nav-left').click(function(){
-            controller.onPrevious();
+            presenter.onPrevious();
         });
         $('#nav-right').click(function(){
-            controller.onNext();
+            presenter.onNext();
         });
         $(document).keyup(function(e) {
             switch (e.keyCode) {
                 case 37: // Left
-                    controller.onPrevious();
+                    presenter.onPrevious();
                     break;
                 case 39: // Right
-                    controller.onNext();
+                    presenter.onNext();
                     break;
                 case 32: // Space
-                    controller.toggleScore();
+                    presenter.toggleScore();
                     break;
                 default:
                     return;
@@ -33,7 +33,7 @@
         });
 
         $("#score-tick").click(function(e){
-            controller.toggleScore();
+            presenter.toggleScore();
             e.preventDefault();
         })
     };

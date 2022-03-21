@@ -54,14 +54,14 @@
 <script src="/script/View.js"></script>
 <script src="/script/ScoreRepository.js"></script>
 <script src="/script/Scene.js"></script>
-<script src="/script/Controller.js"></script>
+<script src="/script/Presenter.js"></script>
 <script>
     $(function(){
         let scoreRepository = new ScoreRepository();
-        let controller = new Controller(scoreRepository);
-        let view = new View(controller);
+        let presenter = new Presenter(scoreRepository);
+        let view = new View(presenter);
 
-        controller.onViewReady(view);
+        presenter.onViewReady(view);
     });
 </script>
 </body>
