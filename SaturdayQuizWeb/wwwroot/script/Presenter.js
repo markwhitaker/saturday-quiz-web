@@ -1,9 +1,4 @@
-﻿const QuestionType = Object.freeze({
-    NORMAL: 'NORMAL',
-    WHAT_LINKS: 'WHAT_LINKS'
-});
-
-class Presenter {
+﻿class Presenter {
     constructor(scoreRepository) {
         this.sceneIndex = 0;
         this.scoreRepository = scoreRepository;

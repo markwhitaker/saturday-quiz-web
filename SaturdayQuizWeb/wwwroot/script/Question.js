@@ -1,4 +1,9 @@
-﻿class Question {
+﻿const QuestionType = Object.freeze({
+    NORMAL: 'NORMAL',
+    WHAT_LINKS: 'WHAT_LINKS'
+});
+
+class Question {
     constructor(object) {
         this.number = object.number;
         this.type = object.type;
