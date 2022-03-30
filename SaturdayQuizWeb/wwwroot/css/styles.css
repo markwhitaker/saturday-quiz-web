@@ -16,14 +16,13 @@ body {
   display: flex;
   flex-flow: column;
   height: 100%;
-  justify-content: space-between;
 }
-#box #question-box {
+#box #quiz-box {
   flex: 0 1 auto;
   padding: 50px;
 }
-#box #title-box {
-  flex: 0 1 auto;
+#box #space-box {
+  flex: 1 1 auto;
 }
 #box #score-box {
   position: relative;
@@ -115,7 +114,7 @@ body {
   visibility: hidden;
 }
 @media (max-width: 700px) {
-  #box #question-box {
+  #box #quiz-box {
     padding: 25px;
   }
   #box #score-box {
