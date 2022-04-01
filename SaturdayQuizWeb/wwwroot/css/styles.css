@@ -9,8 +9,8 @@ body {
   padding: 0;
 }
 body {
-  background: #000000;
-  color: #dddddd;
+  background: #000;
+  color: #ddd;
 }
 #box {
   display: flex;
@@ -33,22 +33,22 @@ body {
   text-align: center;
 }
 #quiz-date {
-  color: #ffdd00;
+  color: #fd0;
   font-size: 16pt;
   text-transform: uppercase;
 }
 #title {
-  color: #dddddd;
+  color: #ddd;
   font-size: 40pt;
 }
 #total-score {
-  color: #ffdd00;
+  color: #fd0;
   font-size: 16pt;
 }
 #question-what-links {
   margin-left: 60px;
   visibility: hidden;
-  color: #666666;
+  color: #555;
   font-size: 12pt;
   font-weight: 700;
   text-transform: uppercase;
@@ -60,18 +60,18 @@ body {
   visibility: visible;
 }
 #question-number {
-  color: #dddddd;
+  color: #ddd;
   font-size: 24pt;
   float: left;
 }
 #question {
   margin-left: 60px;
-  color: #dddddd;
+  color: #ddd;
   font-size: 24pt;
 }
 #answer {
   margin-left: 60px;
-  color: #ffdd00;
+  color: #fd0;
   font-size: 24pt;
   margin-top: 10px;
 }
@@ -96,7 +96,7 @@ body {
   z-index: 1000;
   width: 50px;
   height: 50px;
-  border: 2px solid #666666;
+  border: 2px solid #333;
   border-radius: 100%;
   margin: 50px;
 }
@@ -106,7 +106,7 @@ body {
   visibility: visible;
 }
 #score-tick.full {
-  border-color: #ffdd00;
+  border-color: #fd0;
 }
 #score-tick.none img {
   visibility: hidden;
@@ -139,3 +139,4 @@ body {
     margin-left: 0;
   }
 }
+/*# sourceMappingURL=styles.css.map */
