@@ -108,7 +108,7 @@ body {
   background-image: url(/images/score-tick-dark.svg);
 }
 #score-tick.half {
-  border-color: #fd0;
+  border-color: #333;
   background-image: url(/images/score-tick-light.svg);
 }
 @media (max-width: 700px) {
@@ -139,4 +139,3 @@ body {
     margin-left: 0;
   }
 }
-/*# sourceMappingURL=styles.css.map */
