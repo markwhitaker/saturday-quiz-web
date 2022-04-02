@@ -1,7 +1,7 @@
 ﻿class View {
     constructor(presenter) {
         this.presenter = presenter;
-        
+
         View.#preloadImages(
             "images/score-tick-dark.svg",
             "images/score-tick-light.svg"
@@ -122,10 +122,10 @@
             .addClass(scoreClass)
             .show();
     }
-    
-    static #preloadImages() {
-        for (let i = 0; i < arguments.length; i++) {
-            new Image().src = arguments[i];
-        }
+
+    static #preloadImages(...images) {
+        images.forEach((image) => {
+            new Image().src = image;
+        })
     }
 }
