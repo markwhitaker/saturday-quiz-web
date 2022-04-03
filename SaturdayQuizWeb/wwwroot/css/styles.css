@@ -27,7 +27,7 @@ body {
 }
 #box #score-box {
   position: relative;
-  flex: 0 1 150px;
+  flex: 0 0 100px;
 }
 #page-title div {
   text-align: center;
@@ -98,7 +98,7 @@ body {
   height: 50px;
   border: 2px solid #333;
   border-radius: 100%;
-  margin: 50px;
+  left: 50px;
   background-size: 50px;
   background-color: #000;
 }
@@ -116,10 +116,10 @@ body {
     padding: 25px;
   }
   #box #score-box {
-    flex-basis: 100px;
+    flex-basis: 75px;
   }
   #score-tick {
-    margin: 25px;
+    left: 25px;
   }
   #question-what-links {
     margin-left: 0;

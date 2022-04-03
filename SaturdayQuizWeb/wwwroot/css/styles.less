@@ -14,7 +14,7 @@
 @dimen-answer-top-margin: 10px;
 @dimen-score-tick-size: 50px;
 @dimen-score-border-thickness: 2px;
-@dimen-score-box-height: @dimen-score-tick-size + (2 * @dimen-outer-padding);
+@dimen-score-box-height: @dimen-score-tick-size + @dimen-outer-padding;
 @font-size-date: 16pt;
 @font-size-title: 40pt;
 @font-size-question: 24pt;
@@ -22,7 +22,7 @@
 
 // Mobile dimensions
 @dimen-outer-padding-mobile: 25px;
-@dimen-score-box-height-mobile: @dimen-score-tick-size + (2 * @dimen-outer-padding-mobile);
+@dimen-score-box-height-mobile: @dimen-score-tick-size + @dimen-outer-padding-mobile;
 
 // Fonts
 @font-family: 'Open Sans', sans-serif;
@@ -79,7 +79,7 @@ body {
   }
   #score-box {
     position: relative;
-    flex: 0 1 @dimen-score-box-height;
+    flex: 0 0 @dimen-score-box-height;
   }
 }
 
@@ -155,7 +155,7 @@ body {
   height: @dimen-score-tick-size;
   border: @dimen-score-border-thickness solid @colour-foreground-very-dimmed;
   border-radius: 100%;
-  margin: @dimen-outer-padding;
+  left: @dimen-outer-padding;
   background-size: @dimen-score-tick-size;
   background-color: @colour-background;
 
@@ -180,7 +180,7 @@ body {
     }
   }
   #score-tick {
-    margin: @dimen-outer-padding-mobile;
+    left: @dimen-outer-padding-mobile;
   }
   #question-what-links {
     .non-indented;
