@@ -7,7 +7,7 @@ namespace SaturdayQuizWeb.Services;
 
 public interface IGuardianApiHttpService
 {
-    Task<GuardianApiResponse> ListQuizzesAsync(int pageSize = 5);
+    Task<GuardianApiResponse?> ListQuizzesAsync(int pageSize = 5);
 }
 
 public class GuardianApiHttpService : IGuardianApiHttpService
@@ -21,7 +21,7 @@ public class GuardianApiHttpService : IGuardianApiHttpService
         _configVariables = configVariables;
     }
 
-    public async Task<GuardianApiResponse> ListQuizzesAsync(int pageSize = 5)
+    public async Task<GuardianApiResponse?> ListQuizzesAsync(int pageSize = 5)
     {
         var request = new RestRequest("series/the-quiz-thomas-eaton")
             {

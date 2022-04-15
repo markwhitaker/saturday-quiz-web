@@ -7,7 +7,7 @@ namespace SaturdayQuizWeb.Services;
 
 public interface IQuizService
 {
-    Task<Quiz> GetQuizAsync(string id = null);
+    Task<Quiz> GetQuizAsync(string? id = null);
     Task<Quiz> GetQuizAsync(QuizMetadata quizMetadata);
 }
 
@@ -27,7 +27,7 @@ public class QuizService : IQuizService
         _quizMetadataService = quizMetadataService;
     }
 
-    public async Task<Quiz> GetQuizAsync(string id = null)
+    public async Task<Quiz> GetQuizAsync(string? id)
     {
         QuizMetadata quizMetadata;
 

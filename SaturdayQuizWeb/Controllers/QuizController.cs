@@ -19,7 +19,7 @@ public class QuizController : ControllerBase
 
     // GET /api/quiz
     [HttpGet]
-    public async Task<ActionResult<Quiz>> GetById([FromQuery] string id = null)
+    public async Task<ActionResult<Quiz>> GetById([FromQuery] string? id = null)
     {
         try
         {
