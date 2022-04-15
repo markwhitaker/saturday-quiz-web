@@ -1,11 +1,6 @@
 ﻿class View {
     constructor(presenter) {
         this.presenter = presenter;
-
-        View.#preloadImages(
-            "images/score-tick-dark.svg",
-            "images/score-tick-light.svg"
-        )
     };
 
     onQuizLoading() {
@@ -123,11 +118,5 @@
             .removeClass()
             .addClass(scoreClass)
             .show();
-    }
-
-    static #preloadImages(...images) {
-        images.forEach((image) => {
-            new Image().src = image;
-        })
     }
 }
