@@ -39,8 +39,13 @@
             e.preventDefault();
         });
 
-        $("#score-tick").click(function(e){
+        $('#score-tick').click(function(e){
             presenter.toggleScore();
+            e.preventDefault();
+        })
+
+        $('#score-share').click(function(e){
+            presenter.shareScore();
             e.preventDefault();
         })
     };
@@ -53,6 +58,7 @@
     showQuestionPage() {
         $('#page-title').hide();
         $('#page-question').show();
+        $('#score-share').hide();
     };
 
     showQuestionsTitle(date) {
@@ -84,6 +90,7 @@
             totalScoreString += "½"
         }
         $('#total-score').text("Total score: " + totalScoreString);
+        $('#score-share').show();
     };
 
     showQuestionNumber(number) {

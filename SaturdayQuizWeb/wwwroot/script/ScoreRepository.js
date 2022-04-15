@@ -18,6 +18,10 @@ class ScoreRepository {
         return !this.#scores.every(s => s === QuestionScore.NONE);
     }
 
+    get allScores() {
+        return this.#scores;
+    }
+
     initialiseScores(quiz) {
         const dateString = new Date(quiz.date).toDateString();
 

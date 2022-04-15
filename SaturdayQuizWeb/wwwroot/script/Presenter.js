@@ -106,6 +106,28 @@
         this.view.showScore(score);
     }
 
+    shareScore() {
+        let scoreBreakdown = this.scoreRepository.allScores
+            .map((score, index) =>
+                score === 0 ? '' :
+                score === 0.5 ? (index + 1) + ' (half)' :
+                '' + (index + 1)
+            )
+            .filter((elem, index) => elem !== '')
+            .join(', ');
+
+        let shareObject = {
+            title: 'We have quizzed! Total score: ' + this.scoreRepository.totalScore,
+            text: scoreBreakdown
+        };
+        if (navigator.canShare && navigator.canShare(shareObject)) {
+            navigator
+                .share(shareObject)
+                .then(() => console.log('Shared score'))
+                .catch((error) => console.log('Sharing score failed', error));
+        }
+    }
+
     static #buildScenes(quiz, jumpToAnswers) {
         let i;
         const scenes = [];

@@ -148,25 +148,35 @@ body {
   right: 0;
 }
 
-#score-tick {
-  position: absolute;
-  z-index: 1000;
-  width: @dimen-score-tick-size;
-  height: @dimen-score-tick-size;
-  border: @dimen-score-border-thickness solid @colour-foreground-very-dimmed;
-  border-radius: 100%;
-  left: @dimen-outer-padding;
-  background-size: @dimen-score-tick-size;
-  background-color: @colour-background;
-
-  &.full {
-    border-color: @colour-foreground-highlight;
-    background-color: @colour-foreground-highlight;
-    background-image: url(/images/score-tick-dark.svg);
+#score-box {
+  div {
+    position: absolute;
+    z-index: 1000;
+    width: @dimen-score-tick-size;
+    height: @dimen-score-tick-size;
+    border: @dimen-score-border-thickness solid @colour-foreground-very-dimmed;
+    border-radius: 100%;
   }
-  &.half {
-    border-color: @colour-foreground-very-dimmed;
-    background-image: url(/images/score-tick-light.svg);
+
+  #score-tick {
+    left: @dimen-outer-padding;
+    background-size: @dimen-score-tick-size;
+    background-color: @colour-background;
+
+    &.full {
+      border-color: @colour-foreground-highlight;
+      background-color: @colour-foreground-highlight;
+      background-image: url(/images/score-tick-dark.svg);
+    }
+    &.half {
+      border-color: @colour-foreground-very-dimmed;
+      background-image: url(/images/score-tick-light.svg);
+    }
+  }
+
+  #score-share {
+    right: @dimen-outer-padding;
+    background-color: @colour-foreground-highlight;
   }
 }
 
