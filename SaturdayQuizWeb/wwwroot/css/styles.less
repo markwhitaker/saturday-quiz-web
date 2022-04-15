@@ -169,14 +169,27 @@ body {
       background-image: url(/images/score-tick-dark.svg);
     }
     &.half {
-      border-color: @colour-foreground-very-dimmed;
       background-image: url(/images/score-tick-light.svg);
     }
   }
 
   #score-share {
     right: @dimen-outer-padding;
-    background-color: @colour-foreground-highlight;
+    color: @colour-foreground-highlight;
+    cursor: default;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .material-icons {
+      font-size: 30px;
+      transform: rotate(270deg);
+    }
+
+    &:active {
+      background-color: @colour-foreground-highlight;
+      color: @colour-background;
+    }
   }
 }
 
