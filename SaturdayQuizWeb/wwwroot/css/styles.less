@@ -12,9 +12,11 @@
 @dimen-indent: 60px;
 @dimen-title-top-margin: 30px;
 @dimen-answer-top-margin: 10px;
-@dimen-score-tick-size: 50px;
+@dimen-score-button-size: 50px;
+@dimen-score-tick-size: 36px;
+@dimen-score-share-size: 30px;
 @dimen-score-border-thickness: 2px;
-@dimen-score-box-height: @dimen-score-tick-size + @dimen-outer-padding;
+@dimen-score-box-height: @dimen-score-button-size + @dimen-outer-padding;
 @font-size-date: 16pt;
 @font-size-title: 40pt;
 @font-size-question: 24pt;
@@ -22,7 +24,7 @@
 
 // Mobile dimensions
 @dimen-outer-padding-mobile: 25px;
-@dimen-score-box-height-mobile: @dimen-score-tick-size + @dimen-outer-padding-mobile;
+@dimen-score-box-height-mobile: @dimen-score-button-size + @dimen-outer-padding-mobile;
 
 // Fonts
 @font-family: 'Open Sans', sans-serif;
@@ -152,38 +154,44 @@ body {
   div {
     position: absolute;
     z-index: 1000;
-    width: @dimen-score-tick-size;
-    height: @dimen-score-tick-size;
+    width: @dimen-score-button-size;
+    height: @dimen-score-button-size;
     border: @dimen-score-border-thickness solid @colour-foreground-very-dimmed;
     border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .material-icons {
+    cursor: default;
   }
 
   #score-tick {
     left: @dimen-outer-padding;
-    background-size: @dimen-score-tick-size;
     background-color: @colour-background;
+    color: @colour-background;
 
     &.full {
       border-color: @colour-foreground-highlight;
       background-color: @colour-foreground-highlight;
-      background-image: url(/images/score-tick-dark.svg);
     }
     &.half {
-      background-image: url(/images/score-tick-light.svg);
+      color: @colour-foreground-highlight;
+    }
+    .material-icons {
+      font-size: @dimen-score-tick-size;
+      font-weight: bold;
     }
   }
 
   #score-share {
     right: @dimen-outer-padding;
     color: @colour-foreground-highlight;
-    cursor: default;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
     .material-icons {
-      font-size: 30px;
       transform: rotate(270deg);
+      font-size: @dimen-score-share-size;
     }
 
     &:active {
