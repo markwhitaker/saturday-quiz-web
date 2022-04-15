@@ -76,7 +76,7 @@
                 break;
             case SceneType.END_TITLE:
                 view.hideScore();
-                view.showEndTitle(this.scoreRepository.totalScore);
+                view.showEndTitle(Presenter.#formatTotalScore(this.scoreRepository.totalScore));
                 view.showTitlePage();
                 break;
         }
@@ -107,6 +107,7 @@
     }
 
     shareScore() {
+        let totalScore = Presenter.#formatTotalScore(this.scoreRepository.totalScore);
         let scoreBreakdown = this.scoreRepository.allScores
             .map((score, index) =>
                 score === 0 ? '' :
@@ -117,8 +118,7 @@
             .join(', ');
 
         let shareObject = {
-            title: 'We have quizzed! Total score: ' + this.scoreRepository.totalScore,
-            text: scoreBreakdown
+            text: 'We have quizzed! Total score this week is ' + totalScore + '...\n\n' + scoreBreakdown
         };
         if (navigator.canShare && navigator.canShare(shareObject)) {
             navigator
@@ -152,5 +152,13 @@
         scenes.push(new Scene(SceneType.END_TITLE));
 
         return scenes;
+    }
+
+    static #formatTotalScore(totalScore) {
+        let totalScoreString = Math.floor(totalScore);
+        if (totalScore % 1 === 0.5) {
+            totalScoreString += "½"
+        }
+        return totalScoreString;
     }
 }

@@ -84,12 +84,7 @@
     showEndTitle(totalScore) {
         $('#title').text('End');
         $('#quiz-date').text('');
-
-        let totalScoreString = Math.floor(totalScore);
-        if (totalScore % 1 === 0.5) {
-            totalScoreString += "½"
-        }
-        $('#total-score').text("Total score: " + totalScoreString);
+        $('#total-score').text("Total score: " + totalScore);
         $('#score-share').show();
     };
 

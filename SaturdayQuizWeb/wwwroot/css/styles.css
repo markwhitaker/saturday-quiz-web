@@ -135,8 +135,11 @@ body {
   #box #score-box {
     flex-basis: 75px;
   }
-  #score-tick {
+  #score-box #score-tick {
     left: 25px;
+  }
+  #score-box #score-share {
+    right: 25px;
   }
   #question-what-links {
     margin-left: 0;
