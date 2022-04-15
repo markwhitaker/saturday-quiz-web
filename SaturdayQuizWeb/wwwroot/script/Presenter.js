@@ -114,10 +114,11 @@
                 score === QuestionScore.HALF ? (index + 1) + ' (half)' :
                 '' + (index + 1)
             )
-            .filter((elem, index) => elem !== null)
+            .filter(scoreText => scoreText !== null)
             .join(', ');
 
         let shareObject = {
+            title: 'QUIZ RESULTS',
             text: 'We have quizzed! Total score this week is ' + totalScore + '...\n\n' + scoreBreakdown
         };
         if (navigator.canShare && navigator.canShare(shareObject)) {
