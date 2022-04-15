@@ -110,11 +110,11 @@
         let totalScore = Presenter.#formatTotalScore(this.scoreRepository.totalScore);
         let scoreBreakdown = this.scoreRepository.allScores
             .map((score, index) =>
-                score === 0 ? '' :
-                score === 0.5 ? (index + 1) + ' (half)' :
+                score === QuestionScore.NONE ? null :
+                score === QuestionScore.HALF ? (index + 1) + ' (half)' :
                 '' + (index + 1)
             )
-            .filter((elem, index) => elem !== '')
+            .filter((elem, index) => elem !== null)
             .join(', ');
 
         let shareObject = {
@@ -156,7 +156,7 @@
 
     static #formatTotalScore(totalScore) {
         let totalScoreString = Math.floor(totalScore);
-        if (totalScore % 1 === 0.5) {
+        if (totalScore % 1 === QuestionScore.HALF) {
             totalScoreString += "½"
         }
         return totalScoreString;
