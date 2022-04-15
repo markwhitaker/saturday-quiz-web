@@ -15,8 +15,8 @@ namespace SaturdayQuizWeb.IntegrationTests.Integration
     [TestFixture]
     public class IntegrationTests
     {
-        private IQuizMetadataService _quizMetadataService;
-        private IQuizService _quizService;
+        private IQuizMetadataService _quizMetadataService = null!;
+        private IQuizService _quizService = null!;
 
         [SetUp]
         public void SetUp()
@@ -42,23 +42,23 @@ namespace SaturdayQuizWeb.IntegrationTests.Integration
         [Test]
         public async Task TestGetQuizMetadata()
         {
-            const int numberOfQuizzes = 7;
+            const int expectedNumberOfQuizzes = 7;
 
-            var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(numberOfQuizzes);
-            Assert.AreEqual(numberOfQuizzes, quizMetadataList.Count);
+            var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(expectedNumberOfQuizzes);
+            Assert.That(quizMetadataList.Count, Is.EqualTo(expectedNumberOfQuizzes));
         }
 
         [Test]
         public async Task WhenLast50QuizzesAreLoaded_ThenAllAreSuccessful()
         {
             // When
-            const int numberOfQuizzes = 50;
+            const int expectedNumberOfQuizzes = 50;
 
-            var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(numberOfQuizzes);
+            var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(expectedNumberOfQuizzes);
             var failedDates = new List<string>();
 
             // Then
-            for (var index = 0; index < numberOfQuizzes; index++)
+            for (var index = 0; index < expectedNumberOfQuizzes; index++)
             {
                 var quizMetadata = quizMetadataList[index];
                 try
@@ -75,7 +75,7 @@ namespace SaturdayQuizWeb.IntegrationTests.Integration
                 }
             }
 
-            Assert.That(failedDates, Is.Empty, "Failed to parse {0} of the last {1} quizzes", failedDates.Count, numberOfQuizzes);
+            Assert.That(failedDates, Is.Empty, "Failed to parse {0} of the last {1} quizzes", failedDates.Count, expectedNumberOfQuizzes);
         }
 
         private static void PrintQuiz(Quiz quiz)

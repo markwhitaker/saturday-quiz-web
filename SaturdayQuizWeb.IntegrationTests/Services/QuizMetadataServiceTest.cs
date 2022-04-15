@@ -10,7 +10,7 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
     [TestFixture]
     public class QuizMetadataServiceTest
     {
-        private IQuizMetadataService _quizMetadataService;
+        private IQuizMetadataService _quizMetadataService = null!;
 
         [SetUp]
         public void SetUp()
@@ -29,7 +29,7 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
         public async Task TestGetQuizMetadata()
         {
             var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(7);
-            Assert.AreEqual(7, quizMetadataList.Count);
+            Assert.That(quizMetadataList.Count, Is.EqualTo(7));
         }
     }
 }
