@@ -10,7 +10,7 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing;
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class SectionSplitterTests
 {
-    private ISectionSplitter _sectionSplitter;
+    private ISectionSplitter _sectionSplitter = null!;
 
     [SetUp]
     public void SetUp()

@@ -9,8 +9,8 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing;
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class SectionExtractorTests
 {
-    private ISectionExtractor _sectionExtractor;
-    private string _wholePageHtml;
+    private ISectionExtractor _sectionExtractor = null!;
+    private string _wholePageHtml = null!;
 
     [SetUp]
     public void SetUp()
@@ -65,7 +65,6 @@ public class SectionExtractorTests
         var sections = _sectionExtractor.ExtractSections(_wholePageHtml);
 
         // Then
-        Assert.That(sections, Is.Not.Null);
         Assert.That(sections.QuestionsSectionHtml, Is.EqualTo(expectedQuestionsSectionHtml));
         Assert.That(sections.AnswersSectionHtml, Is.EqualTo(expectedAnswersSectionHtml));
     }

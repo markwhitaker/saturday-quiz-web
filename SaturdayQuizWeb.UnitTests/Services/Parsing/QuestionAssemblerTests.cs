@@ -50,7 +50,7 @@ public class QuestionAssemblerTests
         "15 Caskets chosen by Portia’s suitors in The Merchant Of Venice: gold; silver; lead."
     };
 
-    private IQuestionAssembler _questionAssembler;
+    private IQuestionAssembler _questionAssembler = null!;
 
     [SetUp]
     public void SetUp()
@@ -168,7 +168,8 @@ public class QuestionAssemblerTests
             _questionAssembler.AssembleQuestions(questionsSection, answersSection));
 
         // Then
-        Assert.That(exception.Message, Is.EqualTo("Question text in unexpected format: This shouldn't be here"));
+        Assert.That(exception, Is.Not.Null);
+        Assert.That(exception!.Message, Is.EqualTo("Question text in unexpected format: This shouldn't be here"));
     }
 
     [Test]
@@ -197,6 +198,7 @@ public class QuestionAssemblerTests
             _questionAssembler.AssembleQuestions(questionsSection, answersSection));
 
         // Then
-        Assert.That(exception.Message, Is.EqualTo("Found 4 questions but 5 answers"));
+        Assert.That(exception, Is.Not.Null);
+        Assert.That(exception!.Message, Is.EqualTo("Found 4 questions but 5 answers"));
     }
 }

@@ -42,14 +42,15 @@ public class QuizServiceTests
     };
 
     // Mocks
-    private readonly IGuardianScraperHttpService _mockScraperHttpService;
-    private readonly IHtmlService _mockHtmlService;
-    private readonly IQuizMetadataService _mockQuizMetadataService;
+    private IGuardianScraperHttpService _mockScraperHttpService = null!;
+    private IHtmlService _mockHtmlService = null!;
+    private IQuizMetadataService _mockQuizMetadataService = null!;
 
     // Object under test
-    private readonly IQuizService _quizService;
+    private IQuizService _quizService = null!;
 
-    public QuizServiceTests()
+    [SetUp]
+    public void Setup()
     {
         _mockScraperHttpService = Substitute.For<IGuardianScraperHttpService>();
         _mockHtmlService = Substitute.For<IHtmlService>();
@@ -69,10 +70,10 @@ public class QuizServiceTests
         // When
         var quiz = await _quizService.GetQuizAsync(_quizMetadata);
         // Then
-        Assert.AreEqual(TestQuizId, quiz.Id);
-        Assert.AreEqual(TestQuizDate, quiz.Date);
-        Assert.AreEqual(TestQuizTitle, quiz.Title);
-        Assert.AreEqual(_questions, quiz.Questions);
+        Assert.That(quiz.Id, Is.EqualTo(TestQuizId));
+        Assert.That(quiz.Date, Is.EqualTo(TestQuizDate));
+        Assert.That(quiz.Title, Is.EqualTo(TestQuizTitle));
+        Assert.That(quiz.Questions, Is.EqualTo(_questions));
     }
 
     [Test]
@@ -88,10 +89,10 @@ public class QuizServiceTests
         // When
         var quiz = await _quizService.GetQuizAsync();
         // Then
-        Assert.AreEqual(TestQuizId, quiz.Id);
-        Assert.AreEqual(TestQuizDate, quiz.Date);
-        Assert.AreEqual(TestQuizTitle, quiz.Title);
-        Assert.AreEqual(_questions, quiz.Questions);
+        Assert.That(quiz.Id, Is.EqualTo(TestQuizId));
+        Assert.That(quiz.Date, Is.EqualTo(TestQuizDate));
+        Assert.That(quiz.Title, Is.EqualTo(TestQuizTitle));
+        Assert.That(quiz.Questions, Is.EqualTo(_questions));
     }
 
     [Test]
@@ -103,9 +104,9 @@ public class QuizServiceTests
         // When
         var quiz = await _quizService.GetQuizAsync(TestQuizId);
         // Then
-        Assert.AreEqual(TestQuizId, quiz.Id);
-        Assert.Greater(quiz.Date, DateTime.UtcNow.AddMilliseconds(-100));
-        Assert.IsNull(quiz.Title);
-        Assert.AreEqual(_questions, quiz.Questions);
+        Assert.That(quiz.Id, Is.EqualTo(TestQuizId));
+        Assert.That(quiz.Date, Is.EqualTo(DateTime.UtcNow).Within(100).Milliseconds);
+        Assert.That(quiz.Title, Is.Empty);
+        Assert.That(quiz.Questions, Is.EqualTo(_questions));
     }
 }

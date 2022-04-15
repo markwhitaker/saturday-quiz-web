@@ -11,12 +11,12 @@ namespace SaturdayQuizWeb.UnitTests.Services;
 [TestFixture]
 public class HtmlServiceTests
 {
-    private ISectionExtractor _mockSectionExtractor;
-    private IHtmlStripper _mockHtmlStripper;
-    private ISectionSplitter _mockSectionSplitter;
-    private IQuestionAssembler _mockQuestionAssembler;
+    private ISectionExtractor _mockSectionExtractor = null!;
+    private IHtmlStripper _mockHtmlStripper = null!;
+    private ISectionSplitter _mockSectionSplitter = null!;
+    private IQuestionAssembler _mockQuestionAssembler = null!;
 
-    private IHtmlService _htmlService;
+    private IHtmlService _htmlService = null!;
 
     [SetUp]
     public void SetUp()

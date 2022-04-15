@@ -8,7 +8,7 @@ namespace SaturdayQuizWeb.UnitTests.Services.Parsing;
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class HtmlStripperTests
 {
-    private IHtmlStripper _htmlStripper;
+    private IHtmlStripper _htmlStripper = null!;
 
     [SetUp]
     public void SetUp()
