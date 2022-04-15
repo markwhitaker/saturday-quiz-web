@@ -7,6 +7,7 @@ using RestSharp;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;
 using SaturdayQuizWeb.Utils;
+using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb;
 
@@ -59,6 +60,7 @@ public class Startup
         services.AddSingleton(new RestClient("https://content.guardianapis.com/theguardian/"));
 
         services.AddSingleton<IConfigVariables, ConfigVariables>();
+        services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
         services.AddSingleton<IGuardianApiHttpService, GuardianApiHttpService>();
         services.AddSingleton<IHtmlService, HtmlService>();
         services.AddSingleton<IHtmlStripper, HtmlStripper>();

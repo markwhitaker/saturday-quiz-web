@@ -9,6 +9,7 @@ using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;
 using SaturdayQuizWeb.Utils;
+using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.IntegrationTests.Integration
 {
@@ -30,6 +31,7 @@ namespace SaturdayQuizWeb.IntegrationTests.Integration
                 configVariables);
             _quizMetadataService = new QuizMetadataService(guardianApiHttpService);
             _quizService = new QuizService(
+                new DateTimeWrapper(),
                 new GuardianScraperHttpService(new HttpClient()),
                 new HtmlService(
                     new SectionExtractor(),

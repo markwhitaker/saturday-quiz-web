@@ -5,6 +5,7 @@ using NSubstitute;
 using NUnit.Framework;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
+using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.UnitTests.Services;
 
@@ -42,6 +43,7 @@ public class QuizServiceTests
     };
 
     // Mocks
+    private IDateTimeWrapper _mockDateTimeWrapper = null!;
     private IGuardianScraperHttpService _mockScraperHttpService = null!;
     private IHtmlService _mockHtmlService = null!;
     private IQuizMetadataService _mockQuizMetadataService = null!;
@@ -52,10 +54,12 @@ public class QuizServiceTests
     [SetUp]
     public void Setup()
     {
+        _mockDateTimeWrapper = Substitute.For<IDateTimeWrapper>();
         _mockScraperHttpService = Substitute.For<IGuardianScraperHttpService>();
         _mockHtmlService = Substitute.For<IHtmlService>();
         _mockQuizMetadataService = Substitute.For<IQuizMetadataService>();
         _quizService = new QuizService(
+            _mockDateTimeWrapper,
             _mockScraperHttpService,
             _mockHtmlService,
             _mockQuizMetadataService);
@@ -67,8 +71,10 @@ public class QuizServiceTests
         // Given
         _mockScraperHttpService.GetQuizPageContentAsync(TestQuizId).Returns(TestHtmlContent);
         _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
+
         // When
         var quiz = await _quizService.GetQuizAsync(_quizMetadata);
+
         // Then
         Assert.That(quiz.Id, Is.EqualTo(TestQuizId));
         Assert.That(quiz.Date, Is.EqualTo(TestQuizDate));
@@ -86,8 +92,10 @@ public class QuizServiceTests
         });
         _mockScraperHttpService.GetQuizPageContentAsync(TestQuizId).Returns(TestHtmlContent);
         _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
+
         // When
         var quiz = await _quizService.GetQuizAsync();
+
         // Then
         Assert.That(quiz.Id, Is.EqualTo(TestQuizId));
         Assert.That(quiz.Date, Is.EqualTo(TestQuizDate));
@@ -99,13 +107,17 @@ public class QuizServiceTests
     public async Task GivenScraperServiceReturnsContent_WhenGetQuizAsyncWithNonNullId_ThenExpectedQuizReturned()
     {
         // Given
+        var expectedQuizDate = DateTime.UtcNow;
+        _mockDateTimeWrapper.UtcNow.Returns(expectedQuizDate);
         _mockScraperHttpService.GetQuizPageContentAsync(TestQuizId).Returns(TestHtmlContent);
         _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
+
         // When
         var quiz = await _quizService.GetQuizAsync(TestQuizId);
+
         // Then
         Assert.That(quiz.Id, Is.EqualTo(TestQuizId));
-        Assert.That(quiz.Date, Is.EqualTo(DateTime.UtcNow).Within(100).Milliseconds);
+        Assert.That(quiz.Date, Is.EqualTo(expectedQuizDate));
         Assert.That(quiz.Title, Is.Empty);
         Assert.That(quiz.Questions, Is.EqualTo(_questions));
     }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.Services;
 
@@ -13,15 +13,18 @@ public interface IQuizService
 
 public class QuizService : IQuizService
 {
+    private readonly IDateTimeWrapper _dateTimeWrapper;
     private readonly IGuardianScraperHttpService _scraperHttpService;
     private readonly IHtmlService _htmlService;
     private readonly IQuizMetadataService _quizMetadataService;
 
     public QuizService(
+        IDateTimeWrapper dateTimeWrapper,
         IGuardianScraperHttpService scraperHttpService,
         IHtmlService htmlService,
         IQuizMetadataService quizMetadataService)
     {
+        _dateTimeWrapper = dateTimeWrapper;
         _scraperHttpService = scraperHttpService;
         _htmlService = htmlService;
         _quizMetadataService = quizMetadataService;
@@ -41,7 +44,7 @@ public class QuizService : IQuizService
             quizMetadata = new QuizMetadata
             {
                 Id = id,
-                Date = DateTime.UtcNow
+                Date = _dateTimeWrapper.UtcNow
             };
         }
 
