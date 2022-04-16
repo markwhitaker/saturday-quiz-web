@@ -56,15 +56,7 @@
         $('#score-share').hide();
     };
 
-    showQuestionsTitle(date) {
-        const dateString = new Date(date).toLocaleDateString(
-            'en-GB',
-            {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            });
-
+    showQuestionsTitle(dateString) {
         $('#title').text('Ready?');
         $('#quiz-date').text(dateString);
         $('#total-score').text('');

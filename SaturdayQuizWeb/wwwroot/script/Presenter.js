@@ -45,8 +45,13 @@
 
         switch(scene.type) {
             case SceneType.QUESTIONS_TITLE:
+                let dateString = scene.date.toLocaleDateString("en-GB", {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
                 view.hideScore();
-                view.showQuestionsTitle(scene.date);
+                view.showQuestionsTitle(dateString);
                 view.showTitlePage();
                 break;
             case SceneType.QUESTION:
