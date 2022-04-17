@@ -1,7 +1,7 @@
 ﻿class Presenter {
     constructor(scoreRepository) {
-        this.sceneIndex = 0;
         this.scoreRepository = scoreRepository;
+        this.sceneIndex = 0;
     }
 
     onViewReady(view) {
