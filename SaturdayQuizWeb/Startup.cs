@@ -55,7 +55,10 @@ public class Startup
         {
             ContentTypeProvider = new Utf8ContentTypeProvider(),
             OnPrepareResponse = context =>
-                context.Context.Response.Headers[HeaderNames.XContentTypeOptions] = "nosniff"
+            {
+                context.Context.Response.Headers[HeaderNames.XContentTypeOptions] = "nosniff";
+                context.Context.Response.Headers[HeaderNames.CacheControl] = "no-cache";
+            }
         });
     }
 
