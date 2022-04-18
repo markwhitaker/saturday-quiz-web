@@ -106,8 +106,8 @@ body {
   align-items: center;
 }
 #score-box .material-icons {
-  user-select: none;
   -webkit-user-select: none;
+  user-select: none;
   cursor: default;
 }
 #score-box #score-tick {
