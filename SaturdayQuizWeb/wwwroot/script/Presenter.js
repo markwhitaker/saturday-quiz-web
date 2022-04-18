@@ -7,39 +7,86 @@
     onViewReady(view) {
         this.view = view;
         this.view.onQuizLoading();
-        this.loadQuiz();
+        this.#loadQuiz();
     };
 
     onNext() {
         if (this.sceneIndex < this.scenes.length - 1) {
             this.sceneIndex++;
-            this.showScene();
+            this.#showScene();
         }
     };
 
     onPrevious() {
         if (this.sceneIndex > 0) {
             this.sceneIndex--;
-            this.showScene();
+            this.#showScene();
         }
     };
 
-    loadQuiz() {
+    toggleScore() {
+        const scene = this.scenes[this.sceneIndex];
+        if (scene.type !== SceneType.QUESTION_ANSWER) {
+            return;
+        }
+
+        const questionNumber = scene.question.number;
+        let score = this.scoreRepository.getScore(questionNumber);
+        switch (score)
+        {
+            case QuestionScore.NONE:
+                score = QuestionScore.FULL;
+                break;
+            case QuestionScore.FULL:
+                score = QuestionScore.HALF;
+                break;
+            case QuestionScore.HALF:
+                score = QuestionScore.NONE;
+                break;
+        }
+        this.scoreRepository.setScore(questionNumber, score);
+        this.view.showScoreTick(score);
+    }
+
+    shareScore() {
+        let totalScore = Presenter.#formatTotalScore(this.scoreRepository.totalScore);
+        let scoreBreakdown = this.scoreRepository.allScores
+            .map((score, index) =>
+                score === QuestionScore.NONE ? null :
+                score === QuestionScore.HALF ? (index + 1) + ' (half)' :
+                '' + (index + 1)
+            )
+            .filter(scoreText => scoreText !== null)
+            .join(', ');
+
+        let shareObject = {
+            title: 'QUIZ RESULTS',
+            text: 'We have quizzed! Total score this week is ' + totalScore + '...\n\n' + scoreBreakdown
+        };
+        if (navigator.canShare && navigator.canShare(shareObject)) {
+            navigator
+                .share(shareObject)
+                .then(() => console.log('Shared score'))
+                .catch((error) => console.log('Sharing score failed', error));
+        }
+    }
+
+    #loadQuiz() {
         const _this = this;
         $.get("api/quiz", function (quizObject) {
-            _this.onQuizLoaded(new Quiz(quizObject));
+            _this.#onQuizLoaded(new Quiz(quizObject));
         });
     };
 
-    onQuizLoaded(quiz) {
+    #onQuizLoaded(quiz) {
         this.scoreRepository.initialiseScores(quiz);
         this.scenes = Presenter.#buildScenes(quiz, this.scoreRepository.hasScores);
-        this.showScene();
+        this.#showScene();
         this.view.enableNavigation();
         this.view.reveal();
     };
 
-    showScene() {
+    #showScene() {
         const scene = this.scenes[this.sceneIndex];
         const question = scene.question;
         const view = this.view;
@@ -92,53 +139,6 @@
                 break;
         }
     };
-
-    toggleScore() {
-        const scene = this.scenes[this.sceneIndex];
-        if (scene.type !== SceneType.QUESTION_ANSWER) {
-            return;
-        }
-
-        const questionNumber = scene.question.number;
-        let score = this.scoreRepository.getScore(questionNumber);
-        switch (score)
-        {
-            case QuestionScore.NONE:
-                score = QuestionScore.FULL;
-                break;
-            case QuestionScore.FULL:
-                score = QuestionScore.HALF;
-                break;
-            case QuestionScore.HALF:
-                score = QuestionScore.NONE;
-                break;
-        }
-        this.scoreRepository.setScore(questionNumber, score);
-        this.view.showScoreTick(score);
-    }
-
-    shareScore() {
-        let totalScore = Presenter.#formatTotalScore(this.scoreRepository.totalScore);
-        let scoreBreakdown = this.scoreRepository.allScores
-            .map((score, index) =>
-                score === QuestionScore.NONE ? null :
-                score === QuestionScore.HALF ? (index + 1) + ' (half)' :
-                '' + (index + 1)
-            )
-            .filter(scoreText => scoreText !== null)
-            .join(', ');
-
-        let shareObject = {
-            title: 'QUIZ RESULTS',
-            text: 'We have quizzed! Total score this week is ' + totalScore + '...\n\n' + scoreBreakdown
-        };
-        if (navigator.canShare && navigator.canShare(shareObject)) {
-            navigator
-                .share(shareObject)
-                .then(() => console.log('Shared score'))
-                .catch((error) => console.log('Sharing score failed', error));
-        }
-    }
 
     static #buildScenes(quiz, jumpToAnswers) {
         let i;
