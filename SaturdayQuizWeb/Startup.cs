@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using RestSharp;
 using SaturdayQuizWeb.Services;
@@ -50,7 +51,15 @@ public class Startup
 
         // This lets us serve up index.html from wwwroot
         app.UseDefaultFiles();
-        app.UseStaticFiles();
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            ContentTypeProvider = new Utf8ContentTypeProvider(),
+            OnPrepareResponse = context =>
+            {
+                context.Context.Response.Headers[HeaderNames.XContentTypeOptions] = "nosniff";
+                context.Context.Response.Headers[HeaderNames.CacheControl] = "no-cache";
+            }
+        });
     }
 
     private static void RegisterDependencies(IServiceCollection services)

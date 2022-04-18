@@ -36,6 +36,7 @@
         this.scenes = Presenter.#buildScenes(quiz, this.scoreRepository.hasScores);
         this.showScene();
         this.view.enableNavigation();
+        this.view.reveal();
     };
 
     showScene() {
@@ -50,12 +51,14 @@
                     month: 'long',
                     year: 'numeric'
                 });
-                view.hideScore();
+                view.hideScoreTick();
+                view.hideScoreShare();
                 view.showQuestionsTitle(dateString);
                 view.showTitlePage();
                 break;
             case SceneType.QUESTION:
-                view.hideScore();
+                view.hideScoreTick();
+                view.hideScoreShare();
                 view.showQuestionNumber(question.number);
                 view.showQuestion(
                     question.question,
@@ -65,11 +68,13 @@
                 view.showQuestionPage();
                 break;
             case SceneType.ANSWERS_TITLE:
-                view.hideScore();
+                view.hideScoreTick();
+                view.hideScoreShare();
                 view.showTitlePage();
                 view.showAnswersTitle();
                 break;
             case SceneType.QUESTION_ANSWER:
+                view.hideScoreShare();
                 view.showQuestionNumber(question.number);
                 view.showQuestion(
                     question.question,
@@ -77,12 +82,13 @@
                 );
                 view.showAnswer(question.answer);
                 view.showQuestionPage();
-                view.showScore(this.scoreRepository.getScore(question.number));
+                view.showScoreTick(this.scoreRepository.getScore(question.number));
                 break;
             case SceneType.END_TITLE:
-                view.hideScore();
+                view.hideScoreTick();
                 view.showEndTitle(Presenter.#formatTotalScore(this.scoreRepository.totalScore));
                 view.showTitlePage();
+                view.showScoreShare();
                 break;
         }
     };
@@ -108,7 +114,7 @@
                 break;
         }
         this.scoreRepository.setScore(questionNumber, score);
-        this.view.showScore(score);
+        this.view.showScoreTick(score);
     }
 
     shareScore() {
