@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using RestSharp;
 using SaturdayQuizWeb.Services;
@@ -52,7 +53,9 @@ public class Startup
         app.UseDefaultFiles();
         app.UseStaticFiles(new StaticFileOptions
         {
-            ContentTypeProvider = new Utf8ContentTypeProvider()
+            ContentTypeProvider = new Utf8ContentTypeProvider(),
+            OnPrepareResponse = context =>
+                context.Context.Response.Headers[HeaderNames.XContentTypeOptions] = "nosniff"
         });
     }
 
