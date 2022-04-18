@@ -50,7 +50,10 @@ public class Startup
 
         // This lets us serve up index.html from wwwroot
         app.UseDefaultFiles();
-        app.UseStaticFiles();
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            ContentTypeProvider = new Utf8ContentTypeProvider()
+        });
     }
 
     private static void RegisterDependencies(IServiceCollection services)
