@@ -7,6 +7,10 @@
         $('.page').hide();
     };
 
+    reveal() {
+        $('#box').removeClass('hidden');
+    }
+
     enableNavigation() {
         const presenter = this.presenter;
         $('#nav-left').click(function(e){
@@ -53,7 +57,6 @@
     showQuestionPage() {
         $('#page-title').hide();
         $('#page-question').show();
-        $('#score-share').hide();
     };
 
     showQuestionsTitle(dateString) {
@@ -72,7 +75,6 @@
         $('#title').text('End');
         $('#quiz-date').text('');
         $('#total-score').text("Total score: " + totalScore);
-        $('#score-share').show();
     };
 
     showQuestionNumber(number) {
@@ -88,11 +90,11 @@
         $('#answer').text(answer);
     };
 
-    hideScore() {
-        $("#score-tick").hide();
+    hideScoreTick() {
+        $('#score-tick').hide();
     }
 
-    showScore(score) {
+    showScoreTick(score) {
         let scoreClass = "";
         switch (score)
         {
@@ -110,5 +112,13 @@
             .removeClass()
             .addClass(scoreClass)
             .show();
+    }
+
+    hideScoreShare() {
+        $('#score-share').hide();
+    }
+
+    showScoreShare() {
+        $('#score-share').show();
     }
 }

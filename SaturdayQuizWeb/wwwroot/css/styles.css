@@ -18,6 +18,9 @@ body {
   height: 100%;
   justify-content: space-between;
 }
+#box.hidden {
+  display: none;
+}
 #box #question-box {
   flex: 0 1 auto;
   padding: 50px;
@@ -103,6 +106,7 @@ body {
   align-items: center;
 }
 #score-box .material-icons {
+  user-select: none;
   cursor: default;
 }
 #score-box #score-tick {
