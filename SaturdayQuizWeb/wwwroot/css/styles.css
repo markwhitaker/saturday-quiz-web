@@ -107,6 +107,7 @@ body {
 }
 #score-box .material-icons {
   user-select: none;
+  -webkit-user-select: none;
   cursor: default;
 }
 #score-box #score-tick {
