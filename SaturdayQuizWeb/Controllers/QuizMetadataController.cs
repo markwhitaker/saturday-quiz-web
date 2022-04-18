@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SaturdayQuizWeb.Extensions;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 
@@ -23,6 +24,8 @@ public class QuizMetadataController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<QuizMetadata>>> GetQuizMetadataAsync([FromQuery] int count = DefaultQuizCount)
     {
+        HttpContext.Response.AddCustomHeaders();
+
         try
         {
             var quizMetadata = await _quizMetadataService.GetQuizMetadataAsync(count);

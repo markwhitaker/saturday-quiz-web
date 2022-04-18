@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SaturdayQuizWeb.Extensions;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 
@@ -21,6 +22,8 @@ public class QuizController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<Quiz>> GetById([FromQuery] string? id = null)
     {
+        HttpContext.Response.AddCustomHeaders();
+
         try
         {
             var quiz = await _quizService.GetQuizAsync(id);
