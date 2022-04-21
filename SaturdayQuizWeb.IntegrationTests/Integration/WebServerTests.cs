@@ -20,7 +20,9 @@ public class WebServerTests
     [TestCase("css/styles.css")]
     [TestCase("script/Presenter.js")]
     [TestCase("images/icon32.png")]
-    public async Task GivenWebsiteUri_WhenRequested_ThenResponseStatusIsOK(string path)
+    [TestCase("api/quiz")]
+    [TestCase("api/quiz-metadata")]
+    public async Task GivenAnyUri_WhenRequested_ThenResponseStatusIsOK(string path)
     {
         // Given
         using var httpClient = _webApplicationFactory.CreateClient();
@@ -41,7 +43,9 @@ public class WebServerTests
     [TestCase("css/styles.css")]
     [TestCase("script/Presenter.js")]
     [TestCase("images/icon32.png")]
-    public async Task GivenWebsiteUri_WhenRequested_ThenCacheControlHeaderValueIsNoCache(string path)
+    [TestCase("api/quiz")]
+    [TestCase("api/quiz-metadata")]
+    public async Task GivenAnyUri_WhenRequested_ThenCacheControlHeaderValueIsNoCache(string path)
     {
         // Given
         using var httpClient = _webApplicationFactory.CreateClient();
@@ -62,7 +66,9 @@ public class WebServerTests
     [TestCase("css/styles.css")]
     [TestCase("script/Presenter.js")]
     [TestCase("images/icon32.png")]
-    public async Task GivenWebsiteUri_WhenRequested_ThenXContentTypeOptionsHeaderValueIsNosniff(string path)
+    [TestCase("api/quiz")]
+    [TestCase("api/quiz-metadata")]
+    public async Task GivenAnyUri_WhenRequested_ThenXContentTypeOptionsHeaderValueIsNosniff(string path)
     {
         // Given
         using var httpClient = _webApplicationFactory.CreateClient();
