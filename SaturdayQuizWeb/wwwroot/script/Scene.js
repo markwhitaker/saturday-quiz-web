@@ -7,9 +7,29 @@
 });
 
 class Scene {
-    constructor(type, date, question) {
+    constructor(type, question, date) {
         this.type = type;
         this.date = date;
         this.question = question;
+    }
+
+    static questionsTitleScene(date) {
+        return new Scene(SceneType.QUESTIONS_TITLE, null, date);
+    }
+
+    static questionScene(question) {
+        return new Scene(SceneType.QUESTION, question);
+    }
+
+    static answersTitleScene() {
+        return new Scene(SceneType.ANSWERS_TITLE);
+    }
+
+    static questionAnswerScene(question) {
+        return new Scene(SceneType.QUESTION_ANSWER, question);
+    }
+
+    static endTitleScene() {
+        return new Scene(SceneType.END_TITLE);
     }
 }

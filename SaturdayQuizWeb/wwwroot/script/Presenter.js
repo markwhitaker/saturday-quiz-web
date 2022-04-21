@@ -144,24 +144,24 @@
         let i;
         const scenes = [];
 
-        scenes.push(new Scene(SceneType.QUESTIONS_TITLE, quiz.date));
+        scenes.push(Scene.questionsTitleScene(quiz.date));
 
         if (!jumpToAnswers) {
             // First just show the questions
-            for (i = 0; i < quiz.questions.length; i++) {
-                scenes.push(new Scene(SceneType.QUESTION, null, quiz.questions[i]));
+            for (const question of quiz.questions) {
+                scenes.push(Scene.questionScene(question));
             }
         }
 
         scenes.push(new Scene(SceneType.ANSWERS_TITLE));
 
         // Now recap the questions, showing the answer after each one
-        for (i = 0; i < quiz.questions.length; i++) {
-            scenes.push(new Scene(SceneType.QUESTION, null, quiz.questions[i]));
-            scenes.push(new Scene(SceneType.QUESTION_ANSWER, null, quiz.questions[i]));
+        for (const question of quiz.questions) {
+            scenes.push(Scene.questionScene(question));
+            scenes.push(Scene.questionAnswerScene(question));
         }
 
-        scenes.push(new Scene(SceneType.END_TITLE));
+        scenes.push(Scene.endTitleScene());
 
         return scenes;
     }
