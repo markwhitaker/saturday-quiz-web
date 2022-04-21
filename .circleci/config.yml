@@ -19,10 +19,6 @@ jobs:
           command:
             dotnet build
       - run:
-          name: Run unit tests
+          name: Run tests
           command:
             dotnet test SaturdayQuizWeb.UnitTests
-      - run:
-          name: Run integration tests
-          command:
-            dotnet test SaturdayQuizWeb.IntegrationTests

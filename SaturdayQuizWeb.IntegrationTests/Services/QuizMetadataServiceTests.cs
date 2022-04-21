@@ -5,7 +5,7 @@ using RestSharp;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Utils;
 
-namespace SaturdayQuizWeb.GuardianIntegrationTests.Services
+namespace SaturdayQuizWeb.IntegrationTests.Services
 {
     [TestFixture]
     public class QuizMetadataServiceTests

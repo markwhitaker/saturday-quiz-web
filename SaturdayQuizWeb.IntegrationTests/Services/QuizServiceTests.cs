@@ -11,7 +11,7 @@ using SaturdayQuizWeb.Services.Parsing;
 using SaturdayQuizWeb.Utils;
 using SaturdayQuizWeb.Wrappers;
 
-namespace SaturdayQuizWeb.GuardianIntegrationTests.Services
+namespace SaturdayQuizWeb.IntegrationTests.Services
 {
     [TestFixture]
     public class QuizServiceTests
