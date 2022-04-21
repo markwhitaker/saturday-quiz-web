@@ -8,7 +8,7 @@ using SaturdayQuizWeb.Utils;
 namespace SaturdayQuizWeb.IntegrationTests.Services
 {
     [TestFixture]
-    public class QuizMetadataServiceTest
+    public class QuizMetadataServiceTests
     {
         private IQuizMetadataService _quizMetadataService = null!;
 
@@ -16,7 +16,7 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
         public void SetUp()
         {
             var configuration = new ConfigurationBuilder()
-                .AddUserSecrets<QuizMetadataServiceTest>()
+                .AddUserSecrets<QuizMetadataServiceTests>()
                 .Build();
             var configVariables = new ConfigVariables(configuration);
             var guardianApiHttpService = new GuardianApiHttpService(

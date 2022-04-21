@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace SaturdayQuizWeb;
 
-public static class Program
+public class Program
 {
     public static void Main(string[] args)
     {

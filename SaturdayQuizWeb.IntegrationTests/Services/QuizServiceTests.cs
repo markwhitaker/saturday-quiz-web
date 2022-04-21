@@ -11,10 +11,10 @@ using SaturdayQuizWeb.Services.Parsing;
 using SaturdayQuizWeb.Utils;
 using SaturdayQuizWeb.Wrappers;
 
-namespace SaturdayQuizWeb.IntegrationTests.Integration
+namespace SaturdayQuizWeb.IntegrationTests.Services
 {
     [TestFixture]
-    public class IntegrationTests
+    public class QuizServiceTests
     {
         private IQuizMetadataService _quizMetadataService = null!;
         private IQuizService _quizService = null!;
@@ -23,7 +23,7 @@ namespace SaturdayQuizWeb.IntegrationTests.Integration
         public void SetUp()
         {
             var configuration = new ConfigurationBuilder()
-                .AddUserSecrets<IntegrationTests>()
+                .AddUserSecrets<QuizServiceTests>()
                 .Build();
             var configVariables = new ConfigVariables(configuration);
             var guardianApiHttpService = new GuardianApiHttpService(
@@ -39,15 +39,6 @@ namespace SaturdayQuizWeb.IntegrationTests.Integration
                     new SectionSplitter(),
                     new QuestionAssembler()),
                 _quizMetadataService);
-        }
-
-        [Test]
-        public async Task TestGetQuizMetadata()
-        {
-            const int expectedNumberOfQuizzes = 7;
-
-            var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(expectedNumberOfQuizzes);
-            Assert.That(quizMetadataList.Count, Is.EqualTo(expectedNumberOfQuizzes));
         }
 
         [Test]
