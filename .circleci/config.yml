@@ -10,9 +10,9 @@ workflows:
       - heroku/deploy-via-git:
           requires:
             - build
-#          filters:
-#            branches:
-#              only: main
+          filters:
+            branches:
+              only: main
 
 jobs:
   build:
