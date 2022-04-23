@@ -1,13 +1,9 @@
-aliases:
-  - &setup-environment
-    docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0
-
 version: 2.1
 
 jobs:
   build:
-    <<: *setup-environment
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:6.0
     steps:
       - checkout
       - run:
