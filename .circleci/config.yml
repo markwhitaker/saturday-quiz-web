@@ -8,6 +8,8 @@ workflows:
     jobs:
       - build
       - heroku/deploy-via-git:
+          force:
+            true
           requires:
             - build
           filters:
