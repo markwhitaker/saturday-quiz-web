@@ -1,13 +1,23 @@
-aliases:
-  - &setup-environment
-    docker:
-      - image: mcr.microsoft.com/dotnet/sdk:6.0
+version: 2.1
 
-version: 2
+orbs:
+  heroku: circleci/heroku@1.2.6
+
+workflows:
+  heroku_deploy:
+    jobs:
+      - build
+      - heroku/deploy-via-git:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
 
 jobs:
   build:
-    <<: *setup-environment
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:6.0
     steps:
       - checkout
       - run:
