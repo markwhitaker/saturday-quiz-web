@@ -20,9 +20,7 @@ public class QuizController : ControllerBase
 
     // GET /api/quiz
     [HttpGet]
-    public async Task<ActionResult<Quiz>> GetById(
-        [FromQuery] string? id = null,
-        [FromQuery] int? delaySeconds = null)
+    public async Task<ActionResult<Quiz>> GetById([FromQuery] string? id = null, [FromQuery] int? delaySeconds = null)
     {
         HttpContext.Response.AddCustomHeaders();
 
