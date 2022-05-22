@@ -38,7 +38,12 @@
   width: 50%;
   top: 0;
   bottom: 0;
-  z-index: 500;
+  z-index: 100;
+}
+
+.button() {
+  position: absolute;
+  z-index: 200;
 }
 
 .indented() {
@@ -156,8 +161,8 @@ body {
 
 #score-box {
   div {
-    position: absolute;
-    z-index: 1000;
+    .button;
+
     width: @dimen-score-button-size;
     height: @dimen-score-button-size;
     border: @dimen-score-border-thickness solid @colour-foreground-very-dimmed;
