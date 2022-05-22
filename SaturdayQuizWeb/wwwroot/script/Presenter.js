@@ -1,5 +1,6 @@
 ﻿class Presenter {
-    constructor(scoreRepository) {
+    constructor(quizRepository, scoreRepository) {
+        this.quizRepository = quizRepository;
         this.scoreRepository = scoreRepository;
         this.sceneIndex = 0;
     }
@@ -7,7 +8,11 @@
     onViewReady(view) {
         this.view = view;
         this.view.onQuizLoading();
-        this.#loadQuiz();
+
+        let _this = this;
+        this.quizRepository.loadLatestQuiz(function (quiz) {
+            _this.#onQuizLoaded(quiz);
+        });
     };
 
     onNext() {
@@ -70,13 +75,6 @@
                 .catch((error) => console.log('Sharing score failed', error));
         }
     }
-
-    #loadQuiz() {
-        const _this = this;
-        $.get("api/quiz", function (quizObject) {
-            _this.#onQuizLoaded(new Quiz(quizObject));
-        });
-    };
 
     #onQuizLoaded(quiz) {
         this.scoreRepository.initialiseScores(quiz);
