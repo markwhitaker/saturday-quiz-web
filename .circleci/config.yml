@@ -6,7 +6,7 @@ orbs:
 workflows:
   build_test_and_deploy:
     jobs:
-      - build
+      - build_and_test
       - heroku/deploy-via-git:
           force:
             true
@@ -17,7 +17,7 @@ workflows:
               only: main
 
 jobs:
-  build:
+  build_and_test:
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:6.0
     steps:
