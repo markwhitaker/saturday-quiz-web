@@ -66,7 +66,7 @@
 
         let shareObject = {
             title: 'QUIZ RESULTS',
-            text: 'We have quizzed! Total score this week is ' + totalScore + '...\n\n' + scoreBreakdown + '\n',
+            text: 'We have quizzed! Total score this week is ' + totalScore + '...\n\n' + scoreBreakdown,
             url: window.location
         };
         if (navigator.canShare && navigator.canShare(shareObject)) {
