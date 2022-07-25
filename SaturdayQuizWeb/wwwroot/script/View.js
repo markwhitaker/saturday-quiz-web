@@ -22,14 +22,14 @@
             e.preventDefault();
         });
         $(document).keyup(function(e) {
-            switch (e.keyCode) {
-                case 37: // Left
+            switch (e.code) {
+                case 'ArrowLeft':
                     presenter.onPrevious();
                     break;
-                case 39: // Right
+                case 'ArrowRight':
                     presenter.onNext();
                     break;
-                case 32: // Space
+                case 'Space':
                     presenter.toggleScore();
                     break;
                 default:
