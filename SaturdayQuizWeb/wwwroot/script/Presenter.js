@@ -10,9 +10,9 @@
         this.view.onQuizLoading();
 
         let _this = this;
-        this.quizRepository.loadLatestQuiz(function (quiz) {
-            _this.#onQuizLoaded(quiz);
-        });
+        this.quizRepository.loadLatestQuiz()
+            .then(quiz => _this.#onQuizLoaded(quiz))
+            .catch(error => { console.log("Failed to load quiz. " + error.toString()) });
     };
 
     onNext() {

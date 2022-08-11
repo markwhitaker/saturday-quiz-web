@@ -13,15 +13,15 @@
 
     enableNavigation() {
         const presenter = this.presenter;
-        $('#nav-left').click(function(e){
+        $('#nav-left').click(e => {
             presenter.onPrevious();
             e.preventDefault();
         });
-        $('#nav-right').click(function(e){
+        $('#nav-right').click(e => {
             presenter.onNext();
             e.preventDefault();
         });
-        $(document).keyup(function(e) {
+        $(document).keyup(e => {
             switch (e.code) {
                 case 'ArrowLeft':
                     presenter.onPrevious();
@@ -38,12 +38,12 @@
             e.preventDefault();
         });
 
-        $('#score-tick').click(function(e){
+        $('#score-tick').click(e => {
             presenter.toggleScore();
             e.preventDefault();
         })
 
-        $('#score-share').click(function(e){
+        $('#score-share').click(e => {
             presenter.shareScore();
             e.preventDefault();
         })
