@@ -7,29 +7,34 @@
 });
 
 class Scene {
-    constructor(type, question, date) {
+    static #privateToken = {};
+
+    constructor(type, question, date, token) {
+        if (token !== Scene.#privateToken) {
+            throw new Error("Scene constructor is private");
+        }
         this.type = type;
         this.date = date;
         this.question = question;
     }
 
     static questionsTitleScene(date) {
-        return new Scene(SceneType.QUESTIONS_TITLE, null, date);
+        return new Scene(SceneType.QUESTIONS_TITLE, null, date, this.#privateToken);
     }
 
     static questionScene(question) {
-        return new Scene(SceneType.QUESTION, question);
+        return new Scene(SceneType.QUESTION, question, null, this.#privateToken);
     }
 
     static answersTitleScene() {
-        return new Scene(SceneType.ANSWERS_TITLE);
+        return new Scene(SceneType.ANSWERS_TITLE, null, null, this.#privateToken);
     }
 
     static questionAnswerScene(question) {
-        return new Scene(SceneType.QUESTION_ANSWER, question);
+        return new Scene(SceneType.QUESTION_ANSWER, question, null, this.#privateToken);
     }
 
     static endTitleScene() {
-        return new Scene(SceneType.END_TITLE);
+        return new Scene(SceneType.END_TITLE, null, null, this.#privateToken);
     }
 }
