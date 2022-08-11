@@ -14,14 +14,10 @@ public interface IHtmlStripper
 
 public class HtmlStripper : IHtmlStripper
 {
-    private static readonly string[] UnwantedTags = {
-        "a", "b", "cite", "code", "em", "p", "s", "small", "span", "strong", "sub", "sup", "u"
-    };
-
     private static readonly Regex UnwantedTagsRegex = new RegexBuilder()
         .Text("<")
         .Text("/", ZeroOrOne)
-        .AnyOf(UnwantedTags)
+        .AnyOf("a", "b", "cite", "code", "em", "p", "s", "small", "span", "strong", "sub", "sup", "u")
         .WordBoundary()
         .AnyCharacterExcept(">", ZeroOrMore)
         .Text(">")
