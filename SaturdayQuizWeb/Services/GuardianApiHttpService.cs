@@ -13,22 +13,22 @@ public interface IGuardianApiHttpService
 
 public class GuardianApiHttpService : IGuardianApiHttpService
 {
+    private readonly GuardianConfig _config;
     private readonly RestClient _restClient;
-    private readonly SaturdayQuizConfig _config;
 
-    public GuardianApiHttpService(RestClient restClient, IOptions<SaturdayQuizConfig> configOptions)
+    public GuardianApiHttpService(IOptions<GuardianConfig> configOptions)
     {
-        _restClient = restClient;
         _config = configOptions.Value;
+        _restClient = new RestClient(_config.ApiBaseUrl);
     }
 
     public async Task<GuardianApiResponse?> ListQuizzesAsync(int pageSize = 5)
     {
-        var request = new RestRequest("series/the-quiz-thomas-eaton")
+        var request = new RestRequest(_config.ApiEndpoint)
             {
                 RequestFormat = DataFormat.Json
             }
-            .AddQueryParameter("api-key", _config.GuardianApiKey)
+            .AddQueryParameter("api-key", _config.ApiKey)
             .AddQueryParameter("page-size", pageSize.ToString());
         var response = await _restClient.ExecuteGetAsync<GuardianApiResponse>(request);
         return response.IsSuccessful ? response.Data : null;

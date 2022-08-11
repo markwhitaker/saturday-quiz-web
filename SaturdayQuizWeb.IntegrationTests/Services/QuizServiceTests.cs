@@ -6,11 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
-using RestSharp;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;
+using SaturdayQuizWeb.Utils;
 using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.IntegrationTests.Services
@@ -25,23 +25,23 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
         public void SetUp()
         {
             var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
                 .AddUserSecrets<QuizServiceTests>()
                 .Build();
 
             var services = new ServiceCollection()
-                .Configure<SaturdayQuizConfig>(configuration)
+                .Configure<GuardianConfig>(configuration.GetSection(Constants.ConfigSectionGuardian))
                 .BuildServiceProvider();
 
-            var configOptions = services.GetService<IOptions<SaturdayQuizConfig>>();
+            var configOptions = services.GetService<IOptions<GuardianConfig>>() ?? throw new Exception(
+                $"Failed to get IOptions<{nameof(GuardianConfig)}> from service provider");
 
-            var guardianApiHttpService = new GuardianApiHttpService(
-                new RestClient("https://content.guardianapis.com/theguardian/"),
-                configOptions!);
+            var guardianApiHttpService = new GuardianApiHttpService(configOptions);
 
             _quizMetadataService = new QuizMetadataService(guardianApiHttpService);
             _quizService = new QuizService(
                 new DateTimeWrapper(),
-                new GuardianScraperHttpService(new HttpClient()),
+                new GuardianScraperHttpService(new HttpClient(), configOptions),
                 new HtmlService(
                     new SectionExtractor(),
                     new HtmlStripper(),

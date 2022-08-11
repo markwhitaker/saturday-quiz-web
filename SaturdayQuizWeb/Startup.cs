@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using RestSharp;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Extensions;
 using SaturdayQuizWeb.Services;
@@ -69,10 +68,9 @@ public class Startup
 
     private void RegisterDependencies(IServiceCollection services)
     {
-        services.Configure<SaturdayQuizConfig>(_configuration);
+        services.Configure<GuardianConfig>(_configuration.GetSection(Constants.ConfigSectionGuardian));
         services.AddHttpClient<IGuardianScraperHttpService, GuardianScraperHttpService>();
 
-        services.AddSingleton(new RestClient("https://content.guardianapis.com/theguardian/"));
         services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
         services.AddSingleton<IGuardianApiHttpService, GuardianApiHttpService>();
         services.AddSingleton<IHtmlService, HtmlService>();

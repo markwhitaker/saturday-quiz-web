@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using SaturdayQuizWeb.Config;
 
 namespace SaturdayQuizWeb.Services;
 
@@ -13,15 +14,14 @@ public interface IGuardianScraperHttpService
 /// <summary>
 /// A typed HTTP client: see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-3.0#typed-clients
 /// </summary>
-[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 public class GuardianScraperHttpService : IGuardianScraperHttpService
 {
     private readonly HttpClient _httpClient;
 
-    public GuardianScraperHttpService(HttpClient httpClient)
+    public GuardianScraperHttpService(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
     {
         _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri("https://www.theguardian.com/");
+        _httpClient.BaseAddress = new Uri(configOptions.Value.WebsiteBaseUrl);
     }
 
     public async Task<string> GetQuizPageContentAsync(string quizId) =>
