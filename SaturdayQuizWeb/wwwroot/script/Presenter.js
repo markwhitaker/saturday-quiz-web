@@ -11,7 +11,7 @@ class Presenter {
         this.view = view;
         this.view.onQuizLoading();
 
-        let _this = this;
+        const _this = this;
         
         try {
             const quiz = await this.quizRepository.loadLatestQuiz();
@@ -61,8 +61,8 @@ class Presenter {
     }
 
     async shareScore() {
-        let totalScore = Presenter.#formatTotalScore(this.scoreRepository.totalScore);
-        let scoreBreakdown = this.scoreRepository.allScores
+        const totalScore = Presenter.#formatTotalScore(this.scoreRepository.totalScore);
+        const scoreBreakdown = this.scoreRepository.allScores
             .map((score, index) =>
                 score === QuestionScore.NONE ? null :
                 score === QuestionScore.HALF ? (index + 1) + ' (half)' :
@@ -98,7 +98,7 @@ class Presenter {
 
         switch(scene.type) {
             case Scene.Type.QUESTIONS_TITLE:
-                let dateString = scene.date.toLocaleDateString("en-GB", {
+                const dateString = scene.date.toLocaleDateString("en-GB", {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric'

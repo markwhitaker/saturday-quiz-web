@@ -62,11 +62,11 @@
 <script src="/script/Scene.js"></script>
 <script src="/script/Presenter.js"></script>
 <script>
-    $(async function () {
-        let presenter = new Presenter(
+    $(async () => {
+        const presenter = new Presenter(
             new QuizRepository(),
             new ScoreRepository());
-        let view = new View(presenter);
+        const view = new View(presenter);
         await presenter.onViewReady(view);
     });
 </script>
