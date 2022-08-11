@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using RegexToolbox;
 using RegexToolbox.Extensions;
 using SaturdayQuizWeb.Extensions;
@@ -40,13 +38,9 @@ public class HtmlStripper : IHtmlStripper
         .PossibleHtmlWhitespace()
         .BuildRegex(IgnoreCase);
 
-    public string StripHtml(string htmlString)
-    {
-        var strippedText = htmlString.Remove(UnwantedTagsRegex)
+    public string StripHtml(string htmlString) =>
+        htmlString.Remove(UnwantedTagsRegex)
             .Replace(BrTagRegex, "\n")
             .Replace("&nbsp;", " ")
             .Replace("\u00A0", " "); // Unicode non-breaking space
-
-        return strippedText;
-    }
 }
