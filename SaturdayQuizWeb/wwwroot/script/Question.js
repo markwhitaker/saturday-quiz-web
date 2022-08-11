@@ -1,4 +1,6 @@
-﻿const QuestionType = Object.freeze({
+﻿"use strict";
+
+const QuestionType = Object.freeze({
     NORMAL: 'NORMAL',
     WHAT_LINKS: 'WHAT_LINKS'
 });

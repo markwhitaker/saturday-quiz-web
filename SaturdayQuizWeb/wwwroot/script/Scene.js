@@ -1,4 +1,6 @@
-﻿const SceneType = Object.freeze({
+﻿"use strict";
+
+const SceneType = Object.freeze({
     QUESTIONS_TITLE: 0,
     QUESTION: 1,
     ANSWERS_TITLE: 2,

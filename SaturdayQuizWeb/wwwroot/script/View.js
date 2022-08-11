@@ -1,4 +1,6 @@
-﻿class View {
+﻿"use strict";
+
+class View {
     constructor(presenter) {
         this.presenter = presenter;
     };

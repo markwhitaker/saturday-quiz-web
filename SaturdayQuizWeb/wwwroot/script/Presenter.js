@@ -1,4 +1,6 @@
-﻿class Presenter {
+﻿"use strict";
+
+class Presenter {
     constructor(quizRepository, scoreRepository) {
         this.quizRepository = quizRepository;
         this.scoreRepository = scoreRepository;

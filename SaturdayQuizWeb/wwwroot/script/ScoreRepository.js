@@ -1,4 +1,6 @@
-﻿const KEY_DATE = "date";
+﻿"use strict";
+
+const KEY_DATE = "date";
 const KEY_SCORES = "scores";
 
 const QuestionScore = Object.freeze({

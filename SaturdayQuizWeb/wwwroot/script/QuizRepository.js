@@ -1,3 +1,5 @@
+"use strict";
+
 const apiEndpoint = "api/quiz";
 
 class QuizRepository {
