@@ -1,6 +1,6 @@
 ﻿namespace SaturdayQuizWeb.Config;
 
-public class GuardianConfig
+public record GuardianConfig
 {
     // Maps to Guardian__ApiKey in environment variables
     public string ApiKey { get; init; } = string.Empty;

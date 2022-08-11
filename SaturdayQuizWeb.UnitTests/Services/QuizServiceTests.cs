@@ -44,7 +44,7 @@ public class QuizServiceTests
 
     // Mocks
     private IDateTimeWrapper _mockDateTimeWrapper = null!;
-    private IGuardianScraperHttpService _mockScraperHttpService = null!;
+    private IGuardianWebsiteService _mockGuardianWebsiteService = null!;
     private IHtmlService _mockHtmlService = null!;
     private IQuizMetadataService _mockQuizMetadataService = null!;
 
@@ -55,21 +55,21 @@ public class QuizServiceTests
     public void Setup()
     {
         _mockDateTimeWrapper = Substitute.For<IDateTimeWrapper>();
-        _mockScraperHttpService = Substitute.For<IGuardianScraperHttpService>();
+        _mockGuardianWebsiteService = Substitute.For<IGuardianWebsiteService>();
         _mockHtmlService = Substitute.For<IHtmlService>();
         _mockQuizMetadataService = Substitute.For<IQuizMetadataService>();
         _quizService = new QuizService(
             _mockDateTimeWrapper,
-            _mockScraperHttpService,
+            _mockGuardianWebsiteService,
             _mockHtmlService,
             _mockQuizMetadataService);
     }
 
     [Test]
-    public async Task GivenScraperServiceReturnsContent_WhenGetQuizAsyncByMetadata_ThenExpectedQuizReturned()
+    public async Task GivenGuardianWebsiteServiceReturnsContent_WhenGetQuizAsyncByMetadata_ThenExpectedQuizReturned()
     {
         // Given
-        _mockScraperHttpService.GetQuizPageContentAsync(TestQuizId).Returns(TestHtmlContent);
+        _mockGuardianWebsiteService.GetPageContentAsync(TestQuizId).Returns(TestHtmlContent);
         _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
 
         // When
@@ -83,14 +83,14 @@ public class QuizServiceTests
     }
 
     [Test]
-    public async Task GivenScraperServiceReturnsContent_WhenGetQuizAsyncWithNullId_ThenExpectedQuizReturned()
+    public async Task GivenGuardianWebsiteServiceReturnsContent_WhenGetQuizAsyncWithNullId_ThenExpectedQuizReturned()
     {
         // Given
         _mockQuizMetadataService.GetQuizMetadataAsync(1).Returns(new List<QuizMetadata>
         {
             _quizMetadata
         });
-        _mockScraperHttpService.GetQuizPageContentAsync(TestQuizId).Returns(TestHtmlContent);
+        _mockGuardianWebsiteService.GetPageContentAsync(TestQuizId).Returns(TestHtmlContent);
         _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
 
         // When
@@ -104,12 +104,12 @@ public class QuizServiceTests
     }
 
     [Test]
-    public async Task GivenScraperServiceReturnsContent_WhenGetQuizAsyncWithNonNullId_ThenExpectedQuizReturned()
+    public async Task GivenGuardianWebsiteServiceReturnsContent_WhenGetQuizAsyncWithNonNullId_ThenExpectedQuizReturned()
     {
         // Given
         var expectedQuizDate = DateTime.UtcNow;
         _mockDateTimeWrapper.UtcNow.Returns(expectedQuizDate);
-        _mockScraperHttpService.GetQuizPageContentAsync(TestQuizId).Returns(TestHtmlContent);
+        _mockGuardianWebsiteService.GetPageContentAsync(TestQuizId).Returns(TestHtmlContent);
         _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
 
         // When

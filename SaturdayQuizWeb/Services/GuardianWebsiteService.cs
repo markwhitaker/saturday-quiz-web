@@ -6,24 +6,24 @@ using SaturdayQuizWeb.Config;
 
 namespace SaturdayQuizWeb.Services;
 
-public interface IGuardianScraperHttpService
+public interface IGuardianWebsiteService
 {
-    Task<string> GetQuizPageContentAsync(string quizId);
+    Task<string> GetPageContentAsync(string endpoint);
 }
 
 /// <summary>
 /// A typed HTTP client: see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-3.0#typed-clients
 /// </summary>
-public class GuardianScraperHttpService : IGuardianScraperHttpService
+public class GuardianWebsiteService : IGuardianWebsiteService
 {
     private readonly HttpClient _httpClient;
 
-    public GuardianScraperHttpService(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
+    public GuardianWebsiteService(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
     {
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri(configOptions.Value.WebsiteBaseUrl);
     }
 
-    public async Task<string> GetQuizPageContentAsync(string quizId) =>
-        await _httpClient.GetStringAsync(quizId);
+    public async Task<string> GetPageContentAsync(string endpoint) =>
+        await _httpClient.GetStringAsync(endpoint);
 }

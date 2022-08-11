@@ -6,17 +6,17 @@ using SaturdayQuizWeb.Model.Api;
 
 namespace SaturdayQuizWeb.Services;
 
-public interface IGuardianApiHttpService
+public interface IGuardianApiService
 {
     Task<GuardianApiResponse?> ListQuizzesAsync(int pageSize = 5);
 }
 
-public class GuardianApiHttpService : IGuardianApiHttpService
+public class GuardianApiService : IGuardianApiService
 {
     private readonly GuardianConfig _config;
     private readonly RestClient _restClient;
 
-    public GuardianApiHttpService(IOptions<GuardianConfig> configOptions)
+    public GuardianApiService(IOptions<GuardianConfig> configOptions)
     {
         _config = configOptions.Value;
         _restClient = new RestClient(_config.ApiBaseUrl);

@@ -30,8 +30,8 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
             var configOptions = services.GetService<IOptions<GuardianConfig>>() ?? throw new Exception(
                 $"Failed to get IOptions<{nameof(GuardianConfig)}> from service provider");
 
-            var guardianApiHttpService = new GuardianApiHttpService(configOptions);
-            _quizMetadataService = new QuizMetadataService(guardianApiHttpService);
+            var guardianApiService = new GuardianApiService(configOptions);
+            _quizMetadataService = new QuizMetadataService(guardianApiService);
         }
 
         [Test]

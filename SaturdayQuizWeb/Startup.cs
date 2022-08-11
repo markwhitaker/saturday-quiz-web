@@ -69,10 +69,10 @@ public class Startup
     private void RegisterDependencies(IServiceCollection services)
     {
         services.Configure<GuardianConfig>(_configuration.GetSection(Constants.ConfigSectionGuardian));
-        services.AddHttpClient<IGuardianScraperHttpService, GuardianScraperHttpService>();
+        services.AddHttpClient<IGuardianWebsiteService, GuardianWebsiteService>();
 
         services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
-        services.AddSingleton<IGuardianApiHttpService, GuardianApiHttpService>();
+        services.AddSingleton<IGuardianApiService, GuardianApiService>();
         services.AddSingleton<IHtmlService, HtmlService>();
         services.AddSingleton<IHtmlStripper, HtmlStripper>();
         services.AddSingleton<IQuestionAssembler, QuestionAssembler>();

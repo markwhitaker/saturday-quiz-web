@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SaturdayQuizWeb.Extensions;
@@ -38,7 +39,7 @@ public class QuizController : ControllerBase
         catch (Exception e)
         {
             Console.WriteLine($"Error occurred: {e}");
-            return StatusCode(500, new Error(e));
+            return StatusCode((int)HttpStatusCode.InternalServerError, new Error(e));
         }
     }
 }

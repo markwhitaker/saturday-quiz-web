@@ -13,16 +13,16 @@ public interface IQuizMetadataService
 
 public class QuizMetadataService : IQuizMetadataService
 {
-    private readonly IGuardianApiHttpService _guardianApiHttpService;
+    private readonly IGuardianApiService _guardianApiService;
 
-    public QuizMetadataService(IGuardianApiHttpService guardianApiHttpService)
+    public QuizMetadataService(IGuardianApiService guardianApiService)
     {
-        _guardianApiHttpService = guardianApiHttpService;
+        _guardianApiService = guardianApiService;
     }
 
     public async Task<List<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
-        var response = await _guardianApiHttpService.ListQuizzesAsync(count);
+        var response = await _guardianApiService.ListQuizzesAsync(count);
 
         if (response == null)
         {
