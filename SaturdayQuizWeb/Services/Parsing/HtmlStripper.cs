@@ -16,38 +16,20 @@ public interface IHtmlStripper
 
 public class HtmlStripper : IHtmlStripper
 {
-    private static readonly IEnumerable<string> TagsToStrip = new[]
-    {
+    private static readonly string[] UnwantedTags = {
         "a", "b", "cite", "code", "em", "p", "s", "small", "span", "strong", "sub", "sup", "u"
     };
 
-    private static readonly IEnumerable<Regex> TagRegexes = TagsToStrip.Select(BuildTagRegex);
-    private static readonly Regex BrTagRegex = BuildBrTagRegex();
-
-    public string StripHtml(string htmlString)
-    {
-        var strippedText = TagRegexes.Aggregate(
-            htmlString,
-            (current, tagRegex) => current.Remove(tagRegex));
-
-        strippedText = BrTagRegex.Replace(strippedText, "\n");
-        strippedText = strippedText
-            .Replace("&nbsp;", " ")
-            .Replace("\u00A0", " "); // Unicode non-breaking space
-
-        return strippedText;
-    }
-
-    private static Regex BuildTagRegex(string tagName) => new RegexBuilder()
+    private static readonly Regex UnwantedTagsRegex = new RegexBuilder()
         .Text("<")
         .Text("/", ZeroOrOne)
-        .Text(tagName)
+        .AnyOf(UnwantedTags)
         .WordBoundary()
         .AnyCharacterExcept(">", ZeroOrMore)
         .Text(">")
         .BuildRegex(IgnoreCase);
-
-    private static Regex BuildBrTagRegex() => new RegexBuilder()
+    
+    private static readonly Regex BrTagRegex = new RegexBuilder()
         .PossibleHtmlWhitespace()
         .Text("<")
         .Text("/", ZeroOrOne)
@@ -57,4 +39,14 @@ public class HtmlStripper : IHtmlStripper
         .Text(">")
         .PossibleHtmlWhitespace()
         .BuildRegex(IgnoreCase);
+
+    public string StripHtml(string htmlString)
+    {
+        var strippedText = htmlString.Remove(UnwantedTagsRegex)
+            .Replace(BrTagRegex, "\n")
+            .Replace("&nbsp;", " ")
+            .Replace("\u00A0", " "); // Unicode non-breaking space
+
+        return strippedText;
+    }
 }
