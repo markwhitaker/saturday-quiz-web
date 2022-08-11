@@ -38,7 +38,7 @@ class Presenter {
 
     toggleScore() {
         const scene = this.scenes[this.sceneIndex];
-        if (scene.type !== SceneType.QUESTION_ANSWER) {
+        if (scene.type !== Scene.Type.QUESTION_ANSWER) {
             return;
         }
 
@@ -68,7 +68,7 @@ class Presenter {
                 score === QuestionScore.HALF ? (index + 1) + ' (half)' :
                 '' + (index + 1)
             )
-            .filter(scoreText => scoreText !== null)
+            .filter(scoreText => scoreText != null)
             .join(', ');
 
         let shareObject = {
@@ -97,7 +97,7 @@ class Presenter {
         const view = this.view;
 
         switch(scene.type) {
-            case SceneType.QUESTIONS_TITLE:
+            case Scene.Type.QUESTIONS_TITLE:
                 let dateString = scene.date.toLocaleDateString("en-GB", {
                     day: 'numeric',
                     month: 'long',
@@ -108,35 +108,35 @@ class Presenter {
                 view.showQuestionsTitle(dateString);
                 view.showTitlePage();
                 break;
-            case SceneType.QUESTION:
+            case Scene.Type.QUESTION:
                 view.hideScoreTick();
                 view.hideScoreShare();
                 view.showQuestionNumber(question.number);
                 view.showQuestion(
                     question.question,
-                    question.type === QuestionType.WHAT_LINKS
+                    question.type === Question.Type.WHAT_LINKS
                 );
                 view.showAnswer('');
                 view.showQuestionPage();
                 break;
-            case SceneType.ANSWERS_TITLE:
+            case Scene.Type.ANSWERS_TITLE:
                 view.hideScoreTick();
                 view.hideScoreShare();
                 view.showTitlePage();
                 view.showAnswersTitle();
                 break;
-            case SceneType.QUESTION_ANSWER:
+            case Scene.Type.QUESTION_ANSWER:
                 view.hideScoreShare();
                 view.showQuestionNumber(question.number);
                 view.showQuestion(
                     question.question,
-                    question.type === QuestionType.WHAT_LINKS
+                    question.type === Question.Type.WHAT_LINKS
                 );
                 view.showAnswer(question.answer);
                 view.showQuestionPage();
                 view.showScoreTick(this.scoreRepository.getScore(question.number));
                 break;
-            case SceneType.END_TITLE:
+            case Scene.Type.END_TITLE:
                 view.hideScoreTick();
                 view.showEndTitle(Presenter.#formatTotalScore(this.scoreRepository.totalScore));
                 view.showTitlePage();
@@ -146,7 +146,6 @@ class Presenter {
     };
 
     static #buildScenes(quiz, jumpToAnswers) {
-        let i;
         const scenes = [];
 
         scenes.push(Scene.questionsTitleScene(quiz.date));

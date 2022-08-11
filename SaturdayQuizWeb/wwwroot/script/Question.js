@@ -1,11 +1,11 @@
 ﻿"use strict";
 
-const QuestionType = Object.freeze({
-    NORMAL: 'NORMAL',
-    WHAT_LINKS: 'WHAT_LINKS'
-});
-
 class Question {
+    static Type = Object.freeze({
+        NORMAL: 'NORMAL',
+        WHAT_LINKS: 'WHAT_LINKS'
+    });
+
     constructor(object) {
         this.number = object.number;
         this.type = object.type;
