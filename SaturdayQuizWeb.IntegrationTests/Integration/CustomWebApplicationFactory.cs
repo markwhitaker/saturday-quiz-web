@@ -2,6 +2,6 @@
 
 namespace SaturdayQuizWeb.IntegrationTests.Integration;
 
-public class CustomWebApplicationFactory : WebApplicationFactory<Program>
+public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
 {
 }

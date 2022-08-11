@@ -1,22 +1,18 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using SaturdayQuizWeb;
 
-namespace SaturdayQuizWeb;
+// See https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements
+// for top-level statement syntax
 
-public class Program
-{
-    public static void Main(string[] args)
+CreateHostBuilder(args).Build().Run();
+
+IHostBuilder CreateHostBuilder(string[] args) => Host
+    // This step adds UserSecrets as a configuration source
+    // (see https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets#register-the-user-secrets-configuration-source)
+    // It also registers environment variables as a configuration source (see method comment)
+    .CreateDefaultBuilder(args)
+    .ConfigureWebHostDefaults(webBuilder =>
     {
-        CreateHostBuilder(args).Build().Run();
-    }
-
-    private static IHostBuilder CreateHostBuilder(string[] args) => Host
-        // This step adds UserSecrets as a configuration source
-        // (see https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets#register-the-user-secrets-configuration-source)
-        // It also registers environment variables as a configuration source (see method comment)
-        .CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(webBuilder =>
-        {
-            webBuilder.UseStartup<Startup>();
-        });
-}
+        webBuilder.UseStartup<Startup>();
+    });
