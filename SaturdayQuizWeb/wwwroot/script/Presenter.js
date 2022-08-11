@@ -7,14 +7,19 @@ class Presenter {
         this.sceneIndex = 0;
     }
 
-    onViewReady(view) {
+    async onViewReady(view) {
         this.view = view;
         this.view.onQuizLoading();
 
         let _this = this;
-        this.quizRepository.loadLatestQuiz()
-            .then(quiz => _this.#onQuizLoaded(quiz))
-            .catch(error => { console.log("Failed to load quiz. " + error.toString()) });
+        
+        try {
+            const quiz = await this.quizRepository.loadLatestQuiz();
+            _this.#onQuizLoaded(quiz);
+        }
+        catch (error) {
+            console.log("Failed to load quiz. " + error.toString());
+        }
     };
 
     onNext() {
