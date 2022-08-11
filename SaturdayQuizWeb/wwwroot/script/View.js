@@ -14,25 +14,24 @@ class View {
     }
 
     enableNavigation() {
-        const presenter = this.presenter;
         $('#nav-left').click(e => {
-            presenter.onPrevious();
+            this.presenter.onPrevious();
             e.preventDefault();
         });
         $('#nav-right').click(e => {
-            presenter.onNext();
+            this.presenter.onNext();
             e.preventDefault();
         });
         $(document).keyup(e => {
             switch (e.code) {
                 case 'ArrowLeft':
-                    presenter.onPrevious();
+                    this.presenter.onPrevious();
                     break;
                 case 'ArrowRight':
-                    presenter.onNext();
+                    this.presenter.onNext();
                     break;
                 case 'Space':
-                    presenter.toggleScore();
+                    this.presenter.toggleScore();
                     break;
                 default:
                     return;
@@ -41,12 +40,12 @@ class View {
         });
 
         $('#score-tick').click(e => {
-            presenter.toggleScore();
+            this.presenter.toggleScore();
             e.preventDefault();
         })
 
-        $('#score-share').click(e => {
-            presenter.shareScore();
+        $('#score-share').click(async e => {
+            await this.presenter.shareScore();
             e.preventDefault();
         })
     };

@@ -60,7 +60,7 @@ class Presenter {
         this.view.showScoreTick(score);
     }
 
-    shareScore() {
+    async shareScore() {
         let totalScore = Presenter.#formatTotalScore(this.scoreRepository.totalScore);
         let scoreBreakdown = this.scoreRepository.allScores
             .map((score, index) =>
@@ -71,15 +71,15 @@ class Presenter {
             .filter(scoreText => scoreText != null)
             .join(', ');
 
-        let shareObject = {
-            title: 'QUIZ RESULTS',
-            text: 'We have quizzed! Our total score this week is ' + totalScore + '...\n\n' + scoreBreakdown
-        };
-        if (navigator.canShare && navigator.canShare(shareObject)) {
-            navigator
-                .share(shareObject)
-                .then(() => console.log('Shared score'))
-                .catch((error) => console.log('Sharing score failed', error));
+        try {
+            await navigator.share({
+                title: 'QUIZ RESULTS',
+                text: 'We have quizzed! Our total score this week is ' + totalScore + '...\n\n' + scoreBreakdown
+            });
+            console.log('Shared score');
+        }
+        catch (error) {
+            console.log('Sharing score failed.', error);
         }
     }
 
