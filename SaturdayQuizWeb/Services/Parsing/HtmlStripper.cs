@@ -3,7 +3,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using RegexToolbox;
 using RegexToolbox.Extensions;
-using SaturdayQuizWeb.Utils;
+using SaturdayQuizWeb.Extensions;
+using static RegexToolbox.RegexOptions;
 using static RegexToolbox.RegexQuantifier;
 
 namespace SaturdayQuizWeb.Services.Parsing;
@@ -44,7 +45,7 @@ public class HtmlStripper : IHtmlStripper
         .WordBoundary()
         .AnyCharacterExcept(">", ZeroOrMore)
         .Text(">")
-        .BuildRegex(RegexToolbox.RegexOptions.IgnoreCase);
+        .BuildRegex(IgnoreCase);
 
     private static Regex BuildBrTagRegex() => new RegexBuilder()
         .PossibleHtmlWhitespace()
@@ -55,5 +56,5 @@ public class HtmlStripper : IHtmlStripper
         .AnyCharacterExcept(">", ZeroOrMore)
         .Text(">")
         .PossibleHtmlWhitespace()
-        .BuildRegex(RegexToolbox.RegexOptions.IgnoreCase);
+        .BuildRegex(IgnoreCase);
 }

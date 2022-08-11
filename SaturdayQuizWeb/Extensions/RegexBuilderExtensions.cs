@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using RegexToolbox;
-using static RegexToolbox.RegexQuantifier;
 
-namespace SaturdayQuizWeb.Utils;
+namespace SaturdayQuizWeb.Extensions;
 
 public static class RegexBuilderExtensions
 {
@@ -10,7 +9,7 @@ public static class RegexBuilderExtensions
         new[] {" ", @"\t", @"\n", @"\r", "&nbsp;"};
 
     public static RegexBuilder PossibleHtmlWhitespace(this RegexBuilder regexBuilder) =>
-        regexBuilder.AnyOf(HtmlWhitespaceCharacters, ZeroOrMore);
+        regexBuilder.AnyOf(HtmlWhitespaceCharacters, RegexQuantifier.ZeroOrMore);
 
     public static RegexBuilder HtmlOpenTag(this RegexBuilder regexBuilder, string tagName) =>
         HtmlTag(regexBuilder, tagName, true);
@@ -24,6 +23,6 @@ public static class RegexBuilderExtensions
             .PossibleWhitespace()
             .Text(tagName)
             .WordBoundary()
-            .AnyCharacterExcept(">", ZeroOrMore)
+            .AnyCharacterExcept(">", RegexQuantifier.ZeroOrMore)
             .Text(">");
 }

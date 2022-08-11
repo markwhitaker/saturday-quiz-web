@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using RegexToolbox;
 using RegexToolbox.Extensions;
+using SaturdayQuizWeb.Extensions;
 using SaturdayQuizWeb.Model.Parsing;
-using SaturdayQuizWeb.Utils;
 using static RegexToolbox.RegexOptions;
 using static RegexToolbox.RegexQuantifier;
 
