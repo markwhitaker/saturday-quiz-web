@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using RestSharp;
+using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Services;
-using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.IntegrationTests.Services
 {
@@ -18,10 +20,16 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
             var configuration = new ConfigurationBuilder()
                 .AddUserSecrets<QuizMetadataServiceTests>()
                 .Build();
-            var configVariables = new ConfigVariables(configuration);
+            
+            var services = new ServiceCollection()
+                .Configure<SaturdayQuizConfig>(configuration)
+                .BuildServiceProvider();
+            
+            var configOptions = services.GetService<IOptions<SaturdayQuizConfig>>();
+            
             var guardianApiHttpService = new GuardianApiHttpService(
                 new RestClient("https://content.guardianapis.com/theguardian/"),
-                configVariables);
+                configOptions!);
             _quizMetadataService = new QuizMetadataService(guardianApiHttpService);
         }
 

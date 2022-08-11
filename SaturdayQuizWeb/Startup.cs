@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RestSharp;
+using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Extensions;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;
@@ -14,8 +16,15 @@ namespace SaturdayQuizWeb;
 
 public class Startup
 {
+    private readonly IConfiguration _configuration;
+
+    public Startup(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
     // This method gets called by the runtime. Use this method to add services to the container.
-    public static void ConfigureServices(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers().AddNewtonsoftJson();
 
@@ -32,7 +41,7 @@ public class Startup
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
         {
@@ -58,13 +67,12 @@ public class Startup
         });
     }
 
-    private static void RegisterDependencies(IServiceCollection services)
+    private void RegisterDependencies(IServiceCollection services)
     {
+        services.Configure<SaturdayQuizConfig>(_configuration);
         services.AddHttpClient<IGuardianScraperHttpService, GuardianScraperHttpService>();
 
         services.AddSingleton(new RestClient("https://content.guardianapis.com/theguardian/"));
-
-        services.AddSingleton<IConfigVariables, ConfigVariables>();
         services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
         services.AddSingleton<IGuardianApiHttpService, GuardianApiHttpService>();
         services.AddSingleton<IHtmlService, HtmlService>();
