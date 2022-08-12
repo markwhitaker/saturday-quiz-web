@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using SaturdayQuizWeb.Config;
 
-namespace SaturdayQuizWeb.Services;
+namespace SaturdayQuizWeb.Clients;
 
 public interface IGuardianWebsiteClient
 {

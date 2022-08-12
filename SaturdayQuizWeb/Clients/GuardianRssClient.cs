@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
 
-namespace SaturdayQuizWeb.Services;
+namespace SaturdayQuizWeb.Clients;
 
 public interface IGuardianRssClient
 {

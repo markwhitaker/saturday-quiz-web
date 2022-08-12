@@ -8,11 +8,11 @@ using RestSharp;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
 
-namespace SaturdayQuizWeb.Services;
+namespace SaturdayQuizWeb.Clients;
 
 public interface IGuardianApiClient
 {
-    Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int pageSize = 5);
+    Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count);
 }
 
 public class GuardianApiClient : IGuardianApiClient
@@ -26,14 +26,14 @@ public class GuardianApiClient : IGuardianApiClient
         _restClient = new RestClient(_config.ApiBaseUrl);
     }
 
-    public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int pageSize = 5)
+    public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
         var request = new RestRequest(_config.ApiEndpoint)
             {
                 RequestFormat = DataFormat.Json
             }
             .AddQueryParameter("api-key", _config.ApiKey)
-            .AddQueryParameter("page-size", pageSize.ToString());
+            .AddQueryParameter("page-size", count.ToString());
         var response = await _restClient.ExecuteGetAsync<GuardianApiResponse>(request);
 
         if (response.IsSuccessful && response.Data != null)
