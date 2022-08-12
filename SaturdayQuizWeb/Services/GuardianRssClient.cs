@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Xml.Serialization;
 using Microsoft.Extensions.Options;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
@@ -30,23 +31,50 @@ public class GuardianRssClient : IGuardianRssClient
         try
         {
             var contents = await _guardianWebsiteClient.GetPageContentAsync(_guardianConfig.RssEndpoint);
-            var xmlDoc = XDocument.Parse(contents);
-            return xmlDoc.Element("rss")!
-                .Element("channel")!
-                .Elements("item")
-                .Take(count)
+
+            var xmlSerializer = new XmlSerializer(typeof(XmlRssRoot));
+            using var reader = new StringReader(contents);
+            var xmlRss = xmlSerializer.Deserialize(reader) as XmlRssRoot;
+            return xmlRss!.Channel.Items
                 .Select(item => new QuizMetadata
                 {
-                    Title = item.Element("title")?.Value ?? throw new InvalidOperationException(),
-                    Date = DateTime.Parse(item.Element("pubDate")?.Value ?? throw new InvalidOperationException()),
-                    Url = item.Element("link")?.Value ?? throw new InvalidOperationException(),
-                    Id = item.Element("link")?.Value.Replace(_guardianConfig.WebsiteBaseUrl, "") ?? throw new InvalidOperationException(),
+                    Title = item.Title,
+                    Url = item.Link,
+                    Date = item.Date,
+                    Id = item.Link.Replace(_guardianConfig.WebsiteBaseUrl, string.Empty)
                 })
+                .OrderByDescending(qm => qm.Date)
+                .Take(count)
                 .ToList();
         }
         catch (Exception)
         {
             return new List<QuizMetadata>();
         }
+    }
+
+    [XmlRoot("rss")]
+    public class XmlRssRoot
+    {
+        [XmlElement("channel")]
+        public XmlChannelElement Channel { get; init; } = new();
+    }
+
+    public class XmlChannelElement
+    {
+        [XmlElement("item")]
+        public XmlItemElement[] Items { get; init; } = Array.Empty<XmlItemElement>();
+    }
+
+    public class XmlItemElement
+    {
+        [XmlElement("title")]
+        public string Title { get; init; } = string.Empty;
+        [XmlElement("pubDate")]
+        public string PubDate { get; init; } = string.Empty;
+        [XmlElement("link")]
+        public string Link { get; init; } = string.Empty;
+
+        public DateTime Date => DateTime.Parse(PubDate);
     }
 }
