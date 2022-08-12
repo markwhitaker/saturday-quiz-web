@@ -53,25 +53,26 @@ public class GuardianApiClient : IGuardianApiClient
         return new List<QuizMetadata>();
     }
 
-    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-    [SuppressMessage("ReSharper", "CollectionNeverUpdated.Local")]
-    private record GuardianApiResponse
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    [SuppressMessage("ReSharper", "CollectionNeverUpdated.Global")]
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    public record GuardianApiResponse
     {
-        private class ResponseBody
+        public class ResponseBody
         {
             public List<GuardianApiQuizSummary> Results { get; init; } = new();
         }
 
-        private ResponseBody Response { get; init; } = new();
+        public ResponseBody Response { get; init; } = new();
 
         public IEnumerable<GuardianApiQuizSummary> Results => Response.Results;
     }
 
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
-    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-    private record GuardianApiQuizSummary
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+    public record GuardianApiQuizSummary
     {
         public string Id { get; init; } = string.Empty;
         public DateTime WebPublicationDate { get; init; }
