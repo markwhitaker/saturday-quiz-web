@@ -44,7 +44,7 @@ public class QuizServiceTests
 
     // Mocks
     private IDateTimeWrapper _mockDateTimeWrapper = null!;
-    private IGuardianWebsiteService _mockGuardianWebsiteService = null!;
+    private IGuardianWebsiteClient _mockGuardianWebsiteClient = null!;
     private IHtmlService _mockHtmlService = null!;
     private IQuizMetadataService _mockQuizMetadataService = null!;
 
@@ -55,12 +55,12 @@ public class QuizServiceTests
     public void Setup()
     {
         _mockDateTimeWrapper = Substitute.For<IDateTimeWrapper>();
-        _mockGuardianWebsiteService = Substitute.For<IGuardianWebsiteService>();
+        _mockGuardianWebsiteClient = Substitute.For<IGuardianWebsiteClient>();
         _mockHtmlService = Substitute.For<IHtmlService>();
         _mockQuizMetadataService = Substitute.For<IQuizMetadataService>();
         _quizService = new QuizService(
             _mockDateTimeWrapper,
-            _mockGuardianWebsiteService,
+            _mockGuardianWebsiteClient,
             _mockHtmlService,
             _mockQuizMetadataService);
     }
@@ -69,7 +69,7 @@ public class QuizServiceTests
     public async Task GivenGuardianWebsiteServiceReturnsContent_WhenGetQuizAsyncByMetadata_ThenExpectedQuizReturned()
     {
         // Given
-        _mockGuardianWebsiteService.GetPageContentAsync(TestQuizId).Returns(TestHtmlContent);
+        _mockGuardianWebsiteClient.GetPageContentAsync(TestQuizId).Returns(TestHtmlContent);
         _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
 
         // When
@@ -90,7 +90,7 @@ public class QuizServiceTests
         {
             _quizMetadata
         });
-        _mockGuardianWebsiteService.GetPageContentAsync(TestQuizId).Returns(TestHtmlContent);
+        _mockGuardianWebsiteClient.GetPageContentAsync(TestQuizId).Returns(TestHtmlContent);
         _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
 
         // When
@@ -109,7 +109,7 @@ public class QuizServiceTests
         // Given
         var expectedQuizDate = DateTime.UtcNow;
         _mockDateTimeWrapper.UtcNow.Returns(expectedQuizDate);
-        _mockGuardianWebsiteService.GetPageContentAsync(TestQuizId).Returns(TestHtmlContent);
+        _mockGuardianWebsiteClient.GetPageContentAsync(TestQuizId).Returns(TestHtmlContent);
         _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
 
         // When

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
-using SaturdayQuizWeb.Model.Api;
+using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Wrappers;
 
@@ -13,8 +13,8 @@ namespace SaturdayQuizWeb.UnitTests.Services;
 public class QuizMetadataServiceTests
 {
     private IDateTimeWrapper _mockDateTimeWrapper = null!;
-    private IGuardianApiService _mockGuardianApiService = null!;
-    private IGuardianRssService _mockGuardianRssService = null!;
+    private IGuardianApiClient _mockGuardianApiClient = null!;
+    private IGuardianRssClient _mockGuardianRssClient = null!;
 
     private IQuizMetadataService _quizMetadataService = null!;
 
@@ -22,13 +22,13 @@ public class QuizMetadataServiceTests
     public void SetUp()
     {
         _mockDateTimeWrapper = Substitute.For<IDateTimeWrapper>();
-        _mockGuardianApiService = Substitute.For<IGuardianApiService>();
-        _mockGuardianRssService = Substitute.For<IGuardianRssService>();
+        _mockGuardianApiClient = Substitute.For<IGuardianApiClient>();
+        _mockGuardianRssClient = Substitute.For<IGuardianRssClient>();
 
         _quizMetadataService = new QuizMetadataService(
             _mockDateTimeWrapper,
-            _mockGuardianApiService,
-            _mockGuardianRssService);
+            _mockGuardianApiClient,
+            _mockGuardianRssClient);
     }
 
     [TestCase(0)]
@@ -40,32 +40,26 @@ public class QuizMetadataServiceTests
         // Given
         var today = new DateTime(2022, 1, 8, 23, 59, 59);
         var quizDate = today.Subtract(TimeSpan.FromDays(ageInDays));
-        var expectedApiResponse = new GuardianApiResponse
+        var expectedApiResponse = new List<QuizMetadata>
         {
-            Response = new GuardianApiResponse.ResponseBody
+            new()
             {
-                Results = new List<GuardianApiQuizSummary>
-                {
-                    new GuardianApiQuizSummary
-                    {
-                        Id = "id",
-                        WebPublicationDate = quizDate,
-                        WebTitle = "web-title",
-                        WebUrl = "web-url"
-                    }
-                }
+                Id = "id",
+                Date = quizDate,
+                Title = "title",
+                Url = "url"
             }
         };
 
         _mockDateTimeWrapper.UtcNow.Returns(today);
-        _mockGuardianApiService.ListQuizzesAsync(default).ReturnsForAnyArgs(expectedApiResponse);
+        _mockGuardianApiClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedApiResponse);
 
         // When
         await _quizMetadataService.GetQuizMetadataAsync(1);
 
         // Then
-        await _mockGuardianApiService.Received().ListQuizzesAsync(1);
-        await _mockGuardianRssService.DidNotReceiveWithAnyArgs().GetQuizMetadataAsync(default);
+        await _mockGuardianApiClient.Received().GetQuizMetadataAsync(1);
+        await _mockGuardianRssClient.DidNotReceiveWithAnyArgs().GetQuizMetadataAsync(default);
     }
 
     [TestCase(7)]
@@ -77,31 +71,25 @@ public class QuizMetadataServiceTests
         // Given
         var today = new DateTime(2022, 1, 8, 23, 59, 59);
         var quizDate = today.Subtract(TimeSpan.FromDays(ageInDays));
-        var expectedApiResponse = new GuardianApiResponse
+        var expectedApiResponse = new List<QuizMetadata>
         {
-            Response = new GuardianApiResponse.ResponseBody
+            new()
             {
-                Results = new List<GuardianApiQuizSummary>
-                {
-                    new GuardianApiQuizSummary
-                    {
-                        Id = "id",
-                        WebPublicationDate = quizDate,
-                        WebTitle = "web-title",
-                        WebUrl = "web-url"
-                    }
-                }
+                Id = "id",
+                Date = quizDate,
+                Title = "title",
+                Url = "url"
             }
         };
 
         _mockDateTimeWrapper.UtcNow.Returns(today);
-        _mockGuardianApiService.ListQuizzesAsync(default).ReturnsForAnyArgs(expectedApiResponse);
+        _mockGuardianApiClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedApiResponse);
 
         // When
         await _quizMetadataService.GetQuizMetadataAsync(1);
 
         // Then
-        await _mockGuardianApiService.Received().ListQuizzesAsync(1);
-        await _mockGuardianRssService.Received().GetQuizMetadataAsync(1);
+        await _mockGuardianApiClient.Received().GetQuizMetadataAsync(1);
+        await _mockGuardianRssClient.Received().GetQuizMetadataAsync(1);
     }
 }

@@ -15,35 +15,26 @@ public interface IQuizMetadataService
 public class QuizMetadataService : IQuizMetadataService
 {
     private readonly IDateTimeWrapper _dateTimeWrapper;
-    private readonly IGuardianApiService _guardianApiService;
-    private readonly IGuardianRssService _guardianRssService;
+    private readonly IGuardianApiClient _guardianApiClient;
+    private readonly IGuardianRssClient _guardianRssClient;
 
     public QuizMetadataService(
         IDateTimeWrapper dateTimeWrapper,
-        IGuardianApiService guardianApiService,
-        IGuardianRssService guardianRssService)
+        IGuardianApiClient guardianApiClient,
+        IGuardianRssClient guardianRssClient)
     {
         _dateTimeWrapper = dateTimeWrapper;
-        _guardianApiService = guardianApiService;
-        _guardianRssService = guardianRssService;
+        _guardianApiClient = guardianApiClient;
+        _guardianRssClient = guardianRssClient;
     }
 
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
-        IReadOnlyList<QuizMetadata>? list = (await _guardianApiService.ListQuizzesAsync(count))?.Results
-            .Select(item => new QuizMetadata
-            {
-                Id = item.Id,
-                Title = item.WebTitle,
-                Date = item.WebPublicationDate,
-                Url = item.WebUrl
-            })
-            .OrderByDescending(qm => qm.Date)
-            .ToList();
+        var list = await _guardianApiClient.GetQuizMetadataAsync(count);
 
-        if (list == null || !list.Any() || IsOlderThan1Week(list[0]))
+        if (!list.Any() || IsOlderThan1Week(list[0]))
         {
-            list = await _guardianRssService.GetQuizMetadataAsync(count);
+            list = await _guardianRssClient.GetQuizMetadataAsync(count);
         }
 
         if (list == null)

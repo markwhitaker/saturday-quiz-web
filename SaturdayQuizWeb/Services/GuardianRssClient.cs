@@ -9,27 +9,27 @@ using SaturdayQuizWeb.Model;
 
 namespace SaturdayQuizWeb.Services;
 
-public interface IGuardianRssService
+public interface IGuardianRssClient
 {
     Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count);
 }
 
-public class GuardianRssService : IGuardianRssService
+public class GuardianRssClient : IGuardianRssClient
 {
     private readonly GuardianConfig _guardianConfig;
-    private readonly IGuardianWebsiteService _guardianWebsiteService;
+    private readonly IGuardianWebsiteClient _guardianWebsiteClient;
 
-    public GuardianRssService(IOptions<GuardianConfig> guardianConfig, IGuardianWebsiteService guardianWebsiteService)
+    public GuardianRssClient(IOptions<GuardianConfig> guardianConfig, IGuardianWebsiteClient guardianWebsiteClient)
     {
         _guardianConfig = guardianConfig.Value;
-        _guardianWebsiteService = guardianWebsiteService;
+        _guardianWebsiteClient = guardianWebsiteClient;
     }
 
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
         try
         {
-            var contents = await _guardianWebsiteService.GetPageContentAsync(_guardianConfig.RssEndpoint);
+            var contents = await _guardianWebsiteClient.GetPageContentAsync(_guardianConfig.RssEndpoint);
             var xmlDoc = XDocument.Parse(contents);
             return xmlDoc.Element("rss")!
                 .Element("channel")!

@@ -14,18 +14,18 @@ public interface IQuizService
 public class QuizService : IQuizService
 {
     private readonly IDateTimeWrapper _dateTimeWrapper;
-    private readonly IGuardianWebsiteService _guardianWebsiteService;
+    private readonly IGuardianWebsiteClient _guardianWebsiteClient;
     private readonly IHtmlService _htmlService;
     private readonly IQuizMetadataService _quizMetadataService;
 
     public QuizService(
         IDateTimeWrapper dateTimeWrapper,
-        IGuardianWebsiteService guardianWebsiteService,
+        IGuardianWebsiteClient guardianWebsiteClient,
         IHtmlService htmlService,
         IQuizMetadataService quizMetadataService)
     {
         _dateTimeWrapper = dateTimeWrapper;
-        _guardianWebsiteService = guardianWebsiteService;
+        _guardianWebsiteClient = guardianWebsiteClient;
         _htmlService = htmlService;
         _quizMetadataService = quizMetadataService;
     }
@@ -53,7 +53,7 @@ public class QuizService : IQuizService
 
     public async Task<Quiz> GetQuizAsync(QuizMetadata quizMetadata)
     {
-        var quizHtml = await _guardianWebsiteService.GetPageContentAsync(quizMetadata.Id);
+        var quizHtml = await _guardianWebsiteClient.GetPageContentAsync(quizMetadata.Id);
         var questions = _htmlService.FindQuestions(quizHtml);
         return new Quiz
         {

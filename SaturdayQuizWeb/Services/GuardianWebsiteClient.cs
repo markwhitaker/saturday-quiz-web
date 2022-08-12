@@ -6,7 +6,7 @@ using SaturdayQuizWeb.Config;
 
 namespace SaturdayQuizWeb.Services;
 
-public interface IGuardianWebsiteService
+public interface IGuardianWebsiteClient
 {
     Task<string> GetPageContentAsync(string endpoint);
 }
@@ -14,11 +14,11 @@ public interface IGuardianWebsiteService
 /// <summary>
 /// A typed HTTP client: see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-3.0#typed-clients
 /// </summary>
-public class GuardianWebsiteService : IGuardianWebsiteService
+public class GuardianWebsiteClient : IGuardianWebsiteClient
 {
     private readonly HttpClient _httpClient;
 
-    public GuardianWebsiteService(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
+    public GuardianWebsiteClient(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
     {
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri(configOptions.Value.WebsiteBaseUrl);

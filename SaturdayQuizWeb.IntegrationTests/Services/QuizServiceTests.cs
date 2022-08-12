@@ -36,9 +36,9 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
             var configOptions = services.GetService<IOptions<GuardianConfig>>() ?? throw new Exception(
                 $"Failed to get IOptions<{nameof(GuardianConfig)}> from service provider");
 
-            var guardianWebsiteService = new GuardianWebsiteService(new HttpClient(), configOptions);
-            var guardianApiService = new GuardianApiService(configOptions);
-            var guardianRssService = new GuardianRssService(configOptions, guardianWebsiteService);
+            var guardianWebsiteService = new GuardianWebsiteClient(new HttpClient(), configOptions);
+            var guardianApiService = new GuardianApiClient(configOptions);
+            var guardianRssService = new GuardianRssClient(configOptions, guardianWebsiteService);
 
             _quizMetadataService = new QuizMetadataService(
                 new DateTimeWrapper(),
@@ -47,7 +47,7 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
 
             _quizService = new QuizService(
                 new DateTimeWrapper(),
-                new GuardianWebsiteService(new HttpClient(), configOptions),
+                new GuardianWebsiteClient(new HttpClient(), configOptions),
                 new HtmlService(
                     new SectionExtractor(),
                     new HtmlStripper(),
