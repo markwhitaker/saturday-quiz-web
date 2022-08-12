@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,7 @@ using NUnit.Framework;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Utils;
+using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.IntegrationTests.Services
 {
@@ -30,8 +32,13 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
             var configOptions = services.GetService<IOptions<GuardianConfig>>() ?? throw new Exception(
                 $"Failed to get IOptions<{nameof(GuardianConfig)}> from service provider");
 
+            var guardianWebsiteService = new GuardianWebsiteService(new HttpClient(), configOptions);
             var guardianApiService = new GuardianApiService(configOptions);
-            _quizMetadataService = new QuizMetadataService(guardianApiService);
+            var guardianRssService = new GuardianRssService(configOptions, guardianWebsiteService);
+            _quizMetadataService = new QuizMetadataService(
+                new DateTimeWrapper(),
+                guardianApiService,
+                guardianRssService);
         }
 
         [Test]

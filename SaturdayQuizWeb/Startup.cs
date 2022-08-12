@@ -73,6 +73,7 @@ public class Startup
 
         services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
         services.AddSingleton<IGuardianApiService, GuardianApiService>();
+        services.AddSingleton<IGuardianRssService, GuardianRssService>();
         services.AddSingleton<IHtmlService, HtmlService>();
         services.AddSingleton<IHtmlStripper, HtmlStripper>();
         services.AddSingleton<IQuestionAssembler, QuestionAssembler>();

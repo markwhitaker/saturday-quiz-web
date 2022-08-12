@@ -36,9 +36,15 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
             var configOptions = services.GetService<IOptions<GuardianConfig>>() ?? throw new Exception(
                 $"Failed to get IOptions<{nameof(GuardianConfig)}> from service provider");
 
+            var guardianWebsiteService = new GuardianWebsiteService(new HttpClient(), configOptions);
             var guardianApiService = new GuardianApiService(configOptions);
+            var guardianRssService = new GuardianRssService(configOptions, guardianWebsiteService);
 
-            _quizMetadataService = new QuizMetadataService(guardianApiService);
+            _quizMetadataService = new QuizMetadataService(
+                new DateTimeWrapper(),
+                guardianApiService,
+                guardianRssService);
+
             _quizService = new QuizService(
                 new DateTimeWrapper(),
                 new GuardianWebsiteService(new HttpClient(), configOptions),
@@ -58,6 +64,8 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
 
             var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(expectedNumberOfQuizzes);
             var failedDates = new List<string>();
+
+            Assert.That(quizMetadataList.Count, Is.EqualTo(expectedNumberOfQuizzes));
 
             // Then
             for (var index = 0; index < expectedNumberOfQuizzes; index++)
