@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using RestSharp;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
-using SaturdayQuizWeb.Model.Api;
 
 namespace SaturdayQuizWeb.Services;
 
@@ -50,5 +51,31 @@ public class GuardianApiClient : IGuardianApiClient
         }
 
         return new List<QuizMetadata>();
+    }
+
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
+    [SuppressMessage("ReSharper", "CollectionNeverUpdated.Local")]
+    private record GuardianApiResponse
+    {
+        private class ResponseBody
+        {
+            public List<GuardianApiQuizSummary> Results { get; init; } = new();
+        }
+
+        private ResponseBody Response { get; init; } = new();
+
+        public IEnumerable<GuardianApiQuizSummary> Results => Response.Results;
+    }
+
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
+    [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Local")]
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+    private record GuardianApiQuizSummary
+    {
+        public string Id { get; init; } = string.Empty;
+        public DateTime WebPublicationDate { get; init; }
+        public string WebTitle { get; init; } = string.Empty;
+        public string WebUrl { get; init; } = string.Empty;
     }
 }
