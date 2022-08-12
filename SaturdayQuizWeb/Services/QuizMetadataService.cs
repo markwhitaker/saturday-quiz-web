@@ -31,19 +31,19 @@ public class QuizMetadataService : IQuizMetadataService
 
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
-        var list = await _guardianApiClient.GetQuizMetadataAsync(count);
+        var set = (await _guardianApiClient.GetQuizMetadataAsync(count)).ToHashSet();
 
-        if (!list.Any() || IsOlderThan1Week(list[0]))
+        if (!set.Any() || IsOlderThan1Week(set.MaxBy(qm => qm.Date)))
         {
-            list = await _guardianRssClient.GetQuizMetadataAsync(count);
+            set.UnionWith(await _guardianRssClient.GetQuizMetadataAsync(count));
         }
 
-        if (!list.Any())
+        if (!set.Any())
         {
             throw new Exception("Couldn't get data from the Guardian API or RSS feed");
         }
 
-        return list;
+        return set.OrderByDescending(qm => qm.Date).Take(count).ToList();
     }
 
     private bool IsOlderThan1Week(QuizMetadata quizMetadata) =>

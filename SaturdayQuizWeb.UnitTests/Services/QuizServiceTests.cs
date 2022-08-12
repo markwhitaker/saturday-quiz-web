@@ -78,7 +78,7 @@ public class QuizServiceTests
 
         // Then
         Assert.That(quiz.Id, Is.EqualTo(TestQuizId));
-        Assert.That(quiz.Date, Is.EqualTo(TestQuizDate));
+        Assert.That(quiz.Date, Is.EqualTo(TestQuizDate.Date));
         Assert.That(quiz.Title, Is.EqualTo(TestQuizTitle));
         Assert.That(quiz.Questions, Is.EqualTo(_questions));
     }
@@ -99,7 +99,7 @@ public class QuizServiceTests
 
         // Then
         Assert.That(quiz.Id, Is.EqualTo(TestQuizId));
-        Assert.That(quiz.Date, Is.EqualTo(TestQuizDate));
+        Assert.That(quiz.Date, Is.EqualTo(TestQuizDate.Date));
         Assert.That(quiz.Title, Is.EqualTo(TestQuizTitle));
         Assert.That(quiz.Questions, Is.EqualTo(_questions));
     }
@@ -118,7 +118,7 @@ public class QuizServiceTests
 
         // Then
         Assert.That(quiz.Id, Is.EqualTo(TestQuizId));
-        Assert.That(quiz.Date, Is.EqualTo(expectedQuizDate));
+        Assert.That(quiz.Date, Is.EqualTo(expectedQuizDate.Date));
         Assert.That(quiz.Title, Is.Empty);
         Assert.That(quiz.Questions, Is.EqualTo(_questions));
     }
