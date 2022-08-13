@@ -41,7 +41,8 @@ public class GuardianRssClient : IGuardianRssClient
                     Title = item.Title,
                     Url = item.Link,
                     Date = item.Date,
-                    Id = item.Link.Replace(_guardianConfig.WebsiteBaseUrl, string.Empty)
+                    Id = item.Link.Replace(_guardianConfig.WebsiteBaseUrl, string.Empty),
+                    Source = "RSS"
                 })
                 .OrderByDescending(qm => qm.Date)
                 .Take(count)

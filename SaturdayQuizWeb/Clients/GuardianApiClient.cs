@@ -44,7 +44,8 @@ public class GuardianApiClient : IGuardianApiClient
                     Id = item.Id,
                     Title = item.WebTitle,
                     Date = item.WebPublicationDate,
-                    Url = item.WebUrl
+                    Url = item.WebUrl,
+                    Source = "API"
                 })
                 .OrderByDescending(qm => qm.Date)
                 .ToList();

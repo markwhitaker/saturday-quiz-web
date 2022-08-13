@@ -2,16 +2,11 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using SaturdayQuizWeb.Clients;
-using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;
-using SaturdayQuizWeb.Utils;
 using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.IntegrationTests.Services
@@ -25,18 +20,7 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
         [SetUp]
         public void SetUp()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddUserSecrets<QuizServiceTests>()
-                .Build();
-
-            var services = new ServiceCollection()
-                .Configure<GuardianConfig>(configuration.GetSection(Constants.ConfigSectionGuardian))
-                .BuildServiceProvider();
-
-            var configOptions = services.GetService<IOptions<GuardianConfig>>() ?? throw new Exception(
-                $"Failed to get IOptions<{nameof(GuardianConfig)}> from service provider");
-
+            var configOptions = ConfigOptionsLoader.ConfigOptions;
             var guardianWebsiteService = new GuardianWebsiteClient(new HttpClient(), configOptions);
             var guardianApiService = new GuardianApiClient(configOptions);
             var guardianRssService = new GuardianRssClient(configOptions, guardianWebsiteService);

@@ -19,4 +19,5 @@ public record struct QuizMetadata
     }
     public string Title { get; init; } = string.Empty;
     public string Url { get; init; } = string.Empty;
+    public string Source { get; init; } = string.Empty;
 }
