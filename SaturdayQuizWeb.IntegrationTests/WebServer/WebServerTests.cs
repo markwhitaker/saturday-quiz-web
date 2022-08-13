@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace SaturdayQuizWeb.IntegrationTests.Integration;
+namespace SaturdayQuizWeb.IntegrationTests.WebServer;
 
 [TestFixture]
 public class WebServerTests

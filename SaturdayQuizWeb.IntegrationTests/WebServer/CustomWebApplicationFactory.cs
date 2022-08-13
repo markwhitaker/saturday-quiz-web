@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace SaturdayQuizWeb.IntegrationTests.Integration;
+namespace SaturdayQuizWeb.IntegrationTests.WebServer;
 
 public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
 {
