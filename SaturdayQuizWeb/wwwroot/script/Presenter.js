@@ -12,7 +12,7 @@ class Presenter {
         this.view.onQuizLoading();
 
         const _this = this;
-        
+
         try {
             const quiz = await this.quizRepository.loadLatestQuiz();
             _this.#onQuizLoaded(quiz);
@@ -157,7 +157,7 @@ class Presenter {
             }
         }
 
-        scenes.push(Scene.answersTitleScene);
+        scenes.push(Scene.answersTitleScene());
 
         // Now recap the questions, showing the answer after each one
         for (const question of quiz.questions) {
