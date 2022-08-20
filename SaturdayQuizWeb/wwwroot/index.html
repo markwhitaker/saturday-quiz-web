@@ -54,21 +54,9 @@
 <div id="nav-right"></div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="/script/Question.js"></script>
-<script src="/script/Quiz.js"></script>
-<script src="/script/View.js"></script>
-<script src="/script/QuizRepository.js"></script>
-<script src="/script/ScoreRepository.js"></script>
-<script src="/script/Scene.js"></script>
-<script src="/script/Presenter.js"></script>
-<script>
-    $(async () => {
-        const presenter = new Presenter(
-            new QuizRepository(),
-            new ScoreRepository());
-        const view = new View(presenter);
-        await presenter.onViewReady(view);
-    });
+<script type="module">
+    import start from "./script/index.js";
+    start();
 </script>
 </body>
 </html>

@@ -1,6 +1,8 @@
-﻿"use strict";
+﻿import Scene from "./Scene.js";
+import Question from "./Question.js";
+import QuestionScore from "./QuestionScore.js";
 
-class Presenter {
+export default class Presenter {
     constructor(quizRepository, scoreRepository) {
         this.quizRepository = quizRepository;
         this.scoreRepository = scoreRepository;

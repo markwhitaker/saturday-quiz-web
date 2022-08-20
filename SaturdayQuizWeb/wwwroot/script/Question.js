@@ -1,6 +1,4 @@
-﻿"use strict";
-
-class Question {
+﻿export default class Question {
     static Type = Object.freeze({
         NORMAL: 'NORMAL',
         WHAT_LINKS: 'WHAT_LINKS'

@@ -1,15 +1,9 @@
-﻿"use strict";
+﻿import QuestionScore from "./QuestionScore.js";
 
 const KEY_DATE = "date";
 const KEY_SCORES = "scores";
 
-const QuestionScore = Object.freeze({
-    NONE: 0,
-    HALF: 0.5,
-    FULL: 1
-});
-
-class ScoreRepository {
+export default class ScoreRepository {
     #scores = []
 
     get totalScore() {

@@ -1,6 +1,6 @@
-"use strict";
+import Quiz from "./Quiz.js";
 
-class QuizRepository {
+export default class QuizRepository {
     #apiEndpoint = Object.freeze("api/quiz");
 
     async loadLatestQuiz() {

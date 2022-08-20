@@ -1,6 +1,6 @@
-﻿"use strict";
+﻿import QuestionScore from "./QuestionScore.js";
 
-class View {
+export default class View {
     constructor(presenter) {
         this.presenter = presenter;
     };

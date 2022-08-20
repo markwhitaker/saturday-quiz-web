@@ -1,6 +1,4 @@
-﻿"use strict";
-
-class Scene {
+﻿export default class Scene {
     static #privateToken = {};
 
     static Type = Object.freeze({

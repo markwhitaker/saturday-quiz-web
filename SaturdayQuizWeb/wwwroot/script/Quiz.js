@@ -1,6 +1,6 @@
-﻿"use strict";
+﻿import Question from "./Question.js";
 
-class Quiz {
+export default class Quiz {
     constructor(object) {
         this.date = new Date(object.date);
         this.questions = object.questions.map(q => new Question(q));
