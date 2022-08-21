@@ -13,11 +13,9 @@ export default class Presenter {
         this.view = view;
         this.view.onQuizLoading();
 
-        const _this = this;
-
         try {
             const quiz = await this.quizRepository.loadLatestQuiz();
-            _this.#onQuizLoaded(quiz);
+            this.#onQuizLoaded(quiz);
         }
         catch (error) {
             console.log("Failed to load quiz. " + error.toString());
