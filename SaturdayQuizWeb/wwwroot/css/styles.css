@@ -12,14 +12,38 @@ body {
   background: #000;
   color: #ddd;
 }
+.hidden {
+  opacity: 0;
+}
+#loader-box {
+  position: absolute;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+#loader-box #loader {
+  height: 40px;
+  width: 40px;
+  background-color: #333;
+  border-radius: 20%;
+  animation: 1s infinite spin;
+  animation-timing-function: ease-in-out;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(270deg);
+  }
+}
 #box {
   display: flex;
   flex-flow: column;
   height: 100%;
   justify-content: space-between;
-}
-#box.hidden {
-  display: none;
 }
 #box #question-box {
   flex: 0 1 auto;

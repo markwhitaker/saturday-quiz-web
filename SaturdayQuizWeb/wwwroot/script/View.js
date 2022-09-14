@@ -5,12 +5,10 @@ export default class View {
         this.presenter = presenter;
     };
 
-    onQuizLoading() {
-        $('.page').hide();
-    };
-
-    reveal() {
-        $('#box').removeClass('hidden');
+    onQuizLoaded() {
+        $('#loader-box').fadeOut(function(){
+            $('#box').removeClass('hidden');
+        });
     }
 
     enableNavigation() {

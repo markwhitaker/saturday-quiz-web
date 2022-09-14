@@ -11,7 +11,6 @@ export default class Presenter {
 
     async onViewReady(view) {
         this.view = view;
-        this.view.onQuizLoading();
 
         try {
             const quiz = await this.quizRepository.loadLatestQuiz();
@@ -88,7 +87,7 @@ export default class Presenter {
         this.scenes = Presenter.#buildScenes(quiz, this.scoreRepository.hasScores);
         this.#showScene();
         this.view.enableNavigation();
-        this.view.reveal();
+        this.view.onQuizLoaded();
     };
 
     #showScene() {
