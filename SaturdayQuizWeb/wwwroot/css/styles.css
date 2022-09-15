@@ -24,10 +24,10 @@ body {
   justify-content: center;
 }
 #loader-box #loader {
-  height: 40px;
+  height: 20px;
   width: 40px;
-  background-color: #333;
-  border-radius: 20%;
+  background-color: #fd0;
+  border-radius: 10px;
   animation: 1s infinite spin;
   animation-timing-function: ease-in-out;
 }
@@ -36,7 +36,7 @@ body {
     transform: rotate(0deg);
   }
   to {
-    transform: rotate(270deg);
+    transform: rotate(360deg);
   }
 }
 #box {
@@ -193,4 +193,3 @@ body {
     margin-left: 0;
   }
 }
-/*# sourceMappingURL=styles.css.map */
