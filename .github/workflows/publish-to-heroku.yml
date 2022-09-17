@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - switch-to-github-actions
 jobs:
   build-and-test:
     name: Build and test
