@@ -1,7 +1,11 @@
-name: build-and-test
-on: [push]
+name: build-and-test-branch
+on:
+  push:
+    branches:
+      - "!main"
 jobs:
   build-and-test:
+    name: Build and test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
