@@ -1,0 +1,26 @@
+name: deploy-to-heroku
+on:
+  push:
+    branches:
+      - main
+      - switch-to-github-actions
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.201'
+      - run: dotnet build -c Release
+      - run: dotnet test -c Release SaturdayQuizWeb.UnitTests
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "fiendish-eaton"
+          heroku_email: "markw@bitrot.net"

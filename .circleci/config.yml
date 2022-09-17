@@ -7,14 +7,14 @@ workflows:
   build_test_and_deploy:
     jobs:
       - build_and_test
-      - heroku/deploy-via-git:
-          force:
-            true
-          requires:
-            - build_and_test
-          filters:
-            branches:
-              only: main
+#      - heroku/deploy-via-git:
+#          force:
+#            true
+#          requires:
+#            - build_and_test
+#          filters:
+#            branches:
+#              only: main
 
 jobs:
   build_and_test:
