@@ -6,21 +6,23 @@ on:
       - switch-to-github-actions
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    name: Build and test
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '6.0.201'
+          dotnet-version: '6.0.401'
       - run: dotnet build -c Release
       - run: dotnet test -c Release SaturdayQuizWeb.UnitTests
-  deploy:
+  deploy-to-heroku:
+    name: Deploy to Heroku
     needs: build-and-test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "fiendish-eaton"
-          heroku_email: "markw@bitrot.net"
+          heroku_app_name: fiendish-eaton
+          heroku_email: markw@bitrot.net
