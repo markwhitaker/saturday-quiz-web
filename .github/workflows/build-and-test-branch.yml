@@ -1,0 +1,12 @@
+name: build-and-test
+on:
+  push:
+    branches:
+      - "!main"
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  build-and-test:
+    name: Build and test branch
+    uses: .github/workflows/build-and-test.yml
