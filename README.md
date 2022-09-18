@@ -1,4 +1,4 @@
-# Saturday Quiz backend [![CircleCI](https://circleci.com/gh/markwhitaker/saturday-quiz-web.svg?style=shield&circle-token=16cc920fcc12be754d06fa8e8aa7eca367945993)](https://circleci.com/gh/markwhitaker/saturday-quiz-web)
+# Saturday Quiz backend ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/markwhitaker/saturday-quiz-web/build-and-test) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/markwhitaker/saturday-quiz-web/deploy-to-heroku?label=heroku%20deploy)
 
 ## Web App
 
