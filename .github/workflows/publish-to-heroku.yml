@@ -6,8 +6,8 @@ on:
 
 jobs:
   build-and-test:
-    name: Build and test
-    uses: .github/workflows/build-and-test.yml@main
+    name: Build and test (main)
+    uses: ./.github/workflows/build-and-test.yml
 
   deploy-to-heroku:
     name: Deploy to Heroku

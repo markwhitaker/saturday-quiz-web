@@ -8,5 +8,5 @@ on:
 
 jobs:
   build-and-test:
-    name: Build and test branch
-    uses: .github/workflows/build-and-test.yml@main
+    name: Build and test (branch)
+    uses: ./.github/workflows/build-and-test.yml
