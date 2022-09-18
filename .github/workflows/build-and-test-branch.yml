@@ -9,4 +9,4 @@ on:
 jobs:
   build-and-test:
     name: Build and test branch
-    uses: .github/workflows/build-and-test.yml
+    uses: .github/workflows/build-and-test.yml@main
