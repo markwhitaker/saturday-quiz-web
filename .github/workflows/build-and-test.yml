@@ -4,7 +4,7 @@ on:
 
 jobs:
   build-and-test:
-    name: "Build and test ($GITHUB_REF_NAME)"
+    name: "Build and test (${{ env.GITHUB_REF_NAME }})"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
