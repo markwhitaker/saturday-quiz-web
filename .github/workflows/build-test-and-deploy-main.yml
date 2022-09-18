@@ -11,7 +11,7 @@ jobs:
 
   deploy-to-heroku:
     name: Deploy to Heroku
-    needs: build-and-test
+    needs: build-and-test-main
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
