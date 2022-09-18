@@ -7,5 +7,6 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  build-and-test:
+  build-and-test-branch:
+    name: Build and test branch
     uses: ./.github/workflows/build-and-test.yml

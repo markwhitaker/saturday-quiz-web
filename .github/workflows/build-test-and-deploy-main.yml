@@ -1,11 +1,12 @@
-name: Deploy to Heroku
+name: Build, test and deploy main
 on:
   push:
     branches:
       - main
 
 jobs:
-  build-and-test:
+  build-and-test-main:
+    name: Build and test main
     uses: ./.github/workflows/build-and-test.yml
 
   deploy-to-heroku:
