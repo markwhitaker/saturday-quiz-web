@@ -1,4 +1,4 @@
-# Saturday Quiz backend [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/markwhitaker/saturday-quiz-web/build-and-test)](https://github.com/markwhitaker/saturday-quiz-web/actions) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/markwhitaker/saturday-quiz-web/deploy-to-heroku?label=heroku%20deploy)](https://dashboard.heroku.com/apps/fiendish-eaton)
+# Saturday Quiz backend [![Build and test branch](https://github.com/markwhitaker/saturday-quiz-web/actions/workflows/build-and-test-branch.yml/badge.svg)](https://github.com/markwhitaker/saturday-quiz-web/actions/workflows/build-and-test-branch.yml) [![Build, test and deploy main](https://github.com/markwhitaker/saturday-quiz-web/actions/workflows/build-test-and-deploy-main.yml/badge.svg)](https://github.com/markwhitaker/saturday-quiz-web/actions/workflows/build-test-and-deploy-main.yml)
 
 ## Web App
 
@@ -7,3 +7,7 @@ https://fiendish-eaton.herokuapp.com/
 ## REST API
 
 https://fiendish-eaton.herokuapp.com/swagger/
+
+## Heroku dashboard
+
+https://dashboard.heroku.com/apps/fiendish-eaton/
