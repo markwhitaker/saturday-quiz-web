@@ -7,7 +7,9 @@ on:
 jobs:
   build-and-test-main:
     name: Build and test main
-    uses: ./.github/workflows/build-and-test.yml
+    uses: markwhitaker/shared-workflows/.github/workflows/dotnet-build-and-test.yml@main
+    with:
+      tests_to_run: SaturdayQuizWeb.UnitTests
 
   deploy-to-heroku:
     name: Deploy to Heroku
