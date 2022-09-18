@@ -1,0 +1,22 @@
+name: Build, test and deploy main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test-main:
+    name: Build and test main
+    uses: ./.github/workflows/build-and-test.yml
+
+  deploy-to-heroku:
+    name: Deploy to Heroku
+    needs: build-and-test
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: fiendish-eaton
+          heroku_email: ${{secrets.HEROKU_EMAIL_ADDRESS}}
