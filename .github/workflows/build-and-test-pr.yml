@@ -1,14 +1,9 @@
-name: Build and test branch
-on:
-  push:
-    branches-ignore:
-      - main
-  pull_request:
-    types: [opened, reopened, synchronize]
+name: Build PR
+on: [pull_request]
 
 jobs:
   build-and-test-branch:
-    name: Build and test branch
+    name: Build and test PR
     uses: markwhitaker/shared-workflows/.github/workflows/dotnet-build-and-test.yml@main
     with:
       tests_to_run: SaturdayQuizWeb.UnitTests
