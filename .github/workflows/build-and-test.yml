@@ -1,8 +1,8 @@
-name: Build PR
+name: Build and test
 on: [pull_request]
 
 jobs:
-  build-and-test-branch:
+  build-and-test-pr:
     name: Build and test PR
     uses: markwhitaker/shared-workflows/.github/workflows/dotnet-build-and-test.yml@main
     with:
