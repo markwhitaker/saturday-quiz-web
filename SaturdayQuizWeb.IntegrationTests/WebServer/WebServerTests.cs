@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using SaturdayQuizWeb.Model;
 
 namespace SaturdayQuizWeb.IntegrationTests.WebServer;
 
@@ -34,7 +37,7 @@ public class WebServerTests
 
         // When
         var response = await httpClient.GetAsync(requestUri);
-        
+
         // Then
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
@@ -53,13 +56,43 @@ public class WebServerTests
         {
             Path = path
         }.ToString();
-        
+
         // When
         var response = await httpClient.GetAsync(requestUri);
-        
+
         // Then
         Assert.That(response.Headers.CacheControl, Is.Not.Null);
         Assert.That(response.Headers.CacheControl!.NoCache, Is.True);
+    }
+
+    [Test]
+    public async Task GivenQuizApiUriWithId_WhenRequested_ThenCacheControlHeaderValueIs365Days()
+    {
+        // Given
+        using var httpClient = _webApplicationFactory.CreateClient();
+
+        var metadataRequestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
+        {
+            Path = "api/quiz-metadata",
+            Query = "count=1"
+        }.ToString();
+        var metadataResponse = await httpClient.GetAsync(metadataRequestUri);
+        var metadataJson = await metadataResponse.Content.ReadAsStringAsync();
+        var metadata = JsonConvert.DeserializeObject<QuizMetadata[]>(metadataJson)!.First();
+
+        var requestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
+        {
+            Path = "api/quiz",
+            Query = $"id={metadata.Id}"
+        }.ToString();
+        var expectedCacheControlMaxAge = TimeSpan.FromDays(365);
+
+        // When
+        var response = await httpClient.GetAsync(requestUri);
+
+        // Then
+        Assert.That(response.Headers.CacheControl, Is.Not.Null);
+        Assert.That(response.Headers.CacheControl!.MaxAge, Is.EqualTo(expectedCacheControlMaxAge));
     }
 
     [TestCase("")]
@@ -76,10 +109,10 @@ public class WebServerTests
         {
             Path = path
         }.ToString();
-        
+
         // When
         var response = await httpClient.GetAsync(requestUri);
-        
+
         // Then
         Assert.That(response.Headers.Contains("X-Content-Type-Options"), Is.True);
         Assert.That(response.Headers.GetValues("X-Content-Type-Options"), Has.One.Items.EqualTo("nosniff"));
@@ -98,10 +131,10 @@ public class WebServerTests
         {
             Path = path
         }.ToString();
-        
+
         // When
         var response = await httpClient.GetAsync(requestUri);
-        
+
         // Then
         Assert.That(response.Content.Headers.Contains("Content-Type"), Is.True);
         Assert.That(response.Content.Headers.GetValues("Content-Type"), Has.One.Items.EqualTo($"{expectedContentType}; charset=utf-8"));
@@ -118,10 +151,10 @@ public class WebServerTests
         {
             Path = path
         }.ToString();
-        
+
         // When
         var response = await httpClient.GetAsync(requestUri);
-        
+
         // Then
         Assert.That(response.Content.Headers.Contains("Content-Type"), Is.True);
         Assert.That(response.Content.Headers.GetValues("Content-Type"), Has.One.Items.EqualTo(expectedContentType));
@@ -137,10 +170,10 @@ public class WebServerTests
         {
             Path = path
         }.ToString();
-        
+
         // When
         var response = await httpClient.GetAsync(requestUri);
-        
+
         // Then
         Assert.That(response.Content.Headers.Contains("Content-Type"), Is.True);
         Assert.That(response.Content.Headers.GetValues("Content-Type"), Has.One.Items.EqualTo("application/json; charset=utf-8"));
