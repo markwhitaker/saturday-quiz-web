@@ -25,7 +25,7 @@ public class QuizController : ControllerBase
         [FromQuery] string? id = null,
         [FromQuery] int? delaySeconds = null)
     {
-        HttpContext.Response.AddCustomHeaders(id == null ? TimeSpan.Zero : TimeSpan.FromDays(365));
+        Response.AddCustomHeaders(id == null ? TimeSpan.Zero : TimeSpan.FromDays(365));
 
         try
         {
