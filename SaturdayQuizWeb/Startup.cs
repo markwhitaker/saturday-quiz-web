@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -63,7 +64,7 @@ public class Startup
         app.UseStaticFiles(new StaticFileOptions
         {
             ContentTypeProvider = new Utf8ContentTypeProvider(),
-            OnPrepareResponse = context => context.Context.Response.AddCustomHeaders()
+            OnPrepareResponse = context => context.Context.Response.AddCustomHeaders(TimeSpan.Zero)
         });
     }
 

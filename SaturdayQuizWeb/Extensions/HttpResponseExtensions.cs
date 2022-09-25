@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 
 namespace SaturdayQuizWeb.Extensions;
 
 public static class HttpResponseExtensions
 {
-    public static void AddCustomHeaders(this HttpResponse response)
+    public static void AddCustomHeaders(this HttpResponse response, TimeSpan cacheDuration)
     {
-        response.Headers.CacheControl = "no-cache";
+        response.Headers.CacheControl = cacheDuration.ToCacheControlHeaderValue();
         response.Headers.XContentTypeOptions = "nosniff";
     }
 }
