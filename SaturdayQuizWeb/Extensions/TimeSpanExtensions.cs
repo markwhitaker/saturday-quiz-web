@@ -11,11 +11,9 @@ public static class TimeSpanExtensions
             throw new ArgumentOutOfRangeException(nameof(timeSpan), "Value must not be negative");
         }
 
-        var seconds = (int)timeSpan.TotalSeconds;
-        if (seconds < 0)
-        {
-            seconds = int.MaxValue;
-        }
+        var seconds = timeSpan.TotalSeconds > int.MaxValue
+            ? int.MaxValue
+            : (int)timeSpan.TotalSeconds;
 
         return seconds == 0 ? "no-cache" : $"max-age={seconds}";
     }
