@@ -29,6 +29,7 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy-to-azure:
+    name: Deploy to Azure
     runs-on: ubuntu-22.04
     needs: build-test-and-publish
     environment:
