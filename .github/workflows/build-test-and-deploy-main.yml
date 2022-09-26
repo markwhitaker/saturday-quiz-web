@@ -48,3 +48,15 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3C716B37F4324CF89942C22AA5D16FB3 }}
           package: .
+
+  deploy-to-heroku:
+    name: Deploy to Heroku
+    needs: build-test-and-publish
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: fiendish-eaton
+          heroku_email: ${{secrets.HEROKU_EMAIL_ADDRESS}}
