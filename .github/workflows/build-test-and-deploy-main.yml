@@ -3,22 +3,48 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  build-and-test-main:
+  build-test-and-publish:
     name: Build and test main
-    uses: markwhitaker/shared-workflows/.github/workflows/dotnet-build-and-test.yml@main
-    with:
-      tests_to_run: SaturdayQuizWeb.UnitTests
-
-  deploy-to-heroku:
-    name: Deploy to Heroku
-    needs: build-and-test-main
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: fiendish-eaton
-          heroku_email: ${{secrets.HEROKU_EMAIL_ADDRESS}}
+          dotnet-version: 6.0.401
+      - name: Build release build
+        run: dotnet build -c Release
+      - name: Test release build
+        run: dotnet test -c Release SaturdayQuizWeb.UnitTests
+      - name: Publish package
+        run: dotnet publish SaturdayQuizWeb -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
+
+  deploy-to-azure:
+    runs-on: ubuntu-22.04
+    needs: build-test-and-publish
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: .net-app
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'saturdayquiz'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3C716B37F4324CF89942C22AA5D16FB3 }}
+          package: .
