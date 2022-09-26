@@ -2,12 +2,8 @@
 
 ## Web App
 
-https://fiendish-eaton.herokuapp.com/
+https://saturdayquiz.azurewebsites.net/
 
 ## REST API
 
-https://fiendish-eaton.herokuapp.com/swagger/
-
-## Heroku dashboard
-
-https://dashboard.heroku.com/apps/fiendish-eaton/
+https://saturdayquiz.azurewebsites.net/swagger/
