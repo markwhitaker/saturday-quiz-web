@@ -7,13 +7,26 @@ on:
 
 jobs:
   build-test-and-publish:
-    name: Build, test and publish
-    uses: markwhitaker/shared-workflows/.github/workflows/dotnet-build-test-and-publish.yml@main
-    with:
-      tests_to_run: SaturdayQuizWeb.UnitTests
-      folder_to_publish: SaturdayQuizWeb
-      artifact_name: dotnet-app
-      artifact_path: ${{env.DOTNET_ROOT}}/myapp
+    name: Build and test main
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.401
+      - name: Build release build
+        run: dotnet build -c Release
+      - name: Test release build
+        run: dotnet test -c Release SaturdayQuizWeb.UnitTests
+      - name: Publish package
+        run: dotnet publish SaturdayQuizWeb -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy-to-azure:
     name: Deploy to Azure
@@ -27,7 +40,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: dotnet-app
+          name: .net-app
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
