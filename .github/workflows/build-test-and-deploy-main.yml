@@ -29,28 +29,6 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  deploy-to-azure:
-    name: Deploy to Azure
-    runs-on: ubuntu-22.04
-    needs: build-test-and-publish
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: .net-app
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'saturdayquiz'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3C716B37F4324CF89942C22AA5D16FB3 }}
-          package: .
-
   deploy-to-heroku:
     name: Deploy to Heroku
     needs: build-test-and-publish
