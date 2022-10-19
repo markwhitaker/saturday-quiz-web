@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-test-and-publish:
+  build-and-test:
     name: Build, test and publish main
     runs-on: ubuntu-22.04
     steps:
@@ -21,17 +21,10 @@ jobs:
         run: dotnet build -c Release
       - name: Test release build
         run: dotnet test -c Release SaturdayQuizWeb.UnitTests
-      - name: Publish package
-        run: dotnet publish SaturdayQuizWeb -c Release -o ${{env.DOTNET_ROOT}}/myapp
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy-to-heroku:
     name: Deploy to Heroku
-    needs: build-test-and-publish
+    needs: build-and-test
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
