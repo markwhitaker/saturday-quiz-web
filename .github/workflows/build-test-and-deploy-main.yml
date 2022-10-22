@@ -17,27 +17,10 @@ jobs:
         with:
           dotnet-version: 6.0.x
           dotnet-quality: ga
-      - name: Build (release)
+      - name: Build release build
         run: dotnet build -c Release
-      - name: Run unit tests (release)
+      - name: Test release build
         run: dotnet test -c Release SaturdayQuizWeb.UnitTests
-
-  run-integration-tests:
-    name: Run integration tests
-    needs: build-and-test
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-          dotnet-quality: ga
-      - name: Build (release)
-        run: dotnet build -c Release
-      - name: Run integration tests (release)
-        run: dotnet test -c Release SaturdayQuizWeb.IntegrationTests
 
   deploy-to-heroku:
     name: Deploy to Heroku
