@@ -40,27 +40,49 @@ public class QuizMetadataServiceTests
     {
         // Given
         var today = new DateTime(2022, 1, 8, 23, 59, 59);
-        var quizDate = today.Subtract(TimeSpan.FromDays(ageInDays));
+        var oldDate = today.Subtract(TimeSpan.FromDays(ageInDays));
+        var oldQuizMetadata = new QuizMetadata
+        {
+            Id = "id",
+            Date = oldDate,
+            Title = "title",
+            Url = "url-1",
+            Source = "API"
+        };
+        var newQuizMetadata = new QuizMetadata
+        {
+            Id = "id",
+            Date = today,
+            Title = "title",
+            Url = "url-2",
+            Source = "RSS"
+        };
         var expectedApiResponse = new List<QuizMetadata>
         {
-            new()
-            {
-                Id = "id",
-                Date = quizDate,
-                Title = "title",
-                Url = "url"
-            }
+            newQuizMetadata,
+            oldQuizMetadata
+        };
+        var expectedRssResponse = new List<QuizMetadata>
+        {
+            newQuizMetadata,
+            oldQuizMetadata
+        };
+        var expectedMetadataServiceResponse = new List<QuizMetadata>
+        {
+            newQuizMetadata, oldQuizMetadata
         };
 
         _mockDateTimeWrapper.UtcNow.Returns(today);
         _mockGuardianApiClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedApiResponse);
+        _mockGuardianRssClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedRssResponse);
 
         // When
-        await _quizMetadataService.GetQuizMetadataAsync(1);
+        var actualMetadataServiceResponse = await _quizMetadataService.GetQuizMetadataAsync(2);
 
         // Then
-        await _mockGuardianApiClient.Received().GetQuizMetadataAsync(1);
+        await _mockGuardianApiClient.Received().GetQuizMetadataAsync(2);
         await _mockGuardianRssClient.DidNotReceiveWithAnyArgs().GetQuizMetadataAsync(default);
+        Assert.That(expectedMetadataServiceResponse, Is.EqualTo(actualMetadataServiceResponse));
     }
 
     [TestCase(7)]
@@ -71,26 +93,47 @@ public class QuizMetadataServiceTests
     {
         // Given
         var today = new DateTime(2022, 1, 8, 23, 59, 59);
-        var quizDate = today.Subtract(TimeSpan.FromDays(ageInDays));
+        var oldDate = today.Subtract(TimeSpan.FromDays(ageInDays));
+        var oldQuizMetadata = new QuizMetadata
+        {
+            Id = "id",
+            Date = oldDate,
+            Title = "title",
+            Url = "url-1",
+            Source = "API"
+        };
+        var newQuizMetadata = new QuizMetadata
+        {
+            Id = "id",
+            Date = today,
+            Title = "title",
+            Url = "url-2",
+            Source = "RSS"
+        };
         var expectedApiResponse = new List<QuizMetadata>
         {
-            new()
-            {
-                Id = "id",
-                Date = quizDate,
-                Title = "title",
-                Url = "url"
-            }
+            oldQuizMetadata
+        };
+        var expectedRssResponse = new List<QuizMetadata>
+        {
+            newQuizMetadata,
+            oldQuizMetadata
+        };
+        var expectedMetadataServiceResponse = new List<QuizMetadata>
+        {
+            newQuizMetadata, oldQuizMetadata
         };
 
         _mockDateTimeWrapper.UtcNow.Returns(today);
         _mockGuardianApiClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedApiResponse);
+        _mockGuardianRssClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedRssResponse);
 
         // When
-        await _quizMetadataService.GetQuizMetadataAsync(1);
+        var actualMetadataServiceResponse = await _quizMetadataService.GetQuizMetadataAsync(2);
 
         // Then
-        await _mockGuardianApiClient.Received().GetQuizMetadataAsync(1);
-        await _mockGuardianRssClient.Received().GetQuizMetadataAsync(1);
+        await _mockGuardianApiClient.Received().GetQuizMetadataAsync(2);
+        await _mockGuardianRssClient.Received().GetQuizMetadataAsync(2);
+        Assert.That(expectedMetadataServiceResponse, Is.EqualTo(actualMetadataServiceResponse));
     }
 }
