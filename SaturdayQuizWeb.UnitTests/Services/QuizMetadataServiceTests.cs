@@ -39,37 +39,45 @@ public class QuizMetadataServiceTests
     public async Task GivenLatestQuizReturnedByApiIsLessThanAWeekOld_WhenGettingMetadata_ThenRssIsNotUsed(int ageInDays)
     {
         // Given
+        const int quizzesRequestedCount = 5;
         var today = new DateTime(2022, 1, 8, 23, 59, 59);
         var oldDate = today.Subtract(TimeSpan.FromDays(ageInDays));
-        var oldQuizMetadata = new QuizMetadata
+        var apiMetadata1 = new QuizMetadata
         {
-            Id = "id",
+            Id = "api-id-1",
             Date = oldDate,
-            Title = "title",
+            Title = "api-title-1",
             Url = "url-1",
             Source = "API"
         };
-        var newQuizMetadata = new QuizMetadata
+        var expectedApiResponse = new List<QuizMetadata>
         {
-            Id = "id",
+            apiMetadata1
+        };
+        var rssMetadata1 = new QuizMetadata
+        {
+            Id = "rss-id-1",
             Date = today,
-            Title = "title",
+            Title = "rss-title-1",
+            Url = "url-1",
+            Source = "RSS"
+        };
+        var rssMetadata2 = new QuizMetadata
+        {
+            Id = "rss-id-2",
+            Date = oldDate,
+            Title = "rss-title-2",
             Url = "url-2",
             Source = "RSS"
         };
-        var expectedApiResponse = new List<QuizMetadata>
-        {
-            newQuizMetadata,
-            oldQuizMetadata
-        };
         var expectedRssResponse = new List<QuizMetadata>
         {
-            newQuizMetadata,
-            oldQuizMetadata
+            rssMetadata1,
+            rssMetadata2
         };
         var expectedMetadataServiceResponse = new List<QuizMetadata>
         {
-            newQuizMetadata, oldQuizMetadata
+            apiMetadata1
         };
 
         _mockDateTimeWrapper.UtcNow.Returns(today);
@@ -77,10 +85,10 @@ public class QuizMetadataServiceTests
         _mockGuardianRssClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedRssResponse);
 
         // When
-        var actualMetadataServiceResponse = await _quizMetadataService.GetQuizMetadataAsync(2);
+        var actualMetadataServiceResponse = await _quizMetadataService.GetQuizMetadataAsync(quizzesRequestedCount);
 
         // Then
-        await _mockGuardianApiClient.Received().GetQuizMetadataAsync(2);
+        await _mockGuardianApiClient.Received().GetQuizMetadataAsync(quizzesRequestedCount);
         await _mockGuardianRssClient.DidNotReceiveWithAnyArgs().GetQuizMetadataAsync(default);
         Assert.That(expectedMetadataServiceResponse, Is.EqualTo(actualMetadataServiceResponse));
     }
@@ -92,36 +100,46 @@ public class QuizMetadataServiceTests
     public async Task GivenLatestQuizReturnedByApiIsAWeekOldOrOlder_WhenGettingMetadata_ThenRssIsUsed(int ageInDays)
     {
         // Given
+        const int quizzesRequestedCount = 5;
         var today = new DateTime(2022, 1, 8, 23, 59, 59);
         var oldDate = today.Subtract(TimeSpan.FromDays(ageInDays));
-        var oldQuizMetadata = new QuizMetadata
+        var apiMetadata2 = new QuizMetadata
         {
-            Id = "id",
+            Id = "api-id-2",
             Date = oldDate,
-            Title = "title",
-            Url = "url-1",
-            Source = "API"
-        };
-        var newQuizMetadata = new QuizMetadata
-        {
-            Id = "id",
-            Date = today,
-            Title = "title",
+            Title = "api-title-2",
             Url = "url-2",
-            Source = "RSS"
+            Source = "API"
         };
         var expectedApiResponse = new List<QuizMetadata>
         {
-            oldQuizMetadata
+            apiMetadata2
+        };
+        var rssMetadata1 = new QuizMetadata
+        {
+            Id = "rss-id-1",
+            Date = today,
+            Title = "rss-title-1",
+            Url = "url-1",
+            Source = "RSS"
+        };
+        var rssMetadata2 = new QuizMetadata
+        {
+            Id = "rss-id-2",
+            Date = oldDate,
+            Title = "rss-title-2",
+            Url = "url-2",
+            Source = "RSS"
         };
         var expectedRssResponse = new List<QuizMetadata>
         {
-            newQuizMetadata,
-            oldQuizMetadata
+            rssMetadata1,
+            rssMetadata2
         };
         var expectedMetadataServiceResponse = new List<QuizMetadata>
         {
-            newQuizMetadata, oldQuizMetadata
+            rssMetadata1,
+            apiMetadata2
         };
 
         _mockDateTimeWrapper.UtcNow.Returns(today);
@@ -129,11 +147,11 @@ public class QuizMetadataServiceTests
         _mockGuardianRssClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedRssResponse);
 
         // When
-        var actualMetadataServiceResponse = await _quizMetadataService.GetQuizMetadataAsync(2);
+        var actualMetadataServiceResponse = await _quizMetadataService.GetQuizMetadataAsync(quizzesRequestedCount);
 
         // Then
-        await _mockGuardianApiClient.Received().GetQuizMetadataAsync(2);
-        await _mockGuardianRssClient.Received().GetQuizMetadataAsync(2);
+        await _mockGuardianApiClient.Received().GetQuizMetadataAsync(quizzesRequestedCount);
+        await _mockGuardianRssClient.Received().GetQuizMetadataAsync(quizzesRequestedCount);
         Assert.That(expectedMetadataServiceResponse, Is.EqualTo(actualMetadataServiceResponse));
     }
 }
