@@ -10,9 +10,8 @@ using SaturdayQuizWeb.Model;
 
 namespace SaturdayQuizWeb.Clients;
 
-public interface IGuardianApiClient
+public interface IGuardianApiClient : IGuardianQuizMetadataClient
 {
-    Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count);
 }
 
 public class GuardianApiClient : IGuardianApiClient
@@ -26,7 +25,7 @@ public class GuardianApiClient : IGuardianApiClient
         _restClient = new RestClient(_config.ApiBaseUrl);
     }
 
-    public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
+    public async Task<IReadOnlySet<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
         var request = new RestRequest(_config.ApiEndpoint)
             {
@@ -47,11 +46,13 @@ public class GuardianApiClient : IGuardianApiClient
                     Url = item.WebUrl,
                     Source = "API"
                 })
+                .Distinct()
                 .OrderByDescending(qm => qm.Date)
-                .ToList();
+                .Take(count)
+                .ToHashSet();
         }
 
-        return new List<QuizMetadata>();
+        return new HashSet<QuizMetadata>();
     }
 
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]

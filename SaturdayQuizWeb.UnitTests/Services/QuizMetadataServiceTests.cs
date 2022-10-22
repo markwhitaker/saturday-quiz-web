@@ -50,7 +50,7 @@ public class QuizMetadataServiceTests
             Url = "url-1",
             Source = "API"
         };
-        var expectedApiResponse = new List<QuizMetadata>
+        var expectedApiResponse = new HashSet<QuizMetadata>
         {
             apiMetadata1
         };
@@ -70,7 +70,7 @@ public class QuizMetadataServiceTests
             Url = "url-2",
             Source = "RSS"
         };
-        var expectedRssResponse = new List<QuizMetadata>
+        var expectedRssResponse = new HashSet<QuizMetadata>
         {
             rssMetadata1,
             rssMetadata2
@@ -111,7 +111,7 @@ public class QuizMetadataServiceTests
             Url = "url-2",
             Source = "API"
         };
-        var expectedApiResponse = new List<QuizMetadata>
+        var expectedApiResponse = new HashSet<QuizMetadata>
         {
             apiMetadata2
         };
@@ -131,7 +131,7 @@ public class QuizMetadataServiceTests
             Url = "url-2",
             Source = "RSS"
         };
-        var expectedRssResponse = new List<QuizMetadata>
+        var expectedRssResponse = new HashSet<QuizMetadata>
         {
             rssMetadata1,
             rssMetadata2

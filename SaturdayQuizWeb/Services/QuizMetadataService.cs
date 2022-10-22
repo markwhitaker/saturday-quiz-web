@@ -33,7 +33,7 @@ public class QuizMetadataService : IQuizMetadataService
     {
         var set = (await _guardianApiClient.GetQuizMetadataAsync(count)).ToHashSet();
 
-        if (!set.Any() || IsOlderThan1Week(set.MaxBy(qm => qm.Date)))
+        if (!IsUpToDate(set))
         {
             set.UnionWith(await _guardianRssClient.GetQuizMetadataAsync(count));
         }
@@ -43,7 +43,16 @@ public class QuizMetadataService : IQuizMetadataService
             throw new Exception("Couldn't get data from the Guardian API or RSS feed");
         }
 
-        return set.OrderByDescending(qm => qm.Date).Take(count).ToList();
+        return set
+            .OrderByDescending(qm => qm.Date)
+            .Take(count)
+            .ToList();
+    }
+
+    private bool IsUpToDate(IEnumerable<QuizMetadata> quizMetadataSet)
+    {
+        var newestItem = quizMetadataSet.MaxBy(qm => qm.Date);
+        return newestItem != null && !IsOlderThan1Week(newestItem);
     }
 
     private bool IsOlderThan1Week(QuizMetadata quizMetadata) =>
