@@ -1,6 +1,6 @@
 ﻿namespace SaturdayQuizWeb.Model;
 
-public record QuestionModel
+public sealed record QuestionModel
 {
     public int Number { get; init; }
     public QuestionType Type { get; init; }

@@ -2,7 +2,7 @@
 
 namespace SaturdayQuizWeb.Model;
 
-public record Error
+public sealed record Error
 {
     // ReSharper disable once MemberCanBePrivate.Global
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
