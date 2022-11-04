@@ -71,8 +71,11 @@ public class GuardianApiClient : IGuardianApiClient
     public record GuardianApiQuizSummary
     {
         public string Id { get; init; } = string.Empty;
+
         public DateTime WebPublicationDate { get; init; }
+
         public string WebTitle { get; init; } = string.Empty;
+
         public string WebUrl { get; init; } = string.Empty;
     }
 }

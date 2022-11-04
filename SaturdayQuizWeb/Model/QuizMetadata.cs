@@ -10,13 +10,17 @@ public sealed record QuizMetadata
     }
 
     public string Id { get; init; } = string.Empty;
+
     public DateTime Date
     {
         get => _date;
         init => _date = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0, DateTimeKind.Utc);
     }
+
     public string Title { get; init; } = string.Empty;
+
     public string Url { get; init; } = string.Empty;
+
     public string Source { get; init; } = string.Empty;
 
     public override int GetHashCode() => Url.GetHashCode();
