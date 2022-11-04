@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.StaticFiles;
-using NUnit.Framework;
-using SaturdayQuizWeb.Utils;
+﻿using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.UnitTests;
 

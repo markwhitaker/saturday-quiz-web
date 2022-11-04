@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using SaturdayQuizWeb.Clients;
+﻿using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Wrappers;
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using RegexToolbox;
+﻿using RegexToolbox;
 
 namespace SaturdayQuizWeb.Extensions;
 

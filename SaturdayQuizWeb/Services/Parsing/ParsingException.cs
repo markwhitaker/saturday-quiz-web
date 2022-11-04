@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SaturdayQuizWeb.Services.Parsing;
+﻿namespace SaturdayQuizWeb.Services.Parsing;
 
 public class ParsingException : Exception
 {

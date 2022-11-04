@@ -1,6 +1,3 @@
-using System.Net.Http;
-using System.Threading.Tasks;
-using NUnit.Framework;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Model;
 
@@ -25,10 +22,10 @@ public class GuardianRssClientTests
         int expectedCount)
     {
         // Given
-        
+
         // When
         var metadata = await _guardianRssClient.GetQuizMetadataAsync(expectedCount);
-        
+
         // Then
         Assert.That(metadata, Has.Exactly(expectedCount).Items);
         Assert.That(metadata, Is.Ordered.Descending.By("Date"));

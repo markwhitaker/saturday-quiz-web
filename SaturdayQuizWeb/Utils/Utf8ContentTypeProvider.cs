@@ -1,7 +1,4 @@
-﻿using Mainwave.MimeTypes;
-using Microsoft.AspNetCore.StaticFiles;
-
-namespace SaturdayQuizWeb.Utils;
+﻿namespace SaturdayQuizWeb.Utils;
 
 public class Utf8ContentTypeProvider : FileExtensionContentTypeProvider
 {

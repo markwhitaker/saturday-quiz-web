@@ -1,7 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using SaturdayQuizWeb.Clients;
+﻿using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Wrappers;
 

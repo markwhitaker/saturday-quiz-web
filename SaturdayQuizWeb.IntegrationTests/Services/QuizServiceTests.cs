@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using SaturdayQuizWeb.Clients;
+﻿using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;

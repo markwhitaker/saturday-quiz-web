@@ -1,5 +1,3 @@
-using System;
-
 namespace SaturdayQuizWeb.Extensions;
 
 public static class TimeSpanExtensions

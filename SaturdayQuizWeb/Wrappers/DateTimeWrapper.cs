@@ -1,5 +1,3 @@
-using System;
-
 namespace SaturdayQuizWeb.Wrappers;
 
 public interface IDateTimeWrapper

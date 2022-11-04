@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SaturdayQuizWeb.Model;
+﻿namespace SaturdayQuizWeb.Model;
 
 public sealed record Error
 {
