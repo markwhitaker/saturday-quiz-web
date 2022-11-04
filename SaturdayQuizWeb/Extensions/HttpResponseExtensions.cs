@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
-
-namespace SaturdayQuizWeb.Extensions;
+﻿namespace SaturdayQuizWeb.Extensions;
 
 public static class HttpResponseExtensions
 {

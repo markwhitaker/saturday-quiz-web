@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-using NUnit.Framework;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Model;
 
@@ -22,10 +20,10 @@ public class GuardianApiClientTests
         int expectedCount)
     {
         // Given
-        
+
         // When
         var metadata = await _guardianApiClient.GetQuizMetadataAsync(expectedCount);
-        
+
         // Then
         Assert.That(metadata, Has.Exactly(expectedCount).Items);
         Assert.That(metadata, Is.Ordered.Descending.By("Date"));

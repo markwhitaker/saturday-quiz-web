@@ -1,5 +1,3 @@
-using System;
-using NUnit.Framework;
 using SaturdayQuizWeb.Extensions;
 
 namespace SaturdayQuizWeb.UnitTests.Extensions;

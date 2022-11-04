@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using SaturdayQuizWeb.Config;
+﻿using SaturdayQuizWeb.Config;
 
 namespace SaturdayQuizWeb.Clients;
 

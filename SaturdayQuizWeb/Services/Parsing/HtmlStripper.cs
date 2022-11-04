@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using RegexToolbox;
+﻿using RegexToolbox;
 using RegexToolbox.Extensions;
 using SaturdayQuizWeb.Extensions;
 using static RegexToolbox.RegexOptions;
@@ -22,7 +21,7 @@ public class HtmlStripper : IHtmlStripper
         .AnyCharacterExcept(">", ZeroOrMore)
         .Text(">")
         .BuildRegex(IgnoreCase);
-    
+
     private static readonly Regex BrTagRegex = new RegexBuilder()
         .PossibleHtmlWhitespace()
         .Text("<")

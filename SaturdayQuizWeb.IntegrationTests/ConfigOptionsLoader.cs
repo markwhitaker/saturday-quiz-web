@@ -1,7 +1,3 @@
-using System;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.IntegrationTests.Services;
 using SaturdayQuizWeb.Utils;

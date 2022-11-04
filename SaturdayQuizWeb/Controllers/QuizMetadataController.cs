@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using SaturdayQuizWeb.Extensions;
+﻿using SaturdayQuizWeb.Extensions;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 

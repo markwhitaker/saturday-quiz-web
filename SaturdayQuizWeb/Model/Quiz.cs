@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SaturdayQuizWeb.Model;
+﻿namespace SaturdayQuizWeb.Model;
 
 public sealed record Quiz
 {

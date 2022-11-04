@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using SaturdayQuizWeb;
+﻿using SaturdayQuizWeb;
 
 // See https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/top-level-statements
 // for top-level statement syntax

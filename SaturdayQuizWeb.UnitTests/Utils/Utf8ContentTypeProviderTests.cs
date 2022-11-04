@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.UnitTests.Utils;

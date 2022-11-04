@@ -1,10 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using NUnit.Framework;
-using SaturdayQuizWeb.Model;
+﻿using SaturdayQuizWeb.Model;
 
 namespace SaturdayQuizWeb.IntegrationTests.WebServer;
 
