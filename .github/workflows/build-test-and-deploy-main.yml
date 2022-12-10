@@ -15,7 +15,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
           dotnet-quality: ga
       - name: Build release build
         run: dotnet build -c Release
@@ -33,3 +33,8 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: fiendish-eaton
           heroku_email: ${{secrets.HEROKU_EMAIL_ADDRESS}}
+        env:
+          # See https://github.com/jincod/dotnetcore-buildpack/issues/131#issuecomment-726409101
+          # and https://github.com/AkhileshNS/heroku-deploy#environment-variables
+          HD_DOTNET_SDK_VERSION: 7.0.100
+          HD_DOTNET_RUNTIME_VERSION: 7.0.0
