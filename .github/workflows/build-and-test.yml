@@ -4,6 +4,16 @@ on: [pull_request]
 jobs:
   build-and-test-pr:
     name: Build and test PR
-    uses: markwhitaker/shared-workflows/.github/workflows/dotnet-build-and-test.yml@main
-    with:
-      tests_to_run: SaturdayQuizWeb.UnitTests
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+          dotnet-quality: ga
+      - name: Build release build
+        run: dotnet build -c Release
+      - name: Test release build
+        run: dotnet test -c Release SaturdayQuizWeb.UnitTests
