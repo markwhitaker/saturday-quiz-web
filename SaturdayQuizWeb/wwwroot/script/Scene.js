@@ -8,7 +8,7 @@
         QUESTION_ANSWER: 3,
         END_TITLE: 4
     });
-    
+
     constructor(type, question, date, token) {
         if (token !== Scene.#privateToken) {
             throw new Error("Scene constructor is private");
@@ -19,22 +19,22 @@
     }
 
     static questionsTitleScene(date) {
-        return new Scene(Scene.Type.QUESTIONS_TITLE, null, date, this.#privateToken);
+        return new Scene(Scene.Type.QUESTIONS_TITLE, null, date, Scene.#privateToken);
     }
 
     static questionScene(question) {
-        return new Scene(Scene.Type.QUESTION, question, null, this.#privateToken);
+        return new Scene(Scene.Type.QUESTION, question, null, Scene.#privateToken);
     }
 
     static answersTitleScene() {
-        return new Scene(Scene.Type.ANSWERS_TITLE, null, null, this.#privateToken);
+        return new Scene(Scene.Type.ANSWERS_TITLE, null, null, Scene.#privateToken);
     }
 
     static questionAnswerScene(question) {
-        return new Scene(Scene.Type.QUESTION_ANSWER, question, null, this.#privateToken);
+        return new Scene(Scene.Type.QUESTION_ANSWER, question, null, Scene.#privateToken);
     }
 
     static endTitleScene() {
-        return new Scene(Scene.Type.END_TITLE, null, null, this.#privateToken);
+        return new Scene(Scene.Type.END_TITLE, null, null, Scene.#privateToken);
     }
 }
