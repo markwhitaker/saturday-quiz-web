@@ -1,4 +1,4 @@
-name: Build and test
+name: Build and test PR
 on: [pull_request]
 
 jobs:
@@ -16,11 +16,11 @@ jobs:
       - name: Build release build
         run: dotnet build -c Release
       - name: Test release build
-        run: dotnet test -c Release SaturdayQuizWeb.UnitTests --logger:"trx;LogFilePrefix=testResults"
+        run: dotnet test -c Release SaturdayQuizWeb.UnitTests --logger:"trx;LogFileName=testResults.trx"
       - name: Publish test results
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
           name: Unit Tests
-          path: ./TestResults/Performance/testResults.trx
+          path: ./SaturdayQuizWeb.UnitTests/TestResults/testResults.trx
           reporter: dotnet-trx
