@@ -22,5 +22,5 @@ jobs:
         if: success() || failure()
         with:
           name: Unit Tests
-          path: ./TestResults/testResults.trx
+          path: ./SaturdayQuizWeb.UnitTests/TestResults/testResults.trx
           reporter: dotnet-trx
