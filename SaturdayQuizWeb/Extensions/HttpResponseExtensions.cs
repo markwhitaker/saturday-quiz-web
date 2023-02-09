@@ -7,5 +7,6 @@ public static class HttpResponseExtensions
         response.Headers.CacheControl = cacheDuration.ToCacheControlHeaderValue();
         response.Headers.XContentTypeOptions = "nosniff";
         response.Headers.AccessControlAllowOrigin = "*";
+        response.Headers.AccessControlAllowCredentials = "true";
     }
 }
