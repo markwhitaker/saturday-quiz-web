@@ -38,3 +38,22 @@ jobs:
           # and https://github.com/AkhileshNS/heroku-deploy#environment-variables
           HD_DOTNET_SDK_VERSION: 7.0.100
           HD_DOTNET_RUNTIME_VERSION: 7.0.0
+
+  scan-with-dastardly:
+    name: Scan with Dastardly
+    runs-on: ubuntu-latest
+    needs: deploy-to-heroku
+
+    steps:
+      - name: Run Dastardly Scan
+        uses: PortSwigger/dastardly-github-action@main
+        with:
+          target-url: 'https://fiendish-eaton.herokuapp.com/'
+
+      - name: Publish Dastardly Scan Report
+        if: always()
+        uses: mikepenz/action-junit-report@v3
+        with:
+          check_name: 'Dastardly Scan Report'
+          report_paths: '**/dastardly-report.xml'
+          require_tests: true
