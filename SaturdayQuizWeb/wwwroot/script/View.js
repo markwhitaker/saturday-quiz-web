@@ -1,4 +1,5 @@
-﻿import QuestionScore from "./QuestionScore.js";
+﻿import $ from "./jqueryModule.js";
+import QuestionScore from "./QuestionScore.js";
 
 export default class View {
     constructor(presenter) {

@@ -1,3 +1,4 @@
+import $ from "./jqueryModule.js";
 import Presenter from "./Presenter.js";
 import QuizRepository from "./QuizRepository.js";
 import ScoreRepository from "./ScoreRepository.js";
