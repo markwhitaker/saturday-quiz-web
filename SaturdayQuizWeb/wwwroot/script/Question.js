@@ -9,5 +9,6 @@
         this.type = object.type;
         this.question = object.question;
         this.answer = object.answer;
+        this.isWhatLinks = this.type === Question.Type.WHAT_LINKS;
     }
 }

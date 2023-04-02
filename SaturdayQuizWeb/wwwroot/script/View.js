@@ -76,17 +76,18 @@ export default class View {
         $('#total-score').text("Total score: " + totalScore);
     };
 
-    showQuestionNumber(number) {
-        $('#question-number').text(number + '.');
+    showQuestion(question) {
+        $('#question-number').text(question.number + '.');
+        $('#question').text(question.question);
+        $('#question-what-links').toggleClass('visible', question.isWhatLinks);
     };
 
-    showQuestion(question, isWhatLinks) {
-        $('#question').text(question);
-        $('#question-what-links').toggleClass('visible', isWhatLinks);
-    };
+    hideAnswer() {
+        $('#answer').hide();
+    }
 
     showAnswer(answer) {
-        $('#answer').text(answer);
+        $('#answer').text(answer).show();
     };
 
     hideScoreTick() {

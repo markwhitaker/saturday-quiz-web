@@ -110,12 +110,8 @@ export default class Presenter {
             case Scene.Type.QUESTION:
                 view.hideScoreTick();
                 view.hideScoreShare();
-                view.showQuestionNumber(question.number);
-                view.showQuestion(
-                    question.question,
-                    question.type === Question.Type.WHAT_LINKS
-                );
-                view.showAnswer('');
+                view.showQuestion(question);
+                view.hideAnswer();
                 view.showQuestionPage();
                 break;
             case Scene.Type.ANSWERS_TITLE:
@@ -126,11 +122,7 @@ export default class Presenter {
                 break;
             case Scene.Type.QUESTION_ANSWER:
                 view.hideScoreShare();
-                view.showQuestionNumber(question.number);
-                view.showQuestion(
-                    question.question,
-                    question.type === Question.Type.WHAT_LINKS
-                );
+                view.showQuestion(question);
                 view.showAnswer(question.answer);
                 view.showQuestionPage();
                 view.showScoreTick(this.scoreRepository.getScore(question.number));
