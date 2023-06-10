@@ -1,5 +1,5 @@
 import Quiz from "./Quiz.js";
-import QuizMetadata from "./QuizMetadata.js";
+import QuizMetadata from "../js/QuizMetadata.js";
 
 export default class QuizRepository {
     #quizEndpoint = Object.freeze("api/quiz");

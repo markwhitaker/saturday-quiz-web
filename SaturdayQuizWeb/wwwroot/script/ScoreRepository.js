@@ -1,4 +1,4 @@
-﻿import QuestionScore from "./QuestionScore.js";
+﻿import QuestionScore from "../js/QuestionScore.js";
 
 const KEY_DATE = "date";
 const KEY_SCORES = "scores";

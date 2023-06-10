@@ -1,6 +1,6 @@
 ﻿import Scene from "./Scene.js";
 import Question from "./Question.js";
-import QuestionScore from "./QuestionScore.js";
+import QuestionScore from "../js/QuestionScore.js";
 
 export default class Presenter {
     constructor(quizRepository, scoreRepository) {
