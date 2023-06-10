@@ -1,14 +1,11 @@
-﻿export default class Question {
-    static Type = Object.freeze({
-        NORMAL: 'NORMAL',
-        WHAT_LINKS: 'WHAT_LINKS'
-    });
+﻿import QuestionType from "../js/QuestionType.js";
 
+export default class Question {
     constructor(object) {
         this.number = object.number;
         this.type = object.type;
         this.question = object.question;
         this.answer = object.answer;
-        this.isWhatLinks = this.type === Question.Type.WHAT_LINKS;
+        this.isWhatLinks = this.type === QuestionType.WHAT_LINKS;
     }
 }
