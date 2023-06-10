@@ -1,4 +1,4 @@
-﻿import Question from "./Question.js";
+﻿import Question from "../js/Question.js";
 
 export default class Quiz {
     constructor(object) {
