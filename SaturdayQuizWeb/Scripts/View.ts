@@ -1,9 +1,12 @@
-﻿import $ from "./jqueryModule.js";
+import $ from "./jqueryModule.js";
 import QuestionScore from "./QuestionScore.js";
+import Presenter from "./Presenter.js";
 
 export default class View {
-    constructor(presenter) {
-        this.presenter = presenter;
+    private readonly _presenter: Presenter;
+
+    constructor(presenter: Presenter) {
+        this._presenter = presenter;
     };
 
     onQuizLoaded() {
@@ -14,23 +17,23 @@ export default class View {
 
     enableNavigation() {
         $('#nav-left').click(e => {
-            this.presenter.onPrevious();
+            this._presenter.onPrevious();
             e.preventDefault();
         });
         $('#nav-right').click(e => {
-            this.presenter.onNext();
+            this._presenter.onNext();
             e.preventDefault();
         });
         $(document).keyup(e => {
             switch (e.code) {
                 case 'ArrowLeft':
-                    this.presenter.onPrevious();
+                    this._presenter.onPrevious();
                     break;
                 case 'ArrowRight':
-                    this.presenter.onNext();
+                    this._presenter.onNext();
                     break;
                 case 'Space':
-                    this.presenter.toggleScore();
+                    this._presenter.toggleScore();
                     break;
                 default:
                     return;
@@ -39,12 +42,12 @@ export default class View {
         });
 
         $('#score-tick').click(e => {
-            this.presenter.toggleScore();
+            this._presenter.toggleScore();
             e.preventDefault();
         })
 
         $('#score-share').click(async e => {
-            await this.presenter.shareScore();
+            await this._presenter.shareScore();
             e.preventDefault();
         })
     };
