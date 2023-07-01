@@ -1,5 +1,5 @@
 import SceneType from "./SceneType.js";
-import Question from "./Question";
+import Question from "./Question.js";
 
 export default class Scene {
     private readonly _type: SceneType;
