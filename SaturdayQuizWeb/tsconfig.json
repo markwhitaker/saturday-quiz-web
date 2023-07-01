@@ -2,7 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "module": "ES6",
-    "target": "ES2015",
+    "target": "ES6",
     "outDir": "wwwroot/js",
     "sourceMap": true
   },

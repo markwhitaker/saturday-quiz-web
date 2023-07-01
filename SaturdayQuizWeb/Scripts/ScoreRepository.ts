@@ -27,7 +27,7 @@ export default class ScoreRepository {
 
         localStorage.setItem(ScoreRepository.KEY_DATE, dateString);
 
-        this._scores = ScoreRepository.loadScores() ?? new Array<number>(quiz.questions.length).fill(QuestionScore.NONE);
+        this._scores = ScoreRepository.loadScores() ?? new Array(quiz.questions.length).fill(QuestionScore.NONE);
         this.saveScores();
     }
 
