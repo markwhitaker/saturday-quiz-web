@@ -1,6 +1,6 @@
-const QuestionType = {
-    NORMAL: "NORMAL",
-    WHAT_LINKS: "WHAT_LINKS"
-} as const;
+enum QuestionType {
+    NORMAL = "NORMAL",
+    WHAT_LINKS = "WHAT_LINKS"
+}
 
 export default QuestionType;
