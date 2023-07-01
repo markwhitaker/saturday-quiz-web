@@ -1,9 +1,10 @@
 import SceneType from "./SceneType.js";
+import Question from "./Question";
 
 export default class Scene {
     private readonly _type: SceneType;
     private readonly _date: Date;
-    private readonly _question: string;
+    private readonly _question: Question;
 
     private constructor(type, question, date) {
         this._type = type;

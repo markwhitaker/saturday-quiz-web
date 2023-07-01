@@ -25,4 +25,11 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\script\index.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\script\jqueryModule.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\script\Presenter.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\script\View.js" />
+    </ItemGroup>
+
 </Project>
