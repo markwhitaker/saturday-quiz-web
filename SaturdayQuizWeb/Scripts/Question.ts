@@ -1,4 +1,4 @@
-import QuestionType from "./QuestionType";
+import QuestionType from "./QuestionType.js";
 
 export default class Question {
     private readonly _number: number;

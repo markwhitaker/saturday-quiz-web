@@ -1,4 +1,5 @@
-﻿import Scene from "./Scene.js";
+﻿import Scene from "../js/Scene.js";
+import SceneType from "../js/SceneType.js";
 import QuestionScore from "../js/QuestionScore.js";
 
 export default class Presenter {
@@ -36,7 +37,7 @@ export default class Presenter {
 
     toggleScore() {
         const scene = this.scenes[this.sceneIndex];
-        if (scene.type !== Scene.Type.QUESTION_ANSWER) {
+        if (scene.type !== SceneType.QUESTION_ANSWER) {
             return;
         }
 
@@ -95,7 +96,7 @@ export default class Presenter {
         const view = this.view;
 
         switch(scene.type) {
-            case Scene.Type.QUESTIONS_TITLE:
+            case SceneType.QUESTIONS_TITLE:
                 const dateString = scene.date.toLocaleDateString("en-GB", {
                     day: 'numeric',
                     month: 'long',
@@ -106,27 +107,27 @@ export default class Presenter {
                 view.showQuestionsTitle(dateString);
                 view.showTitlePage();
                 break;
-            case Scene.Type.QUESTION:
+            case SceneType.QUESTION:
                 view.hideScoreTick();
                 view.hideScoreShare();
                 view.showQuestion(question);
                 view.hideAnswer();
                 view.showQuestionPage();
                 break;
-            case Scene.Type.ANSWERS_TITLE:
+            case SceneType.ANSWERS_TITLE:
                 view.hideScoreTick();
                 view.hideScoreShare();
                 view.showTitlePage();
                 view.showAnswersTitle();
                 break;
-            case Scene.Type.QUESTION_ANSWER:
+            case SceneType.QUESTION_ANSWER:
                 view.hideScoreShare();
                 view.showQuestion(question);
                 view.showAnswer(question.answer);
                 view.showQuestionPage();
                 view.showScoreTick(this.scoreRepository.getScore(question.number));
                 break;
-            case Scene.Type.END_TITLE:
+            case SceneType.END_TITLE:
                 view.hideScoreTick();
                 view.showEndTitle(Presenter.#formatTotalScore(this.scoreRepository.totalScore));
                 view.showTitlePage();
