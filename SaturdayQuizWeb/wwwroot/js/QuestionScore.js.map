@@ -1,1 +1,1 @@
-{"version":3,"file":"QuestionScore.js","sourceRoot":"","sources":["../../Scripts/QuestionScore.ts"],"names":[],"mappings":"AAAA,MAAM,aAAa,GAAG;IAClB,IAAI,EAAE,CAAC;IACP,IAAI,EAAE,GAAG;IACT,IAAI,EAAE,CAAC;CACD,CAAC;AAEX,eAAe,aAAa,CAAC"}
+{"version":3,"file":"QuestionScore.js","sourceRoot":"","sources":["../../Scripts/QuestionScore.ts"],"names":[],"mappings":"AAAA,IAAK,aAIJ;AAJD,WAAK,aAAa;IACd,iDAAQ,CAAA;IACR,mDAAU,CAAA;IACV,iDAAQ,CAAA;AACZ,CAAC,EAJI,aAAa,KAAb,aAAa,QAIjB;AAED,eAAe,aAAa,CAAC"}

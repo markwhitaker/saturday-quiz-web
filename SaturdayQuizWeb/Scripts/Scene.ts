@@ -1,7 +1,6 @@
 import SceneType from "./SceneType.js";
 
 export default class Scene {
-
     private readonly _type: SceneType;
     private readonly _date: Date;
     private readonly _question: string;
