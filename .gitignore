@@ -3,5 +3,4 @@ obj/
 /packages/
 .idea/
 .vs/
-/SaturdayQuizWeb/wwwroot/js/
 *.sln.DotSettings.user

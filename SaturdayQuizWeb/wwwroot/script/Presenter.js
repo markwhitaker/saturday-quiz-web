@@ -1,31 +1,20 @@
-import Scene from "./Scene.js";
-import SceneType from "./SceneType.js";
+﻿import Scene from "./Scene.js";
+import Question from "./Question.js";
 import QuestionScore from "./QuestionScore.js";
-import QuizRepository from "./QuizRepository.js";
-import ScoreRepository from "./ScoreRepository.js";
-import View from "./View.js";
 
 export default class Presenter {
-    private readonly _quizRepository: QuizRepository;
-    private readonly _scoreRepository: ScoreRepository;
-    private _view: View;
-    private _scenes: Scene[];
-    private _sceneIndex: number;
-
-    constructor(
-        quizRepository: QuizRepository,
-        scoreRepository: ScoreRepository) {
-        this._quizRepository = quizRepository;
-        this._scoreRepository = scoreRepository;
-        this._sceneIndex = 0;
+    constructor(quizRepository, scoreRepository) {
+        this.quizRepository = quizRepository;
+        this.scoreRepository = scoreRepository;
+        this.sceneIndex = 0;
     }
 
     async onViewReady(view) {
-        this._view = view;
+        this.view = view;
 
         try {
-            const quiz = await this._quizRepository.loadLatestQuiz();
-            this.onQuizLoaded(quiz);
+            const quiz = await this.quizRepository.loadLatestQuiz();
+            this.#onQuizLoaded(quiz);
         }
         catch (error) {
             console.log("Failed to load quiz. " + error.toString());
@@ -33,27 +22,27 @@ export default class Presenter {
     };
 
     onNext() {
-        if (this._sceneIndex < this._scenes.length - 1) {
-            this._sceneIndex++;
-            this.showScene();
+        if (this.sceneIndex < this.scenes.length - 1) {
+            this.sceneIndex++;
+            this.#showScene();
         }
     };
 
     onPrevious() {
-        if (this._sceneIndex > 0) {
-            this._sceneIndex--;
-            this.showScene();
+        if (this.sceneIndex > 0) {
+            this.sceneIndex--;
+            this.#showScene();
         }
     };
 
     toggleScore() {
-        const scene = this._scenes[this._sceneIndex];
-        if (scene.type !== SceneType.QUESTION_ANSWER) {
+        const scene = this.scenes[this.sceneIndex];
+        if (scene.type !== Scene.Type.QUESTION_ANSWER) {
             return;
         }
 
         const questionNumber = scene.question.number;
-        let score = this._scoreRepository.getScore(questionNumber);
+        let score = this.scoreRepository.getScore(questionNumber);
         switch (score)
         {
             case QuestionScore.NONE:
@@ -66,17 +55,17 @@ export default class Presenter {
                 score = QuestionScore.NONE;
                 break;
         }
-        this._scoreRepository.setScore(questionNumber, score);
-        this._view.showScoreTick(score);
+        this.scoreRepository.setScore(questionNumber, score);
+        this.view.showScoreTick(score);
     }
 
     async shareScore() {
-        const totalScore = Presenter.formatTotalScore(this._scoreRepository.totalScore);
-        const scoreBreakdown = this._scoreRepository.allScores
+        const totalScore = Presenter.#formatTotalScore(this.scoreRepository.totalScore);
+        const scoreBreakdown = this.scoreRepository.allScores
             .map((score, index) =>
                 score === QuestionScore.NONE ? null :
-                    score === QuestionScore.HALF ? (index + 1) + ' (half)' :
-                        '' + (index + 1)
+                score === QuestionScore.HALF ? (index + 1) + ' (half)' :
+                '' + (index + 1)
             )
             .filter(scoreText => scoreText != null)
             .join(', ');
@@ -93,21 +82,21 @@ export default class Presenter {
         }
     }
 
-    private onQuizLoaded(quiz) {
-        this._scoreRepository.initialiseScores(quiz);
-        this._scenes = Presenter.buildScenes(quiz, this._scoreRepository.hasScores);
-        this.showScene();
-        this._view.enableNavigation();
-        this._view.onQuizLoaded();
+    #onQuizLoaded(quiz) {
+        this.scoreRepository.initialiseScores(quiz);
+        this.scenes = Presenter.#buildScenes(quiz, this.scoreRepository.hasScores);
+        this.#showScene();
+        this.view.enableNavigation();
+        this.view.onQuizLoaded();
     };
 
-    private showScene() {
-        const scene = this._scenes[this._sceneIndex];
+    #showScene() {
+        const scene = this.scenes[this.sceneIndex];
         const question = scene.question;
-        const view = this._view;
+        const view = this.view;
 
         switch(scene.type) {
-            case SceneType.QUESTIONS_TITLE:
+            case Scene.Type.QUESTIONS_TITLE:
                 const dateString = scene.date.toLocaleDateString("en-GB", {
                     day: 'numeric',
                     month: 'long',
@@ -118,36 +107,36 @@ export default class Presenter {
                 view.showQuestionsTitle(dateString);
                 view.showTitlePage();
                 break;
-            case SceneType.QUESTION:
+            case Scene.Type.QUESTION:
                 view.hideScoreTick();
                 view.hideScoreShare();
                 view.showQuestion(question);
                 view.hideAnswer();
                 view.showQuestionPage();
                 break;
-            case SceneType.ANSWERS_TITLE:
+            case Scene.Type.ANSWERS_TITLE:
                 view.hideScoreTick();
                 view.hideScoreShare();
                 view.showTitlePage();
                 view.showAnswersTitle();
                 break;
-            case SceneType.QUESTION_ANSWER:
+            case Scene.Type.QUESTION_ANSWER:
                 view.hideScoreShare();
                 view.showQuestion(question);
                 view.showAnswer(question.answer);
                 view.showQuestionPage();
-                view.showScoreTick(this._scoreRepository.getScore(question.number));
+                view.showScoreTick(this.scoreRepository.getScore(question.number));
                 break;
-            case SceneType.END_TITLE:
+            case Scene.Type.END_TITLE:
                 view.hideScoreTick();
-                view.showEndTitle(Presenter.formatTotalScore(this._scoreRepository.totalScore));
+                view.showEndTitle(Presenter.#formatTotalScore(this.scoreRepository.totalScore));
                 view.showTitlePage();
                 view.showScoreShare();
                 break;
         }
     };
 
-    private static buildScenes(quiz, jumpToAnswers) {
+    static #buildScenes(quiz, jumpToAnswers) {
         const scenes = [];
 
         scenes.push(Scene.questionsTitleScene(quiz.date));
@@ -172,8 +161,8 @@ export default class Presenter {
         return scenes;
     }
 
-    private static formatTotalScore(totalScore) {
-        let totalScoreString = Math.floor(totalScore).toString();
+    static #formatTotalScore(totalScore) {
+        let totalScoreString = Math.floor(totalScore);
         if (totalScore % 1 === QuestionScore.HALF) {
             totalScoreString += "½"
         }
