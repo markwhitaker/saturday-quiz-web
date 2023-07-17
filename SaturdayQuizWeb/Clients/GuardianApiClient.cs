@@ -34,10 +34,10 @@ public class GuardianApiClient : IGuardianApiClient
             return response.Data.Results
                 .Select(item => new QuizMetadata
                 {
-                    Id = item.Id,
-                    Title = item.WebTitle,
+                    Id = item.Id.Trim(),
+                    Title = item.WebTitle.Trim(),
                     Date = item.WebPublicationDate,
-                    Url = item.WebUrl,
+                    Url = item.WebUrl.Trim(),
                     Source = "API"
                 })
                 .Distinct()

@@ -30,10 +30,10 @@ public class GuardianRssClient : IGuardianRssClient
             return xmlRss!.Channel.Items
                 .Select(item => new QuizMetadata
                 {
-                    Title = item.Title,
-                    Url = item.Link,
+                    Title = item.Title.Trim(),
+                    Url = item.Link.Trim(),
                     Date = item.Date,
-                    Id = item.Link.Replace(_guardianConfig.WebsiteBaseUrl, string.Empty),
+                    Id = item.Link.Trim().Replace(_guardianConfig.WebsiteBaseUrl, string.Empty),
                     Source = "RSS"
                 })
                 .Distinct()
