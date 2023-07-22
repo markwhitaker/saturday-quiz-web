@@ -16,7 +16,7 @@
 @dimen-score-tick-size: 36px;
 @dimen-score-share-size: 30px;
 @dimen-score-border-thickness: 2px;
-@dimen-score-box-height: @dimen-score-button-size + @dimen-outer-padding;
+@dimen-buttons-box-height: @dimen-score-button-size + @dimen-outer-padding;
 @font-size-date: 16pt;
 @font-size-title: 40pt;
 @font-size-question: 24pt;
@@ -24,7 +24,7 @@
 
 // Mobile dimensions
 @dimen-outer-padding-mobile: 25px;
-@dimen-score-box-height-mobile: @dimen-score-button-size + @dimen-outer-padding-mobile;
+@dimen-buttons-box-height-mobile: @dimen-score-button-size + @dimen-outer-padding-mobile;
 
 // Fonts
 @font-family: 'Open Sans', sans-serif;
@@ -111,9 +111,9 @@ body {
   #title-box {
     flex: 0 1 auto;
   }
-  #score-box {
+  #buttons-box {
     position: relative;
-    flex: 0 0 @dimen-score-box-height;
+    flex: 0 0 @dimen-buttons-box-height;
   }
 }
 
@@ -182,7 +182,7 @@ body {
   right: 0;
 }
 
-#score-box {
+#buttons-box {
   div {
     .button;
 
@@ -240,11 +240,11 @@ body {
     #question-box {
       padding: @dimen-outer-padding-mobile;
     }
-    #score-box {
-      flex-basis: @dimen-score-box-height-mobile;
+    #buttons-box {
+      flex-basis: @dimen-buttons-box-height-mobile;
     }
   }
-  #score-box {
+  #buttons-box {
     #score-tick {
       left: @dimen-outer-padding-mobile;
     }

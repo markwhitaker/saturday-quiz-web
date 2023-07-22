@@ -1,5 +1,4 @@
 ﻿import Scene from "./Scene.js";
-import Question from "./Question.js";
 import QuestionScore from "./QuestionScore.js";
 
 export default class Presenter {
@@ -7,14 +6,16 @@ export default class Presenter {
         this.quizRepository = quizRepository;
         this.scoreRepository = scoreRepository;
         this.sceneIndex = 0;
+        this.quiz = {};
+        this.scenes = [];
     }
 
     async onViewReady(view) {
         this.view = view;
 
         try {
-            const quiz = await this.quizRepository.loadLatestQuiz();
-            this.#onQuizLoaded(quiz);
+            this.quiz = await this.quizRepository.loadLatestQuiz();
+            this.#onQuizLoaded();
         }
         catch (error) {
             console.log("Failed to load quiz. " + error.toString());
@@ -82,12 +83,18 @@ export default class Presenter {
         }
     }
 
-    #onQuizLoaded(quiz) {
-        this.scoreRepository.initialiseScores(quiz);
-        this.scenes = Presenter.#buildScenes(quiz, this.scoreRepository.hasScores);
+    #onQuizLoaded() {
+        this.scoreRepository.initialiseScores(this.quiz);
+        this.view.setSkipToAnswers(this.scoreRepository.hasScores);
+        this.#buildScenes(this.scoreRepository.hasScores);
         this.#showScene();
         this.view.enableNavigation();
         this.view.onQuizLoaded();
+
+        const self = this;
+        this.view.onSkipToAnswersChanged(function(state) {
+            self.#buildScenes(state);
+        })
     };
 
     #showScene() {
@@ -106,10 +113,12 @@ export default class Presenter {
                 view.hideScoreShare();
                 view.showQuestionsTitle(dateString);
                 view.showTitlePage();
+                view.showSkipToAnswers();
                 break;
             case Scene.Type.QUESTION:
                 view.hideScoreTick();
                 view.hideScoreShare();
+                view.hideSkipToAnswers();
                 view.showQuestion(question);
                 view.hideAnswer();
                 view.showQuestionPage();
@@ -117,11 +126,13 @@ export default class Presenter {
             case Scene.Type.ANSWERS_TITLE:
                 view.hideScoreTick();
                 view.hideScoreShare();
+                view.hideSkipToAnswers();
                 view.showTitlePage();
                 view.showAnswersTitle();
                 break;
             case Scene.Type.QUESTION_ANSWER:
                 view.hideScoreShare();
+                view.hideSkipToAnswers();
                 view.showQuestion(question);
                 view.showAnswer(question.answer);
                 view.showQuestionPage();
@@ -129,6 +140,7 @@ export default class Presenter {
                 break;
             case Scene.Type.END_TITLE:
                 view.hideScoreTick();
+                view.hideSkipToAnswers();
                 view.showEndTitle(Presenter.#formatTotalScore(this.scoreRepository.totalScore));
                 view.showTitlePage();
                 view.showScoreShare();
@@ -136,29 +148,27 @@ export default class Presenter {
         }
     };
 
-    static #buildScenes(quiz, jumpToAnswers) {
-        const scenes = [];
+    #buildScenes(skipToAnswers) {
+        this.scenes = [];
 
-        scenes.push(Scene.questionsTitleScene(quiz.date));
+        this.scenes.push(Scene.questionsTitleScene(this.quiz.date));
 
-        if (!jumpToAnswers) {
+        if (!skipToAnswers) {
             // First just show the questions
-            for (const question of quiz.questions) {
-                scenes.push(Scene.questionScene(question));
+            for (const question of this.quiz.questions) {
+                this.scenes.push(Scene.questionScene(question));
             }
         }
 
-        scenes.push(Scene.answersTitleScene());
+        this.scenes.push(Scene.answersTitleScene());
 
         // Now recap the questions, showing the answer after each one
-        for (const question of quiz.questions) {
-            scenes.push(Scene.questionScene(question));
-            scenes.push(Scene.questionAnswerScene(question));
+        for (const question of this.quiz.questions) {
+            this.scenes.push(Scene.questionScene(question));
+            this.scenes.push(Scene.questionAnswerScene(question));
         }
 
-        scenes.push(Scene.endTitleScene());
-
-        return scenes;
+        this.scenes.push(Scene.endTitleScene());
     }
 
     static #formatTotalScore(totalScore) {

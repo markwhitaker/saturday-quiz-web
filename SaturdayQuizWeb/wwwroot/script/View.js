@@ -122,4 +122,22 @@ export default class View {
     showScoreShare() {
         $('#score-share').show();
     }
+
+    hideSkipToAnswers() {
+        $('#skip-to-answers').hide();
+    }
+
+    showSkipToAnswers() {
+        $('#skip-to-answers').show();
+    }
+
+    setSkipToAnswers(state) {
+        $('#skip-to-answers-checkbox').prop('checked', !!state);
+    }
+
+    onSkipToAnswersChanged(handler) {
+        $('#skip-to-answers-checkbox').on('change', function(){
+            handler($(this).prop('checked'));
+        })
+    }
 }
