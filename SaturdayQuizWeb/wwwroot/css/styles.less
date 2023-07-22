@@ -41,11 +41,6 @@
   z-index: 100;
 }
 
-.button() {
-  position: absolute;
-  z-index: 200;
-}
-
 .indented() {
   margin-left: @dimen-indent;
 }
@@ -184,7 +179,8 @@ body {
 
 #buttons-box {
   div {
-    .button;
+    position: absolute;
+    z-index: 200;
 
     width: @dimen-score-button-size;
     height: @dimen-score-button-size;
@@ -195,7 +191,7 @@ body {
     align-items: center;
   }
 
-  .material-icons {
+  .button {
     -webkit-user-select: none;
     user-select: none;
     cursor: default;
@@ -213,7 +209,7 @@ body {
     &.half {
       color: @colour-foreground-highlight;
     }
-    .material-icons {
+    .button {
       font-size: @dimen-score-tick-size;
       font-weight: bold;
     }
@@ -223,7 +219,7 @@ body {
     right: @dimen-outer-padding;
     color: @colour-foreground-highlight;
 
-    .material-icons {
+    .button {
       transform: rotate(270deg);
       font-size: @dimen-score-share-size;
     }
@@ -231,6 +227,18 @@ body {
     &:active {
       background-color: @colour-foreground-highlight;
       color: @colour-background;
+    }
+  }
+
+  #skip-to-answers {
+    width: auto;
+
+    .button {
+      color: @colour-background;
+    }
+
+    input:checked+.button {
+      color: @colour-foreground-highlight;
     }
   }
 }
