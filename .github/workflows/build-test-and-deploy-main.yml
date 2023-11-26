@@ -15,7 +15,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 8.0.x
           dotnet-quality: ga
       - name: Build release build
         run: dotnet build -c Release
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - uses: akhileshns/heroku-deploy@v3.12.12
+      - uses: akhileshns/heroku-deploy@v3.12.14
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: fiendish-eaton
@@ -36,5 +36,5 @@ jobs:
         env:
           # See https://github.com/jincod/dotnetcore-buildpack/issues/131#issuecomment-726409101
           # and https://github.com/AkhileshNS/heroku-deploy#environment-variables
-          HD_DOTNET_SDK_VERSION: 7.0.100
-          HD_DOTNET_RUNTIME_VERSION: 7.0.0
+          HD_DOTNET_SDK_VERSION: 8.0.100
+          HD_DOTNET_RUNTIME_VERSION: 8.0.0
