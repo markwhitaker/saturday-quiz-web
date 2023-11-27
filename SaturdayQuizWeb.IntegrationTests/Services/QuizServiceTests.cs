@@ -65,7 +65,7 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
                 }
             }
 
-            Assert.That(failedDates, Is.Empty, "Failed to parse {0} of the last {1} quizzes", failedDates.Count, expectedNumberOfQuizzes);
+            Assert.That(failedDates, Is.Empty, $"Failed to parse {failedDates.Count} of the last {expectedNumberOfQuizzes} quizzes");
         }
 
         private static void PrintQuiz(Quiz quiz)
