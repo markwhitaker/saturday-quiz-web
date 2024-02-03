@@ -20,6 +20,12 @@ const elements = Object.freeze({
     totalScore: () => $("#total-score")
 });
 
+const scoreClasses = Object.freeze(new Map([
+    [QuestionScore.NONE, "none"],
+    [QuestionScore.HALF, "half"],
+    [QuestionScore.FULL, "full"]
+]));
+
 export default class View {
     constructor(presenter) {
         this.presenter = presenter;
@@ -107,25 +113,11 @@ export default class View {
 
     hideScoreTick = () => elements.scoreTick().hide();
 
-    showScoreTick = score => {
-        let scoreClass = "";
-        switch (score)
-        {
-            case QuestionScore.NONE:
-                scoreClass = "none";
-                break;
-            case QuestionScore.HALF:
-                scoreClass = "half";
-                break;
-            case QuestionScore.FULL:
-                scoreClass = "full";
-        }
-
+    showScoreTick = score =>
         elements.scoreTick()
             .removeClass()
-            .addClass(scoreClass)
+            .addClass(scoreClasses.get(score))
             .show();
-    };
 
     hideScoreShare = () => elements.scoreShare().hide();
 
