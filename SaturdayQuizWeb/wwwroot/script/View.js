@@ -1,7 +1,7 @@
 ﻿import $ from "./jqueryModule.js";
 import QuestionScore from "./QuestionScore.js";
 
-const elements = {
+const elements = Object.freeze({
     answer: () => $("#answer"),
     box: () => $("#box"),
     document: () => $(document),
@@ -18,7 +18,7 @@ const elements = {
     scoreTick: () => $("#score-tick"),
     title: () => $("#title"),
     totalScore: () => $("#total-score")
-};
+});
 
 export default class View {
     constructor(presenter) {
