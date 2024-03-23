@@ -4,5 +4,5 @@ namespace SaturdayQuizWeb.Clients;
 
 public interface IGuardianQuizMetadataClient
 {
-    Task<IReadOnlySet<QuizMetadata>> GetQuizMetadataAsync(int count);
+    Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count);
 }

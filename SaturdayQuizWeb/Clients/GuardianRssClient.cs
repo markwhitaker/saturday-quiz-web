@@ -18,7 +18,7 @@ public class GuardianRssClient : IGuardianRssClient
         _guardianWebsiteClient = guardianWebsiteClient;
     }
 
-    public async Task<IReadOnlySet<QuizMetadata>> GetQuizMetadataAsync(int count)
+    public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
         try
         {
@@ -39,11 +39,11 @@ public class GuardianRssClient : IGuardianRssClient
                 .Distinct()
                 .OrderByDescending(qm => qm.Date)
                 .Take(count)
-                .ToHashSet();
+                .ToList();
         }
         catch (Exception)
         {
-            return new HashSet<QuizMetadata>();
+            return Array.Empty<QuizMetadata>();
         }
     }
 

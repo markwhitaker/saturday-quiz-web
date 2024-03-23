@@ -19,7 +19,7 @@ public class GuardianApiClient : IGuardianApiClient
         _restClient = new RestClient(_config.ApiBaseUrl);
     }
 
-    public async Task<IReadOnlySet<QuizMetadata>> GetQuizMetadataAsync(int count)
+    public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
         var request = new RestRequest(_config.ApiEndpoint)
             {
@@ -43,10 +43,10 @@ public class GuardianApiClient : IGuardianApiClient
                 .Distinct()
                 .OrderByDescending(qm => qm.Date)
                 .Take(count)
-                .ToHashSet();
+                .ToList();
         }
 
-        return new HashSet<QuizMetadata>();
+        return Array.Empty<QuizMetadata>();
     }
 
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
