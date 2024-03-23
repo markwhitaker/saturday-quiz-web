@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using RestSharp;
+﻿using RestSharp;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Utils;

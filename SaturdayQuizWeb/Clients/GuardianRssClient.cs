@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using SaturdayQuizWeb.Config;
+﻿using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Utils;
 
