@@ -18,7 +18,7 @@ public class QuizMetadataController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<QuizMetadata>>> GetQuizMetadataAsync([FromQuery] int count = DefaultQuizCount)
+    public async Task<ActionResult<IEnumerable<QuizMetadata>>> GetQuizMetadataAsync([FromQuery] int count = DefaultQuizCount)
     {
         Response.AddCustomHeaders(TimeSpan.Zero);
 

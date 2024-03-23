@@ -37,6 +37,7 @@ public class QuizMetadataServiceTests
         const int quizzesRequestedCount = 5;
         var today = new DateTime(2022, 1, 8, 23, 59, 59);
         var oldDate = today.Subtract(TimeSpan.FromDays(ageInDays));
+
         var apiMetadata1 = new QuizMetadata
         {
             Id = "api-id-1",

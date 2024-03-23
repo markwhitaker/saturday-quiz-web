@@ -1,4 +1,5 @@
-﻿using SaturdayQuizWeb.Model;
+﻿using System.Collections.Immutable;
+using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Wrappers;
 
@@ -48,9 +49,9 @@ public class QuizMetadataService : IQuizMetadataService
     private bool IsUpToDate(IEnumerable<QuizMetadata> quizMetadataSet)
     {
         var newestItem = quizMetadataSet.MaxBy(qm => qm.Date);
-        return newestItem != null && !IsOlderThan1Week(newestItem);
+        return newestItem != null && !IsOlderThanOneWeek(newestItem);
     }
 
-    private bool IsOlderThan1Week(QuizMetadata quizMetadata) =>
+    private bool IsOlderThanOneWeek(QuizMetadata quizMetadata) =>
         _dateTimeWrapper.UtcNow.Date.Subtract(quizMetadata.Date.Date) >= TimeSpan.FromDays(7);
 }

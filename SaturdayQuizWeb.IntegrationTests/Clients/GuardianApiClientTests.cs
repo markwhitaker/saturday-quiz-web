@@ -26,7 +26,7 @@ public class GuardianApiClientTests
 
         // Then
         Assert.That(metadata, Has.Exactly(expectedCount).Items);
-        Assert.That(metadata, Is.Ordered.Descending.By("Date"));
+        Assert.That(metadata, Is.Ordered.Descending.By(nameof(QuizMetadata.Date)));
         Assert.That(metadata, Is.All.Matches<QuizMetadata>(qm => qm.Source == "API"));
     }
 }

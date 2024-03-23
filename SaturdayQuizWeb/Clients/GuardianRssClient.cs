@@ -1,11 +1,11 @@
-﻿using SaturdayQuizWeb.Config;
+﻿using System.Collections.Immutable;
+using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.Clients;
 
-public interface IGuardianRssClient : IGuardianQuizMetadataClient
-{
-}
+public interface IGuardianRssClient : IGuardianQuizMetadataClient;
 
 public class GuardianRssClient : IGuardianRssClient
 {
@@ -34,7 +34,7 @@ public class GuardianRssClient : IGuardianRssClient
                     Url = item.Link.Trim(),
                     Date = item.Date,
                     Id = item.Link.Trim().Replace(_guardianConfig.WebsiteBaseUrl, string.Empty),
-                    Source = "RSS"
+                    Source = Constants.SourceRss
                 })
                 .Distinct()
                 .OrderByDescending(qm => qm.Date)

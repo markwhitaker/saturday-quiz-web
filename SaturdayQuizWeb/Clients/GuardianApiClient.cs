@@ -1,12 +1,12 @@
-﻿using RestSharp;
+﻿using System.Collections.Immutable;
+using RestSharp;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.Clients;
 
-public interface IGuardianApiClient : IGuardianQuizMetadataClient
-{
-}
+public interface IGuardianApiClient : IGuardianQuizMetadataClient;
 
 public class GuardianApiClient : IGuardianApiClient
 {
@@ -29,7 +29,7 @@ public class GuardianApiClient : IGuardianApiClient
             .AddQueryParameter("page-size", count.ToString());
         var response = await _restClient.ExecuteGetAsync<GuardianApiResponse>(request);
 
-        if (response.IsSuccessful && response.Data != null)
+        if (response is { IsSuccessful: true, Data: not null })
         {
             return response.Data.Results
                 .Select(item => new QuizMetadata
@@ -38,7 +38,7 @@ public class GuardianApiClient : IGuardianApiClient
                     Title = item.WebTitle.Trim(),
                     Date = item.WebPublicationDate,
                     Url = item.WebUrl.Trim(),
-                    Source = "API"
+                    Source = Constants.SourceApi
                 })
                 .Distinct()
                 .OrderByDescending(qm => qm.Date)
@@ -55,9 +55,9 @@ public class GuardianApiClient : IGuardianApiClient
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public record GuardianApiResponse
     {
-        public class ResponseBody
+        public record ResponseBody
         {
-            public List<GuardianApiQuizSummary> Results { get; init; } = new();
+            public IEnumerable<GuardianApiQuizSummary> Results { get; init; } = [];
         }
 
         public ResponseBody Response { get; init; } = new();

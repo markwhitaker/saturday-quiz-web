@@ -1,4 +1,6 @@
-﻿namespace SaturdayQuizWeb.Model;
+﻿using SaturdayQuizWeb.Extensions;
+
+namespace SaturdayQuizWeb.Model;
 
 public sealed record QuizMetadata
 {
@@ -14,7 +16,7 @@ public sealed record QuizMetadata
     public DateTime Date
     {
         get => _date;
-        init => _date = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0, DateTimeKind.Utc);
+        init => _date = value.ToDateUtc();
     }
 
     public string Title { get; init; } = string.Empty;
