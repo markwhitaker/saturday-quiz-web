@@ -77,10 +77,8 @@ export default class Presenter {
                 title: 'QUIZ RESULTS',
                 text: 'We have quizzed! Our total score this week is ' + totalScore + '...\n\n' + scoreBreakdown
             });
-            console.log('Shared score');
         }
         catch (error) {
-            console.log('Sharing score failed.', error);
         }
     }
 
