@@ -159,9 +159,8 @@ export default class Presenter {
             for (const question of this.quiz.questions) {
                 this.scenes.push(Scene.questionScene(question));
             }
+            this.scenes.push(Scene.answersTitleScene());
         }
-
-        this.scenes.push(Scene.answersTitleScene());
 
         // Now recap the questions, showing the answer after each one
         for (const question of this.quiz.questions) {
