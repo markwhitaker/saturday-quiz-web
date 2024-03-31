@@ -8,6 +8,7 @@ export default class Presenter {
         this.sceneIndex = 0;
         this.quiz = {};
         this.scenes = [];
+        this.skipToAnswers = false;
     }
 
     async onViewReady(view) {
@@ -83,18 +84,20 @@ export default class Presenter {
         }
     }
 
+    toggleSkipToAnswers() {
+        this.skipToAnswers = !this.skipToAnswers;
+        this.view.setSkipToAnswers(this.skipToAnswers);
+        this.#buildScenes();
+    }
+
     #onQuizLoaded() {
         this.scoreRepository.initialiseScores(this.quiz);
-        this.view.setSkipToAnswers(this.scoreRepository.hasScores);
-        this.#buildScenes(this.scoreRepository.hasScores);
+        this.skipToAnswers = this.scoreRepository.hasScores;
+        this.#buildScenes();
         this.#showScene();
         this.view.enableNavigation();
+        this.view.setSkipToAnswers(this.skipToAnswers);
         this.view.onQuizLoaded();
-
-        const self = this;
-        this.view.onSkipToAnswersChanged(function(state) {
-            self.#buildScenes(state);
-        })
     };
 
     #showScene() {
@@ -148,12 +151,12 @@ export default class Presenter {
         }
     };
 
-    #buildScenes(skipToAnswers) {
+    #buildScenes() {
         this.scenes = [];
 
         this.scenes.push(Scene.questionsTitleScene(this.quiz.date));
 
-        if (!skipToAnswers) {
+        if (!this.skipToAnswers) {
             // First just show the questions
             for (const question of this.quiz.questions) {
                 this.scenes.push(Scene.questionScene(question));

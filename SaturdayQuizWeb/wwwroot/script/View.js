@@ -16,6 +16,8 @@ const elements = Object.freeze({
     quizDate: () => $("#quiz-date"),
     scoreShare: () => $("#score-share"),
     scoreTick: () => $("#score-tick"),
+    skipToAnswers: () => $("#skip-to-answers"),
+    skipToAnswersCheckbox: () => $("#skip-to-answers-checkbox"),
     title: () => $("#title"),
     totalScore: () => $("#total-score")
 });
@@ -65,12 +67,17 @@ export default class View {
         elements.scoreTick().click(e => {
             this.presenter.toggleScore();
             e.preventDefault();
-        })
+        });
 
         elements.scoreShare().click(async e => {
             await this.presenter.shareScore();
             e.preventDefault();
-        })
+        });
+
+        elements.skipToAnswers().click(e => {
+            this.presenter.toggleSkipToAnswers();
+            e.preventDefault();
+        });
     };
 
     showTitlePage = () => {
@@ -123,21 +130,9 @@ export default class View {
 
     showScoreShare = () => elements.scoreShare().show();
 
-    hideSkipToAnswers() {
-        $('#skip-to-answers').hide();
-    }
+    hideSkipToAnswers = () => elements.skipToAnswers().hide();
 
-    showSkipToAnswers() {
-        $('#skip-to-answers').show();
-    }
+    showSkipToAnswers = () => elements.skipToAnswers().show();
 
-    setSkipToAnswers(state) {
-        $('#skip-to-answers-checkbox').prop('checked', !!state);
-    }
-
-    onSkipToAnswersChanged(handler) {
-        $('#skip-to-answers-checkbox').on('change', function(){
-            handler($(this).prop('checked'));
-        })
-    }
+    setSkipToAnswers = state => elements.skipToAnswers().toggleClass('selected', state);
 }

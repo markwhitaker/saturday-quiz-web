@@ -220,7 +220,6 @@ body {
     color: @colour-foreground-highlight;
 
     .button {
-      transform: rotate(270deg);
       font-size: @dimen-score-share-size;
     }
 
@@ -231,14 +230,19 @@ body {
   }
 
   #skip-to-answers {
-    width: auto;
+    right: @dimen-outer-padding;
+    color: @colour-foreground-highlight;
 
     .button {
-      color: @colour-background;
     }
 
     input:checked+.button {
       color: @colour-foreground-highlight;
+    }
+
+    &.selected {
+      background-color: @colour-foreground-highlight;
+      color: @colour-background;
     }
   }
 }
