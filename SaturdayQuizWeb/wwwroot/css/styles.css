@@ -52,7 +52,7 @@ body {
 #box #title-box {
   flex: 0 1 auto;
 }
-#box #score-box {
+#box #buttons-box {
   position: relative;
   flex: 0 0 100px;
 }
@@ -118,7 +118,7 @@ body {
   z-index: 100;
   right: 0;
 }
-#score-box div {
+#buttons-box div {
   position: absolute;
   z-index: 200;
   width: 50px;
@@ -129,36 +129,43 @@ body {
   justify-content: center;
   align-items: center;
 }
-#score-box .material-icons {
+#buttons-box .button {
   -webkit-user-select: none;
   user-select: none;
   cursor: default;
 }
-#score-box #score-tick {
+#buttons-box #score-tick {
   left: 50px;
   background-color: #000;
   color: #000;
 }
-#score-box #score-tick.full {
+#buttons-box #score-tick.full {
   border-color: #fd0;
   background-color: #fd0;
 }
-#score-box #score-tick.half {
+#buttons-box #score-tick.half {
   color: #fd0;
 }
-#score-box #score-tick .material-icons {
+#buttons-box #score-tick .button {
   font-size: 36px;
   font-weight: bold;
 }
-#score-box #score-share {
+#buttons-box #score-share {
   right: 50px;
   color: #fd0;
 }
-#score-box #score-share .material-icons {
-  transform: rotate(270deg);
+#buttons-box #score-share .button {
   font-size: 30px;
 }
-#score-box #score-share:active {
+#buttons-box #score-share:active {
+  background-color: #fd0;
+  color: #000;
+}
+#buttons-box #skip-to-answers {
+  right: 50px;
+  color: #fd0;
+}
+#buttons-box #skip-to-answers.selected {
   background-color: #fd0;
   color: #000;
 }
@@ -166,13 +173,13 @@ body {
   #box #question-box {
     padding: 25px;
   }
-  #box #score-box {
+  #box #buttons-box {
     flex-basis: 75px;
   }
-  #score-box #score-tick {
+  #buttons-box #score-tick {
     left: 25px;
   }
-  #score-box #score-share {
+  #buttons-box #score-share {
     right: 25px;
   }
   #question-what-links {
@@ -193,3 +200,4 @@ body {
     margin-left: 0;
   }
 }
+/*# sourceMappingURL=styles.css.map */

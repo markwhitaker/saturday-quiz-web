@@ -1,4 +1,4 @@
-﻿import $ from "./jqueryModule.js";
+import $ from "./jqueryModule.js";
 import QuestionScore from "./QuestionScore.js";
 
 const elements = Object.freeze({
@@ -16,6 +16,7 @@ const elements = Object.freeze({
     quizDate: () => $("#quiz-date"),
     scoreShare: () => $("#score-share"),
     scoreTick: () => $("#score-tick"),
+    skipToAnswers: () => $("#skip-to-answers"),
     title: () => $("#title"),
     totalScore: () => $("#total-score")
 });
@@ -65,12 +66,17 @@ export default class View {
         elements.scoreTick().click(e => {
             this.presenter.toggleScore();
             e.preventDefault();
-        })
+        });
 
         elements.scoreShare().click(async e => {
             await this.presenter.shareScore();
             e.preventDefault();
-        })
+        });
+
+        elements.skipToAnswers().click(e => {
+            this.presenter.toggleSkipToAnswers();
+            e.preventDefault();
+        });
     };
 
     showTitlePage = () => {
@@ -122,4 +128,10 @@ export default class View {
     hideScoreShare = () => elements.scoreShare().hide();
 
     showScoreShare = () => elements.scoreShare().show();
+
+    hideSkipToAnswers = () => elements.skipToAnswers().hide();
+
+    showSkipToAnswers = () => elements.skipToAnswers().show();
+
+    setSkipToAnswers = state => elements.skipToAnswers().toggleClass('selected', state);
 }
