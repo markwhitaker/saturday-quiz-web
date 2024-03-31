@@ -134,8 +134,13 @@ body {
   user-select: none;
   cursor: default;
 }
-#buttons-box #score-tick {
+#buttons-box .right {
+  right: 50px;
+}
+#buttons-box .left {
   left: 50px;
+}
+#buttons-box #score-tick {
   background-color: #000;
   color: #000;
 }
@@ -151,7 +156,6 @@ body {
   font-weight: bold;
 }
 #buttons-box #score-share {
-  right: 50px;
   color: #fd0;
 }
 #buttons-box #score-share .button {
@@ -162,7 +166,6 @@ body {
   color: #000;
 }
 #buttons-box #skip-to-answers {
-  right: 50px;
   color: #fd0;
 }
 #buttons-box #skip-to-answers.selected {
@@ -176,10 +179,10 @@ body {
   #box #buttons-box {
     flex-basis: 75px;
   }
-  #buttons-box #score-tick {
+  #buttons-box .left {
     left: 25px;
   }
-  #buttons-box #score-share {
+  #buttons-box .right {
     right: 25px;
   }
   #question-what-links {

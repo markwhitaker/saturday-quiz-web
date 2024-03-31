@@ -121,7 +121,7 @@ export default class View {
 
     showScoreTick = score =>
         elements.scoreTick()
-            .removeClass()
+            .removeClass(Array.from(scoreClasses.values()))
             .addClass(scoreClasses.get(score))
             .show();
 

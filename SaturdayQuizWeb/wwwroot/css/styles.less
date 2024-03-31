@@ -197,8 +197,15 @@ body {
     cursor: default;
   }
 
-  #score-tick {
+  .right {
+    right: @dimen-outer-padding;
+  }
+
+  .left {
     left: @dimen-outer-padding;
+  }
+
+  #score-tick {
     background-color: @colour-background;
     color: @colour-background;
 
@@ -216,7 +223,6 @@ body {
   }
 
   #score-share {
-    right: @dimen-outer-padding;
     color: @colour-foreground-highlight;
 
     .button {
@@ -230,7 +236,6 @@ body {
   }
 
   #skip-to-answers {
-    right: @dimen-outer-padding;
     color: @colour-foreground-highlight;
 
     &.selected {
@@ -250,10 +255,10 @@ body {
     }
   }
   #buttons-box {
-    #score-tick {
+    .left {
       left: @dimen-outer-padding-mobile;
     }
-    #score-share {
+    .right {
       right: @dimen-outer-padding-mobile;
     }
   }
