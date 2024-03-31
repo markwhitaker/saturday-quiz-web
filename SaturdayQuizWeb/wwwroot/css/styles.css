@@ -147,8 +147,11 @@ body {
 #buttons-box #score-tick.full {
   border-color: #fd0;
   background-color: #fd0;
+  color: #000;
 }
 #buttons-box #score-tick.half {
+  border-color: #333;
+  background-color: #000;
   color: #fd0;
 }
 #buttons-box #score-tick .button {
@@ -156,22 +159,28 @@ body {
   font-weight: bold;
 }
 #buttons-box #score-share {
+  border-color: #333;
+  background-color: #000;
   color: #fd0;
 }
 #buttons-box #score-share .button {
   font-size: 30px;
 }
 #buttons-box #score-share:active {
+  border-color: #fd0;
   background-color: #fd0;
   color: #000;
 }
 #buttons-box #skip-to-answers {
+  border-color: #333;
+  background-color: #000;
   color: #fd0;
 }
 #buttons-box #skip-to-answers .button {
   font-size: 36px;
 }
 #buttons-box #skip-to-answers.selected {
+  border-color: #fd0;
   background-color: #fd0;
   color: #000;
 }

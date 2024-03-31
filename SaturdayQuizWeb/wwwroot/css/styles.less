@@ -49,6 +49,18 @@
   margin-left: 0;
 }
 
+.inactive-button() {
+  border-color: @colour-foreground-very-dimmed;
+  background-color: @colour-background;
+  color: @colour-foreground-highlight;
+}
+
+.active-button() {
+  border-color: @colour-foreground-highlight;
+  background-color: @colour-foreground-highlight;
+  color: @colour-background;
+}
+
 // ---------- Rules ----------
 
 * {
@@ -210,11 +222,10 @@ body {
     color: @colour-background;
 
     &.full {
-      border-color: @colour-foreground-highlight;
-      background-color: @colour-foreground-highlight;
+      .active-button;
     }
     &.half {
-      color: @colour-foreground-highlight;
+      .inactive-button;
     }
     .button {
       font-size: @font-size-button-icon-large;
@@ -223,28 +234,26 @@ body {
   }
 
   #score-share {
-    color: @colour-foreground-highlight;
+    .inactive-button;
 
     .button {
       font-size: @font-size-button-icon-small;
     }
 
     &:active {
-      background-color: @colour-foreground-highlight;
-      color: @colour-background;
+      .active-button;
     }
   }
 
   #skip-to-answers {
-    color: @colour-foreground-highlight;
+    .inactive-button;
 
     .button {
       font-size: @font-size-button-icon-large;
     }
 
     &.selected {
-      background-color: @colour-foreground-highlight;
-      color: @colour-background;
+      .active-button;
     }
   }
 }
