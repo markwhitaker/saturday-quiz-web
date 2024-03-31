@@ -18,23 +18,13 @@
         this.question = question;
     }
 
-    static questionsTitleScene(date) {
-        return new Scene(Scene.Type.QUESTIONS_TITLE, null, date, Scene.#privateToken);
-    }
+    static questionsTitleScene = date => new Scene(Scene.Type.QUESTIONS_TITLE, null, date, Scene.#privateToken);
 
-    static questionScene(question) {
-        return new Scene(Scene.Type.QUESTION, question, null, Scene.#privateToken);
-    }
+    static questionScene = question => new Scene(Scene.Type.QUESTION, question, null, Scene.#privateToken);
 
-    static answersTitleScene() {
-        return new Scene(Scene.Type.ANSWERS_TITLE, null, null, Scene.#privateToken);
-    }
+    static answersTitleScene = () => new Scene(Scene.Type.ANSWERS_TITLE, null, null, Scene.#privateToken);
 
-    static questionAnswerScene(question) {
-        return new Scene(Scene.Type.QUESTION_ANSWER, question, null, Scene.#privateToken);
-    }
+    static questionAnswerScene = question => new Scene(Scene.Type.QUESTION_ANSWER, question, null, Scene.#privateToken);
 
-    static endTitleScene() {
-        return new Scene(Scene.Type.END_TITLE, null, null, Scene.#privateToken);
-    }
+    static endTitleScene = () => new Scene(Scene.Type.END_TITLE, null, null, Scene.#privateToken);
 }

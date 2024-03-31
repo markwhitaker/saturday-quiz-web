@@ -1,12 +1,11 @@
 ﻿using RestSharp;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.Clients;
 
-public interface IGuardianApiClient : IGuardianQuizMetadataClient
-{
-}
+public interface IGuardianApiClient : IGuardianQuizMetadataClient;
 
 public class GuardianApiClient : IGuardianApiClient
 {
@@ -19,7 +18,7 @@ public class GuardianApiClient : IGuardianApiClient
         _restClient = new RestClient(_config.ApiBaseUrl);
     }
 
-    public async Task<IReadOnlySet<QuizMetadata>> GetQuizMetadataAsync(int count)
+    public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
         var request = new RestRequest(_config.ApiEndpoint)
             {
@@ -29,7 +28,7 @@ public class GuardianApiClient : IGuardianApiClient
             .AddQueryParameter("page-size", count.ToString());
         var response = await _restClient.ExecuteGetAsync<GuardianApiResponse>(request);
 
-        if (response.IsSuccessful && response.Data != null)
+        if (response is { IsSuccessful: true, Data: not null })
         {
             return response.Data.Results
                 .Select(item => new QuizMetadata
@@ -38,15 +37,15 @@ public class GuardianApiClient : IGuardianApiClient
                     Title = item.WebTitle.Trim(),
                     Date = item.WebPublicationDate,
                     Url = item.WebUrl.Trim(),
-                    Source = "API"
+                    Source = Constants.SourceApi
                 })
                 .Distinct()
                 .OrderByDescending(qm => qm.Date)
                 .Take(count)
-                .ToHashSet();
+                .ToList();
         }
 
-        return new HashSet<QuizMetadata>();
+        return Array.Empty<QuizMetadata>();
     }
 
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
@@ -55,9 +54,9 @@ public class GuardianApiClient : IGuardianApiClient
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public record GuardianApiResponse
     {
-        public class ResponseBody
+        public record ResponseBody
         {
-            public List<GuardianApiQuizSummary> Results { get; init; } = new();
+            public IEnumerable<GuardianApiQuizSummary> Results { get; init; } = [];
         }
 
         public ResponseBody Response { get; init; } = new();

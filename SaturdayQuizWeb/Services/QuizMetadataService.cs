@@ -48,9 +48,9 @@ public class QuizMetadataService : IQuizMetadataService
     private bool IsUpToDate(IEnumerable<QuizMetadata> quizMetadataSet)
     {
         var newestItem = quizMetadataSet.MaxBy(qm => qm.Date);
-        return newestItem != null && !IsOlderThan1Week(newestItem);
+        return newestItem != null && !IsOlderThanOneWeek(newestItem);
     }
 
-    private bool IsOlderThan1Week(QuizMetadata quizMetadata) =>
+    private bool IsOlderThanOneWeek(QuizMetadata quizMetadata) =>
         _dateTimeWrapper.UtcNow.Date.Subtract(quizMetadata.Date.Date) >= TimeSpan.FromDays(7);
 }

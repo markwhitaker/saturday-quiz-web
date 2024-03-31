@@ -37,6 +37,7 @@ public class QuizMetadataServiceTests
         const int quizzesRequestedCount = 5;
         var today = new DateTime(2022, 1, 8, 23, 59, 59);
         var oldDate = today.Subtract(TimeSpan.FromDays(ageInDays));
+
         var apiMetadata1 = new QuizMetadata
         {
             Id = "api-id-1",
@@ -45,7 +46,7 @@ public class QuizMetadataServiceTests
             Url = "url-1",
             Source = "API"
         };
-        var expectedApiResponse = new HashSet<QuizMetadata>
+        var expectedApiResponse = new[]
         {
             apiMetadata1
         };
@@ -65,7 +66,7 @@ public class QuizMetadataServiceTests
             Url = "url-2",
             Source = "RSS"
         };
-        var expectedRssResponse = new HashSet<QuizMetadata>
+        var expectedRssResponse = new[]
         {
             rssMetadata1,
             rssMetadata2
@@ -106,7 +107,7 @@ public class QuizMetadataServiceTests
             Url = "url-2",
             Source = "API"
         };
-        var expectedApiResponse = new HashSet<QuizMetadata>
+        var expectedApiResponse = new[]
         {
             apiMetadata2
         };
@@ -126,12 +127,12 @@ public class QuizMetadataServiceTests
             Url = "url-2",
             Source = "RSS"
         };
-        var expectedRssResponse = new HashSet<QuizMetadata>
+        var expectedRssResponse = new[]
         {
             rssMetadata1,
             rssMetadata2
         };
-        var expectedMetadataServiceResponse = new List<QuizMetadata>
+        var expectedMetadataServiceResponse = new[]
         {
             rssMetadata1,
             apiMetadata2

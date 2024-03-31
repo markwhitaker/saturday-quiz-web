@@ -1,11 +1,10 @@
 ﻿using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.Clients;
 
-public interface IGuardianRssClient : IGuardianQuizMetadataClient
-{
-}
+public interface IGuardianRssClient : IGuardianQuizMetadataClient;
 
 public class GuardianRssClient : IGuardianRssClient
 {
@@ -18,7 +17,7 @@ public class GuardianRssClient : IGuardianRssClient
         _guardianWebsiteClient = guardianWebsiteClient;
     }
 
-    public async Task<IReadOnlySet<QuizMetadata>> GetQuizMetadataAsync(int count)
+    public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
         try
         {
@@ -34,16 +33,16 @@ public class GuardianRssClient : IGuardianRssClient
                     Url = item.Link.Trim(),
                     Date = item.Date,
                     Id = item.Link.Trim().Replace(_guardianConfig.WebsiteBaseUrl, string.Empty),
-                    Source = "RSS"
+                    Source = Constants.SourceRss
                 })
                 .Distinct()
                 .OrderByDescending(qm => qm.Date)
                 .Take(count)
-                .ToHashSet();
+                .ToList();
         }
         catch (Exception)
         {
-            return new HashSet<QuizMetadata>();
+            return Array.Empty<QuizMetadata>();
         }
     }
 
