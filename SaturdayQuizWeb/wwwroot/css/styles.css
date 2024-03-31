@@ -168,6 +168,9 @@ body {
 #buttons-box #skip-to-answers {
   color: #fd0;
 }
+#buttons-box #skip-to-answers .button {
+  font-size: 36px;
+}
 #buttons-box #skip-to-answers.selected {
   background-color: #fd0;
   color: #000;

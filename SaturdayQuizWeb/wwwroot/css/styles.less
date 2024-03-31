@@ -13,14 +13,14 @@
 @dimen-title-top-margin: 30px;
 @dimen-answer-top-margin: 10px;
 @dimen-score-button-size: 50px;
-@dimen-score-tick-size: 36px;
-@dimen-score-share-size: 30px;
 @dimen-score-border-thickness: 2px;
 @dimen-buttons-box-height: @dimen-score-button-size + @dimen-outer-padding;
 @font-size-date: 16pt;
 @font-size-title: 40pt;
 @font-size-question: 24pt;
 @font-size-what-links: 12pt;
+@font-size-button-icon-large: 36px;
+@font-size-button-icon-small: 30px;
 
 // Mobile dimensions
 @dimen-outer-padding-mobile: 25px;
@@ -217,7 +217,7 @@ body {
       color: @colour-foreground-highlight;
     }
     .button {
-      font-size: @dimen-score-tick-size;
+      font-size: @font-size-button-icon-large;
       font-weight: bold;
     }
   }
@@ -226,7 +226,7 @@ body {
     color: @colour-foreground-highlight;
 
     .button {
-      font-size: @dimen-score-share-size;
+      font-size: @font-size-button-icon-small;
     }
 
     &:active {
@@ -237,6 +237,10 @@ body {
 
   #skip-to-answers {
     color: @colour-foreground-highlight;
+
+    .button {
+      font-size: @font-size-button-icon-large;
+    }
 
     &.selected {
       background-color: @colour-foreground-highlight;
