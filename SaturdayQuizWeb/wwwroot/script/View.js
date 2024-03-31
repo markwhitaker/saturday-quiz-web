@@ -17,7 +17,6 @@ const elements = Object.freeze({
     scoreShare: () => $("#score-share"),
     scoreTick: () => $("#score-tick"),
     skipToAnswers: () => $("#skip-to-answers"),
-    skipToAnswersCheckbox: () => $("#skip-to-answers-checkbox"),
     title: () => $("#title"),
     totalScore: () => $("#total-score")
 });
