@@ -37,6 +37,17 @@ export default class Presenter {
         }
     };
 
+    onSpace() {
+        switch (this.scenes[this.sceneIndex].type) {
+            case Scene.Type.QUESTION_ANSWER:
+                this.toggleScore();
+                break;
+            case Scene.Type.QUESTIONS_TITLE:
+                this.toggleSkipToAnswers();
+                break;
+        }
+    };
+
     toggleScore() {
         const scene = this.scenes[this.sceneIndex];
         if (scene.type !== Scene.Type.QUESTION_ANSWER) {
@@ -61,6 +72,16 @@ export default class Presenter {
         this.view.showScoreTick(score);
     }
 
+    toggleSkipToAnswers() {
+        if (this.scenes[this.sceneIndex].type !== Scene.Type.QUESTIONS_TITLE) {
+            return;
+        }
+
+        this.skipToAnswers = !this.skipToAnswers;
+        this.view.setSkipToAnswers(this.skipToAnswers);
+        this.#buildScenes();
+    }
+
     async shareScore() {
         const totalScore = Presenter.#formatTotalScore(this.scoreRepository.totalScore);
         const scoreBreakdown = this.scoreRepository.allScores
@@ -80,12 +101,6 @@ export default class Presenter {
         }
         catch (error) {
         }
-    }
-
-    toggleSkipToAnswers() {
-        this.skipToAnswers = !this.skipToAnswers;
-        this.view.setSkipToAnswers(this.skipToAnswers);
-        this.#buildScenes();
     }
 
     #onQuizLoaded() {

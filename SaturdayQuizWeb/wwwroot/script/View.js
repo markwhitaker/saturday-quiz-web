@@ -55,7 +55,7 @@ export default class View {
                     this.presenter.onNext();
                     break;
                 case 'Space':
-                    this.presenter.toggleScore();
+                    this.presenter.onSpace();
                     break;
                 default:
                     return;
