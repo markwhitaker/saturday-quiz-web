@@ -38,15 +38,15 @@ export default class View {
         });
 
     enableNavigation = () => {
-        elements.navLeft().click(e => {
+        elements.navLeft().on("click", e => {
             this.presenter.onPrevious();
             e.preventDefault();
         });
-        elements.navRight().click(e => {
+        elements.navRight().on("click", e => {
             this.presenter.onNext();
             e.preventDefault();
         });
-        elements.document().keyup(e => {
+        elements.document().on("keyup", e => {
             switch (e.code) {
                 case 'ArrowLeft':
                     this.presenter.onPrevious();
@@ -63,17 +63,17 @@ export default class View {
             e.preventDefault();
         });
 
-        elements.scoreTick().click(e => {
+        elements.scoreTick().on("click", e => {
             this.presenter.toggleScore();
             e.preventDefault();
         });
 
-        elements.scoreShare().click(async e => {
+        elements.scoreShare().on("click", async e => {
             await this.presenter.shareScore();
             e.preventDefault();
         });
 
-        elements.skipToAnswers().click(e => {
+        elements.skipToAnswers().on("click", e => {
             this.presenter.toggleSkipToAnswers();
             e.preventDefault();
         });
