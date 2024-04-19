@@ -14,7 +14,7 @@
 @dimen-answer-top-margin: 10px;
 @dimen-score-button-size: 50px;
 @dimen-score-border-thickness: 2px;
-@dimen-buttons-box-height: @dimen-score-button-size + @dimen-outer-padding;
+@dimen-buttons-container-height: @dimen-score-button-size + @dimen-outer-padding;
 @font-size-date: 16pt;
 @font-size-title: 40pt;
 @font-size-question: 24pt;
@@ -24,7 +24,7 @@
 
 // Mobile dimensions
 @dimen-outer-padding-mobile: 25px;
-@dimen-buttons-box-height-mobile: @dimen-score-button-size + @dimen-outer-padding-mobile;
+@dimen-buttons-container-height-mobile: @dimen-score-button-size + @dimen-outer-padding-mobile;
 
 // Fonts
 @font-family: 'Open Sans', sans-serif;
@@ -82,7 +82,7 @@ body {
   opacity: 0;
 }
 
-#loader-box {
+#loader-container {
   position: absolute;
   display: flex;
   height: 100%;
@@ -105,22 +105,22 @@ body {
   to { transform: rotate(360deg) }
 }
 
-#box {
+#quiz-container {
   display: flex;
   flex-flow: column;
   height: 100%;
   justify-content: space-between;
 
-  #question-box {
+  #question-container {
     flex: 0 1 auto;
     padding: @dimen-outer-padding;
   }
-  #title-box {
+  #title-container {
     flex: 0 1 auto;
   }
-  #buttons-box {
+  #buttons-container {
     position: relative;
-    flex: 0 0 @dimen-buttons-box-height;
+    flex: 0 0 @dimen-buttons-container-height;
   }
 }
 
@@ -189,7 +189,7 @@ body {
   right: 0;
 }
 
-#buttons-box {
+#buttons-container {
   div {
     position: absolute;
     z-index: 200;
@@ -259,15 +259,15 @@ body {
 }
 
 @media(max-width: 700px) {
-  #box {
-    #question-box {
+  #quiz-container {
+    #question-container {
       padding: @dimen-outer-padding-mobile;
     }
-    #buttons-box {
-      flex-basis: @dimen-buttons-box-height-mobile;
+    #buttons-container {
+      flex-basis: @dimen-buttons-container-height-mobile;
     }
   }
-  #buttons-box {
+  #buttons-container {
     .left {
       left: @dimen-outer-padding-mobile;
     }

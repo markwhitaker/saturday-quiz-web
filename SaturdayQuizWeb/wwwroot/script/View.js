@@ -3,9 +3,8 @@ import QuestionScore from "./QuestionScore.js";
 
 const elements = Object.freeze({
     answer: () => $("#answer"),
-    box: () => $("#box"),
     document: () => $(document),
-    loaderBox: () => $("#loader-box"),
+    loaderContainer: () => $("#loader-container"),
     navLeft: () => $("#nav-left"),
     navRight: () => $("#nav-right"),
     pageQuestion: () => $("#page-question"),
@@ -13,6 +12,7 @@ const elements = Object.freeze({
     question: () => $("#question"),
     questionNumber: () => $("#question-number"),
     questionWhatLinks: () => $("#question-what-links"),
+    quizContainer: () => $("#quiz-container"),
     quizDate: () => $("#quiz-date"),
     scoreShare: () => $("#score-share"),
     scoreTick: () => $("#score-tick"),
@@ -33,8 +33,8 @@ export default class View {
     };
 
     onQuizLoaded = () =>
-        elements.loaderBox().fadeOut(function () {
-            elements.box().removeClass('hidden');
+        elements.loaderContainer().fadeOut(function () {
+            elements.quizContainer().removeClass('hidden');
         });
 
     enableNavigation = () => {
