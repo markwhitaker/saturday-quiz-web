@@ -13,6 +13,7 @@ ProjectSection(SolutionItems) = preProject
 	.github\dependabot.yml = .github\dependabot.yml
 	.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
 	.github\workflows\build-test-and-deploy-main.yml = .github\workflows\build-test-and-deploy-main.yml
+	Dockerfile = Dockerfile
 EndProjectSection
 EndProject
 Global
