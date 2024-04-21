@@ -17,18 +17,12 @@ public class QuizController : ControllerBase
 
     // GET /api/quiz
     [HttpGet]
-    public async Task<ActionResult<Quiz>> GetById(
-        [FromQuery] string? id = null,
-        [FromQuery] int? delaySeconds = null)
+    public async Task<ActionResult<Quiz>> GetById([FromQuery] string? id = null)
     {
         Response.AddCustomHeaders(id == null ? TimeSpan.Zero : TimeSpan.FromDays(365));
 
         try
         {
-            if (delaySeconds != null)
-            {
-                await Task.Delay(TimeSpan.FromSeconds(delaySeconds.Value));
-            }
             var quiz = await _quizService.GetQuizAsync(id);
             return Ok(quiz);
         }
