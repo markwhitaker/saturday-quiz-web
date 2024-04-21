@@ -4,9 +4,13 @@
 
 https://fiendish-eaton.herokuapp.com/
 
+https://quiz-bitrot.koyeb.app/
+
 ## REST API
 
 https://fiendish-eaton.herokuapp.com/swagger/
+
+https://quiz-bitrot.koyeb.app/swagger/
 
 ## Heroku dashboard
 
