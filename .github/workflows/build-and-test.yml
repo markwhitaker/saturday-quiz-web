@@ -1,9 +1,14 @@
-name: Build and test PR
-on: [pull_request]
+name: Build and test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
 
 jobs:
-  build-and-test-pr:
-    name: Build and test PR
+  build-and-test:
+    name: Build and test main
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
