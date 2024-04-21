@@ -2,16 +2,8 @@
 
 ## Web App
 
-https://fiendish-eaton.herokuapp.com/
-
 https://eaton-bitrot.koyeb.app/
 
 ## REST API
 
-https://fiendish-eaton.herokuapp.com/swagger/
-
 https://eaton-bitrot.koyeb.app/swagger/
-
-## Heroku dashboard
-
-https://dashboard.heroku.com/apps/fiendish-eaton/
