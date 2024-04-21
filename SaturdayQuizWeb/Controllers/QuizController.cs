@@ -1,4 +1,5 @@
-﻿using SaturdayQuizWeb.Extensions;
+﻿using Microsoft.Extensions.Logging;
+using SaturdayQuizWeb.Extensions;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 
@@ -9,10 +10,12 @@ namespace SaturdayQuizWeb.Controllers;
 public class QuizController : ControllerBase
 {
     private readonly IQuizService _quizService;
+    private readonly ILogger _logger;
 
-    public QuizController(IQuizService quizService)
+    public QuizController(IQuizService quizService, ILogger<QuizController> logger)
     {
         _quizService = quizService;
+        _logger = logger;
     }
 
     // GET /api/quiz
@@ -23,12 +26,13 @@ public class QuizController : ControllerBase
 
         try
         {
+            _logger.LogInformation("Getting quiz with ID={id}...", id);
             var quiz = await _quizService.GetQuizAsync(id);
             return Ok(quiz);
         }
         catch (Exception e)
         {
-            Console.WriteLine($"Error occurred: {e}");
+            _logger.LogError(e, "Error getting quiz");
             return StatusCode((int)HttpStatusCode.InternalServerError, new Error(e));
         }
     }

@@ -54,28 +54,28 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
                 try
                 {
                     var quiz = await _quizService.GetQuizAsync(quizMetadata.Id);
-                    Console.WriteLine($"Index {index} successful");
-                    PrintQuiz(quiz);
+                    await TestContext.Out.WriteLineAsync($"Index {index} successful");
+                    await PrintQuizAsync(quiz);
                 }
                 catch (Exception e)
                 {
                     var dateString = quizMetadata.Date.ToShortDateString();
                     failedDates.Add(dateString);
-                    Console.WriteLine($"Index {index} ({dateString}) failed: {e.Message} ({quizMetadata.Url})");
+                    await TestContext.Out.WriteLineAsync($"Index {index} ({dateString}) failed: {e.Message} ({quizMetadata.Url})");
                 }
             }
 
             Assert.That(failedDates, Is.Empty, $"Failed to parse {failedDates.Count} of the last {expectedNumberOfQuizzes} quizzes");
         }
 
-        private static void PrintQuiz(Quiz quiz)
+        private static async Task PrintQuizAsync(Quiz quiz)
         {
             foreach (var q in quiz.Questions)
             {
-                Console.WriteLine($"{q.Number} [{q.Type}] {q.Question} {q.Answer}");
+                await TestContext.Out.WriteLineAsync($"{q.Number} [{q.Type}] {q.Question} {q.Answer}");
             }
 
-            Console.WriteLine();
+            await TestContext.Out.WriteLineAsync();
         }
     }
 }

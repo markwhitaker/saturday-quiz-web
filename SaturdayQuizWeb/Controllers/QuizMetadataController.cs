@@ -1,4 +1,5 @@
-﻿using SaturdayQuizWeb.Extensions;
+﻿using Microsoft.Extensions.Logging;
+using SaturdayQuizWeb.Extensions;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 
@@ -11,10 +12,12 @@ public class QuizMetadataController : ControllerBase
     private const int DefaultQuizCount = 10;
 
     private readonly IQuizMetadataService _quizMetadataService;
+    private readonly ILogger _logger;
 
-    public QuizMetadataController(IQuizMetadataService quizMetadataService)
+    public QuizMetadataController(IQuizMetadataService quizMetadataService, ILogger<QuizMetadataController> logger)
     {
         _quizMetadataService = quizMetadataService;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -24,12 +27,14 @@ public class QuizMetadataController : ControllerBase
 
         try
         {
+            var quizNoun = count == 1 ? "quiz" : "quizzes";
+            _logger.LogInformation("Getting quiz metadata for last {count} {noun}...", count, quizNoun);
             var quizMetadata = await _quizMetadataService.GetQuizMetadataAsync(count);
             return Ok(quizMetadata);
         }
         catch (Exception e)
         {
-            Console.WriteLine($"Error occurred: {e}");
+            _logger.LogError(e, "Error getting quiz metadata");
             return StatusCode((int)HttpStatusCode.InternalServerError, new Error(e));
         }
     }
