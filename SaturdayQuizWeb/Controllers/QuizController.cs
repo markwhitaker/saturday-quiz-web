@@ -32,7 +32,7 @@ public class QuizController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error getting quiz");
+            _logger.LogError(e, "Error getting quiz with ID={id}", id);
             return StatusCode((int)HttpStatusCode.InternalServerError, new Error(e));
         }
     }

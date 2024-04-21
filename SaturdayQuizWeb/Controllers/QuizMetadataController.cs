@@ -24,17 +24,17 @@ public class QuizMetadataController : ControllerBase
     public async Task<ActionResult<IEnumerable<QuizMetadata>>> GetQuizMetadataAsync([FromQuery] int count = DefaultQuizCount)
     {
         Response.AddCustomHeaders(TimeSpan.Zero);
+        var quizNoun = count == 1 ? "quiz" : "quizzes";
 
         try
         {
-            var quizNoun = count == 1 ? "quiz" : "quizzes";
-            _logger.LogInformation("Getting quiz metadata for last {count} {noun}...", count, quizNoun);
+            _logger.LogInformation("Getting quiz metadata for last {count} {quizNoun}...", count, quizNoun);
             var quizMetadata = await _quizMetadataService.GetQuizMetadataAsync(count);
             return Ok(quizMetadata);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error getting quiz metadata");
+            _logger.LogError(e, "Error getting quiz metadata for last {count} {quizNoun}", count, quizNoun);
             return StatusCode((int)HttpStatusCode.InternalServerError, new Error(e));
         }
     }
