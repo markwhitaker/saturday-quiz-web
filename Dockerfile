@@ -11,11 +11,12 @@ COPY SaturdayQuizWeb/. ./
 RUN dotnet build -c Release -o out
 
 # Publish the app
+FROM build-env AS publish
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=publish /app/out .
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "SaturdayQuizWeb.dll"]
