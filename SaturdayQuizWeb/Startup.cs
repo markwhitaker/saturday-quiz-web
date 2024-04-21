@@ -58,7 +58,7 @@ public class Startup
         app.UseStaticFiles(new StaticFileOptions
         {
             ContentTypeProvider = new Utf8ContentTypeProvider(),
-            OnPrepareResponse = context => context.Context.Response.AddCustomHeaders(TimeSpan.Zero)
+            OnPrepareResponse = context => context.Context.Response.AddCustomHeaders(TimeSpan.FromDays(30))
         });
     }
 
