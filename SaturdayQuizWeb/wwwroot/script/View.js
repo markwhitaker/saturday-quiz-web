@@ -33,7 +33,7 @@ export default class View {
     };
 
     onQuizLoaded = () =>
-        elements.loaderContainer().fadeOut(function () {
+        elements.loaderContainer().fadeOut(() => {
             elements.quizContainer().removeClass('hidden');
         });
 
