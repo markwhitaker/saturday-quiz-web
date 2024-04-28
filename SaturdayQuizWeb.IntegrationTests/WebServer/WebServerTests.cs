@@ -36,13 +36,9 @@ public class WebServerTests
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 
-    [TestCase("")]
-    [TestCase("css/styles.css")]
-    [TestCase("script/Presenter.js")]
-    [TestCase("images/icon32.png")]
     [TestCase("api/quiz")]
     [TestCase("api/quiz-metadata")]
-    public async Task GivenAnyUri_WhenRequested_ThenCacheControlHeaderValueIsNoCache(string path)
+    public async Task GivenApiUri_WhenRequested_ThenCacheControlHeaderValueIsNoCache(string path)
     {
         // Given
         using var httpClient = _webApplicationFactory.CreateClient();
@@ -57,6 +53,28 @@ public class WebServerTests
         // Then
         Assert.That(response.Headers.CacheControl, Is.Not.Null);
         Assert.That(response.Headers.CacheControl!.NoCache, Is.True);
+    }
+
+    [TestCase("")]
+    [TestCase("css/styles.css")]
+    [TestCase("script/Presenter.js")]
+    [TestCase("images/icon32.png")]
+    public async Task GivenStaticFileUri_WhenRequested_ThenCacheControlHeaderValueIs30DaysCache(string path)
+    {
+        // Given
+        using var httpClient = _webApplicationFactory.CreateClient();
+        var requestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
+        {
+            Path = path
+        }.ToString();
+
+        // When
+        var response = await httpClient.GetAsync(requestUri);
+
+        // Then
+        Assert.That(response.Headers.CacheControl, Is.Not.Null);
+        Assert.That(response.Headers.CacheControl!.NoCache, Is.False);
+        Assert.That(response.Headers.CacheControl!.MaxAge, Is.EqualTo(TimeSpan.FromDays(30)));
     }
 
     [Test]
