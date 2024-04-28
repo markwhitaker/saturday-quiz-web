@@ -17,7 +17,7 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
         {
             var configOptions = ConfigOptionsLoader.ConfigOptions;
             var guardianWebsiteService = new GuardianWebsiteClient(new HttpClient(), configOptions);
-            var guardianApiService = new GuardianApiClient(configOptions);
+            var guardianApiService = new GuardianApiClient(new HttpClient(), configOptions);
             var guardianRssService = new GuardianRssClient(configOptions, guardianWebsiteService);
 
             _quizMetadataService = new QuizMetadataService(

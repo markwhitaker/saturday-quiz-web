@@ -1,5 +1,4 @@
-﻿using RestSharp;
-using SaturdayQuizWeb.Config;
+﻿using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Utils;
 
@@ -7,42 +6,46 @@ namespace SaturdayQuizWeb.Clients;
 
 public interface IGuardianApiClient : IGuardianQuizMetadataClient;
 
+/// <summary>
+/// A typed HTTP client: see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-3.0#typed-clients
+/// </summary>
 public class GuardianApiClient : IGuardianApiClient
 {
+    private readonly HttpClient _httpClient;
     private readonly GuardianConfig _config;
-    private readonly RestClient _restClient;
 
-    public GuardianApiClient(IOptions<GuardianConfig> configOptions)
+    public GuardianApiClient(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
     {
+        _httpClient = httpClient;
         _config = configOptions.Value;
-        _restClient = new RestClient(_config.ApiBaseUrl);
     }
 
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
-        var request = new RestRequest(_config.ApiEndpoint)
-            {
-                RequestFormat = DataFormat.Json
-            }
-            .AddQueryParameter("api-key", _config.ApiKey)
-            .AddQueryParameter("page-size", count.ToString());
-        var response = await _restClient.ExecuteGetAsync<GuardianApiResponse>(request);
+        var url = $"{_config.ApiBaseUrl}{_config.ApiEndpoint}?api-key={_config.ApiKey}&page-size={count}";
+        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url);
+        var httpResponse = await _httpClient.SendAsync(httpRequest);
 
-        if (response is { IsSuccessful: true, Data: not null })
+        if (httpResponse.IsSuccessStatusCode)
         {
-            return response.Data.Results
-                .Select(item => new QuizMetadata
-                {
-                    Id = item.Id.Trim(),
-                    Title = item.WebTitle.Trim(),
-                    Date = item.WebPublicationDate,
-                    Url = item.WebUrl.Trim(),
-                    Source = Constants.SourceApi
-                })
-                .Distinct()
-                .OrderByDescending(qm => qm.Date)
-                .Take(count)
-                .ToList();
+            var responseJson = await httpResponse.Content.ReadAsStringAsync();
+            var response = JsonConvert.DeserializeObject<GuardianApiResponse>(responseJson);
+            if (response is not null)
+            {
+                return response.Response.Results
+                    .Select(item => new QuizMetadata
+                    {
+                        Id = item.Id.Trim(),
+                        Title = item.WebTitle.Trim(),
+                        Date = item.WebPublicationDate,
+                        Url = item.WebUrl.Trim(),
+                        Source = Constants.SourceApi
+                    })
+                    .Distinct()
+                    .OrderByDescending(qm => qm.Date)
+                    .Take(count)
+                    .ToList();
+            }
         }
 
         return Array.Empty<QuizMetadata>();

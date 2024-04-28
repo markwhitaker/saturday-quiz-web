@@ -11,7 +11,7 @@ public class GuardianApiClientTests
     [SetUp]
     public void SetUp()
     {
-        _guardianApiClient = new GuardianApiClient(ConfigOptionsLoader.ConfigOptions);
+        _guardianApiClient = new GuardianApiClient(new HttpClient(), ConfigOptionsLoader.ConfigOptions);
     }
 
     [TestCase(1)]
