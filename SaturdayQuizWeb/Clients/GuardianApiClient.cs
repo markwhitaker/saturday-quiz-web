@@ -16,13 +16,14 @@ public class GuardianApiClient : IGuardianApiClient
 
     public GuardianApiClient(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
     {
-        _httpClient = httpClient;
         _config = configOptions.Value;
+        _httpClient = httpClient;
+        _httpClient.BaseAddress = new Uri(_config.ApiBaseUrl);
     }
 
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
-        var url = $"{_config.ApiBaseUrl}{_config.ApiEndpoint}?api-key={_config.ApiKey}&page-size={count}";
+        var url = $"{_config.ApiEndpoint}?api-key={_config.ApiKey}&page-size={count}";
         var httpRequest = new HttpRequestMessage(HttpMethod.Get, url);
         var httpResponse = await _httpClient.SendAsync(httpRequest);
 
@@ -51,8 +52,6 @@ public class GuardianApiClient : IGuardianApiClient
         return Array.Empty<QuizMetadata>();
     }
 
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "CollectionNeverUpdated.Global")]
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public record GuardianApiResponse
