@@ -32,7 +32,7 @@ public class GuardianApiClient : IGuardianApiClient
             var response = JsonConvert.DeserializeObject<GuardianApiResponse>(responseJson);
             if (response is not null)
             {
-                return response.Response.Results
+                return response.Results
                     .Select(item => new QuizMetadata
                     {
                         Id = item.Id.Trim(),
@@ -42,7 +42,7 @@ public class GuardianApiClient : IGuardianApiClient
                         Source = Constants.SourceApi
                     })
                     .Distinct()
-                    .OrderByDescending(qm => qm.Date)
+                    .OrderByDescending(quizMetadata => quizMetadata.Date)
                     .Take(count)
                     .ToList();
             }
