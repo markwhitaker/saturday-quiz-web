@@ -1,0 +1,18 @@
+{
+  "name": "saturdayquizweb.javascripttests",
+  "version": "1.0.0",
+  "description": "JavaScript unit tests",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest"
+  },
+  "author": "Mark Whitaker",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
+  }
+}
