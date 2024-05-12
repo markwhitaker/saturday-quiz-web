@@ -2,8 +2,8 @@
 import Question from "./Question.js";
 
 export default class Quiz {
-    constructor(object) {
-        this.date = new CalendarDate(object.date);
-        this.questions = object.questions.map(q => new Question(q));
+    constructor(rawQuizObject) {
+        this.date = new CalendarDate(rawQuizObject.date);
+        this.questions = rawQuizObject.questions.map(q => new Question(q));
     }
 }

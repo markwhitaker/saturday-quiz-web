@@ -15,20 +15,20 @@ export default class LocalStore {
     set quizDate(calendarDate) {
         const storedCalendarDate = this.quizDate;
         if (!calendarDate.equals(storedCalendarDate)) {
-            this.#clearScores();
+            localStorage.removeItem(LocalStore.#KEYS.SCORES);
             localStorage.setItem(LocalStore.#KEYS.QUIZ_DATE, calendarDate.toString());
         }
     }
 
-    get quizJson() {
+    get quiz() {
         return JSON.parse(localStorage.getItem(LocalStore.#KEYS.QUIZ_JSON));
     }
 
-    set quizJson(json) {
+    set quiz(json) {
         localStorage.setItem(LocalStore.#KEYS.QUIZ_JSON, JSON.stringify(json));
     }
 
-    clearQuizJson() {
+    clearQuiz() {
         localStorage.removeItem(LocalStore.#KEYS.QUIZ_JSON);
     }
 
@@ -38,9 +38,5 @@ export default class LocalStore {
 
     set scores(value) {
         localStorage.setItem(LocalStore.#KEYS.SCORES, value);
-    }
-
-    #clearScores() {
-        localStorage.removeItem(LocalStore.#KEYS.SCORES);
     }
 }

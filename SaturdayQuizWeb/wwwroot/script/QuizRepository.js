@@ -18,19 +18,19 @@ export default class QuizRepository {
         if (!response.ok) {
             throw new Error(`Failed to fetch ${this.#quizEndpoint}. ${response.status}: ${response.statusText}`);
         }
-        const quizJson = await response.json();
-        this.#localStore.quizJson = quizJson;
-        return quizJson;
+        const rawQuizObject = await response.json();
+        this.#localStore.quiz = rawQuizObject;
+        return rawQuizObject;
     }
 
     #getCachedQuizJson() {
-        const quizJson = this.#localStore.quizJson;
+        const cachedRawQuizObject = this.#localStore.quiz;
         const quizDate = this.#localStore.quizDate;
-        if (quizJson && quizDate && QuizRepository.#isFewerThan7DaysAgo(quizDate)) {
-            return new Quiz(quizJson);
+        if (cachedRawQuizObject && quizDate && QuizRepository.#isFewerThan7DaysAgo(quizDate)) {
+            return new Quiz(cachedRawQuizObject);
         }
 
-        this.#localStore.clearQuizJson();
+        this.#localStore.clearQuiz();
         return undefined;
     }
 

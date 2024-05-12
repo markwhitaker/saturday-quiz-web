@@ -18,8 +18,6 @@ export default class ScoreRepository {
     }
 
     initialiseScores(quiz) {
-        this.#localStore.quizDate = quiz.date;
-
         this.#scores = this.#loadScores() ?? new Array(quiz.questions.length).fill(QuestionScore.NONE);
         this.#saveScores();
     }
