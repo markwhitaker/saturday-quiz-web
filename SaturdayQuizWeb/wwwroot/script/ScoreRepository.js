@@ -1,9 +1,8 @@
-﻿import QuestionScore from "./QuestionScore.js";
-
-const KEY_DATE = "date";
-const KEY_SCORES = "scores";
+﻿import LocalStore from "./LocalStore.js";
+import QuestionScore from "./QuestionScore.js";
 
 export default class ScoreRepository {
+    #localStore = new LocalStore();
     #scores = []
 
     get totalScore() {
@@ -19,15 +18,15 @@ export default class ScoreRepository {
     }
 
     initialiseScores(quiz) {
-        const dateString = new Date(quiz.date).toDateString();
+        const quizDateString = new Date(quiz.date).toDateString();
 
-        if (localStorage.getItem(KEY_DATE) !== dateString) {
-            localStorage.removeItem(KEY_SCORES)
+        if (this.#localStore.quizDate !== quizDateString) {
+            this.#localStore.clearScores();
         }
 
-        localStorage.setItem(KEY_DATE, dateString);
+        this.#localStore.quizDate = quizDateString;
 
-        this.#scores = ScoreRepository.#loadScores() ?? new Array(quiz.questions.length).fill(QuestionScore.NONE);
+        this.#scores = this.#loadScores() ?? new Array(quiz.questions.length).fill(QuestionScore.NONE);
         this.#saveScores();
     }
 
@@ -40,12 +39,12 @@ export default class ScoreRepository {
         this.#saveScores();
     }
 
-    static #loadScores() {
-        const scoreString = localStorage.getItem(KEY_SCORES);
+    #loadScores() {
+        const scoreString = this.#localStore.scores;
         return scoreString?.split(",").map(parseFloat);
     }
 
     #saveScores() {
-        localStorage.setItem(KEY_SCORES, this.#scores.toString());
+        this.#localStore.scores = this.#scores.toString();
     }
 }

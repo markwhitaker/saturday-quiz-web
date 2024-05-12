@@ -1,10 +1,12 @@
 ﻿import Scene from "./Scene.js";
 import QuestionScore from "./QuestionScore.js";
+import QuizRepository from "./QuizRepository.js";
+import ScoreRepository from "./ScoreRepository.js";
 
 export default class Presenter {
-    constructor(quizRepository, scoreRepository) {
-        this.quizRepository = quizRepository;
-        this.scoreRepository = scoreRepository;
+    constructor() {
+        this.quizRepository = new QuizRepository();
+        this.scoreRepository = new ScoreRepository();
         this.sceneIndex = 0;
         this.quiz = {};
         this.scenes = [];
