@@ -7,13 +7,13 @@ export default class QuizRepository {
     #quizEndpoint = Object.freeze("api/quiz");
 
     async loadLatestQuiz() {
-        const quizJson = this.#getCachedQuizJson() ?? await this.#downloadQuizJson();
+        const quizJson = this.#getCachedQuiz() ?? await this.#downloadQuiz();
         const quiz = new Quiz(quizJson);
         this.#localStore.quizDate = quiz.date;
         return quiz;
     }
 
-    async #downloadQuizJson() {
+    async #downloadQuiz() {
         const response = await fetch(this.#quizEndpoint);
         if (!response.ok) {
             throw new Error(`Failed to fetch ${this.#quizEndpoint}. ${response.status}: ${response.statusText}`);
@@ -23,7 +23,7 @@ export default class QuizRepository {
         return rawQuizObject;
     }
 
-    #getCachedQuizJson() {
+    #getCachedQuiz() {
         const cachedRawQuizObject = this.#localStore.quiz;
         const quizDate = this.#localStore.quizDate;
         if (cachedRawQuizObject && quizDate && QuizRepository.#isFewerThan7DaysAgo(quizDate)) {
