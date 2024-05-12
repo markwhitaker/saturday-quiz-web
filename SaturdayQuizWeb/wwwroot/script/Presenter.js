@@ -122,7 +122,7 @@ export default class Presenter {
 
         switch(scene.type) {
             case Scene.Type.QUESTIONS_TITLE:
-                const dateString = scene.date.toLocaleDateString("en-GB", {
+                const dateString = scene.date.toLocaleString("en-GB", {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric'

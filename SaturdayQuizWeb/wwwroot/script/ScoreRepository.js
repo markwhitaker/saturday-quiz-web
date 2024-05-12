@@ -18,13 +18,7 @@ export default class ScoreRepository {
     }
 
     initialiseScores(quiz) {
-        const quizDateString = new Date(quiz.date).toDateString();
-
-        if (this.#localStore.quizDate !== quizDateString) {
-            this.#localStore.clearScores();
-        }
-
-        this.#localStore.quizDate = quizDateString;
+        this.#localStore.quizDate = quiz.date;
 
         this.#scores = this.#loadScores() ?? new Array(quiz.questions.length).fill(QuestionScore.NONE);
         this.#saveScores();
