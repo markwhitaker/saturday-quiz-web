@@ -1,10 +1,12 @@
 ﻿import Scene from "./Scene.js";
 import QuestionScore from "./QuestionScore.js";
+import QuizRepository from "./QuizRepository.js";
+import ScoreRepository from "./ScoreRepository.js";
 
 export default class Presenter {
-    constructor(quizRepository, scoreRepository) {
-        this.quizRepository = quizRepository;
-        this.scoreRepository = scoreRepository;
+    constructor() {
+        this.quizRepository = new QuizRepository();
+        this.scoreRepository = new ScoreRepository();
         this.sceneIndex = 0;
         this.quiz = {};
         this.scenes = [];
@@ -120,7 +122,7 @@ export default class Presenter {
 
         switch(scene.type) {
             case Scene.Type.QUESTIONS_TITLE:
-                const dateString = scene.date.toLocaleDateString("en-GB", {
+                const dateString = scene.date.toLocaleString("en-GB", {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric'
