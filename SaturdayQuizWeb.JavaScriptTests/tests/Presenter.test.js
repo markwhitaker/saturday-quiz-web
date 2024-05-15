@@ -1,6 +1,7 @@
+import {expect, test} from '@jest/globals';
 import Presenter from "../../SaturdayQuizWeb/wwwroot/script/Presenter.js";
 
-test('2 + 2 should be 4', () => {
+test('Presenter should be defined', () => {
     const presenter = new Presenter();
     expect(presenter).toBeDefined();
 });
