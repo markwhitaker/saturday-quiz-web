@@ -2,7 +2,6 @@
   "name": "saturdayquizweb.javascripttests",
   "version": "1.0.0",
   "description": "JavaScript unit tests",
-  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules ./node_modules/.bin/jest"

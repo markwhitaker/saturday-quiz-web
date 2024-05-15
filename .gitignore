@@ -4,3 +4,4 @@ obj/
 .idea/
 .vs/
 *.sln.DotSettings.user
+node_modules/
