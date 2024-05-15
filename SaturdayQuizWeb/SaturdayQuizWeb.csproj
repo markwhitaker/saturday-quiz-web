@@ -20,4 +20,9 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Remove="wwwroot\script\package.json" />
+      <None Include="wwwroot\script\package.json" />
+    </ItemGroup>
+
 </Project>
