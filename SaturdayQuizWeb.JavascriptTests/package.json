@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "module": "es6",
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "mocha": "^10.4.0"
+  }
+}
