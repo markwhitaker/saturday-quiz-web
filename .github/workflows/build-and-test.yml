@@ -22,3 +22,8 @@ jobs:
         run: dotnet build -c Release
       - name: Test release build
         run: dotnet test -c Release SaturdayQuizWeb.UnitTests
+      - name: Test JavaScript app
+        run: |
+          cd SaturdayQuizWeb.JavaScriptTests
+          npm install
+          npm test
