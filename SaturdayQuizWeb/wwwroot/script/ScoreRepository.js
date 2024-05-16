@@ -2,8 +2,12 @@
 import QuestionScore from "./QuestionScore.js";
 
 export default class ScoreRepository {
-    #localStore = new LocalStore();
+    #localStore;
     #scores = []
+
+    constructor(localStore) {
+        this.#localStore = localStore ?? new LocalStore();
+    }
 
     get totalScore() {
         return this.#scores.reduce((a, b) => a + b);
