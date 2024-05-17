@@ -33,14 +33,6 @@
 
 // ---------- Mixins ----------
 
-.nav-panel() {
-  position: absolute;
-  width: 50%;
-  top: 0;
-  bottom: 0;
-  z-index: 100;
-}
-
 .indented() {
   margin-left: @dimen-indent;
 }
@@ -179,13 +171,18 @@ body {
   margin-top: @dimen-answer-top-margin;
 }
 
-#nav-left {
-  .nav-panel;
+#nav-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
   left: 0;
-}
-#nav-right {
-  .nav-panel;
   right: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  div {
+    flex: 1;
+  }
 }
 
 #buttons-container {

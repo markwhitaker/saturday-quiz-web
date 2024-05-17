@@ -101,21 +101,18 @@ body {
   font-size: 24pt;
   margin-top: 10px;
 }
-#nav-left {
+#nav-container {
   position: absolute;
-  width: 50%;
   top: 0;
   bottom: 0;
-  z-index: 100;
   left: 0;
-}
-#nav-right {
-  position: absolute;
-  width: 50%;
-  top: 0;
-  bottom: 0;
-  z-index: 100;
   right: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+}
+#nav-container div {
+  flex: 1;
 }
 #buttons-container div {
   position: absolute;
