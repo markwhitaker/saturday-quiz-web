@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging.Testing;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Model;
 
@@ -13,7 +14,10 @@ public class GuardianRssClientTests
     {
         var configOptions = ConfigOptionsLoader.ConfigOptions;
         var guardianWebsiteClient = new GuardianWebsiteClient(new HttpClient(), configOptions);
-        _guardianRssClient = new GuardianRssClient(configOptions, guardianWebsiteClient);
+        _guardianRssClient = new GuardianRssClient(
+            configOptions,
+            guardianWebsiteClient,
+            new FakeLogger<GuardianRssClient>());
     }
 
     [TestCase(1)]

@@ -1,4 +1,5 @@
-﻿using SaturdayQuizWeb.Clients;
+﻿using Microsoft.Extensions.Logging;
+using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Wrappers;
@@ -11,6 +12,7 @@ public class QuizMetadataServiceTests
     private IDateTimeWrapper _mockDateTimeWrapper = null!;
     private IGuardianApiClient _mockGuardianApiClient = null!;
     private IGuardianRssClient _mockGuardianRssClient = null!;
+    private ILogger<QuizMetadataService> _mockLogger = null!;
 
     private IQuizMetadataService _quizMetadataService = null!;
 
@@ -20,11 +22,13 @@ public class QuizMetadataServiceTests
         _mockDateTimeWrapper = Substitute.For<IDateTimeWrapper>();
         _mockGuardianApiClient = Substitute.For<IGuardianApiClient>();
         _mockGuardianRssClient = Substitute.For<IGuardianRssClient>();
+        _mockLogger = Substitute.For<ILogger<QuizMetadataService>>();
 
         _quizMetadataService = new QuizMetadataService(
             _mockDateTimeWrapper,
             _mockGuardianApiClient,
-            _mockGuardianRssClient);
+            _mockGuardianRssClient,
+            _mockLogger);
     }
 
     [TestCase(0)]
@@ -148,6 +152,7 @@ public class QuizMetadataServiceTests
         // Then
         await _mockGuardianApiClient.Received().GetQuizMetadataAsync(quizzesRequestedCount);
         await _mockGuardianRssClient.Received().GetQuizMetadataAsync(quizzesRequestedCount);
+        _mockLogger.Received().LogWarning("Didn't get up-to-date quiz metadata from API, Trying RSS...");
         Assert.That(expectedMetadataServiceResponse, Is.EqualTo(actualMetadataServiceResponse));
     }
 }

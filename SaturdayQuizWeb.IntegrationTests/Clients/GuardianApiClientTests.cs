@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging.Testing;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Model;
 
@@ -11,7 +12,10 @@ public class GuardianApiClientTests
     [SetUp]
     public void SetUp()
     {
-        _guardianApiClient = new GuardianApiClient(new HttpClient(), ConfigOptionsLoader.ConfigOptions);
+        _guardianApiClient = new GuardianApiClient(
+            new HttpClient(),
+            ConfigOptionsLoader.ConfigOptions,
+            new FakeLogger<GuardianApiClient>());
     }
 
     [TestCase(1)]

@@ -1,4 +1,5 @@
-﻿using SaturdayQuizWeb.Config;
+﻿using Microsoft.Extensions.Logging;
+using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Utils;
 
@@ -10,11 +11,16 @@ public class GuardianRssClient : IGuardianRssClient
 {
     private readonly GuardianConfig _guardianConfig;
     private readonly IGuardianWebsiteClient _guardianWebsiteClient;
+    private readonly ILogger<GuardianRssClient> _logger;
 
-    public GuardianRssClient(IOptions<GuardianConfig> guardianConfig, IGuardianWebsiteClient guardianWebsiteClient)
+    public GuardianRssClient(
+        IOptions<GuardianConfig> guardianConfig,
+        IGuardianWebsiteClient guardianWebsiteClient,
+        ILogger<GuardianRssClient> logger)
     {
         _guardianConfig = guardianConfig.Value;
         _guardianWebsiteClient = guardianWebsiteClient;
+        _logger = logger;
     }
 
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
@@ -40,8 +46,9 @@ public class GuardianRssClient : IGuardianRssClient
                 .Take(count)
                 .ToList();
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            _logger.LogError(e, "Failed to get quiz metadata from Guardian RSS feed");
             return Array.Empty<QuizMetadata>();
         }
     }

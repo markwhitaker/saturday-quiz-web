@@ -1,4 +1,5 @@
-﻿using SaturdayQuizWeb.Config;
+﻿using Microsoft.Extensions.Logging;
+using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Utils;
 
@@ -13,11 +14,16 @@ public class GuardianApiClient : IGuardianApiClient
 {
     private readonly HttpClient _httpClient;
     private readonly GuardianConfig _config;
+    private readonly ILogger<GuardianApiClient> _logger;
 
-    public GuardianApiClient(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
+    public GuardianApiClient(
+        HttpClient httpClient,
+        IOptions<GuardianConfig> configOptions,
+        ILogger<GuardianApiClient> logger)
     {
         _config = configOptions.Value;
         _httpClient = httpClient;
+        _logger = logger;
         _httpClient.BaseAddress = new Uri(_config.ApiBaseUrl);
     }
 
@@ -47,6 +53,11 @@ public class GuardianApiClient : IGuardianApiClient
                     .Take(count)
                     .ToList();
             }
+        }
+        else
+        {
+            _logger.LogError("Failed to get quiz metadata from Guardian API: {StatusCode} {ReasonPhrase}",
+                (int)httpResponse.StatusCode, httpResponse.ReasonPhrase);
         }
 
         return Array.Empty<QuizMetadata>();
