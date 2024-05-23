@@ -30,6 +30,7 @@ public class GuardianApiClient : IGuardianApiClient
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
         var url = $"{_config.ApiEndpoint}?api-key={_config.ApiKey}&page-size={count}";
+        _logger.LogInformation("Requesting quiz metadata from Guardian API: {Url}", url);
         var httpRequest = new HttpRequestMessage(HttpMethod.Get, url);
         var httpResponse = await _httpClient.SendAsync(httpRequest);
 
