@@ -4,6 +4,7 @@ using SaturdayQuizWeb.Extensions;
 namespace SaturdayQuizWeb.UnitTests.Extensions;
 
 [TestFixture]
+[TestOf(typeof(HttpResponseExtensions))]
 public class HttpResponseExtensionsTests
 {
     [Test]

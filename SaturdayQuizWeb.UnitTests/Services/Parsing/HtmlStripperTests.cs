@@ -3,6 +3,7 @@
 namespace SaturdayQuizWeb.UnitTests.Services.Parsing;
 
 [TestFixture]
+[TestOf(typeof(HtmlStripper))]
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class HtmlStripperTests
 {

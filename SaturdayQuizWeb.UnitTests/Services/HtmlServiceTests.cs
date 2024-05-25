@@ -6,6 +6,7 @@ using SaturdayQuizWeb.Services.Parsing;
 namespace SaturdayQuizWeb.UnitTests.Services;
 
 [TestFixture]
+[TestOf(typeof(HtmlService))]
 public class HtmlServiceTests
 {
     private ISectionExtractor _mockSectionExtractor = null!;

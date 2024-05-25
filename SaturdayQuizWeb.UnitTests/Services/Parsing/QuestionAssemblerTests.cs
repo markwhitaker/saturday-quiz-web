@@ -4,6 +4,7 @@ using SaturdayQuizWeb.Services.Parsing;
 namespace SaturdayQuizWeb.UnitTests.Services.Parsing;
 
 [TestFixture]
+[TestOf(typeof(QuestionAssembler))]
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class QuestionAssemblerTests
 {

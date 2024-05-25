@@ -7,6 +7,7 @@ using SaturdayQuizWeb.Wrappers;
 namespace SaturdayQuizWeb.UnitTests.Services;
 
 [TestFixture]
+[TestOf(typeof(QuizMetadataService))]
 public class QuizMetadataServiceTests
 {
     private IDateTimeWrapper _mockDateTimeWrapper = null!;

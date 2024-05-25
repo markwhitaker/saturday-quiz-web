@@ -6,6 +6,7 @@ using SaturdayQuizWeb.Wrappers;
 namespace SaturdayQuizWeb.UnitTests.Services;
 
 [TestFixture]
+[TestOf(typeof(QuizService))]
 public class QuizServiceTests
 {
     // Constants

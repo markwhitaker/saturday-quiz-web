@@ -3,6 +3,7 @@ using SaturdayQuizWeb.Model;
 namespace SaturdayQuizWeb.UnitTests.Models;
 
 [TestFixture]
+[TestOf(typeof(QuizMetadata))]
 public class QuizMetadataTests
 {
     [TestCase(2022, 12, 31, 0, 0, 0, 0, DateTimeKind.Local)]

@@ -3,6 +3,7 @@ using SaturdayQuizWeb.Extensions;
 namespace SaturdayQuizWeb.UnitTests.Extensions;
 
 [TestFixture]
+[TestOf(typeof(TimeSpanExtensions))]
 public class TimeSpanExtensionsTests
 {
     [TestCase(0, "no-cache")]

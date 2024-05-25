@@ -3,6 +3,7 @@
 namespace SaturdayQuizWeb.UnitTests.Services.Parsing;
 
 [TestFixture]
+[TestOf(typeof(SectionExtractor))]
 [SuppressMessage("ReSharper", "StringLiteralTypo")]
 public class SectionExtractorTests
 {
