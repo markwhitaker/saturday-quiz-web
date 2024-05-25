@@ -14,11 +14,12 @@ public class DateTimeExtensionsTests
     {
         // Given
         var localDateTime = new DateTime(2022, 8, 1, 12, 34, 56, dateTimeKind);
+        var expectedUtcDate = new DateTime(2022, 8, 1, 0, 0, 0, DateTimeKind.Utc);
 
         // When
-        var utcDate = localDateTime.ToDateUtc();
+        var actualUtcDate = localDateTime.ToDateUtc();
 
         // Then
-        Assert.That(utcDate, Is.EqualTo(new DateTime(2022, 8, 1, 0, 0, 0, DateTimeKind.Utc)));
+        Assert.That(actualUtcDate, Is.EqualTo(expectedUtcDate));
     }
 }
