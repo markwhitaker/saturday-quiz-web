@@ -3,7 +3,7 @@
 namespace SaturdayQuizWeb.Clients.HttpClients;
 
 /// <summary>
-/// A typed HTTP client: see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-3.0#typed-clients
+/// A typed HTTP client: see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests#typed-clients
 /// </summary>
 public class GuardianWebsiteHttpClient : IGuardianWebsiteHttpClient
 {
