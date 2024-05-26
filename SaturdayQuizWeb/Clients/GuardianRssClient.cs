@@ -6,8 +6,6 @@ using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.Clients;
 
-public interface IGuardianRssClient : IGuardianQuizMetadataClient;
-
 public class GuardianRssClient : IGuardianRssClient
 {
     private readonly GuardianConfig _guardianConfig;

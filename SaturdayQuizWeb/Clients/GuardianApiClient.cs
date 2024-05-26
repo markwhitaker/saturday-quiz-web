@@ -6,8 +6,6 @@ using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.Clients;
 
-public interface IGuardianApiClient : IGuardianQuizMetadataClient;
-
 public class GuardianApiClient : IGuardianApiClient
 {
     private readonly IGuardianApiHttpClient _httpClient;

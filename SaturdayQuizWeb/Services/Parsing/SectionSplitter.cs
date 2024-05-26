@@ -3,11 +3,6 @@ using static RegexToolbox.RegexQuantifier;
 
 namespace SaturdayQuizWeb.Services.Parsing;
 
-public interface ISectionSplitter
-{
-    IEnumerable<string> SplitSection(string section);
-}
-
 public class SectionSplitter : ISectionSplitter
 {
     private static readonly Regex MultipleWhitespaceRegex = new RegexBuilder()

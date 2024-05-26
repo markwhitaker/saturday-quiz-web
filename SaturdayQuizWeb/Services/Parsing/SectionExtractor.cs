@@ -7,11 +7,6 @@ using static RegexToolbox.RegexQuantifier;
 
 namespace SaturdayQuizWeb.Services.Parsing;
 
-public interface ISectionExtractor
-{
-    Sections ExtractSections(string wholePageHtml);
-}
-
 public class SectionExtractor : ISectionExtractor
 {
     private static readonly Regex OpenPTagRegex = new RegexBuilder()

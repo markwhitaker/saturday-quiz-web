@@ -4,12 +4,6 @@ using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.Services;
 
-public interface IQuizService
-{
-    Task<Quiz> GetQuizAsync(string? id = null);
-    Task<Quiz> GetQuizAsync(QuizMetadata quizMetadata);
-}
-
 public class QuizService : IQuizService
 {
     private readonly IDateTimeWrapper _dateTimeWrapper;

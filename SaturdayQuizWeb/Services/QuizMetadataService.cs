@@ -5,11 +5,6 @@ using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.Services;
 
-public interface IQuizMetadataService
-{
-    Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count);
-}
-
 public class QuizMetadataService : IQuizMetadataService
 {
     private readonly IDateTimeWrapper _dateTimeWrapper;

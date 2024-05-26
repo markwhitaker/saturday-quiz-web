@@ -2,8 +2,6 @@ using SaturdayQuizWeb.Config;
 
 namespace SaturdayQuizWeb.Clients.HttpClients;
 
-public interface IGuardianApiHttpClient : IGuardianHttpClient;
-
 /// <summary>
 /// A typed HTTP client: see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-3.0#typed-clients
 /// </summary>
