@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Utils;
@@ -10,16 +11,16 @@ public interface IGuardianRssClient : IGuardianQuizMetadataClient;
 public class GuardianRssClient : IGuardianRssClient
 {
     private readonly GuardianConfig _guardianConfig;
-    private readonly IGuardianWebsiteClient _guardianWebsiteClient;
+    private readonly IGuardianWebsiteHttpClient _guardianWebsiteHttpClient;
     private readonly ILogger<GuardianRssClient> _logger;
 
     public GuardianRssClient(
         IOptions<GuardianConfig> guardianConfig,
-        IGuardianWebsiteClient guardianWebsiteClient,
+        IGuardianWebsiteHttpClient guardianWebsiteHttpClient,
         ILogger<GuardianRssClient> logger)
     {
         _guardianConfig = guardianConfig.Value;
-        _guardianWebsiteClient = guardianWebsiteClient;
+        _guardianWebsiteHttpClient = guardianWebsiteHttpClient;
         _logger = logger;
     }
 
@@ -27,7 +28,7 @@ public class GuardianRssClient : IGuardianRssClient
     {
         try
         {
-            var contents = await _guardianWebsiteClient.GetPageContentAsync(_guardianConfig.RssEndpoint);
+            var contents = await _guardianWebsiteHttpClient.GetStringAsync(_guardianConfig.RssEndpoint);
 
             var xmlSerializer = new XmlSerializer(typeof(XmlRssRoot));
             using var reader = new StringReader(contents);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Utils;
@@ -7,35 +8,29 @@ namespace SaturdayQuizWeb.Clients;
 
 public interface IGuardianApiClient : IGuardianQuizMetadataClient;
 
-/// <summary>
-/// A typed HTTP client: see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-3.0#typed-clients
-/// </summary>
 public class GuardianApiClient : IGuardianApiClient
 {
-    private readonly HttpClient _httpClient;
+    private readonly IGuardianApiHttpClient _httpClient;
     private readonly GuardianConfig _config;
     private readonly ILogger<GuardianApiClient> _logger;
 
     public GuardianApiClient(
-        HttpClient httpClient,
+        IGuardianApiHttpClient httpClient,
         IOptions<GuardianConfig> configOptions,
         ILogger<GuardianApiClient> logger)
     {
-        _config = configOptions.Value;
         _httpClient = httpClient;
+        _config = configOptions.Value;
         _logger = logger;
-        _httpClient.BaseAddress = new Uri(_config.ApiBaseUrl);
     }
 
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
         var url = $"{_config.ApiEndpoint}?api-key={_config.ApiKey}&page-size={count}";
-        var httpRequest = new HttpRequestMessage(HttpMethod.Get, url);
-        var httpResponse = await _httpClient.SendAsync(httpRequest);
 
-        if (httpResponse.IsSuccessStatusCode)
+        try
         {
-            var responseJson = await httpResponse.Content.ReadAsStringAsync();
+            var responseJson = await _httpClient.GetStringAsync(url);
             var response = JsonConvert.DeserializeObject<GuardianApiResponse>(responseJson);
             if (response is not null)
             {
@@ -54,10 +49,14 @@ public class GuardianApiClient : IGuardianApiClient
                     .ToList();
             }
         }
-        else
+        catch (HttpRequestException e)
         {
-            _logger.LogError("Failed to get quiz metadata from Guardian API: {StatusCode} {ReasonPhrase}",
-                (int)httpResponse.StatusCode, httpResponse.ReasonPhrase);
+            _logger.LogError(e, "Failed to get quiz metadata from Guardian API: {StatusCode} {StatusMessage}",
+                (int?)e.StatusCode, e.StatusCode);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Failed to get quiz metadata from Guardian API");
         }
 
         return Array.Empty<QuizMetadata>();

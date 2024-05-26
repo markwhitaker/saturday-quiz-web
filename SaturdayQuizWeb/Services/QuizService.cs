@@ -1,4 +1,4 @@
-﻿using SaturdayQuizWeb.Clients;
+﻿using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Wrappers;
 
@@ -13,18 +13,18 @@ public interface IQuizService
 public class QuizService : IQuizService
 {
     private readonly IDateTimeWrapper _dateTimeWrapper;
-    private readonly IGuardianWebsiteClient _guardianWebsiteClient;
+    private readonly IGuardianWebsiteHttpClient _guardianWebsiteHttpClient;
     private readonly IHtmlService _htmlService;
     private readonly IQuizMetadataService _quizMetadataService;
 
     public QuizService(
         IDateTimeWrapper dateTimeWrapper,
-        IGuardianWebsiteClient guardianWebsiteClient,
+        IGuardianWebsiteHttpClient guardianWebsiteHttpClient,
         IHtmlService htmlService,
         IQuizMetadataService quizMetadataService)
     {
         _dateTimeWrapper = dateTimeWrapper;
-        _guardianWebsiteClient = guardianWebsiteClient;
+        _guardianWebsiteHttpClient = guardianWebsiteHttpClient;
         _htmlService = htmlService;
         _quizMetadataService = quizMetadataService;
     }
@@ -52,7 +52,7 @@ public class QuizService : IQuizService
 
     public async Task<Quiz> GetQuizAsync(QuizMetadata quizMetadata)
     {
-        var quizHtml = await _guardianWebsiteClient.GetPageContentAsync(quizMetadata.Id);
+        var quizHtml = await _guardianWebsiteHttpClient.GetStringAsync(quizMetadata.Id);
         var questions = _htmlService.FindQuestions(quizHtml);
         return new Quiz
         {

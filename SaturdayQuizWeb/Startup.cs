@@ -1,5 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 using SaturdayQuizWeb.Clients;
+using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Extensions;
 using SaturdayQuizWeb.Services;
@@ -65,7 +66,9 @@ public class Startup
     private void RegisterDependencies(IServiceCollection services)
     {
         services.Configure<GuardianConfig>(_configuration.GetSection(Constants.ConfigSectionGuardian));
-        services.AddHttpClient<IGuardianWebsiteClient, GuardianWebsiteClient>();
+
+        services.AddHttpClient<IGuardianApiHttpClient, GuardianApiHttpClient>();
+        services.AddHttpClient<IGuardianWebsiteHttpClient, GuardianWebsiteHttpClient>();
 
         services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
         services.AddSingleton<IGuardianApiClient, GuardianApiClient>();

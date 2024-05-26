@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging.Testing;
 using SaturdayQuizWeb.Clients;
+using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Model;
 
 namespace SaturdayQuizWeb.IntegrationTests.Clients;
@@ -12,9 +13,10 @@ public class GuardianApiClientTests
     [SetUp]
     public void SetUp()
     {
+        var configOptions = ConfigOptionsLoader.ConfigOptions;
         _guardianApiClient = new GuardianApiClient(
-            new HttpClient(),
-            ConfigOptionsLoader.ConfigOptions,
+            new GuardianApiHttpClient(new HttpClient(), configOptions),
+            configOptions,
             new FakeLogger<GuardianApiClient>());
     }
 

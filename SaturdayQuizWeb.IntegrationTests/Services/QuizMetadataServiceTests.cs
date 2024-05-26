@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging.Testing;
 using SaturdayQuizWeb.Clients;
+using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Wrappers;
 
@@ -14,9 +15,9 @@ namespace SaturdayQuizWeb.IntegrationTests.Services
         public void SetUp()
         {
             var configOptions = ConfigOptionsLoader.ConfigOptions;
-            var guardianWebsiteService = new GuardianWebsiteClient(new HttpClient(), configOptions);
+            var guardianWebsiteService = new GuardianWebsiteHttpClient(new HttpClient(), configOptions);
             var guardianApiService = new GuardianApiClient(
-                new HttpClient(),
+                new GuardianApiHttpClient(new HttpClient(), configOptions),
                 configOptions,
                 new FakeLogger<GuardianApiClient>());
             var guardianRssService = new GuardianRssClient(
