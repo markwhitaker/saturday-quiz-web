@@ -2,15 +2,12 @@ using SaturdayQuizWeb.Config;
 
 namespace SaturdayQuizWeb.Clients.HttpClients;
 
-public class GuardianApiHttpClient : IGuardianApiHttpClient
+public class GuardianApiHttpClient(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
+    : IGuardianApiHttpClient
 {
-    private readonly HttpClient _httpClient;
-
-    public GuardianApiHttpClient(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
+    public async Task<string> GetStringAsync(string endpoint)
     {
-        _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri(configOptions.Value.ApiBaseUrl);
+        httpClient.BaseAddress ??= new Uri(configOptions.Value.ApiBaseUrl);
+        return await httpClient.GetStringAsync(endpoint);
     }
-
-    public async Task<string> GetStringAsync(string endpoint) => await _httpClient.GetStringAsync(endpoint);
 }

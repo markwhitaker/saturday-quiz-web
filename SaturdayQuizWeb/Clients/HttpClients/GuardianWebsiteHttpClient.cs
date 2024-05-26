@@ -2,15 +2,12 @@
 
 namespace SaturdayQuizWeb.Clients.HttpClients;
 
-public class GuardianWebsiteHttpClient : IGuardianWebsiteHttpClient
+public class GuardianWebsiteHttpClient(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
+    : IGuardianWebsiteHttpClient
 {
-    private readonly HttpClient _httpClient;
-
-    public GuardianWebsiteHttpClient(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
+    public async Task<string> GetStringAsync(string endpoint)
     {
-        _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri(configOptions.Value.WebsiteBaseUrl);
+        httpClient.BaseAddress ??= new Uri(configOptions.Value.WebsiteBaseUrl);
+        return await httpClient.GetStringAsync(endpoint);
     }
-
-    public async Task<string> GetStringAsync(string endpoint) => await _httpClient.GetStringAsync(endpoint);
 }
