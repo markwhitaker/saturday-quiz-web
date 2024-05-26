@@ -20,13 +20,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="TestData" />
+      <None Remove="TestData\2019_07_20_quiz.html" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="TestData\2019_07_20_quiz.html" />
-      <Content Include="TestData\2019_07_20_quiz.html">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <None Remove="TestData\metadata-api-response.json" />
+      <Content Include="TestData\metadata-api-response.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
 

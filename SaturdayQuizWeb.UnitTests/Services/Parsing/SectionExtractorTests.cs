@@ -17,7 +17,7 @@ public class SectionExtractorTests
         var testHtmlFilePath = Path.Combine(
             TestContext.CurrentContext.TestDirectory,
             "TestData",
-            "2019_07_20_quiz.html");
+            "2019-07-20-quiz.html");
         _wholePageHtml = File.ReadAllText(testHtmlFilePath);
     }
 

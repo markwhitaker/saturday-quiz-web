@@ -9,7 +9,7 @@ namespace SaturdayQuizWeb.Clients;
 public class GuardianApiClient : IGuardianApiClient
 {
     private readonly IGuardianApiHttpClient _httpClient;
-    private readonly GuardianConfig _config;
+    private readonly IOptions<GuardianConfig> _configOptions;
     private readonly ILogger<GuardianApiClient> _logger;
 
     public GuardianApiClient(
@@ -18,13 +18,14 @@ public class GuardianApiClient : IGuardianApiClient
         ILogger<GuardianApiClient> logger)
     {
         _httpClient = httpClient;
-        _config = configOptions.Value;
+        _configOptions = configOptions;
         _logger = logger;
     }
 
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
-        var url = $"{_config.ApiEndpoint}?api-key={_config.ApiKey}&page-size={count}";
+        var config = _configOptions.Value;
+        var url = $"{config.ApiEndpoint}?api-key={config.ApiKey}&page-size={count}";
 
         try
         {
