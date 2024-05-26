@@ -2,9 +2,6 @@
 
 namespace SaturdayQuizWeb.Clients.HttpClients;
 
-/// <summary>
-/// A typed HTTP client: see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests#typed-clients
-/// </summary>
 public class GuardianWebsiteHttpClient : IGuardianWebsiteHttpClient
 {
     private readonly HttpClient _httpClient;
