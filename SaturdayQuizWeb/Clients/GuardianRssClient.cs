@@ -8,7 +8,7 @@ namespace SaturdayQuizWeb.Clients;
 
 public class GuardianRssClient : IGuardianRssClient
 {
-    private readonly GuardianConfig _guardianConfig;
+    private readonly IOptions<GuardianConfig> _guardianConfigOptions;
     private readonly IGuardianWebsiteHttpClient _guardianWebsiteHttpClient;
     private readonly ILogger<GuardianRssClient> _logger;
 
@@ -17,7 +17,7 @@ public class GuardianRssClient : IGuardianRssClient
         IGuardianWebsiteHttpClient guardianWebsiteHttpClient,
         ILogger<GuardianRssClient> logger)
     {
-        _guardianConfig = guardianConfig.Value;
+        _guardianConfigOptions = guardianConfig;
         _guardianWebsiteHttpClient = guardianWebsiteHttpClient;
         _logger = logger;
     }
@@ -26,7 +26,8 @@ public class GuardianRssClient : IGuardianRssClient
     {
         try
         {
-            var contents = await _guardianWebsiteHttpClient.GetStringAsync(_guardianConfig.RssEndpoint);
+            var config = _guardianConfigOptions.Value;
+            var contents = await _guardianWebsiteHttpClient.GetStringAsync(config.RssEndpoint);
 
             var xmlSerializer = new XmlSerializer(typeof(XmlRssRoot));
             using var reader = new StringReader(contents);
@@ -37,7 +38,7 @@ public class GuardianRssClient : IGuardianRssClient
                     Title = item.Title.Trim(),
                     Url = item.Link.Trim(),
                     Date = item.Date,
-                    Id = item.Link.Trim().Replace(_guardianConfig.WebsiteBaseUrl, string.Empty),
+                    Id = item.Link.Trim().Replace(config.WebsiteBaseUrl, string.Empty),
                     Source = Constants.SourceRss
                 })
                 .Distinct()

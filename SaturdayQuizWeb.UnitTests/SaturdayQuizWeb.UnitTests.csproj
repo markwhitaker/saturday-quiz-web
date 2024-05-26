@@ -28,6 +28,14 @@
       <Content Include="TestData\metadata-api-response.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="TestData\metadata-rss-response.xml" />
+      <Content Include="TestData\metadata-rss-response.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="TestData\2019-07-20-quiz.html" />
+      <Content Include="TestData\2019-07-20-quiz.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>
