@@ -4,32 +4,20 @@ using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.Services;
 
-public class QuizService : IQuizService
+public class QuizService(
+    IDateTimeWrapper dateTimeWrapper,
+    IGuardianWebsiteHttpClient guardianWebsiteHttpClient,
+    IHtmlService htmlService,
+    IQuizMetadataService quizMetadataService)
+    : IQuizService
 {
-    private readonly IDateTimeWrapper _dateTimeWrapper;
-    private readonly IGuardianWebsiteHttpClient _guardianWebsiteHttpClient;
-    private readonly IHtmlService _htmlService;
-    private readonly IQuizMetadataService _quizMetadataService;
-
-    public QuizService(
-        IDateTimeWrapper dateTimeWrapper,
-        IGuardianWebsiteHttpClient guardianWebsiteHttpClient,
-        IHtmlService htmlService,
-        IQuizMetadataService quizMetadataService)
-    {
-        _dateTimeWrapper = dateTimeWrapper;
-        _guardianWebsiteHttpClient = guardianWebsiteHttpClient;
-        _htmlService = htmlService;
-        _quizMetadataService = quizMetadataService;
-    }
-
     public async Task<Quiz> GetQuizAsync(string? id)
     {
         QuizMetadata quizMetadata;
 
         if (id == null)
         {
-            var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(1);
+            var quizMetadataList = await quizMetadataService.GetQuizMetadataAsync(1);
             quizMetadata = quizMetadataList[0];
         }
         else
@@ -37,7 +25,7 @@ public class QuizService : IQuizService
             quizMetadata = new QuizMetadata
             {
                 Id = id,
-                Date = _dateTimeWrapper.UtcNow
+                Date = dateTimeWrapper.UtcNow
             };
         }
 
@@ -46,8 +34,8 @@ public class QuizService : IQuizService
 
     public async Task<Quiz> GetQuizAsync(QuizMetadata quizMetadata)
     {
-        var quizHtml = await _guardianWebsiteHttpClient.GetStringAsync(quizMetadata.Id);
-        var questions = _htmlService.FindQuestions(quizHtml);
+        var quizHtml = await guardianWebsiteHttpClient.GetStringAsync(quizMetadata.Id);
+        var questions = htmlService.FindQuestions(quizHtml);
         return new Quiz
         {
             Id = quizMetadata.Id,

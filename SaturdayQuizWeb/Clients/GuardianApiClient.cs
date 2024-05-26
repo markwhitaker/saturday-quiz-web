@@ -6,30 +6,20 @@ using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.Clients;
 
-public class GuardianApiClient : IGuardianApiClient
+public class GuardianApiClient(
+    IGuardianApiHttpClient httpClient,
+    IOptions<GuardianConfig> configOptions,
+    ILogger<GuardianApiClient> logger)
+    : IGuardianApiClient
 {
-    private readonly IGuardianApiHttpClient _httpClient;
-    private readonly IOptions<GuardianConfig> _configOptions;
-    private readonly ILogger<GuardianApiClient> _logger;
-
-    public GuardianApiClient(
-        IGuardianApiHttpClient httpClient,
-        IOptions<GuardianConfig> configOptions,
-        ILogger<GuardianApiClient> logger)
-    {
-        _httpClient = httpClient;
-        _configOptions = configOptions;
-        _logger = logger;
-    }
-
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
-        var config = _configOptions.Value;
+        var config = configOptions.Value;
         var url = $"{config.ApiEndpoint}?api-key={config.ApiKey}&page-size={count}";
 
         try
         {
-            var responseJson = await _httpClient.GetStringAsync(url);
+            var responseJson = await httpClient.GetStringAsync(url);
             var response = JsonConvert.DeserializeObject<GuardianApiResponse>(responseJson);
             if (response is not null)
             {
@@ -50,12 +40,12 @@ public class GuardianApiClient : IGuardianApiClient
         }
         catch (HttpRequestException e)
         {
-            _logger.LogError(e, "Failed to get quiz metadata from Guardian API: {StatusCode} {StatusMessage}",
+            logger.LogError(e, "Failed to get quiz metadata from Guardian API: {StatusCode} {StatusMessage}",
                 (int?)e.StatusCode, e.StatusCode);
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Failed to get quiz metadata from Guardian API");
+            logger.LogError(e, "Failed to get quiz metadata from Guardian API");
         }
 
         return Array.Empty<QuizMetadata>();

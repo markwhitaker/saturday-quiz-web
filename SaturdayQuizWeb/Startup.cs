@@ -10,15 +10,8 @@ using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb;
 
-public class Startup
+public class Startup(IConfiguration configuration)
 {
-    private readonly IConfiguration _configuration;
-
-    public Startup(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
@@ -65,7 +58,7 @@ public class Startup
 
     private void RegisterDependencies(IServiceCollection services)
     {
-        services.Configure<GuardianConfig>(_configuration.GetSection(Constants.ConfigSectionGuardian));
+        services.Configure<GuardianConfig>(configuration.GetSection(Constants.ConfigSectionGuardian));
 
         services.AddHttpClient<IGuardianApiHttpClient, GuardianApiHttpClient>();
         services.AddHttpClient<IGuardianWebsiteHttpClient, GuardianWebsiteHttpClient>();

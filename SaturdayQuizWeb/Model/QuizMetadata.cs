@@ -6,11 +6,6 @@ public sealed record QuizMetadata
 {
     private readonly DateTime _date;
 
-    public QuizMetadata()
-    {
-        _date = default;
-    }
-
     public string Id { get; init; } = string.Empty;
 
     public DateTime Date

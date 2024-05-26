@@ -1,8 +1,3 @@
 ﻿namespace SaturdayQuizWeb.Services.Parsing;
 
-public class ParsingException : Exception
-{
-    public ParsingException(string message) : base(message)
-    {
-    }
-}
+public class ParsingException(string message) : Exception(message);

@@ -5,33 +5,21 @@ using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.Services;
 
-public class QuizMetadataService : IQuizMetadataService
+public class QuizMetadataService(
+    IDateTimeWrapper dateTimeWrapper,
+    IGuardianApiClient guardianApiClient,
+    IGuardianRssClient guardianRssClient,
+    ILogger<QuizMetadataService> logger)
+    : IQuizMetadataService
 {
-    private readonly IDateTimeWrapper _dateTimeWrapper;
-    private readonly IGuardianApiClient _guardianApiClient;
-    private readonly IGuardianRssClient _guardianRssClient;
-    private readonly ILogger<QuizMetadataService> _logger;
-
-    public QuizMetadataService(
-        IDateTimeWrapper dateTimeWrapper,
-        IGuardianApiClient guardianApiClient,
-        IGuardianRssClient guardianRssClient,
-        ILogger<QuizMetadataService> logger)
-    {
-        _dateTimeWrapper = dateTimeWrapper;
-        _guardianApiClient = guardianApiClient;
-        _guardianRssClient = guardianRssClient;
-        _logger = logger;
-    }
-
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
-        var set = (await _guardianApiClient.GetQuizMetadataAsync(count)).ToHashSet();
+        var set = (await guardianApiClient.GetQuizMetadataAsync(count)).ToHashSet();
 
         if (!IsUpToDate(set))
         {
-            _logger.LogWarning("Didn't get up-to-date quiz metadata from API, Trying RSS...");
-            set.UnionWith(await _guardianRssClient.GetQuizMetadataAsync(count));
+            logger.LogWarning("Didn't get up-to-date quiz metadata from API, Trying RSS...");
+            set.UnionWith(await guardianRssClient.GetQuizMetadataAsync(count));
         }
 
         if (set.Count == 0)
@@ -52,5 +40,5 @@ public class QuizMetadataService : IQuizMetadataService
     }
 
     private bool IsOlderThanOneWeek(QuizMetadata quizMetadata) =>
-        _dateTimeWrapper.UtcNow.Date.Subtract(quizMetadata.Date.Date) >= TimeSpan.FromDays(7);
+        dateTimeWrapper.UtcNow.Date.Subtract(quizMetadata.Date.Date) >= TimeSpan.FromDays(7);
 }
