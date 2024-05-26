@@ -4,38 +4,37 @@ using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Wrappers;
 
-namespace SaturdayQuizWeb.IntegrationTests.Services
+namespace SaturdayQuizWeb.IntegrationTests.Services;
+
+[TestFixture]
+public class QuizMetadataServiceTests
 {
-    [TestFixture]
-    public class QuizMetadataServiceTests
+    private IQuizMetadataService _quizMetadataService = null!;
+
+    [SetUp]
+    public void SetUp()
     {
-        private IQuizMetadataService _quizMetadataService = null!;
+        var configOptions = ConfigOptionsLoader.ConfigOptions;
+        var guardianWebsiteService = new GuardianWebsiteHttpClient(new HttpClient(), configOptions);
+        var guardianApiService = new GuardianApiClient(
+            new GuardianApiHttpClient(new HttpClient(), configOptions),
+            configOptions,
+            new FakeLogger<GuardianApiClient>());
+        var guardianRssService = new GuardianRssClient(
+            configOptions,
+            guardianWebsiteService,
+            new FakeLogger<GuardianRssClient>());
+        _quizMetadataService = new QuizMetadataService(
+            new DateTimeWrapper(),
+            guardianApiService,
+            guardianRssService,
+            new FakeLogger<QuizMetadataService>());
+    }
 
-        [SetUp]
-        public void SetUp()
-        {
-            var configOptions = ConfigOptionsLoader.ConfigOptions;
-            var guardianWebsiteService = new GuardianWebsiteHttpClient(new HttpClient(), configOptions);
-            var guardianApiService = new GuardianApiClient(
-                new GuardianApiHttpClient(new HttpClient(), configOptions),
-                configOptions,
-                new FakeLogger<GuardianApiClient>());
-            var guardianRssService = new GuardianRssClient(
-                configOptions,
-                guardianWebsiteService,
-                new FakeLogger<GuardianRssClient>());
-            _quizMetadataService = new QuizMetadataService(
-                new DateTimeWrapper(),
-                guardianApiService,
-                guardianRssService,
-                new FakeLogger<QuizMetadataService>());
-        }
-
-        [Test]
-        public async Task TestGetQuizMetadata()
-        {
-            var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(7);
-            Assert.That(quizMetadataList.Count, Is.EqualTo(7));
-        }
+    [Test]
+    public async Task TestGetQuizMetadata()
+    {
+        var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(7);
+        Assert.That(quizMetadataList.Count, Is.EqualTo(7));
     }
 }

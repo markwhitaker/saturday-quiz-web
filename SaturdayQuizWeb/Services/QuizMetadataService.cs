@@ -34,7 +34,7 @@ public class QuizMetadataService : IQuizMetadataService
             set.UnionWith(await _guardianRssClient.GetQuizMetadataAsync(count));
         }
 
-        if (!set.Any())
+        if (set.Count == 0)
         {
             throw new Exception("Couldn't get data from the Guardian API or RSS feed");
         }

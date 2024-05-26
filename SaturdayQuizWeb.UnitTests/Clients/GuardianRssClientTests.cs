@@ -70,7 +70,6 @@ public class GuardianRssClientTests
     {
         // Given
         const string rssEndpoint = "rss-endpoint";
-        const string websiteBaseUrl = "https://www.theguardian.com/";
         const int expectedCount = 3;
 
         var expectedConfig = new GuardianConfig

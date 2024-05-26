@@ -74,7 +74,7 @@ public class SectionExtractor : ISectionExtractor
             }
             else if (sectionLines.Count > 0)
             {
-                sectionLines[sectionLines.Count - 1] += "<br>" + line;
+                sectionLines[^1] += "<br>" + line;
             }
             else
             {
@@ -85,7 +85,7 @@ public class SectionExtractor : ISectionExtractor
         return sectionLines;
     }
 
-    private static IEnumerable<string> FindParagraphLines(IEnumerable<string> wholePageHtmlLines)
+    private static List<string> FindParagraphLines(IEnumerable<string> wholePageHtmlLines)
     {
         var paragraphLines = wholePageHtmlLines
             .Where(line => line.StartsWith("<p>", StringComparison.OrdinalIgnoreCase))

@@ -30,7 +30,7 @@ public class QuizService : IQuizService
         if (id == null)
         {
             var quizMetadataList = await _quizMetadataService.GetQuizMetadataAsync(1);
-            quizMetadata = quizMetadataList.First();
+            quizMetadata = quizMetadataList[0];
         }
         else
         {

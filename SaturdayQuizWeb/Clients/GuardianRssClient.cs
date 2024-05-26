@@ -63,7 +63,7 @@ public class GuardianRssClient : IGuardianRssClient
     public class XmlChannelElement
     {
         [XmlElement("item")]
-        public XmlItemElement[] Items { get; init; } = Array.Empty<XmlItemElement>();
+        public XmlItemElement[] Items { get; init; } = [];
     }
 
     public class XmlItemElement

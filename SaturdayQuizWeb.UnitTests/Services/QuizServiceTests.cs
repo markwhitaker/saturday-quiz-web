@@ -1,5 +1,4 @@
-﻿using SaturdayQuizWeb.Clients;
-using SaturdayQuizWeb.Clients.HttpClients;
+﻿using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Wrappers;
@@ -29,8 +28,8 @@ public class QuizServiceTests
         Url = TestQuizUrl
     };
 
-    private readonly List<QuestionModel> _questions = new()
-    {
+    private readonly List<QuestionModel> _questions =
+    [
         new QuestionModel
         {
             Number = TestQuestionNumber,
@@ -38,7 +37,7 @@ public class QuizServiceTests
             Question = TestQuestionText,
             Answer = TestQuestionAnswer
         }
-    };
+    ];
 
     // Mocks
     private IDateTimeWrapper _mockDateTimeWrapper = null!;

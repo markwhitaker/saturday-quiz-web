@@ -1,5 +1,3 @@
 ﻿namespace SaturdayQuizWeb.IntegrationTests.WebServer;
 
-public class CustomWebApplicationFactory : WebApplicationFactory<Startup>
-{
-}
+public class CustomWebApplicationFactory : WebApplicationFactory<Startup>;

@@ -4,6 +4,7 @@
 // for top-level statement syntax
 
 CreateHostBuilder(args).Build().Run();
+return;
 
 IHostBuilder CreateHostBuilder(string[] args) => Host
     // This step adds UserSecrets as a configuration source

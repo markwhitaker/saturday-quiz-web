@@ -35,7 +35,7 @@ public class QuestionAssembler : IQuestionAssembler
         return questions;
     }
 
-    private static IList<QuestionModel> ProcessQuestionsSection(IEnumerable<string> questionsSection)
+    private static List<QuestionModel> ProcessQuestionsSection(IEnumerable<string> questionsSection)
     {
         var questions = new List<QuestionModel>();
 
