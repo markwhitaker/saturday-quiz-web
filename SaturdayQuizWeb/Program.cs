@@ -79,7 +79,7 @@ app.MapGet("/api/quiz/", async (
 app.MapGet("/api/quiz-metadata", async (
         HttpContext httpContext,
         IQuizMetadataService quizMetadataService,
-        [FromQuery] int count = 10) =>
+        int count = 10) =>
     {
         httpContext.Response.AddCustomHeaders(TimeSpan.Zero);
         var quizNoun = count == 1 ? "quiz" : "quizzes";
