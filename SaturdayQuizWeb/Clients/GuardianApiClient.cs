@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Text.Json;
+using Microsoft.Extensions.Logging;
 using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Model;
@@ -20,7 +21,7 @@ public class GuardianApiClient(
         try
         {
             var responseJson = await httpClient.GetStringAsync(url);
-            var response = JsonConvert.DeserializeObject<GuardianApiResponse>(responseJson);
+            var response = JsonSerializer.Deserialize<GuardianApiResponse>(responseJson);
             if (response is not null)
             {
                 return response.Results

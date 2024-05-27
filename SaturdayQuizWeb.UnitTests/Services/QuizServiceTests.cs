@@ -15,7 +15,7 @@ public class QuizServiceTests
     private const string TestQuizTitle = "test quiz title";
     private const string TestQuizUrl = "test quiz url";
     private const int TestQuestionNumber = 1;
-    private const QuestionType TestQuestionType = QuestionType.Normal;
+    private const QuestionType TestQuestionType = QuestionType.NORMAL;
     private const string TestQuestionText = "test question text";
     private const string TestQuestionAnswer = "test question answer";
     private const string TestHtmlContent = "test html content";

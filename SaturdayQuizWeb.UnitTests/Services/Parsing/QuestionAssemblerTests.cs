@@ -83,21 +83,21 @@ public class QuestionAssemblerTests
         Assert.That(questions[questionIndex].Number, Is.EqualTo(expectedQuestionNumber));
     }
 
-    [TestCase(0, QuestionType.Normal)]
-    [TestCase(1, QuestionType.Normal)]
-    [TestCase(2, QuestionType.Normal)]
-    [TestCase(3, QuestionType.Normal)]
-    [TestCase(4, QuestionType.Normal)]
-    [TestCase(5, QuestionType.Normal)]
-    [TestCase(6, QuestionType.Normal)]
-    [TestCase(7, QuestionType.Normal)]
-    [TestCase(8, QuestionType.WhatLinks)]
-    [TestCase(9, QuestionType.WhatLinks)]
-    [TestCase(10, QuestionType.WhatLinks)]
-    [TestCase(11, QuestionType.WhatLinks)]
-    [TestCase(12, QuestionType.WhatLinks)]
-    [TestCase(13, QuestionType.WhatLinks)]
-    [TestCase(14, QuestionType.WhatLinks)]
+    [TestCase(0, QuestionType.NORMAL)]
+    [TestCase(1, QuestionType.NORMAL)]
+    [TestCase(2, QuestionType.NORMAL)]
+    [TestCase(3, QuestionType.NORMAL)]
+    [TestCase(4, QuestionType.NORMAL)]
+    [TestCase(5, QuestionType.NORMAL)]
+    [TestCase(6, QuestionType.NORMAL)]
+    [TestCase(7, QuestionType.NORMAL)]
+    [TestCase(8, QuestionType.WHAT_LINKS)]
+    [TestCase(9, QuestionType.WHAT_LINKS)]
+    [TestCase(10, QuestionType.WHAT_LINKS)]
+    [TestCase(11, QuestionType.WHAT_LINKS)]
+    [TestCase(12, QuestionType.WHAT_LINKS)]
+    [TestCase(13, QuestionType.WHAT_LINKS)]
+    [TestCase(14, QuestionType.WHAT_LINKS)]
     public void GivenQuestionAndAnswerSections_WhenAssembled_ThenQuestionTypeIsCorrect(int questionIndex, QuestionType expectedQuestionType)
     {
         var questions = _questionAssembler.AssembleQuestions(QuestionsSection, AnswersSection).ToList();

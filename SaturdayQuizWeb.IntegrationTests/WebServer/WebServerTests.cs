@@ -5,12 +5,12 @@ namespace SaturdayQuizWeb.IntegrationTests.WebServer;
 [TestFixture]
 public class WebServerTests
 {
-    private CustomWebApplicationFactory _webApplicationFactory = null!;
+    private WebApplicationFactory<Program> _webApplicationFactory = null!;
 
     [SetUp]
     public void SetUp()
     {
-        _webApplicationFactory = new CustomWebApplicationFactory();
+        _webApplicationFactory = new WebApplicationFactory<Program>();
     }
 
     [TestCase("")]
