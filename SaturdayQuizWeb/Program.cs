@@ -1,4 +1,5 @@
-﻿using SaturdayQuizWeb.Clients;
+﻿using Microsoft.Extensions.Logging;
+using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Config;
 using SaturdayQuizWeb.Extensions;
@@ -13,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Configuration.AddUserSecrets<Program>().AddEnvironmentVariables();
 
 RegisterDependencies(builder.Services, builder.Configuration);
 
@@ -43,13 +46,13 @@ app.MapGet("/api/quiz/", async (
 
         try
         {
-            // logger.LogInformation("Getting quiz with ID={id}...", id);
+            app.Logger.LogInformation("Getting quiz with ID={id}...", id);
             var quiz = await quizService.GetQuizAsync(id);
             return Results.Ok(quiz);
         }
         catch (Exception e)
         {
-            // logger.LogError(e, "Error getting quiz with ID={id}", id);
+            app.Logger.LogError(e, "Error getting quiz with ID={id}", id);
             return Results.StatusCode((int)HttpStatusCode.InternalServerError);
         }
 
@@ -63,8 +66,19 @@ app.MapGet("/api/quiz-metadata", async (
         IQuizMetadataService quizMetadataService) =>
     {
         httpContext.Response.AddCustomHeaders(TimeSpan.Zero);
-        var metadata = await quizMetadataService.GetQuizMetadataAsync(count ?? 10);
-        return Results.Ok(metadata);
+        var quizNoun = count == 1 ? "quiz" : "quizzes";
+
+        try
+        {
+            app.Logger.LogInformation("Getting quiz metadata for last {count} {quizNoun}...", count, quizNoun);
+            var quizMetadata = await quizMetadataService.GetQuizMetadataAsync(count ?? 10);
+            return Results.Ok(quizMetadata);
+        }
+        catch (Exception e)
+        {
+            app.Logger.LogError(e, "Error getting quiz metadata for last {count} {quizNoun}", count, quizNoun);
+            return Results.StatusCode((int)HttpStatusCode.InternalServerError);
+        }
     })
     .WithName("GetQuizMetadata")
     .WithOpenApi();
@@ -91,4 +105,5 @@ void RegisterDependencies(IServiceCollection services, IConfigurationManager con
     services.AddSingleton<ISectionSplitter, SectionSplitter>();
 }
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public partial class Program;
