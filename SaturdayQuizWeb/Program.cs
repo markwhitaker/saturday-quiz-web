@@ -103,26 +103,25 @@ app.MapGet("/api/quiz-metadata", async (
     .WithOpenApi();
 
 await app.RunAsync();
-return;
 
-void RegisterDependencies(IServiceCollection services, IConfigurationManager configuration)
+public partial class Program
 {
-    services.Configure<GuardianConfig>(configuration.GetSection(Constants.ConfigSectionGuardian));
+    private static void RegisterDependencies(IServiceCollection services, ConfigurationManager configuration)
+    {
+        services.Configure<GuardianConfig>(configuration.GetSection(Constants.ConfigSectionGuardian));
 
-    services.AddHttpClient<IGuardianApiHttpClient, GuardianApiHttpClient>();
-    services.AddHttpClient<IGuardianWebsiteHttpClient, GuardianWebsiteHttpClient>();
+        services.AddHttpClient<IGuardianApiHttpClient, GuardianApiHttpClient>();
+        services.AddHttpClient<IGuardianWebsiteHttpClient, GuardianWebsiteHttpClient>();
 
-    services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
-    services.AddSingleton<IGuardianApiClient, GuardianApiClient>();
-    services.AddSingleton<IGuardianRssClient, GuardianRssClient>();
-    services.AddSingleton<IHtmlService, HtmlService>();
-    services.AddSingleton<IHtmlStripper, HtmlStripper>();
-    services.AddSingleton<IQuestionAssembler, QuestionAssembler>();
-    services.AddSingleton<IQuizMetadataService, QuizMetadataService>();
-    services.AddSingleton<IQuizService, QuizService>();
-    services.AddSingleton<ISectionExtractor, SectionExtractor>();
-    services.AddSingleton<ISectionSplitter, SectionSplitter>();
+        services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
+        services.AddSingleton<IGuardianApiClient, GuardianApiClient>();
+        services.AddSingleton<IGuardianRssClient, GuardianRssClient>();
+        services.AddSingleton<IHtmlService, HtmlService>();
+        services.AddSingleton<IHtmlStripper, HtmlStripper>();
+        services.AddSingleton<IQuestionAssembler, QuestionAssembler>();
+        services.AddSingleton<IQuizMetadataService, QuizMetadataService>();
+        services.AddSingleton<IQuizService, QuizService>();
+        services.AddSingleton<ISectionExtractor, SectionExtractor>();
+        services.AddSingleton<ISectionSplitter, SectionSplitter>();
+    }
 }
-
-// ReSharper disable once ClassNeverInstantiated.Global
-public partial class Program;
