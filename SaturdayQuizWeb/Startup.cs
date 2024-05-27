@@ -26,7 +26,21 @@ public class Startup(IConfiguration configuration)
             });
         });
 
-        RegisterDependencies(services);
+        services.Configure<GuardianConfig>(configuration.GetSection(Constants.ConfigSectionGuardian));
+
+        services.AddHttpClient<IGuardianApiHttpClient, GuardianApiHttpClient>();
+        services.AddHttpClient<IGuardianWebsiteHttpClient, GuardianWebsiteHttpClient>();
+
+        services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
+        services.AddSingleton<IGuardianApiClient, GuardianApiClient>();
+        services.AddSingleton<IGuardianRssClient, GuardianRssClient>();
+        services.AddSingleton<IHtmlService, HtmlService>();
+        services.AddSingleton<IHtmlStripper, HtmlStripper>();
+        services.AddSingleton<IQuestionAssembler, QuestionAssembler>();
+        services.AddSingleton<IQuizMetadataService, QuizMetadataService>();
+        services.AddSingleton<IQuizService, QuizService>();
+        services.AddSingleton<ISectionExtractor, SectionExtractor>();
+        services.AddSingleton<ISectionSplitter, SectionSplitter>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,24 +68,5 @@ public class Startup(IConfiguration configuration)
             ContentTypeProvider = new Utf8ContentTypeProvider(),
             OnPrepareResponse = context => context.Context.Response.AddCustomHeaders(TimeSpan.FromDays(30))
         });
-    }
-
-    private void RegisterDependencies(IServiceCollection services)
-    {
-        services.Configure<GuardianConfig>(configuration.GetSection(Constants.ConfigSectionGuardian));
-
-        services.AddHttpClient<IGuardianApiHttpClient, GuardianApiHttpClient>();
-        services.AddHttpClient<IGuardianWebsiteHttpClient, GuardianWebsiteHttpClient>();
-
-        services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
-        services.AddSingleton<IGuardianApiClient, GuardianApiClient>();
-        services.AddSingleton<IGuardianRssClient, GuardianRssClient>();
-        services.AddSingleton<IHtmlService, HtmlService>();
-        services.AddSingleton<IHtmlStripper, HtmlStripper>();
-        services.AddSingleton<IQuestionAssembler, QuestionAssembler>();
-        services.AddSingleton<IQuizMetadataService, QuizMetadataService>();
-        services.AddSingleton<IQuizService, QuizService>();
-        services.AddSingleton<ISectionExtractor, SectionExtractor>();
-        services.AddSingleton<ISectionSplitter, SectionSplitter>();
     }
 }

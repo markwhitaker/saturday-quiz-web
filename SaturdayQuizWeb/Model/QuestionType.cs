@@ -1,6 +1,9 @@
-﻿namespace SaturdayQuizWeb.Model;
+﻿using System.Text.Json.Serialization;
 
-[JsonConverter(typeof(StringEnumConverter))]
+namespace SaturdayQuizWeb.Model;
+
+[System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
+//[JsonConverter(typeof(StringEnumConverter))]
 public enum QuestionType
 {
     [EnumMember(Value = "NORMAL")]
