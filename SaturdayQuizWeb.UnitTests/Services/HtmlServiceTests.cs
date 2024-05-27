@@ -52,7 +52,7 @@ public class HtmlServiceTests
             new()
             {
                 Number = 1,
-                Type = QuestionType.NORMAL,
+                Type = QuestionType.Normal,
                 Question = "question",
                 Answer = "answer"
             }

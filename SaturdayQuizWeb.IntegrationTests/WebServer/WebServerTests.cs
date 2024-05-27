@@ -5,12 +5,12 @@ namespace SaturdayQuizWeb.IntegrationTests.WebServer;
 [TestFixture]
 public class WebServerTests
 {
-    private HttpClient _httpClient = null!;
+    private CustomWebApplicationFactory _webApplicationFactory = null!;
 
     [SetUp]
     public void SetUp()
     {
-        _httpClient = new WebApplicationFactory<Program>().CreateClient();
+        _webApplicationFactory = new CustomWebApplicationFactory();
     }
 
     [TestCase("")]
@@ -22,14 +22,15 @@ public class WebServerTests
     public async Task GivenAnyUri_WhenRequested_ThenResponseStatusIsOK(string path)
     {
         // Given
-        var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
+        using var httpClient = _webApplicationFactory.CreateClient();
+        var requestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
         {
             Path = path
         }.ToString();
 
 
         // When
-        var response = await _httpClient.GetAsync(requestUri);
+        var response = await httpClient.GetAsync(requestUri);
 
         // Then
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -40,13 +41,14 @@ public class WebServerTests
     public async Task GivenApiUri_WhenRequested_ThenCacheControlHeaderValueIsNoCache(string path)
     {
         // Given
-        var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
+        using var httpClient = _webApplicationFactory.CreateClient();
+        var requestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
         {
             Path = path
         }.ToString();
 
         // When
-        var response = await _httpClient.GetAsync(requestUri);
+        var response = await httpClient.GetAsync(requestUri);
 
         // Then
         Assert.That(response.Headers.CacheControl, Is.Not.Null);
@@ -60,13 +62,14 @@ public class WebServerTests
     public async Task GivenStaticFileUri_WhenRequested_ThenCacheControlHeaderValueIs30DaysCache(string path)
     {
         // Given
-        var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
+        using var httpClient = _webApplicationFactory.CreateClient();
+        var requestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
         {
             Path = path
         }.ToString();
 
         // When
-        var response = await _httpClient.GetAsync(requestUri);
+        var response = await httpClient.GetAsync(requestUri);
 
         // Then
         Assert.That(response.Headers.CacheControl, Is.Not.Null);
@@ -78,16 +81,18 @@ public class WebServerTests
     public async Task GivenQuizApiUriWithId_WhenRequested_ThenCacheControlHeaderValueIs365Days()
     {
         // Given
-        var metadataRequestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
+        using var httpClient = _webApplicationFactory.CreateClient();
+
+        var metadataRequestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
         {
             Path = "api/quiz-metadata",
             Query = "count=1"
         }.ToString();
-        var metadataResponse = await _httpClient.GetAsync(metadataRequestUri);
+        var metadataResponse = await httpClient.GetAsync(metadataRequestUri);
         var metadataJson = await metadataResponse.Content.ReadAsStringAsync();
         var metadata = JsonConvert.DeserializeObject<QuizMetadata[]>(metadataJson)!.First();
 
-        var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
+        var requestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
         {
             Path = "api/quiz",
             Query = $"id={metadata.Id}"
@@ -95,7 +100,7 @@ public class WebServerTests
         var expectedCacheControlMaxAge = TimeSpan.FromDays(365);
 
         // When
-        var response = await _httpClient.GetAsync(requestUri);
+        var response = await httpClient.GetAsync(requestUri);
 
         // Then
         Assert.That(response.Headers.CacheControl, Is.Not.Null);
@@ -111,13 +116,14 @@ public class WebServerTests
     public async Task GivenAnyUri_WhenRequested_ThenXContentTypeOptionsHeaderValueIsNosniff(string path)
     {
         // Given
-        var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
+        using var httpClient = _webApplicationFactory.CreateClient();
+        var requestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
         {
             Path = path
         }.ToString();
 
         // When
-        var response = await _httpClient.GetAsync(requestUri);
+        var response = await httpClient.GetAsync(requestUri);
 
         // Then
         Assert.That(response.Headers.Contains("X-Content-Type-Options"), Is.True);
@@ -132,13 +138,14 @@ public class WebServerTests
         string expectedContentType)
     {
         // Given
-        var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
+        using var httpClient = _webApplicationFactory.CreateClient();
+        var requestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
         {
             Path = path
         }.ToString();
 
         // When
-        var response = await _httpClient.GetAsync(requestUri);
+        var response = await httpClient.GetAsync(requestUri);
 
         // Then
         Assert.That(response.Content.Headers.Contains("Content-Type"), Is.True);
@@ -151,13 +158,14 @@ public class WebServerTests
         string expectedContentType)
     {
         // Given
-        var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
+        using var httpClient = _webApplicationFactory.CreateClient();
+        var requestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
         {
             Path = path
         }.ToString();
 
         // When
-        var response = await _httpClient.GetAsync(requestUri);
+        var response = await httpClient.GetAsync(requestUri);
 
         // Then
         Assert.That(response.Content.Headers.Contains("Content-Type"), Is.True);
@@ -169,13 +177,14 @@ public class WebServerTests
     public async Task GivenApiUri_WhenRequested_ThenContentTypeHeaderValueIsApplicationJsonCharsetUtf8(string path)
     {
         // Given
-        var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
+        using var httpClient = _webApplicationFactory.CreateClient();
+        var requestUri = new UriBuilder(httpClient.BaseAddress!.AbsoluteUri)
         {
             Path = path
         }.ToString();
 
         // When
-        var response = await _httpClient.GetAsync(requestUri);
+        var response = await httpClient.GetAsync(requestUri);
 
         // Then
         Assert.That(response.Content.Headers.Contains("Content-Type"), Is.True);
