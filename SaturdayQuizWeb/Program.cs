@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Config;
@@ -13,9 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Saturday Quiz API", Version = "v1" });
+});
 
-builder.Configuration.AddUserSecrets<Program>().AddEnvironmentVariables();
+builder.Configuration
+    .AddUserSecrets<Program>()
+    .AddEnvironmentVariables();
 
 RegisterDependencies(builder.Services, builder.Configuration);
 
@@ -34,7 +40,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.DocumentTitle = "Saturday Quiz API";
+    });
 }
 
 app.MapGet("/api/quiz/", async (
@@ -57,13 +66,16 @@ app.MapGet("/api/quiz/", async (
         }
 
     })
+    .WithTags("Quiz")
     .WithName("GetQuiz")
+    .WithDisplayName("Get quiz")
+    .WithDescription("Get a quiz by ID, or omit the ID to get the latest quiz")
     .WithOpenApi();
 
 app.MapGet("/api/quiz-metadata", async (
-        [FromQuery] int? count,
         HttpContext httpContext,
-        IQuizMetadataService quizMetadataService) =>
+        IQuizMetadataService quizMetadataService,
+        [FromQuery] int count = 10) =>
     {
         httpContext.Response.AddCustomHeaders(TimeSpan.Zero);
         var quizNoun = count == 1 ? "quiz" : "quizzes";
@@ -71,7 +83,7 @@ app.MapGet("/api/quiz-metadata", async (
         try
         {
             app.Logger.LogInformation("Getting quiz metadata for last {count} {quizNoun}...", count, quizNoun);
-            var quizMetadata = await quizMetadataService.GetQuizMetadataAsync(count ?? 10);
+            var quizMetadata = await quizMetadataService.GetQuizMetadataAsync(count);
             return Results.Ok(quizMetadata);
         }
         catch (Exception e)
@@ -80,7 +92,10 @@ app.MapGet("/api/quiz-metadata", async (
             return Results.StatusCode((int)HttpStatusCode.InternalServerError);
         }
     })
+    .WithTags("Quiz Metadata")
     .WithName("GetQuizMetadata")
+    .WithDisplayName("Get quiz metadata")
+    .WithDescription("Get quiz metadata for the most recent specified number of quizzes, or omit count to get the last 10")
     .WithOpenApi();
 
 await app.RunAsync();
