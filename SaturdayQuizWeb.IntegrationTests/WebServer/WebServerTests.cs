@@ -1,4 +1,4 @@
-﻿using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Model;
 
 namespace SaturdayQuizWeb.IntegrationTests.WebServer;
 
@@ -8,7 +8,7 @@ public class WebServerTests
     private HttpClient _httpClient = null!;
 
     [SetUp]
-    public void SetUp() => _httpClient = new WebApplicationFactory<Startup>().CreateClient();
+    public void SetUp() => _httpClient = new WebApplicationFactory<Program>().CreateClient();
 
     [TestCase("")]
     [TestCase("css/styles.css")]

@@ -39,12 +39,12 @@ public class QuestionAssembler : IQuestionAssembler
     {
         var questions = new List<QuestionModel>();
 
-        var questionType = QuestionType.Normal;
+        var questionType = QuestionType.NORMAL;
         foreach (var question in questionsSection)
         {
             if (question.StartsWith(ParsingConstants.WhatLinks, StringComparison.OrdinalIgnoreCase))
             {
-                questionType = QuestionType.WhatLinks;
+                questionType = QuestionType.WHAT_LINKS;
                 continue;
             }
 

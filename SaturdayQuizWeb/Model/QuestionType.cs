@@ -1,10 +1,11 @@
-﻿namespace SaturdayQuizWeb.Model;
+﻿using System.Text.Json.Serialization;
 
-[JsonConverter(typeof(StringEnumConverter))]
+namespace SaturdayQuizWeb.Model;
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+[SuppressMessage("ReSharper", "InconsistentNaming")]
 public enum QuestionType
 {
-    [EnumMember(Value = "NORMAL")]
-    Normal,
-    [EnumMember(Value = "WHAT_LINKS")]
-    WhatLinks
+    NORMAL,
+    WHAT_LINKS
 }
