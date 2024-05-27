@@ -10,7 +10,7 @@ public class QuizApiTests
     private HttpClient _httpClient = null!;
 
     [SetUp]
-    public void SetUp() => _httpClient = new WebApplicationFactory<Startup>().CreateClient();
+    public void SetUp() => _httpClient = new WebApplicationFactory<Program>().CreateClient();
 
     [Test]
     public async Task GivenValidQuizRequestWithoutId_WhenRequestIsMade_ThenExpectedResponseIsReceived()
