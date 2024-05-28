@@ -10,45 +10,10 @@ using SaturdayQuizWeb.Utils;
 using SaturdayQuizWeb.Wrappers;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Saturday Quiz API",
-        Version = "v1"
-    });
-});
-
-builder.Configuration
-    .AddUserSecrets<Program>()
-    .AddEnvironmentVariables();
-
-RegisterDependencies(builder.Services, builder.Configuration);
+SetupServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
-
-app.UseHttpsRedirection();
-app.UseDefaultFiles();
-app.UseStaticFiles(new StaticFileOptions
-{
-    ContentTypeProvider = new Utf8ContentTypeProvider(),
-    OnPrepareResponse = context => context.Context.Response.AddCustomHeaders(TimeSpan.FromDays(30))
-});
-
-app.UseSwagger();
-app.UseSwaggerUI(options =>
-{
-    options.DocumentTitle = "Saturday Quiz API";
-});
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
+SetupApp(app);
 
 app.MapGet("/api/quiz/", async (
         string? id,
@@ -106,8 +71,12 @@ await app.RunAsync();
 
 public partial class Program
 {
-    private static void RegisterDependencies(IServiceCollection services, ConfigurationManager configuration)
+    private static void SetupServices(IServiceCollection services, ConfigurationManager configuration)
     {
+        configuration
+            .AddUserSecrets<Program>()
+            .AddEnvironmentVariables();
+
         services.Configure<GuardianConfig>(configuration.GetSection(Constants.ConfigSectionGuardian));
 
         services.AddHttpClient<IGuardianApiHttpClient, GuardianApiHttpClient>();
@@ -123,5 +92,36 @@ public partial class Program
         services.AddSingleton<IQuizService, QuizService>();
         services.AddSingleton<ISectionExtractor, SectionExtractor>();
         services.AddSingleton<ISectionSplitter, SectionSplitter>();
+
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Saturday Quiz API",
+                Version = "v1"
+            });
+        });
+    }
+
+    private static void SetupApp(WebApplication app)
+    {
+        app.UseHttpsRedirection();
+        app.UseDefaultFiles();
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            ContentTypeProvider = new Utf8ContentTypeProvider(),
+            OnPrepareResponse = context => context.Context.Response.AddCustomHeaders(TimeSpan.FromDays(30))
+        });
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
+        {
+            options.DocumentTitle = "Saturday Quiz API";
+        });
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
     }
 }
