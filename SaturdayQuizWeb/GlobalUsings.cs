@@ -12,7 +12,6 @@ global using System.Xml.Serialization;
 global using Mainwave.MimeTypes;
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.AspNetCore.Http;
-global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.StaticFiles;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
