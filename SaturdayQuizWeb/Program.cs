@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SaturdayQuizWeb.Clients;
@@ -78,6 +80,9 @@ public partial class Program
             .AddEnvironmentVariables();
 
         services.Configure<GuardianConfig>(configuration.GetSection(Constants.ConfigSectionGuardian));
+
+        services.ConfigureHttpJsonOptions(options =>
+            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseUpper)));
 
         services.AddHttpClient<IGuardianApiHttpClient, GuardianApiHttpClient>();
         services.AddHttpClient<IGuardianWebsiteHttpClient, GuardianWebsiteHttpClient>();
