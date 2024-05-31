@@ -20,6 +20,11 @@ public class QuizMetadataApiTests
             Path = "api/quiz-metadata"
         }.ToString();
 
+        var jsonSerializerSettings = new JsonSerializerSettings
+        {
+            DateParseHandling = DateParseHandling.None
+        };
+
         // When
         var response = await _httpClient.GetAsync(requestUri);
 
@@ -30,14 +35,16 @@ public class QuizMetadataApiTests
         var content = await response.Content.ReadAsStringAsync();
         Assert.That(content, Is.Not.Null.Or.Empty);
 
-        var quizMetadataArray = JArray.Parse(content);
+        var quizMetadataArray = (JArray)JsonConvert.DeserializeObject(content, jsonSerializerSettings)!;
         Assert.That(quizMetadataArray.Count, Is.EqualTo(10));
 
         var quizMetadata = quizMetadataArray[0];
         Assert.That(quizMetadata, Is.Not.Null.Or.Empty);
         Assert.That(quizMetadata["id"]?.Value<string>(), Is.Not.Null.Or.Empty);
         Assert.That(quizMetadata["date"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(quizMetadata["date"]?.Value<string>(), Does.Match(@"^\d{2}/\d{2}/\d{4} 00:00:00$"));
+        Assert.That(quizMetadata["date"]?.Value<string>(), Does.Match(@"^\d{4}-\d{2}-\d{2}T00:00:00Z$"));
+        Assert.That(DateTime.TryParse(quizMetadata["date"]?.Value<string>(), out var date), Is.True);
+        Assert.That(date, Is.InRange(DateTime.Today.Subtract(TimeSpan.FromDays(7)), DateTime.Today));
         Assert.That(quizMetadata["title"]?.Value<string>(), Is.Not.Null.Or.Empty);
         Assert.That(quizMetadata["url"]?.Value<string>(), Is.Not.Null.Or.Empty);
         Assert.That(quizMetadata["source"]?.Value<string>(), Is.EqualTo("API").Or.EqualTo("RSS"));
