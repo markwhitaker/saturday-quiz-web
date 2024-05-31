@@ -21,4 +21,4 @@ jobs:
       - name: Build release build
         run: dotnet build -c Release
       - name: Test release build
-        run: dotnet test -c Release SaturdayQuizWeb.UnitTests
+        run: dotnet test -c Release --filter Category!=LongRunning
