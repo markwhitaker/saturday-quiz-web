@@ -5,6 +5,8 @@ on:
       - main
   pull_request:
   workflow_dispatch:
+env:
+  Guardian__ApiKey: ${{ secrets.Guardian__ApiKey }}
 
 jobs:
   build-and-test:
