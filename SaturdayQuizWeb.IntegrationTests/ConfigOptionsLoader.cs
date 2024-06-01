@@ -13,6 +13,7 @@ public static class ConfigOptionsLoader
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", false, false)
                 .AddUserSecrets<QuizMetadataServiceTests>()
+                .AddEnvironmentVariables()
                 .Build();
 
             var services = new ServiceCollection()

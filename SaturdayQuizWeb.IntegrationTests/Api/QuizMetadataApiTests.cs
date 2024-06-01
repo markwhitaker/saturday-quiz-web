@@ -44,7 +44,7 @@ public class QuizMetadataApiTests
         Assert.That(quizMetadata["date"]?.Value<string>(), Is.Not.Null.Or.Empty);
         Assert.That(quizMetadata["date"]?.Value<string>(), Does.Match(@"^\d{4}-\d{2}-\d{2}T00:00:00Z$"));
         Assert.That(DateTime.TryParse(quizMetadata["date"]?.Value<string>(), out var date), Is.True);
-        Assert.That(date, Is.InRange(DateTime.Today.Subtract(TimeSpan.FromDays(7)), DateTime.Today));
+        Assert.That(date, Is.InRange(DateTime.Today.Subtract(TimeSpan.FromDays(7)), DateTime.UtcNow));
         Assert.That(quizMetadata["title"]?.Value<string>(), Is.Not.Null.Or.Empty);
         Assert.That(quizMetadata["url"]?.Value<string>(), Is.Not.Null.Or.Empty);
         Assert.That(quizMetadata["source"]?.Value<string>(), Is.EqualTo("API").Or.EqualTo("RSS"));

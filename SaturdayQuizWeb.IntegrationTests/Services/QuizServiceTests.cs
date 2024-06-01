@@ -9,6 +9,7 @@ using SaturdayQuizWeb.Wrappers;
 namespace SaturdayQuizWeb.IntegrationTests.Services;
 
 [TestFixture]
+[Category("LongRunning")]
 public class QuizServiceTests
 {
     private IQuizMetadataService _quizMetadataService = null!;
