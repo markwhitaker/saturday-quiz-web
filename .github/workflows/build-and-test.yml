@@ -22,9 +22,11 @@ jobs:
           dotnet-quality: ga
       - name: Build release build
         run: dotnet build -c Release
-      - name: Test release build
-        run: dotnet test -c Release --filter Category!=LongRunning
-      - name: Test JavaScript app
+      - name: Run unit tests
+        run: dotnet test -c Release SaturdayQuizWeb.UnitTests
+      - name: Run integration tests
+        run: dotnet test -c Release SaturdayQuizWeb.IntegrationTests --filter Category!=LongRunning
+      - name: Run JavaScript tests
         run: |
           cd SaturdayQuizWeb.JavaScriptTests
           npm install
