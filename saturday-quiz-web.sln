@@ -16,7 +16,7 @@ ProjectSection(SolutionItems) = preProject
 	.gitattributes = .gitattributes
 EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayQuizWeb.JavascriptTests", "SaturdayQuizWeb.JavascriptTests\SaturdayQuizWeb.JavascriptTests.csproj", "{4F85B1C7-7F53-487C-95DB-E2B321A5F12E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayQuizWeb.JavaScriptTests", "SaturdayQuizWeb.JavaScriptTests\SaturdayQuizWeb.JavaScriptTests.csproj", "{4F85B1C7-7F53-487C-95DB-E2B321A5F12E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
