@@ -25,5 +25,5 @@ jobs:
       - name: Run unit tests
         run: dotnet test -c Release SaturdayQuizWeb.UnitTests
       - name: Run integration tests
-        run: dotnet test -c Release SaturdayQuizWeb.IntegrationTests --filter Category=LongRunning
+        run: dotnet test -c Release SaturdayQuizWeb.IntegrationTests --filter Category!=LongRunning
         if: github.actor != 'dependabot[bot]'
