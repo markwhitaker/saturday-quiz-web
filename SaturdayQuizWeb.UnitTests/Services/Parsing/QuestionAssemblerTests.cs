@@ -170,6 +170,33 @@ public class QuestionAssemblerTests
     }
 
     [Test]
+    public void GivenAnswerInWrongFormat_WhenAssembled_ThenExceptionIsThrown()
+    {
+        // Given
+        var questionsSection = new List<string>
+        {
+            "1 Which Nazi leader died in Paddington in 1981?",
+            "2 What are produced at <i>La Masia</i> &amp; <i>La Fábrica</i>?",
+            "3 In publishing, what does ISBN stand for?"
+        };
+
+        var answersSection = new List<string>
+        {
+            "1 Albert Speer.",
+            "2 Footballers (academies of <i>Barcelona</i> and <i>Real Madrid</i>).",
+            "This shouldn't be here"
+        };
+
+        // When
+        var exception = Assert.Throws<ParsingException>(() =>
+            _questionAssembler.AssembleQuestions(questionsSection, answersSection));
+
+        // Then
+        Assert.That(exception, Is.Not.Null);
+        Assert.That(exception!.Message, Is.EqualTo("Answer text in unexpected format: This shouldn't be here"));
+    }
+
+    [Test]
     public void GivenQuestionAndAnswerCountsAreNotEqual_WhenAssembled_ThenExceptionIsThrown()
     {
         // Given

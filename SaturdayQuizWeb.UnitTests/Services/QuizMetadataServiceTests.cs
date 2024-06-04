@@ -156,4 +156,19 @@ public class QuizMetadataServiceTests
         _mockLogger.Received().LogWarning("Didn't get up-to-date quiz metadata from API, Trying RSS...");
         Assert.That(expectedMetadataServiceResponse, Is.EqualTo(actualMetadataServiceResponse));
     }
+
+    [Test]
+    public void GivenApiAndRssBothReturnNoMetadata_WhenGettingMetadata_ThenExceptionIsThrown()
+    {
+        // Given
+        _mockGuardianApiClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(Array.Empty<QuizMetadata>());
+        _mockGuardianRssClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(Array.Empty<QuizMetadata>());
+
+        // When/Then
+        var exception = Assert.ThrowsAsync<Exception>(() => _quizMetadataService.GetQuizMetadataAsync(1));
+
+        // Then
+        Assert.That(exception, Is.Not.Null);
+        Assert.That(exception!.Message, Is.EqualTo("Couldn't get data from the Guardian API or RSS feed"));
+    }
 }

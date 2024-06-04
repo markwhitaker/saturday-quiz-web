@@ -87,4 +87,25 @@ public class GuardianApiClientTests
         // Then
         Assert.That(actualMetadata, Is.Empty);
     }
+
+    [Test] public async Task GivenUnexpectedApiClientException_WhenGetQuizMetadataAsync_ThenEmptyListIsReturned()
+    {
+        // Given
+        var expectedConfig = new GuardianConfig
+        {
+            ApiEndpoint = string.Empty,
+            ApiKey = string.Empty
+        };
+
+        _mockConfigOptions.Value.Returns(expectedConfig);
+        _mockGuardianApiHttpClient
+            .GetStringAsync(Arg.Any<string>())
+            .ThrowsAsync<Exception>();
+
+        // When
+        var actualMetadata = await _guardianApiClient.GetQuizMetadataAsync(default);
+
+        // Then
+        Assert.That(actualMetadata, Is.Empty);
+    }
 }

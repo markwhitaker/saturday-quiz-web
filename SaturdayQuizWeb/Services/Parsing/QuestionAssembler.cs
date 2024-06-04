@@ -88,11 +88,6 @@ public class QuestionAssembler : IQuestionAssembler
 
     private static string MakeTextSafe(string source)
     {
-        if (string.IsNullOrEmpty(source))
-        {
-            return source;
-        }
-
         var safeSource = HttpUtility.HtmlDecode(source);
         return safeSource.Remove(HtmlTagRegex);
     }
