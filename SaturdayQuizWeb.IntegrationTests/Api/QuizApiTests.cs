@@ -7,6 +7,11 @@ namespace SaturdayQuizWeb.IntegrationTests.Api;
 [TestFixture]
 public class QuizApiTests
 {
+    private static readonly JsonSerializerSettings JsonSerializerSettings = new()
+    {
+        DateParseHandling = DateParseHandling.None
+    };
+
     private HttpClient _httpClient = null!;
 
     [SetUp]
@@ -31,25 +36,52 @@ public class QuizApiTests
         var content = await response.Content.ReadAsStringAsync();
         Assert.That(content, Is.Not.Null.Or.Empty);
 
-        var quiz = JObject.Parse(content);
+        var quiz = JsonConvert.DeserializeObject(content, JsonSerializerSettings) as JObject;
+        Assert.That(quiz, Is.Not.Null);
+
+        Assert.That(quiz!.ContainsKey("id"));
         Assert.That(quiz["id"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(quiz["date"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(quiz["date"]?.Value<string>(), Does.Match(@"^\d{2}/\d{2}/\d{4} 00:00:00$"));
-        Assert.That(quiz["title"]?.Value<string>(), Is.Not.Null.Or.Empty);
+
+        Assert.That(quiz.ContainsKey("date"));
+        var dateValue = quiz["date"]!.Value<string>();
+        Assert.That(dateValue, Is.Not.Null.Or.Empty);
+        Assert.That(dateValue, Does.Match(@"^\d{4}-\d{2}-\d{2}T00:00:00Z$"));
+        Assert.That(DateTime.TryParse(dateValue, out var date), Is.True);
+        Assert.That(date.Date, Is.InRange(DateTime.Today.Subtract(TimeSpan.FromDays(7)), DateTime.Today));
+
+        Assert.That(quiz.ContainsKey("title"));
+        Assert.That(quiz["title"]!.Value<string>(), Is.Not.Null.Or.Empty);
+
+        Assert.That(quiz.ContainsKey("questions"));
         Assert.That(quiz["questions"], Is.Not.Null.Or.Empty);
 
-        var questions = quiz["questions"]!;
-        Assert.That(questions.Count(), Is.EqualTo(15));
+        var questions = quiz["questions"] as JArray;
+        Assert.That(questions, Is.Not.Null);
+        Assert.That(questions!.Count, Is.EqualTo(15));
 
-        var normalQuestion = questions[0]!;
-        Assert.That(normalQuestion["number"]?.Value<int>(), Is.EqualTo(1));
-        Assert.That(normalQuestion["question"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(normalQuestion["answer"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(normalQuestion["type"]?.Value<string>(), Is.EqualTo("NORMAL"));
+        var normalQuestion = questions[0] as JObject;
+        Assert.That(normalQuestion, Is.Not.Null);
 
-        var whatLinksQuestion = questions[8]!;
-        Assert.That(whatLinksQuestion["number"]?.Value<int>(), Is.EqualTo(9));
-        Assert.That(whatLinksQuestion["type"]?.Value<string>(), Is.EqualTo("WHAT_LINKS"));
+        Assert.That(normalQuestion!.ContainsKey("number"));
+        Assert.That(normalQuestion["number"]!.Value<int>(), Is.EqualTo(1));
+
+        Assert.That(normalQuestion.ContainsKey("question"));
+        Assert.That(normalQuestion["question"]!.Value<string>(), Is.Not.Null.Or.Empty);
+
+        Assert.That(normalQuestion.ContainsKey("answer"));
+        Assert.That(normalQuestion["answer"]!.Value<string>(), Is.Not.Null.Or.Empty);
+
+        Assert.That(normalQuestion.ContainsKey("type"));
+        Assert.That(normalQuestion["type"]!.Value<string>(), Is.EqualTo("NORMAL"));
+
+        var whatLinksQuestion = questions[8] as JObject;
+        Assert.That(whatLinksQuestion, Is.Not.Null);
+
+        Assert.That(whatLinksQuestion!.ContainsKey("number"));
+        Assert.That(whatLinksQuestion["number"]!.Value<int>(), Is.EqualTo(9));
+
+        Assert.That(whatLinksQuestion.ContainsKey("type"));
+        Assert.That(whatLinksQuestion["type"]!.Value<string>(), Is.EqualTo("WHAT_LINKS"));
     }
 
     [Test]
@@ -81,25 +113,51 @@ public class QuizApiTests
         var content = await response.Content.ReadAsStringAsync();
         Assert.That(content, Is.Not.Null.Or.Empty);
 
-        var quiz = JObject.Parse(content);
+        var quiz = JsonConvert.DeserializeObject(content, JsonSerializerSettings) as JObject;
+        Assert.That(quiz, Is.Not.Null);
+
+        Assert.That(quiz!.ContainsKey("id"));
         Assert.That(quiz["id"]?.Value<string>(), Is.EqualTo(expectedId));
+
+        Assert.That(quiz.ContainsKey("date"));
         Assert.That(quiz["date"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(quiz["date"]?.Value<string>(), Does.Match(@"^\d{2}/\d{2}/\d{4} 00:00:00$"));
-        Assert.That(quiz["title"]?.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(quiz["date"]?.Value<string>(), Does.Match(@"^\d{4}-\d{2}-\d{2}T00:00:00Z$"));
+        Assert.That(DateTime.TryParse(quiz["date"]?.Value<string>(), out var date), Is.True);
+        Assert.That(date.Date, Is.InRange(DateTime.Today.Subtract(TimeSpan.FromDays(7)), DateTime.Today));
+
+        Assert.That(quiz.ContainsKey("title"));
+        Assert.That(quiz["title"]!.Value<string>(), Is.Not.Null.Or.Empty);
+
+        Assert.That(quiz.ContainsKey("questions"));
         Assert.That(quiz["questions"], Is.Not.Null.Or.Empty);
 
-        var questions = quiz["questions"]!;
-        Assert.That(questions.Count(), Is.EqualTo(15));
+        var questions = quiz["questions"] as JArray;
+        Assert.That(questions, Is.Not.Null);
+        Assert.That(questions!.Count, Is.EqualTo(15));
 
-        var normalQuestion = questions[0]!;
-        Assert.That(normalQuestion["number"]?.Value<int>(), Is.EqualTo(1));
-        Assert.That(normalQuestion["question"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(normalQuestion["answer"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(normalQuestion["type"]?.Value<string>(), Is.EqualTo("NORMAL"));
+        var normalQuestion = questions[0] as JObject;
+        Assert.That(normalQuestion, Is.Not.Null);
 
-        var whatLinksQuestion = questions[8]!;
-        Assert.That(whatLinksQuestion["number"]?.Value<int>(), Is.EqualTo(9));
-        Assert.That(whatLinksQuestion["type"]?.Value<string>(), Is.EqualTo("WHAT_LINKS"));
+        Assert.That(normalQuestion!.ContainsKey("number"));
+        Assert.That(normalQuestion["number"]!.Value<int>(), Is.EqualTo(1));
+
+        Assert.That(normalQuestion.ContainsKey("question"));
+        Assert.That(normalQuestion["question"]!.Value<string>(), Is.Not.Null.Or.Empty);
+
+        Assert.That(normalQuestion.ContainsKey("answer"));
+        Assert.That(normalQuestion["answer"]!.Value<string>(), Is.Not.Null.Or.Empty);
+
+        Assert.That(normalQuestion.ContainsKey("type"));
+        Assert.That(normalQuestion["type"]!.Value<string>(), Is.EqualTo("NORMAL"));
+
+        var whatLinksQuestion = questions[8] as JObject;
+        Assert.That(whatLinksQuestion, Is.Not.Null);
+
+        Assert.That(whatLinksQuestion!.ContainsKey("number"));
+        Assert.That(whatLinksQuestion["number"]!.Value<int>(), Is.EqualTo(9));
+
+        Assert.That(whatLinksQuestion.ContainsKey("type"));
+        Assert.That(whatLinksQuestion["type"]!.Value<string>(), Is.EqualTo("WHAT_LINKS"));
     }
 
     [Test]

@@ -15,6 +15,7 @@ public class QuizMetadataApiTests
     public async Task GivenValidQuizMetadataRequestWithoutCount_WhenRequestIsMade_ThenExpectedResponseIsReceived()
     {
         // Given
+        const int expectedCount = 10;
         var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
         {
             Path = "api/quiz-metadata"
@@ -35,19 +36,31 @@ public class QuizMetadataApiTests
         var content = await response.Content.ReadAsStringAsync();
         Assert.That(content, Is.Not.Null.Or.Empty);
 
-        var quizMetadataArray = (JArray)JsonConvert.DeserializeObject(content, jsonSerializerSettings)!;
-        Assert.That(quizMetadataArray.Count, Is.EqualTo(10));
+        var quizMetadataArray = JsonConvert.DeserializeObject(content, jsonSerializerSettings) as JArray;
+        Assert.That(quizMetadataArray, Is.Not.Null);
+        Assert.That(quizMetadataArray!.Count, Is.EqualTo(expectedCount));
 
-        var quizMetadata = quizMetadataArray[0];
-        Assert.That(quizMetadata, Is.Not.Null.Or.Empty);
-        Assert.That(quizMetadata["id"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(quizMetadata["date"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(quizMetadata["date"]?.Value<string>(), Does.Match(@"^\d{4}-\d{2}-\d{2}T00:00:00Z$"));
-        Assert.That(DateTime.TryParse(quizMetadata["date"]?.Value<string>(), out var date), Is.True);
+        var quizMetadata = quizMetadataArray.First as JObject;
+        Assert.That(quizMetadata, Is.Not.Null);
+
+        Assert.That(quizMetadata!.ContainsKey("id"));
+        Assert.That(quizMetadata["id"]!.Value<string>(), Is.Not.Null.Or.Empty);
+
+        Assert.That(quizMetadata.ContainsKey("date"));
+        var dateValue = quizMetadata["date"]!.Value<string>();
+        Assert.That(dateValue, Is.Not.Null.Or.Empty);
+        Assert.That(dateValue, Does.Match(@"^\d{4}-\d{2}-\d{2}T00:00:00Z$"));
+        Assert.That(DateTime.TryParse(dateValue, out var date), Is.True);
         Assert.That(date.Date, Is.InRange(DateTime.Today.Subtract(TimeSpan.FromDays(7)), DateTime.Today));
-        Assert.That(quizMetadata["title"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(quizMetadata["url"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(quizMetadata["source"]?.Value<string>(), Is.EqualTo("API").Or.EqualTo("RSS"));
+
+        Assert.That(quizMetadata.ContainsKey("title"));
+        Assert.That(quizMetadata["title"]!.Value<string>(), Is.Not.Null.Or.Empty);
+
+        Assert.That(quizMetadata.ContainsKey("url"));
+        Assert.That(quizMetadata["url"]!.Value<string>(), Is.Not.Null.Or.Empty);
+
+        Assert.That(quizMetadata.ContainsKey("source"));
+        Assert.That(quizMetadata["source"]!.Value<string>(), Is.EqualTo("API").Or.EqualTo("RSS"));
     }
 
     [Test]
