@@ -52,11 +52,11 @@ export default class Presenter {
 
     onSpace() {
         switch (this.#scenes[this.#sceneIndex].type) {
-            case Scene.Type.QUESTION_ANSWER:
-                this.toggleScore();
-                break;
             case Scene.Type.QUESTIONS_TITLE:
                 this.toggleSkipToAnswers();
+                break;
+            case Scene.Type.QUESTION_ANSWER:
+                this.toggleScore();
                 break;
         }
     };

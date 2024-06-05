@@ -68,7 +68,7 @@ suite('Presenter', () => {
         assert.strictEqual(actualIsViewTitlePageShown, true);
     });
 
-    test('GIVEN questions title scene is shown WHEN on next THEN first question scene is shown', async () => {
+    test('GIVEN questions title is shown WHEN on next THEN first question is shown', async () => {
         let actualIsViewAnswerHidden;
         let actualIsViewQuestionPageShown;
         let actualIsViewScoreShareHidden;
@@ -111,7 +111,38 @@ suite('Presenter', () => {
         assert.strictEqual(actualIsViewQuestionPageShown, true);
     });
 
-    test('GIVEN last question scene is shown WHEN on next THEN answers title scene is shown', async () => {
+    test('GIVEN questions title is shown WHEN on space THEN skip to answers is toggled', async () => {
+        let actualSkipToAnswersValues = [];
+        const expectedSkipToAnswersValues = [false, true];
+
+        const quiz = new Quiz({
+            questions: [
+                new Question({ number: 1, type: 'NORMAL', question: 'question-1', answer: 'answer-1' })
+            ]
+        })
+        const mockQuizRepository = new MockQuizRepositoryBuilder()
+            .loadLatestQuiz(async () => (quiz))
+            .build();
+        const mockScoreRepository = new MockScoreRepositoryBuilder()
+            .getHasScores(() => false)
+            .build();
+        const mockView = new MockViewBuilder()
+            .setSkipToAnswers(skipToAnswers => actualSkipToAnswersValues.push(skipToAnswers))
+            .build();
+
+        const presenter = new Presenter({
+            quizRepository: mockQuizRepository,
+            scoreRepository: mockScoreRepository
+        });
+
+        await presenter.onViewReady(mockView);
+
+        presenter.onSpace();
+
+        assert.deepStrictEqual(actualSkipToAnswersValues, expectedSkipToAnswersValues);
+    });
+
+    test('GIVEN last question is shown WHEN on next THEN answers title is shown', async () => {
         let actualIsViewAnswersTitleShown;
         let actualIsViewScoreShareHidden;
         let actualIsViewScoreTickHidden;
@@ -243,6 +274,54 @@ suite('Presenter', () => {
         assert.strictEqual(actualIsViewQuestionPageShown, true);
     });
 
+    test('GIVEN answer is shown WHEN on space THEN score is toggled', async () => {
+        let storedQuestionScore = QuestionScore.NONE;
+        let actualQuestionScoreSequence = [];
+        let expectedQuestionScoreSequence = [
+            QuestionScore.NONE,
+            QuestionScore.FULL,
+            QuestionScore.HALF,
+            QuestionScore.NONE
+        ];
+
+        const quiz = new Quiz({
+            questions: [
+                new Question({ number: 1, type: 'NORMAL', question: 'question-1', answer: 'answer-1' })
+            ]
+        })
+        const mockNavigatorWrapper = new MockNavigatorWrapperBuilder()
+            .isShareSupported(() => true)
+            .build();
+        const mockQuizRepository = new MockQuizRepositoryBuilder()
+            .loadLatestQuiz(async () => (quiz))
+            .build();
+        const mockScoreRepository = new MockScoreRepositoryBuilder()
+            .setScore((questionNumber, score) => storedQuestionScore = score)
+            .getScore(() => storedQuestionScore)
+            .build();
+        const mockView = new MockViewBuilder()
+            .showScoreTick(score => actualQuestionScoreSequence.push(score))
+            .build();
+
+        const presenter = new Presenter({
+            navigatorWrapper: mockNavigatorWrapper,
+            quizRepository: mockQuizRepository,
+            scoreRepository: mockScoreRepository
+        });
+
+        await presenter.onViewReady(mockView);
+        presenter.onNext(); // show first question
+        presenter.onNext(); // show answers title
+        presenter.onNext(); // show first question again
+        presenter.onNext(); // show first answer
+
+        presenter.onSpace();
+        presenter.onSpace();
+        presenter.onSpace();
+
+        assert.deepStrictEqual(actualQuestionScoreSequence, expectedQuestionScoreSequence);
+    });
+
     test('GIVEN last answer is shown WHEN on next THEN end title is shown', async () => {
         let actualIsViewEndTitleShown;
         let actualIsViewTitlePageShown;
@@ -289,6 +368,54 @@ suite('Presenter', () => {
         assert.strictEqual(actualIsViewEndTitleShown, true);
         assert.strictEqual(actualIsViewScoreShareShown, true);
         assert.deepStrictEqual(actualIsViewTitlePageShown, true);
+    });
+
+    test('GIVEN end title is shown WHEN on previous THEN last answer is shown', async () => {
+        let actualIsViewAnswerShown;
+        let actualIsViewQuestionPageShown;
+        let actualIsViewScoreShareHidden;
+        let actualIsViewScoreTickShown;
+        let actualIsViewSkipToAnswersHidden;
+        let actualViewQuestion;
+
+        const quiz = new Quiz({
+            questions: [
+                new Question({ number: 1, type: 'NORMAL', question: 'question-1', answer: 'answer-1' })
+            ]
+        })
+        const mockQuizRepository = new MockQuizRepositoryBuilder()
+            .loadLatestQuiz(async () => (quiz))
+            .build();
+        const mockScoreRepository = new MockScoreRepositoryBuilder().build();
+        const mockView = new MockViewBuilder().build();
+
+        const presenter = new Presenter({
+            quizRepository: mockQuizRepository,
+            scoreRepository: mockScoreRepository
+        });
+
+        await presenter.onViewReady(mockView);
+        presenter.onNext(); // show first question
+        presenter.onNext(); // show answers title
+        presenter.onNext(); // show first question again
+        presenter.onNext(); // show first answer
+        presenter.onNext(); // show end title
+
+        mockView.hideScoreShare = () => actualIsViewScoreShareHidden = true;
+        mockView.hideSkipToAnswers = () => actualIsViewSkipToAnswersHidden = true;
+        mockView.showAnswer = () => actualIsViewAnswerShown = true;
+        mockView.showQuestion = question => actualViewQuestion = question;
+        mockView.showQuestionPage = () => actualIsViewQuestionPageShown = true;
+        mockView.showScoreTick = () => actualIsViewScoreTickShown = true;
+
+        presenter.onPrevious();
+
+        assert.strictEqual(actualIsViewAnswerShown, true);
+        assert.strictEqual(actualIsViewScoreShareHidden, true);
+        assert.strictEqual(actualIsViewScoreTickShown, true);
+        assert.strictEqual(actualIsViewSkipToAnswersHidden, true);
+        assert.deepStrictEqual(actualViewQuestion, quiz.questions[0]);
+        assert.strictEqual(actualIsViewQuestionPageShown, true);
     });
 
     test('GIVEN score repository has scores WHEN share score THEN expected data is shared', async () => {
