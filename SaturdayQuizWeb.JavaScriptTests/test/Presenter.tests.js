@@ -8,30 +8,44 @@ import Question from "../../SaturdayQuizWeb/wwwroot/script/Question.js";
 import Quiz from "../../SaturdayQuizWeb/wwwroot/script/Quiz.js";
 
 suite('Presenter', () => {
-    test('GIVEN quiz repository WHEN view is ready THEN quiz is loaded', () => {
-        let isQuizStored;
-        let isViewNavigationEnabled;
-        let isViewSkipToAnswersToggled;
-        let isViewQuizLoaded;
+    test('GIVEN quiz repository WHEN view is ready THEN quiz is loaded', async () => {
+        let actualIsQuizStored;
+        let actualIsViewNavigationEnabled;
+        let actualIsViewQuizLoaded;
+        let actualIsViewScoreShareHidden;
+        let actualIsViewScoreTickHidden;
+        let actualIsViewSkipToAnswersShown;
+        let actualIsViewSkipToAnswersToggled;
+        let actualIsViewTitlePageShown;
+        let actualViewQuestionsTitleDateString;
+
+        const areScoresStored = true;
+        const quizDate = new Date('2020-01-02');
+        const expectedQuestionsTitleDateString = '2 January 2020';
 
         const quiz = new Quiz({
-            date: '2020-01-02',
+            date: quizDate,
             questions: [
                 new Question({ number: 1, type: 'NORMAL', question: 'question-1', answer: 'answer-1' }),
                 new Question({ number: 2, type: 'WHAT_LINKS', question: 'question-2', answer: 'answer-2' })
             ]
         })
-
         const mockQuizRepository = new MockQuizRepositoryBuilder()
-            .loadLatestQuiz(async () => quiz)
+            .loadLatestQuiz(async () => (quiz))
             .build();
         const mockScoreRepository = new MockScoreRepositoryBuilder()
-            .initialiseScores(() => isQuizStored = true)
+            .getHasScores(() => areScoresStored)
+            .initialiseScores(() => actualIsQuizStored = true)
             .build();
         const mockView = new MockViewBuilder()
-            .enableNavigation(() => isViewNavigationEnabled = true)
-            .setSkipToAnswers(skipToAnswers => isViewSkipToAnswersToggled = skipToAnswers)
-            .onQuizLoaded(() => isViewQuizLoaded = true)
+            .enableNavigation(() => actualIsViewNavigationEnabled = true)
+            .hideScoreShare(() => actualIsViewScoreShareHidden = true)
+            .hideScoreTick(() => actualIsViewScoreTickHidden = true)
+            .onQuizLoaded(() => actualIsViewQuizLoaded = true)
+            .setSkipToAnswers(skipToAnswers => actualIsViewSkipToAnswersToggled = skipToAnswers)
+            .showQuestionsTitle(dateString => actualViewQuestionsTitleDateString = dateString)
+            .showSkipToAnswers(() => actualIsViewSkipToAnswersShown = true)
+            .showTitlePage(() => actualIsViewTitlePageShown = true)
             .build();
 
         const presenter = new Presenter({
@@ -39,11 +53,16 @@ suite('Presenter', () => {
             scoreRepository: mockScoreRepository
         });
 
-        presenter.onViewReady(mockView);
+        await presenter.onViewReady(mockView);
 
-        assert.strictEqual(isQuizStored, true);
-        assert.strictEqual(isViewNavigationEnabled, true);
-        assert.strictEqual(isViewSkipToAnswersToggled, false);
-        assert.strictEqual(isViewQuizLoaded, true);
+        assert.strictEqual(actualIsQuizStored, true);
+        assert.strictEqual(actualIsViewNavigationEnabled, true);
+        assert.strictEqual(actualIsViewSkipToAnswersToggled, areScoresStored);
+        assert.strictEqual(actualIsViewQuizLoaded, true);
+        assert.strictEqual(actualViewQuestionsTitleDateString, expectedQuestionsTitleDateString);
+        assert.strictEqual(actualIsViewScoreShareHidden, true);
+        assert.strictEqual(actualIsViewScoreTickHidden, true);
+        assert.strictEqual(actualIsViewSkipToAnswersShown, true);
+        assert.strictEqual(actualIsViewTitlePageShown, true);
     });
 });
