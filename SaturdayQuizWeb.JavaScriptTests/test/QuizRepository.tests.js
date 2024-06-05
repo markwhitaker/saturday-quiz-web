@@ -41,9 +41,9 @@ suite('QuizRepository', () => {
         const expectedStoredQuizDate = new CalendarDate(new Date(2021, 1, 3));
         const expectedQuiz = new Quiz(fetchedRawQuiz);
 
-        let actualIsQuizCleared = undefined;
-        let actualStoredQuiz = undefined;
-        let actualStoredQuizDate = undefined;
+        let actualIsQuizCleared;
+        let actualStoredQuiz;
+        let actualStoredQuizDate;
 
         const mockLocalStore = new LocalStoreMockBuilder()
             .getQuizDate(() => cachedQuizDate)

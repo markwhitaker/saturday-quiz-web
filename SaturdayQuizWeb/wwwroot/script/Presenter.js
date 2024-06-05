@@ -4,20 +4,28 @@ import QuizRepository from "./QuizRepository.js";
 import ScoreRepository from "./ScoreRepository.js";
 
 export default class Presenter {
-    constructor() {
-        this.quizRepository = new QuizRepository();
-        this.scoreRepository = new ScoreRepository();
-        this.sceneIndex = 0;
-        this.quiz = {};
-        this.scenes = [];
-        this.skipToAnswers = false;
+    #quiz;
+    #quizRepository;
+    #sceneIndex;
+    #scenes;
+    #scoreRepository;
+    #skipToAnswers;
+    #view;
+
+    constructor(dependencies) {
+        this.#quizRepository = dependencies?.quizRepository ?? new QuizRepository();
+        this.#scoreRepository = dependencies?.scoreRepository ?? new ScoreRepository();
+        this.#sceneIndex = 0;
+        this.#quiz = {};
+        this.#scenes = [];
+        this.#skipToAnswers = false;
     }
 
     async onViewReady(view) {
-        this.view = view;
+        this.#view = view;
 
         try {
-            this.quiz = await this.quizRepository.loadLatestQuiz();
+            this.#quiz = await this.#quizRepository.loadLatestQuiz();
             this.#onQuizLoaded();
         }
         catch (error) {
@@ -26,21 +34,21 @@ export default class Presenter {
     };
 
     onNext() {
-        if (this.sceneIndex < this.scenes.length - 1) {
-            this.sceneIndex++;
+        if (this.#sceneIndex < this.#scenes.length - 1) {
+            this.#sceneIndex++;
             this.#showScene();
         }
     };
 
     onPrevious() {
-        if (this.sceneIndex > 0) {
-            this.sceneIndex--;
+        if (this.#sceneIndex > 0) {
+            this.#sceneIndex--;
             this.#showScene();
         }
     };
 
     onSpace() {
-        switch (this.scenes[this.sceneIndex].type) {
+        switch (this.#scenes[this.#sceneIndex].type) {
             case Scene.Type.QUESTION_ANSWER:
                 this.toggleScore();
                 break;
@@ -51,13 +59,13 @@ export default class Presenter {
     };
 
     toggleScore() {
-        const scene = this.scenes[this.sceneIndex];
+        const scene = this.#scenes[this.#sceneIndex];
         if (scene.type !== Scene.Type.QUESTION_ANSWER) {
             return;
         }
 
         const questionNumber = scene.question.number;
-        let score = this.scoreRepository.getScore(questionNumber);
+        let score = this.#scoreRepository.getScore(questionNumber);
         switch (score)
         {
             case QuestionScore.NONE:
@@ -70,23 +78,23 @@ export default class Presenter {
                 score = QuestionScore.NONE;
                 break;
         }
-        this.scoreRepository.setScore(questionNumber, score);
-        this.view.showScoreTick(score);
+        this.#scoreRepository.setScore(questionNumber, score);
+        this.#view.showScoreTick(score);
     }
 
     toggleSkipToAnswers() {
-        if (this.scenes[this.sceneIndex].type !== Scene.Type.QUESTIONS_TITLE) {
+        if (this.#scenes[this.#sceneIndex].type !== Scene.Type.QUESTIONS_TITLE) {
             return;
         }
 
-        this.skipToAnswers = !this.skipToAnswers;
-        this.view.setSkipToAnswers(this.skipToAnswers);
+        this.#skipToAnswers = !this.#skipToAnswers;
+        this.#view.setSkipToAnswers(this.#skipToAnswers);
         this.#buildScenes();
     }
 
     async shareScore() {
-        const totalScore = Presenter.#formatTotalScore(this.scoreRepository.totalScore);
-        const scoreBreakdown = this.scoreRepository.allScores
+        const totalScore = Presenter.#formatTotalScore(this.#scoreRepository.totalScore);
+        const scoreBreakdown = this.#scoreRepository.allScores
             .map((score, index) =>
                 score === QuestionScore.NONE ? null :
                 score === QuestionScore.HALF ? (index + 1) + ' (half)' :
@@ -106,19 +114,19 @@ export default class Presenter {
     }
 
     #onQuizLoaded() {
-        this.scoreRepository.initialiseScores(this.quiz);
-        this.skipToAnswers = this.scoreRepository.hasScores;
+        this.#scoreRepository.initialiseScores(this.#quiz);
+        this.#skipToAnswers = this.#scoreRepository.hasScores;
         this.#buildScenes();
         this.#showScene();
-        this.view.enableNavigation();
-        this.view.setSkipToAnswers(this.skipToAnswers);
-        this.view.onQuizLoaded();
+        this.#view.enableNavigation();
+        this.#view.setSkipToAnswers(this.#skipToAnswers);
+        this.#view.onQuizLoaded();
     };
 
     #showScene() {
-        const scene = this.scenes[this.sceneIndex];
+        const scene = this.#scenes[this.#sceneIndex];
         const question = scene.question;
-        const view = this.view;
+        const view = this.#view;
 
         switch(scene.type) {
             case Scene.Type.QUESTIONS_TITLE:
@@ -154,12 +162,12 @@ export default class Presenter {
                 view.showQuestion(question);
                 view.showAnswer(question.answer);
                 view.showQuestionPage();
-                view.showScoreTick(this.scoreRepository.getScore(question.number));
+                view.showScoreTick(this.#scoreRepository.getScore(question.number));
                 break;
             case Scene.Type.END_TITLE:
                 view.hideScoreTick();
                 view.hideSkipToAnswers();
-                view.showEndTitle(Presenter.#formatTotalScore(this.scoreRepository.totalScore));
+                view.showEndTitle(Presenter.#formatTotalScore(this.#scoreRepository.totalScore));
                 view.showTitlePage();
                 view.showScoreShare();
                 break;
@@ -167,25 +175,25 @@ export default class Presenter {
     };
 
     #buildScenes() {
-        this.scenes = [];
+        this.#scenes = [];
 
-        this.scenes.push(Scene.questionsTitleScene(this.quiz.date));
+        this.#scenes.push(Scene.questionsTitleScene(this.#quiz.date));
 
-        if (!this.skipToAnswers) {
+        if (!this.#skipToAnswers) {
             // First just show the questions
-            for (const question of this.quiz.questions) {
-                this.scenes.push(Scene.questionScene(question));
+            for (const question of this.#quiz.questions) {
+                this.#scenes.push(Scene.questionScene(question));
             }
-            this.scenes.push(Scene.answersTitleScene());
+            this.#scenes.push(Scene.answersTitleScene());
         }
 
         // Now recap the questions, showing the answer after each one
-        for (const question of this.quiz.questions) {
-            this.scenes.push(Scene.questionScene(question));
-            this.scenes.push(Scene.questionAnswerScene(question));
+        for (const question of this.#quiz.questions) {
+            this.#scenes.push(Scene.questionScene(question));
+            this.#scenes.push(Scene.questionAnswerScene(question));
         }
 
-        this.scenes.push(Scene.endTitleScene());
+        this.#scenes.push(Scene.endTitleScene());
     }
 
     static #formatTotalScore(totalScore) {
