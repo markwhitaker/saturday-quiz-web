@@ -2,7 +2,7 @@ import { suite, test } from 'mocha';
 import assert from 'assert';
 import CalendarDate from '../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js';
 
-suite('CalendarDate', function(){
+suite('CalendarDate', () => {
     test ('GIVEN date with time WHEN CalendarDate is constructed THEN time is removed', () => {
         const date = new Date('2020-01-02T12:34:56');
         const calendarDate = new CalendarDate(date);

@@ -6,8 +6,8 @@ import QuizRepository from "../../SaturdayQuizWeb/wwwroot/script/QuizRepository.
 import Quiz from "../../SaturdayQuizWeb/wwwroot/script/Quiz.js";
 import FetchWrapperMockBuilder from "./mocks/FetchWrapperMockBuilder.js";
 
-suite('QuizRepository', function() {
-    test('GIVEN quiz is cached and less than 7 days old WHEN load latest quiz THEN cached quiz is returned', function() {
+suite('QuizRepository', () => {
+    test('GIVEN quiz is cached and less than 7 days old WHEN load latest quiz THEN cached quiz is returned', () => {
         const cachedQuizDate = new CalendarDate(new Date().getDate() - 6);
         const cachedRawQuiz = {
             'date': '2020-01-02',

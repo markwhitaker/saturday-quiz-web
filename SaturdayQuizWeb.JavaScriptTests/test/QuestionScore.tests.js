@@ -2,7 +2,7 @@ import { suite, test } from 'mocha';
 import assert from 'assert';
 import QuestionScore from '../../SaturdayQuizWeb/wwwroot/script/QuestionScore.js';
 
-suite('QuestionScore', function(){
+suite('QuestionScore', () => {
     test('QuestionScore.NONE should be 0', () => {
         assert.strictEqual(QuestionScore.NONE, 0);
     });

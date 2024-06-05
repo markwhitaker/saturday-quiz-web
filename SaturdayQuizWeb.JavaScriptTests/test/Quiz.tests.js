@@ -2,8 +2,8 @@ import { suite, test } from 'mocha';
 import assert from 'assert';
 import Quiz from '../../SaturdayQuizWeb/wwwroot/script/Quiz.js';
 
-suite('Quiz', function() {
-    test('GIVEN raw quiz object WHEN quiz is constructed THEN expected quiz is returned', function() {
+suite('Quiz', () => {
+    test('GIVEN raw quiz object WHEN quiz is constructed THEN expected quiz is returned', () => {
         const rawQuizObject = {
             date: '2020-01-02 12:34:56',
             questions: [

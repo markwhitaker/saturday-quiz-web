@@ -2,7 +2,7 @@ import { suite, test } from 'mocha';
 import assert from 'assert';
 import Question from '../../SaturdayQuizWeb/wwwroot/script/Question.js';
 
-suite('Question', function() {
+suite('Question', () => {
     test('GIVEN raw question with NORMAL type WHEN question is constructed THEN expected question is returned', () => {
         const expectedNumber = 1;
         const expectedType = 'NORMAL';

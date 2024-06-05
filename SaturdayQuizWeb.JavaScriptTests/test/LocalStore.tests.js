@@ -4,7 +4,7 @@ import CalendarDate from '../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js';
 import LocalStore from '../../SaturdayQuizWeb/wwwroot/script/LocalStore.js';
 import LocalStorageWrapperMockBuilder from './mocks/LocalStorageWrapperMockBuilder.js';
 
-suite('LocalStore', function() {
+suite('LocalStore', () => {
     test('GIVEN quiz date is set WHEN quiz date is retrieved THEN quiz date is correct', () => {
         const mockLocalStorageWrapper = new LocalStorageWrapperMockBuilder()
             .getItem(key => key === 'quiz-date' ? '2020-01-02' : undefined)

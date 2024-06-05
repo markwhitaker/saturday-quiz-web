@@ -4,7 +4,7 @@ import LocalStoreMockBuilder from "./mocks/LocalStorageMockBuilder.js";
 import QuestionScore from "../../SaturdayQuizWeb/wwwroot/script/QuestionScore.js";
 import ScoreRepository from '../../SaturdayQuizWeb/wwwroot/script/ScoreRepository.js';
 
-suite('ScoreRepository', function() {
+suite('ScoreRepository', () => {
     test('GIVEN no scores WHEN total score is calculated THEN total score is zero', () => {
         const scoreRepository = new ScoreRepository();
         assert.strictEqual(scoreRepository.totalScore, 0);
