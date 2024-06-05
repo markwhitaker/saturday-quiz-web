@@ -8,9 +8,9 @@ export default class QuizRepository {
     #localStore;
     #quizEndpoint;
 
-    constructor(fetchWrapper, localStore) {
-        this.#fetchWrapper = fetchWrapper ?? new FetchWrapper();
-        this.#localStore = localStore ?? new LocalStore();
+    constructor(dependencies) {
+        this.#fetchWrapper = dependencies?.fetchWrapper ?? new FetchWrapper();
+        this.#localStore = dependencies?.localStore ?? new LocalStore();
         this.#quizEndpoint = Object.freeze('api/quiz');
     }
 

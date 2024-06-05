@@ -10,8 +10,8 @@ export default class LocalStore {
         SCORES: "scores"
     });
 
-    constructor(localStorageWrapper) {
-        this.#localStorageWrapper = localStorageWrapper ?? new LocalStorageWrapper();
+    constructor(dependencies) {
+        this.#localStorageWrapper = dependencies?.localStorageWrapper ?? new LocalStorageWrapper();
     }
 
     get quizDate() {

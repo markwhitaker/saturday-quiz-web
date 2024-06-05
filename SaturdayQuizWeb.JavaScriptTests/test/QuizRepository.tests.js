@@ -1,7 +1,7 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
 import CalendarDate from "../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js";
-import LocalStoreMockBuilder from "./mocks/LocalStoreMockBuilder.js";
+import LocalStoreMockBuilder from "./mocks/LocalStorageMockBuilder.js";
 import QuizRepository from "../../SaturdayQuizWeb/wwwroot/script/QuizRepository.js";
 import Quiz from "../../SaturdayQuizWeb/wwwroot/script/Quiz.js";
 import FetchWrapperMockBuilder from "./mocks/FetchWrapperMockBuilder.js";
@@ -18,7 +18,9 @@ suite('QuizRepository', function() {
             .getQuizDate(() => cachedQuizDate)
             .getQuiz(() => cachedRawQuiz)
             .build();
-        const quizRepository = new QuizRepository(undefined, mockLocalStore);
+        const quizRepository = new QuizRepository({
+            localStore: mockLocalStore
+        });
 
         quizRepository.loadLatestQuiz().then(actualQuiz =>
             assert.deepStrictEqual(actualQuiz, expectedQuiz)
@@ -56,7 +58,10 @@ suite('QuizRepository', function() {
                 json: async() => fetchedRawQuiz
             }))
             .build();
-        const quizRepository = new QuizRepository(mockFetchWrapper, mockLocalStore);
+        const quizRepository = new QuizRepository({
+            fetchWrapper: mockFetchWrapper,
+            localStore: mockLocalStore
+        });
 
         const actualQuiz = await quizRepository.loadLatestQuiz();
 
@@ -90,7 +95,10 @@ suite('QuizRepository', function() {
                 json: async() => fetchedRawQuiz
             }))
             .build();
-        const quizRepository = new QuizRepository(mockFetchWrapper, mockLocalStore);
+        const quizRepository = new QuizRepository({
+            fetchWrapper: mockFetchWrapper,
+            localStore: mockLocalStore
+        });
 
         const actualQuiz = await quizRepository.loadLatestQuiz();
 

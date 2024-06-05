@@ -1,6 +1,6 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
-import LocalStoreMockBuilder from "./mocks/LocalStoreMockBuilder.js";
+import LocalStoreMockBuilder from "./mocks/LocalStorageMockBuilder.js";
 import QuestionScore from "../../SaturdayQuizWeb/wwwroot/script/QuestionScore.js";
 import ScoreRepository from '../../SaturdayQuizWeb/wwwroot/script/ScoreRepository.js';
 
@@ -16,7 +16,9 @@ suite('ScoreRepository', function() {
             .getScores(() => undefined)
             .setScores(value => actualStoredScores = value)
             .build();
-        const scoreRepository = new ScoreRepository(mockLocalStore);
+        const scoreRepository = new ScoreRepository({
+            localStore: mockLocalStore
+        });
 
         scoreRepository.initialiseScores({ questions: [{}, {}, {}] });
 
@@ -29,7 +31,9 @@ suite('ScoreRepository', function() {
             .getScores(() => '0,0.5,1')
             .setScores(value => actualStoredScores = value)
             .build();
-        const scoreRepository = new ScoreRepository(mockLocalStore);
+        const scoreRepository = new ScoreRepository({
+            localStore: mockLocalStore
+        });
 
         scoreRepository.initialiseScores({ questions: [{}, {}, {}] });
 
@@ -41,7 +45,9 @@ suite('ScoreRepository', function() {
         const mockLocalStore = new LocalStoreMockBuilder()
             .getScores(() => '0,0.5,1')
             .build();
-        const scoreRepository = new ScoreRepository(mockLocalStore);
+        const scoreRepository = new ScoreRepository({
+            localStore: mockLocalStore
+        });
         scoreRepository.initialiseScores();
 
         const actualTotalScore = scoreRepository.totalScore;
@@ -54,7 +60,9 @@ suite('ScoreRepository', function() {
         const mockLocalStore = new LocalStoreMockBuilder()
             .getScores(() => '0,0.5,1')
             .build();
-        const scoreRepository = new ScoreRepository(mockLocalStore);
+        const scoreRepository = new ScoreRepository({
+            localStore: mockLocalStore
+        });
         scoreRepository.initialiseScores();
 
         const actualAllScores = scoreRepository.allScores;
@@ -66,7 +74,9 @@ suite('ScoreRepository', function() {
         const mockLocalStore = new LocalStoreMockBuilder()
             .getScores(() => '0,0,0')
             .build();
-        const scoreRepository = new ScoreRepository(mockLocalStore);
+        const scoreRepository = new ScoreRepository({
+            localStore: mockLocalStore
+        });
         scoreRepository.initialiseScores();
 
         const actualHasScores = scoreRepository.hasScores;
@@ -78,7 +88,9 @@ suite('ScoreRepository', function() {
         const mockLocalStore = new LocalStoreMockBuilder()
             .getScores(() => '0,0,0.5')
             .build();
-        const scoreRepository = new ScoreRepository(mockLocalStore);
+        const scoreRepository = new ScoreRepository({
+            localStore: mockLocalStore
+        });
         scoreRepository.initialiseScores();
 
         const actualHasScores = scoreRepository.hasScores;
@@ -91,7 +103,9 @@ suite('ScoreRepository', function() {
         const mockLocalStore = new LocalStoreMockBuilder()
             .getScores(() => '0,0.5,1')
             .build();
-        const scoreRepository = new ScoreRepository(mockLocalStore);
+        const scoreRepository = new ScoreRepository({
+            localStore: mockLocalStore
+        });
         scoreRepository.initialiseScores();
 
         const actualQuestionScore = scoreRepository.getScore(2);
@@ -106,7 +120,9 @@ suite('ScoreRepository', function() {
             .getScores(() => '0,0,0')
             .setScores(value => actualStoredScores = value)
             .build();
-        const scoreRepository = new ScoreRepository(mockLocalStore);
+        const scoreRepository = new ScoreRepository({
+            localStore: mockLocalStore
+        });
         scoreRepository.initialiseScores();
 
         scoreRepository.setScore(3, QuestionScore.FULL);

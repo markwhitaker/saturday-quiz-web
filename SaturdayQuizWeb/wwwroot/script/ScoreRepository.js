@@ -5,8 +5,8 @@ export default class ScoreRepository {
     #localStore;
     #scores;
 
-    constructor(localStore) {
-        this.#localStore = localStore ?? new LocalStore();
+    constructor(dependencies) {
+        this.#localStore = dependencies?.localStore ?? new LocalStore();
         this.#scores = [];
     }
 
