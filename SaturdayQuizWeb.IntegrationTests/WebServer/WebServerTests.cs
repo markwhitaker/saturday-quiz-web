@@ -1,3 +1,4 @@
+using Mainwave.MimeTypes;
 using SaturdayQuizWeb.Model;
 
 namespace SaturdayQuizWeb.IntegrationTests.WebServer;
@@ -121,9 +122,9 @@ public class WebServerTests
         Assert.That(response.Headers.GetValues("X-Content-Type-Options"), Has.One.Items.EqualTo("nosniff"));
     }
 
-    [TestCase("", "text/html")]
-    [TestCase("css/styles.css", "text/css")]
-    [TestCase("script/Presenter.js", "text/javascript")]
+    [TestCase("", MimeType.Text.Html)]
+    [TestCase("css/styles.css", MimeType.Text.Css)]
+    [TestCase("script/Presenter.js", MimeType.Text.Javascript)]
     public async Task GivenTextResourceUri_WhenRequested_ThenContentTypeHeaderValueHasCharsetUtf8(
         string path,
         string expectedContentType)
@@ -133,16 +134,18 @@ public class WebServerTests
         {
             Path = path
         }.ToString();
+        var expectedContentTypeWithCharset = expectedContentType + "; charset=utf-8";
 
         // When
         var response = await _httpClient.GetAsync(requestUri);
 
         // Then
         Assert.That(response.Content.Headers.Contains("Content-Type"), Is.True);
-        Assert.That(response.Content.Headers.GetValues("Content-Type"), Has.One.Items.EqualTo($"{expectedContentType}; charset=utf-8"));
+        Assert.That(response.Content.Headers.GetValues("Content-Type"),
+            Has.One.Items.EqualTo(expectedContentTypeWithCharset));
     }
 
-    [TestCase("images/icon32.png", "image/png")]
+    [TestCase("images/icon32.png", MimeType.Image.Png)]
     public async Task GivenNonTextResourceUri_WhenRequested_ThenContentTypeHeaderValueDoesNotHaveCharsetUtf8(
         string path,
         string expectedContentType)
@@ -171,11 +174,13 @@ public class WebServerTests
             Path = path
         }.ToString();
 
+        const string expectedContentType = "application/json; charset=utf-8";
+
         // When
         var response = await _httpClient.GetAsync(requestUri);
 
         // Then
         Assert.That(response.Content.Headers.Contains("Content-Type"), Is.True);
-        Assert.That(response.Content.Headers.GetValues("Content-Type"), Has.One.Items.EqualTo("application/json; charset=utf-8"));
+        Assert.That(response.Content.Headers.GetValues("Content-Type"), Has.One.Items.EqualTo(expectedContentType));
     }
 }
