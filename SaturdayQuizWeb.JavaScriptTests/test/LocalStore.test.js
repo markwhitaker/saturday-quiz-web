@@ -5,17 +5,6 @@ import LocalStore from '../../SaturdayQuizWeb/wwwroot/script/LocalStore.js';
 import LocalStoreWrapperMockBuilder from "./mocks/LocalStoreWrapperMockBuilder.js";
 
 suite('LocalStore', function() {
-    test('GIVEN localStorageWrapper is not an instance of LocalStorageWrapper WHEN LocalStore is constructed THEN error is thrown', () => {
-        const notALocalStorageWrapper = {};
-        assert.throws(() => new LocalStore(notALocalStorageWrapper), { name: 'Error', message: 'localStorageWrapper must be an instance of LocalStorageWrapper' });
-    });
-
-    test('GIVEN a mock local storage wrapper WHEN an instance of LocalStore is constructed THEN instance is OK', () => {
-        const mockLocalStorageWrapper = new LocalStoreWrapperMockBuilder().build();
-        const localStore = new LocalStore(mockLocalStorageWrapper);
-        assert.ok(localStore);
-    })
-
     test('GIVEN quiz date is set WHEN quiz date is retrieved THEN quiz date is correct', () => {
         const mockLocalStorageWrapper = new LocalStoreWrapperMockBuilder()
             .getItem(key => key === 'quiz-date' ? '2020-01-02' : undefined)
@@ -61,4 +50,68 @@ suite('LocalStore', function() {
         assert.strictEqual(scoresCleared, true);
     });
 
+    test('GIVEN quiz json is stored WHEN quiz is retrieved THEN expected quiz is returned', () => {
+        const storedQuizJson = '{"quiz":"json"}';
+        const expectedQuiz = { "quiz": "json" };
+        const mockLocalStorageWrapper = new LocalStoreWrapperMockBuilder()
+            .getItem(key => key === 'quiz-json' ? storedQuizJson : undefined)
+            .build();
+        const localStore = new LocalStore(mockLocalStorageWrapper);
+
+        const actualQuiz = localStore.quiz;
+
+        assert.deepStrictEqual(actualQuiz, expectedQuiz);
+    });
+
+    test('GIVEN in-memory quiz WHEN quiz is set THEN expected quiz json is stored', () => {
+        const quiz = { "quiz": "json" };
+        const expectedQuizJson = '{"quiz":"json"}';
+        let actualQuizJson = '';
+        const mockLocalStorageWrapper = new LocalStoreWrapperMockBuilder()
+            .setItem((key, value) => key === 'quiz-json' ? actualQuizJson = value : undefined)
+            .build();
+        const localStore = new LocalStore(mockLocalStorageWrapper);
+
+        localStore.quiz = quiz;
+
+        assert.strictEqual(actualQuizJson, expectedQuizJson);
+    });
+
+    test('GIVEN local store WHEN quiz is cleared THEN quiz json is removed', () => {
+        const expectedRemovedKey = 'quiz-json';
+        let actualRemovedKey = '';
+        const mockLocalStorageWrapper = new LocalStoreWrapperMockBuilder()
+            .removeItem(key => actualRemovedKey = key)
+            .build();
+        const localStore = new LocalStore(mockLocalStorageWrapper);
+
+        localStore.clearQuiz();
+
+        assert.strictEqual(actualRemovedKey, expectedRemovedKey);
+    });
+
+    test('GIVEN scores are stored WHEN scores are retrieved THEN expected scores are returned', () => {
+        const expectedScores = 'expected-scores';
+        const mockLocalStorageWrapper = new LocalStoreWrapperMockBuilder()
+            .getItem(key => key === 'scores' ? expectedScores : undefined)
+            .build();
+        const localStore = new LocalStore(mockLocalStorageWrapper);
+
+        const actualScores = localStore.scores;
+
+        assert.strictEqual(actualScores, expectedScores);
+    });
+
+    test('GIVEN scores WHEN scores are set THEN expected scores are stored', () => {
+        const expectedStoredScores = 'expected-scores';
+        let actualStoredScores = '';
+        const mockLocalStorageWrapper = new LocalStoreWrapperMockBuilder()
+            .setItem((key, value) => key === 'scores' ? actualStoredScores = value : undefined)
+            .build();
+        const localStore = new LocalStore(mockLocalStorageWrapper);
+
+        localStore.scores = expectedStoredScores;
+
+        assert.strictEqual(actualStoredScores, expectedStoredScores);
+    });
 });

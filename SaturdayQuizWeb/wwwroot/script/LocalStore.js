@@ -11,9 +11,6 @@ export default class LocalStore {
     });
 
     constructor(localStorageWrapper) {
-        if (localStorageWrapper && !(localStorageWrapper instanceof LocalStorageWrapper)) {
-            throw new Error("localStorageWrapper must be an instance of LocalStorageWrapper");
-        }
         this.#localStorageWrapper = localStorageWrapper ?? new LocalStorageWrapper();
     }
 
@@ -47,6 +44,6 @@ export default class LocalStore {
     }
 
     set scores(value) {
-        localStorage.setItem(LocalStore.#KEYS.SCORES, value);
+        this.#localStorageWrapper.setItem(LocalStore.#KEYS.SCORES, value);
     }
 }

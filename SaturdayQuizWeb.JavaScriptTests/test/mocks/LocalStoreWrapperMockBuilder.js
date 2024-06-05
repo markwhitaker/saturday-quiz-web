@@ -1,30 +1,26 @@
-import LocalStorageWrapper from "../../../SaturdayQuizWeb/wwwroot/script/LocalStorageWrapper.js";
-
 export default class LocalStoreWrapperMockBuilder {
-    #setItem = () => {};
-    #getItem = () => {};
-    #removeItem = () => {};
+    #mock = {
+        setItem: () => {},
+        getItem: () => {},
+        removeItem: () => {}
+    }
 
     setItem(fn) {
-        this.#setItem = fn;
+        this.#mock.setItem = fn;
         return this;
     }
 
     getItem(fn) {
-        this.#getItem = fn;
+        this.#mock.getItem = fn;
         return this;
     }
 
     removeItem(fn) {
-        this.#removeItem = fn;
+        this.#mock.removeItem = fn;
         return this;
     }
 
     build() {
-        let mock = new LocalStorageWrapper();
-        mock.setItem = this.#setItem;
-        mock.getItem = this.#getItem;
-        mock.removeItem = this.#removeItem;
-        return mock;
+        return this.#mock;
     }
 }
