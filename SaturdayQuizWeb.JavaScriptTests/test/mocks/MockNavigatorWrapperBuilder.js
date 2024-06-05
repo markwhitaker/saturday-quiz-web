@@ -1,11 +1,15 @@
 export default class MockNavigatorWrapperBuilder {
     #mock = {
-        isShareSupported: () => {},
-        share: () => {}
+        shareSupported: () => {},
+        share: () => {},
+
+        get isShareSupported() {
+            return this.shareSupported();
+        }
     }
 
     isShareSupported(fn) {
-        this.#mock.isShareSupported = fn;
+        this.#mock.shareSupported = fn;
         return this;
     }
 
