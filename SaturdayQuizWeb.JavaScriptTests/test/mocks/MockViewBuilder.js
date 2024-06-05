@@ -1,4 +1,4 @@
-export default class ViewMockBuilder {
+export default class MockViewBuilder {
     #mock = {
         enableNavigation: () => {},
         hideAnswer: () => {},

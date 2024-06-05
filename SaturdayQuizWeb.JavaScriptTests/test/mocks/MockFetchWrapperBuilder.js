@@ -1,4 +1,4 @@
-export default class FetchWrapperMockBuilder {
+export default class MockFetchWrapperBuilder {
     #mock = {
         fetch: async () => {}
     }

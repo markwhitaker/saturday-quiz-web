@@ -1,11 +1,11 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
-import ViewMockBuilder from "./mocks/ViewMockBuilder.js";
+import MockQuizRepositoryBuilder from "./mocks/MockQuizRepositoryBuilder.js";
+import MockScoreRepositoryBuilder from "./mocks/MockScoreRepositoryBuilder.js";
+import MockViewBuilder from "./mocks/MockViewBuilder.js";
 import Presenter from "../../SaturdayQuizWeb/wwwroot/script/Presenter.js";
 import Question from "../../SaturdayQuizWeb/wwwroot/script/Question.js";
 import Quiz from "../../SaturdayQuizWeb/wwwroot/script/Quiz.js";
-import QuizRepositoryMockBuilder from "./mocks/QuizRepositoryMockBuilder.js";
-import ScoreRepositoryMockBuilder from "./mocks/ScoreRepositoryMockBuilder.js";
 
 suite('Presenter', () => {
     test('GIVEN quiz repository WHEN view is ready THEN quiz is loaded', () => {
@@ -22,13 +22,13 @@ suite('Presenter', () => {
             ]
         })
 
-        const mockQuizRepository = new QuizRepositoryMockBuilder()
+        const mockQuizRepository = new MockQuizRepositoryBuilder()
             .loadLatestQuiz(async () => quiz)
             .build();
-        const mockScoreRepository = new ScoreRepositoryMockBuilder()
+        const mockScoreRepository = new MockScoreRepositoryBuilder()
             .initialiseScores(() => isQuizStored = true)
             .build();
-        const mockView = new ViewMockBuilder()
+        const mockView = new MockViewBuilder()
             .enableNavigation(() => isViewNavigationEnabled = true)
             .setSkipToAnswers(skipToAnswers => isViewSkipToAnswersToggled = skipToAnswers)
             .onQuizLoaded(() => isViewQuizLoaded = true)

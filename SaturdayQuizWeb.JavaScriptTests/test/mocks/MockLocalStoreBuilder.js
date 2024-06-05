@@ -1,4 +1,4 @@
-export default class LocalStorageMockBuilder {
+export default class MockLocalStoreBuilder {
     #mock = {
         getQuizDate: () => {},
         setQuizDate: () => {},

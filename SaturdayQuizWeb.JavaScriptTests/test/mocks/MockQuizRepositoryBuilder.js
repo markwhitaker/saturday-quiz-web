@@ -1,4 +1,4 @@
-export default class QuizRepositoryMockBuilder {
+export default class MockQuizRepositoryBuilder {
     #mock = {
         loadLatestQuiz: async () => {}
     }

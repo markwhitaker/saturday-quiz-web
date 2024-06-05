@@ -1,4 +1,4 @@
-export default class LocalStorageWrapperMockBuilder {
+export default class MockLocalStorageWrapperBuilder {
     #mock = {
         setItem: () => {},
         getItem: () => {},

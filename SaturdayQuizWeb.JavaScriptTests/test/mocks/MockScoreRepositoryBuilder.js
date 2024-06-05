@@ -1,4 +1,4 @@
-export default class ScoreRepositoryMockBuilder {
+export default class MockScoreRepositoryBuilder {
     #mock = {
         getAllScores: () => {},
         getHasScores: () => {},

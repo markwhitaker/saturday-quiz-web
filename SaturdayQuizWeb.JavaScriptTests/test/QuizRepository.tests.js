@@ -1,10 +1,10 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
 import CalendarDate from "../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js";
-import LocalStoreMockBuilder from "./mocks/LocalStorageMockBuilder.js";
+import LocalStoreMockBuilder from "./mocks/MockLocalStoreBuilder.js";
+import MockFetchWrapperBuilder from "./mocks/MockFetchWrapperBuilder.js";
 import QuizRepository from "../../SaturdayQuizWeb/wwwroot/script/QuizRepository.js";
 import Quiz from "../../SaturdayQuizWeb/wwwroot/script/Quiz.js";
-import FetchWrapperMockBuilder from "./mocks/FetchWrapperMockBuilder.js";
 
 suite('QuizRepository', () => {
     test('GIVEN quiz is cached and less than 7 days old WHEN load latest quiz THEN cached quiz is returned', () => {
@@ -52,7 +52,7 @@ suite('QuizRepository', () => {
             .setQuiz(quiz => actualStoredQuiz = quiz)
             .setQuizDate(quizDate => actualStoredQuizDate = quizDate)
             .build();
-        const mockFetchWrapper = new FetchWrapperMockBuilder()
+        const mockFetchWrapper = new MockFetchWrapperBuilder()
             .fetch(async () => ({
                 ok: true,
                 json: async() => fetchedRawQuiz
@@ -89,7 +89,7 @@ suite('QuizRepository', () => {
             .setQuiz(quiz => actualStoredQuiz = quiz)
             .setQuizDate(quizDate => actualStoredQuizDate = quizDate)
             .build();
-        const mockFetchWrapper = new FetchWrapperMockBuilder()
+        const mockFetchWrapper = new MockFetchWrapperBuilder()
             .fetch(async () => ({
                 ok: true,
                 json: async() => fetchedRawQuiz
