@@ -1,10 +1,18 @@
 import CalendarDate from "./CalendarDate.js";
+import FetchWrapper from "./FetchWrapper.js";
 import LocalStore from "./LocalStore.js";
 import Quiz from "./Quiz.js";
 
 export default class QuizRepository {
-    #localStore = new LocalStore();
-    #quizEndpoint = Object.freeze("api/quiz");
+    #fetchWrapper;
+    #localStore;
+    #quizEndpoint;
+
+    constructor(dependencies) {
+        this.#fetchWrapper = dependencies?.fetchWrapper ?? new FetchWrapper();
+        this.#localStore = dependencies?.localStore ?? new LocalStore();
+        this.#quizEndpoint = Object.freeze('api/quiz');
+    }
 
     async loadLatestQuiz() {
         const quizJson = this.#getCachedQuiz() ?? await this.#downloadQuiz();
@@ -14,7 +22,7 @@ export default class QuizRepository {
     }
 
     async #downloadQuiz() {
-        const response = await fetch(this.#quizEndpoint);
+        const response = await this.#fetchWrapper.fetch(this.#quizEndpoint);
         if (!response.ok) {
             throw new Error(`Failed to fetch ${this.#quizEndpoint}. ${response.status}: ${response.statusText}`);
         }

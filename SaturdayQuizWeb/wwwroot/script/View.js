@@ -28,8 +28,10 @@ const scoreClasses = Object.freeze(new Map([
 ]));
 
 export default class View {
+    #presenter;
+
     constructor(presenter) {
-        this.presenter = presenter;
+        this.#presenter = presenter;
     };
 
     onQuizLoaded = () =>
@@ -39,23 +41,23 @@ export default class View {
 
     enableNavigation = () => {
         elements.navLeft().on("click", e => {
-            this.presenter.onPrevious();
+            this.#presenter.onPrevious();
             e.preventDefault();
         });
         elements.navRight().on("click", e => {
-            this.presenter.onNext();
+            this.#presenter.onNext();
             e.preventDefault();
         });
         elements.document().on("keyup", e => {
             switch (e.code) {
                 case 'ArrowLeft':
-                    this.presenter.onPrevious();
+                    this.#presenter.onPrevious();
                     break;
                 case 'ArrowRight':
-                    this.presenter.onNext();
+                    this.#presenter.onNext();
                     break;
                 case 'Space':
-                    this.presenter.onSpace();
+                    this.#presenter.onSpace();
                     break;
                 default:
                     return;
@@ -64,17 +66,17 @@ export default class View {
         });
 
         elements.scoreTick().on("click", e => {
-            this.presenter.toggleScore();
+            this.#presenter.toggleScore();
             e.preventDefault();
         });
 
         elements.scoreShare().on("click", async e => {
-            await this.presenter.shareScore();
+            await this.#presenter.shareScore();
             e.preventDefault();
         });
 
         elements.skipToAnswers().on("click", e => {
-            this.presenter.toggleSkipToAnswers();
+            this.#presenter.toggleSkipToAnswers();
             e.preventDefault();
         });
     };
