@@ -1,10 +1,12 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
+import MockNavigatorWrapperBuilder from "./mocks/MockNavigatorWrapperBuilder.js";
 import MockQuizRepositoryBuilder from "./mocks/MockQuizRepositoryBuilder.js";
 import MockScoreRepositoryBuilder from "./mocks/MockScoreRepositoryBuilder.js";
 import MockViewBuilder from "./mocks/MockViewBuilder.js";
 import Presenter from "../../SaturdayQuizWeb/wwwroot/script/Presenter.js";
 import Question from "../../SaturdayQuizWeb/wwwroot/script/Question.js";
+import QuestionScore from "../../SaturdayQuizWeb/wwwroot/script/QuestionScore.js";
 import Quiz from "../../SaturdayQuizWeb/wwwroot/script/Quiz.js";
 
 suite('Presenter', () => {
@@ -253,6 +255,9 @@ suite('Presenter', () => {
                 new Question({ number: 1, type: 'NORMAL', question: 'question-1', answer: 'answer-1' })
             ]
         })
+        const mockNavigatorWrapper = new MockNavigatorWrapperBuilder()
+            .isShareSupported(() => true)
+            .build();
         const mockQuizRepository = new MockQuizRepositoryBuilder()
             .loadLatestQuiz(async () => (quiz))
             .build();
@@ -260,6 +265,7 @@ suite('Presenter', () => {
         const mockView = new MockViewBuilder().build();
 
         const presenter = new Presenter({
+            navigatorWrapper: mockNavigatorWrapper,
             quizRepository: mockQuizRepository,
             scoreRepository: mockScoreRepository
         });
@@ -283,5 +289,36 @@ suite('Presenter', () => {
         assert.strictEqual(actualIsViewEndTitleShown, true);
         assert.strictEqual(actualIsViewScoreShareShown, true);
         assert.deepStrictEqual(actualIsViewTitlePageShown, true);
+    });
+
+    test('GIVEN score repository has scores WHEN share score THEN expected data is shared', async () => {
+        let actualSharedData;
+
+        const allScores = [QuestionScore.NONE, QuestionScore.HALF, QuestionScore.FULL];
+        const totalScore = 1.5;
+
+        const expectedSharedData = {
+            title: 'QUIZ RESULTS',
+            text: 'We have quizzed! Our total score this week is 1½...\n\n' +
+                  '2 (half), 3'
+        };
+
+        const mockScoreRepository = new MockScoreRepositoryBuilder()
+            .getAllScores(() => allScores)
+            .getTotalScore(() => totalScore)
+            .build();
+
+        const mockNavigatorWrapper = new MockNavigatorWrapperBuilder()
+            .share(async data => actualSharedData = data)
+            .build();
+
+        const presenter = new Presenter({
+            scoreRepository: mockScoreRepository,
+            navigatorWrapper: mockNavigatorWrapper
+        });
+
+        await presenter.shareScore();
+
+        assert.deepStrictEqual(actualSharedData, expectedSharedData);
     });
 });

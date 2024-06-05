@@ -1,9 +1,11 @@
-﻿import Scene from "./Scene.js";
+﻿import NavigatorWrapper from "./NavigatorWrapper.js";
 import QuestionScore from "./QuestionScore.js";
 import QuizRepository from "./QuizRepository.js";
+import Scene from "./Scene.js";
 import ScoreRepository from "./ScoreRepository.js";
 
 export default class Presenter {
+    #navigatorWrapper;
     #quiz;
     #quizRepository;
     #sceneIndex;
@@ -13,6 +15,7 @@ export default class Presenter {
     #view;
 
     constructor(dependencies) {
+        this.#navigatorWrapper = dependencies?.navigatorWrapper ?? new NavigatorWrapper();
         this.#quizRepository = dependencies?.quizRepository ?? new QuizRepository();
         this.#scoreRepository = dependencies?.scoreRepository ?? new ScoreRepository();
         this.#sceneIndex = 0;
@@ -104,7 +107,7 @@ export default class Presenter {
             .join(', ');
 
         try {
-            await navigator.share({
+            await this.#navigatorWrapper.share({
                 title: 'QUIZ RESULTS',
                 text: 'We have quizzed! Our total score this week is ' + totalScore + '...\n\n' + scoreBreakdown
             });
@@ -169,7 +172,9 @@ export default class Presenter {
                 view.hideSkipToAnswers();
                 view.showEndTitle(Presenter.#formatTotalScore(this.#scoreRepository.totalScore));
                 view.showTitlePage();
-                view.showScoreShare();
+                if (this.#navigatorWrapper.isShareSupported) {
+                    view.showScoreShare();
+                }
                 break;
         }
     };
