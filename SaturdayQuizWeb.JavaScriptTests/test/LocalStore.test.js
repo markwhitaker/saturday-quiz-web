@@ -1,8 +1,8 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
-import CalendarDate from "../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js";
+import CalendarDate from '../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js';
 import LocalStore from '../../SaturdayQuizWeb/wwwroot/script/LocalStore.js';
-import LocalStoreWrapperMockBuilder from "./mocks/LocalStoreWrapperMockBuilder.js";
+import LocalStoreWrapperMockBuilder from './mocks/LocalStoreWrapperMockBuilder.js';
 
 suite('LocalStore', function() {
     test('GIVEN quiz date is set WHEN quiz date is retrieved THEN quiz date is correct', () => {
@@ -10,7 +10,7 @@ suite('LocalStore', function() {
             .getItem(key => key === 'quiz-date' ? '2020-01-02' : undefined)
             .build();
         const localStore = new LocalStore(mockLocalStorageWrapper);
-        assert.strictEqual(localStore.quizDate.toString(), "Thu Jan 02 2020");
+        assert.strictEqual(localStore.quizDate.toString(), 'Thu Jan 02 2020');
     });
 
     test('GIVEN quiz date is not set WHEN quiz date is retrieved THEN quiz date is undefined', () => {
@@ -52,7 +52,7 @@ suite('LocalStore', function() {
 
     test('GIVEN quiz json is stored WHEN quiz is retrieved THEN expected quiz is returned', () => {
         const storedQuizJson = '{"quiz":"json"}';
-        const expectedQuiz = { "quiz": "json" };
+        const expectedQuiz = { 'quiz': 'json' };
         const mockLocalStorageWrapper = new LocalStoreWrapperMockBuilder()
             .getItem(key => key === 'quiz-json' ? storedQuizJson : undefined)
             .build();
@@ -64,7 +64,7 @@ suite('LocalStore', function() {
     });
 
     test('GIVEN in-memory quiz WHEN quiz is set THEN expected quiz json is stored', () => {
-        const quiz = { "quiz": "json" };
+        const quiz = { 'quiz': 'json' };
         const expectedQuizJson = '{"quiz":"json"}';
         let actualQuizJson = '';
         const mockLocalStorageWrapper = new LocalStoreWrapperMockBuilder()

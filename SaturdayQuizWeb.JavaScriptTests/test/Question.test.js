@@ -1,13 +1,13 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
-import Question from "../../SaturdayQuizWeb/wwwroot/script/Question.js";
+import Question from '../../SaturdayQuizWeb/wwwroot/script/Question.js';
 
 suite('Question', function() {
     test('GIVEN raw question with NORMAL type WHEN question is constructed THEN expected question is returned', () => {
         const expectedNumber = 1;
-        const expectedType = "NORMAL";
-        const expectedQuestion = "question";
-        const expectedAnswer = "answer";
+        const expectedType = 'NORMAL';
+        const expectedQuestion = 'question';
+        const expectedAnswer = 'answer';
         const expectedIsWhatLinks = false;
 
         const question = new Question({
@@ -26,9 +26,9 @@ suite('Question', function() {
 
     test('GIVEN raw question with WHAT_LINKS type WHEN question is constructed THEN expected question is returned', () => {
         const expectedNumber = 1;
-        const expectedType = "WHAT_LINKS";
-        const expectedQuestion = "question";
-        const expectedAnswer = "answer";
+        const expectedType = 'WHAT_LINKS';
+        const expectedQuestion = 'question';
+        const expectedAnswer = 'answer';
         const expectedIsWhatLinks = true;
 
         const question = new Question({
