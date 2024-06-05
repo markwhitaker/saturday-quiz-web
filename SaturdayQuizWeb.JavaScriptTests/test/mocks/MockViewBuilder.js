@@ -16,6 +16,7 @@ export default class MockViewBuilder {
         showQuestion: () => {},
         showQuestionPage: () => {},
         showQuestionsTitle: () => {},
+        showScoreShare: () => {},
         showScoreTick: () => {},
         showSkipToAnswers: () => {},
         showTitlePage: () => {},
@@ -99,6 +100,11 @@ export default class MockViewBuilder {
 
     showQuestionsTitle(fn) {
         this.#mock.showQuestionsTitle = fn;
+        return this;
+    }
+
+    showScoreShare(fn) {
+        this.#mock.showScoreShare = fn;
         return this;
     }
 

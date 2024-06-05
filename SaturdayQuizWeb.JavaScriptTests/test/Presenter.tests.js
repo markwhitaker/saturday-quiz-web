@@ -383,6 +383,9 @@ suite('Presenter', () => {
                 new Question({ number: 1, type: 'NORMAL', question: 'question-1', answer: 'answer-1' })
             ]
         })
+        const mockNavigatorWrapper = new MockNavigatorWrapperBuilder()
+            .isShareSupported(() => true)
+            .build();
         const mockQuizRepository = new MockQuizRepositoryBuilder()
             .loadLatestQuiz(async () => (quiz))
             .build();
@@ -390,6 +393,7 @@ suite('Presenter', () => {
         const mockView = new MockViewBuilder().build();
 
         const presenter = new Presenter({
+            navigatorWrapper: mockNavigatorWrapper,
             quizRepository: mockQuizRepository,
             scoreRepository: mockScoreRepository
         });
