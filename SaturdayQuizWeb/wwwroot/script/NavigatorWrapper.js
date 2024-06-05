@@ -1,6 +1,6 @@
 export default class NavigatorWrapper {
     get isShareSupported() {
-        return navigator?.share !== undefined;
+        return navigator && navigator.share;
     }
 
     async share(data) {
