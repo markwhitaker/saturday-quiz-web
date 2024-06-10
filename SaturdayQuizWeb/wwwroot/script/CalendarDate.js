@@ -10,8 +10,12 @@ export default class CalendarDate {
         return this.#date.toDateString();
     }
 
-    toLocaleString(locales, options) {
-        return this.#date.toLocaleDateString(locales, options);
+    toDisplayString() {
+        return this.#date.toLocaleDateString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
     }
 
     subtractDays(days) {

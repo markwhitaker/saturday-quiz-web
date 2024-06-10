@@ -37,17 +37,10 @@ suite('CalendarDate', () => {
         assert.strictEqual(calendarDateString, 'Thu Jan 02 2020');
     });
 
-    test('GIVEN date WHEN converting to locale string THEN result is correct', () => {
+    test('GIVEN date WHEN converting to display string THEN result is correct', () => {
         const date = new Date('2020-01-02');
         const calendarDate = new CalendarDate(date);
-        const calendarDateLocaleString = calendarDate.toLocaleString('en-GB');
-        assert.strictEqual(calendarDateLocaleString, '02/01/2020');
-    });
-
-    test('GIVEN date WHEN converting to locale string with options THEN result is correct', () => {
-        const date = new Date('2020-01-02');
-        const calendarDate = new CalendarDate(date);
-        const calendarDateLocaleString = calendarDate.toLocaleString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        assert.strictEqual(calendarDateLocaleString, 'Thursday 2 January 2020');
+        const calendarDateLocaleString = calendarDate.toDisplayString();
+        assert.strictEqual(calendarDateLocaleString, '2 January 2020');
     });
 });

@@ -133,14 +133,9 @@ export default class Presenter {
 
         switch(scene.type) {
             case Scene.Type.QUESTIONS_TITLE:
-                const dateString = scene.date.toLocaleString("en-GB", {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                });
                 view.hideScoreTick();
                 view.hideScoreShare();
-                view.showQuestionsTitle(dateString);
+                view.showQuestionsTitle(scene.date.toDisplayString());
                 view.showTitlePage();
                 view.showSkipToAnswers();
                 break;
