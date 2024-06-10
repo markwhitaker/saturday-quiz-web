@@ -359,7 +359,7 @@ suite('Presenter', () => {
         mockView.hideSkipToAnswers = () => actualIsViewSkipToAnswersHidden = true;
         mockView.showEndTitle = () => actualIsViewEndTitleShown = true;
         mockView.showScoreShare = () => actualIsViewScoreShareShown = true;
-        mockView.showTitlePage = question => actualIsViewTitlePageShown = true;
+        mockView.showTitlePage = () => actualIsViewTitlePageShown = true;
 
         presenter.onNext();
 
