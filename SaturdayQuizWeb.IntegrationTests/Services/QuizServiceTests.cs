@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging.Testing;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Clients.HttpClients;
-using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;
 using SaturdayQuizWeb.Wrappers;
@@ -63,9 +62,7 @@ public class QuizServiceTests
             var quizMetadata = quizMetadataList[index];
             try
             {
-                var quiz = await _quizService.GetQuizAsync(quizMetadata.Id);
-                await TestContext.Out.WriteLineAsync($"Index {index} successful");
-                await PrintQuizAsync(quiz);
+                await _quizService.GetQuizAsync(quizMetadata.Id);
             }
             catch (Exception e)
             {
@@ -76,15 +73,5 @@ public class QuizServiceTests
         }
 
         Assert.That(failedDates, Is.Empty, $"Failed to parse {failedDates.Count} of the last {expectedNumberOfQuizzes} quizzes");
-    }
-
-    private static async Task PrintQuizAsync(Quiz quiz)
-    {
-        foreach (var q in quiz.Questions)
-        {
-            await TestContext.Out.WriteLineAsync($"{q.Number} [{q.Type}] {q.Question} {q.Answer}");
-        }
-
-        await TestContext.Out.WriteLineAsync();
     }
 }
