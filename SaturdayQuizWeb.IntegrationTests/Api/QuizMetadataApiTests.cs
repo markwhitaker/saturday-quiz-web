@@ -70,7 +70,7 @@ public class QuizMetadataApiTests
         const int expectedCount = 7;
         var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
         {
-            Path = $"api/quiz-metadata",
+            Path = "api/quiz-metadata",
             Query = $"count={expectedCount}"
         }.ToString();
 
