@@ -33,18 +33,20 @@ jobs:
     runs-on: ubuntu-22.04
     needs: build
     steps:
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-          dotnet-quality: ga
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
           path: ./output
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+          dotnet-quality: ga
       - name: Run unit tests
-        run: dotnet test SaturdayQuizWeb.UnitTests -c Release -v detailed --no-build --output ./output
+        run: dotnet test SaturdayQuizWeb.UnitTests -c Release -v normal --no-build --output ./output
 
   integration-tests:
     name: Run integration tests
@@ -52,33 +54,37 @@ jobs:
     needs: build
     if: github.actor != 'dependabot[bot]'
     steps:
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-          dotnet-quality: ga
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
           path: ./output
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+          dotnet-quality: ga
       - name: Run integration tests
-        run: dotnet test SaturdayQuizWeb.IntegrationTests -c Release -v detailed --filter Category!=LongRunning --no-build --output ./output
+        run: dotnet test SaturdayQuizWeb.IntegrationTests -c Release -v normal --filter Category!=LongRunning --no-build --output ./output
 
   javascript-tests:
     name: Run JavaScript tests
     runs-on: ubuntu-22.04
     needs: build
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
           path: ./output
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
       - name: Run JavaScript tests
         run: |
           cd SaturdayQuizWeb.JavaScriptTests
