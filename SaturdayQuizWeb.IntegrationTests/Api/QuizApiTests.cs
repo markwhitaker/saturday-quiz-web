@@ -166,7 +166,8 @@ public class QuizApiTests
         // Given
         var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
         {
-            Path = "api/quiz/invalid"
+            Path = "api/quiz",
+            Query = "id=invalid"
         }.ToString();
 
         // When

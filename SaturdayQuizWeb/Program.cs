@@ -33,7 +33,7 @@ app.MapGet("/api/quiz/", async (
         catch (Exception e)
         {
             app.Logger.LogError(e, "Error getting quiz with ID={id}", id);
-            return Results.StatusCode((int)HttpStatusCode.InternalServerError);
+            return Results.NotFound();
         }
 
     })
@@ -60,7 +60,7 @@ app.MapGet("/api/quiz-metadata", async (
         catch (Exception e)
         {
             app.Logger.LogError(e, "Error getting quiz metadata for last {count} {quizNoun}", count, quizNoun);
-            return Results.StatusCode((int)HttpStatusCode.InternalServerError);
+            return Results.BadRequest();
         }
     })
     .WithTags("Quiz Metadata")
