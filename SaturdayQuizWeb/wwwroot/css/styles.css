@@ -1,3 +1,19 @@
+:root {
+  --colour-background: #f0f0f0;
+  --colour-foreground: #222;
+  --colour-foreground-highlight: #d62;
+  --colour-foreground-dimmed: #444;
+  --colour-foreground-very-dimmed: #666;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --colour-background: #222;
+    --colour-foreground: #ddd;
+    --colour-foreground-highlight: #fd0;
+    --colour-foreground-dimmed: #555;
+    --colour-foreground-very-dimmed: #333;
+  }
+}
 * {
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
@@ -9,8 +25,8 @@ body {
   padding: 0;
 }
 body {
-  background: #000;
-  color: #ddd;
+  background: var(--colour-background);
+  color: var(--colour-foreground);
 }
 .hidden {
   opacity: 0;
@@ -26,7 +42,7 @@ body {
 #loader-container #loader {
   height: 20px;
   width: 40px;
-  background-color: #fd0;
+  background-color: var(--colour-foreground-highlight);
   border-radius: 10px;
   animation: 1s infinite ease-in-out spin;
 }
@@ -59,22 +75,22 @@ body {
   text-align: center;
 }
 #quiz-date {
-  color: #fd0;
+  color: var(--colour-foreground-highlight);
   font-size: 16pt;
   text-transform: uppercase;
 }
 #title {
-  color: #ddd;
+  color: var(--colour-foreground);
   font-size: 40pt;
 }
 #total-score {
-  color: #fd0;
+  color: var(--colour-foreground-highlight);
   font-size: 16pt;
 }
 #question-what-links {
   margin-left: 60px;
   visibility: hidden;
-  color: #555;
+  color: var(--colour-foreground-dimmed);
   font-size: 12pt;
   font-weight: 700;
   text-transform: uppercase;
@@ -86,18 +102,18 @@ body {
   visibility: visible;
 }
 #question-number {
-  color: #ddd;
+  color: var(--colour-foreground);
   font-size: 24pt;
   float: left;
 }
 #question {
   margin-left: 60px;
-  color: #ddd;
+  color: var(--colour-foreground);
   font-size: 24pt;
 }
 #answer {
   margin-left: 60px;
-  color: #fd0;
+  color: var(--colour-foreground-highlight);
   font-size: 24pt;
   margin-top: 10px;
 }
@@ -119,7 +135,7 @@ body {
   z-index: 200;
   width: 50px;
   height: 50px;
-  border: 2px solid #333;
+  border: 2px solid var(--colour-foreground-very-dimmed);
   border-radius: 100%;
   display: flex;
   justify-content: center;
@@ -137,48 +153,48 @@ body {
   left: 50px;
 }
 #buttons-container #score-tick {
-  background-color: #000;
-  color: #000;
+  background-color: var(--colour-background);
+  color: var(--colour-background);
 }
 #buttons-container #score-tick.full {
-  border-color: #fd0;
-  background-color: #fd0;
-  color: #000;
+  border-color: var(--colour-foreground-highlight);
+  background-color: var(--colour-foreground-highlight);
+  color: var(--colour-background);
 }
 #buttons-container #score-tick.half {
-  border-color: #333;
-  background-color: #000;
-  color: #fd0;
+  border-color: var(--colour-foreground-very-dimmed);
+  background-color: var(--colour-background);
+  color: var(--colour-foreground-highlight);
 }
 #buttons-container #score-tick .button {
   font-size: 36px;
   font-weight: bold;
 }
 #buttons-container #score-share {
-  border-color: #333;
-  background-color: #000;
-  color: #fd0;
+  border-color: var(--colour-foreground-very-dimmed);
+  background-color: var(--colour-background);
+  color: var(--colour-foreground-highlight);
 }
 #buttons-container #score-share .button {
   font-size: 30px;
 }
 #buttons-container #score-share:active {
-  border-color: #fd0;
-  background-color: #fd0;
-  color: #000;
+  border-color: var(--colour-foreground-highlight);
+  background-color: var(--colour-foreground-highlight);
+  color: var(--colour-background);
 }
 #buttons-container #skip-to-answers {
-  border-color: #333;
-  background-color: #000;
-  color: #fd0;
+  border-color: var(--colour-foreground-very-dimmed);
+  background-color: var(--colour-background);
+  color: var(--colour-foreground-highlight);
 }
 #buttons-container #skip-to-answers .button {
   font-size: 36px;
 }
 #buttons-container #skip-to-answers.selected {
-  border-color: #fd0;
-  background-color: #fd0;
-  color: #000;
+  border-color: var(--colour-foreground-highlight);
+  background-color: var(--colour-foreground-highlight);
+  color: var(--colour-background);
 }
 @media (max-width: 700px) {
   #quiz-container #question-container {

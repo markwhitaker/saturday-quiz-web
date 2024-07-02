@@ -1,11 +1,21 @@
 ﻿// ---------- Variables ----------
 
 // Colours
-@colour-background: #000;
-@colour-foreground: #ddd;
-@colour-foreground-highlight: #fd0;
-@colour-foreground-dimmed: #555;
-@colour-foreground-very-dimmed: #333;
+:root {
+  --colour-background: #f0f0f0;
+  --colour-foreground: #222;
+  --colour-foreground-highlight: #d62;
+  --colour-foreground-dimmed: #444;
+  --colour-foreground-very-dimmed: #666;
+
+  @media (prefers-color-scheme: dark) {
+    --colour-background: #222;
+    --colour-foreground: #ddd;
+    --colour-foreground-highlight: #fd0;
+    --colour-foreground-dimmed: #555;
+    --colour-foreground-very-dimmed: #333;
+  }
+}
 
 // Dimensions
 @dimen-outer-padding: 50px;
@@ -42,15 +52,15 @@
 }
 
 .inactive-button() {
-  border-color: @colour-foreground-very-dimmed;
-  background-color: @colour-background;
-  color: @colour-foreground-highlight;
+  border-color: var(--colour-foreground-very-dimmed);
+  background-color: var(--colour-background);
+  color: var(--colour-foreground-highlight);
 }
 
 .active-button() {
-  border-color: @colour-foreground-highlight;
-  background-color: @colour-foreground-highlight;
-  color: @colour-background;
+  border-color: var(--colour-foreground-highlight);
+  background-color: var(--colour-foreground-highlight);
+  color: var(--colour-background);
 }
 
 // ---------- Rules ----------
@@ -66,8 +76,8 @@ html, body {
   padding: 0;
 }
 body {
-  background: @colour-background;
-  color: @colour-foreground;
+  background: var(--colour-background);
+  color: var(--colour-foreground);
 }
 
 .hidden {
@@ -85,7 +95,7 @@ body {
   #loader {
     height: 20px;
     width: 40px;
-    background-color: @colour-foreground-highlight;
+    background-color: var(--colour-foreground-highlight);
     border-radius: 10px;
     animation: 1s infinite ease-in-out spin;
   }
@@ -122,25 +132,25 @@ body {
 }
 
 #quiz-date {
-  color: @colour-foreground-highlight;
+  color: var(--colour-foreground-highlight);
   font-size: @font-size-date;
   text-transform: uppercase;
 }
 
 #title {
-  color: @colour-foreground;
+  color: var(--colour-foreground);
   font-size: @font-size-title;
 }
 
 #total-score {
-  color: @colour-foreground-highlight;
+  color: var(--colour-foreground-highlight);
   font-size: @font-size-date;
 }
 
 #question-what-links {
   .indented;
   visibility: hidden;
-  color: @colour-foreground-dimmed;
+  color: var(--colour-foreground-dimmed);
   font-size: @font-size-what-links;
   font-weight: @font-weight-heavy;
   text-transform: uppercase;
@@ -153,20 +163,20 @@ body {
 }
 
 #question-number {
-  color: @colour-foreground;
+  color: var(--colour-foreground);
   font-size: @font-size-question;
   float: left;
 }
 
 #question {
   .indented;
-  color: @colour-foreground;
+  color: var(--colour-foreground);
   font-size: @font-size-question;
 }
 
 #answer {
   .indented;
-  color: @colour-foreground-highlight;
+  color: var(--colour-foreground-highlight);
   font-size: @font-size-question;
   margin-top: @dimen-answer-top-margin;
 }
@@ -192,7 +202,7 @@ body {
 
     width: @dimen-score-button-size;
     height: @dimen-score-button-size;
-    border: @dimen-score-border-thickness solid @colour-foreground-very-dimmed;
+    border: @dimen-score-border-thickness solid var(--colour-foreground-very-dimmed);
     border-radius: 100%;
     display: flex;
     justify-content: center;
@@ -214,8 +224,8 @@ body {
   }
 
   #score-tick {
-    background-color: @colour-background;
-    color: @colour-background;
+    background-color: var(--colour-background);
+    color: var(--colour-background);
 
     &.full {
       .active-button;
