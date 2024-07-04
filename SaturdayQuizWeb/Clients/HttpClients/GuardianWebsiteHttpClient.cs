@@ -1,19 +1,26 @@
-﻿using RestSharp;
-using SaturdayQuizWeb.Config;
+﻿using SaturdayQuizWeb.Config;
 
 namespace SaturdayQuizWeb.Clients.HttpClients;
 
-public class GuardianWebsiteHttpClient(IOptions<GuardianConfig> configOptions) : IGuardianWebsiteHttpClient
+public class GuardianWebsiteHttpClient : IGuardianWebsiteHttpClient
 {
-    private readonly RestClient _restClient = new(configOptions.Value.WebsiteBaseUrl)
-    {
-        AcceptedContentTypes = [MimeType.Text.Html]
-    };
+    private readonly HttpClient _httpClient;
 
-    public async Task<string> GetStringAsync(string endpoint)
+    public GuardianWebsiteHttpClient(IOptions<GuardianConfig> configOptions)
     {
-        var restRequest = new RestRequest(endpoint);
-        var restResponse = await _restClient.ExecuteAsync(restRequest);
-        return restResponse.Content ?? string.Empty;
+        var handler = new HttpClientHandler
+        {
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+        };
+        _httpClient = new HttpClient(handler)
+        {
+            BaseAddress = new Uri(configOptions.Value.WebsiteBaseUrl)
+        };
+        _httpClient.DefaultRequestHeaders.Accept.ParseAdd(MimeType.Text.Html);
+        _httpClient.DefaultRequestHeaders.AcceptEncoding.ParseAdd("gzip");
+        _httpClient.DefaultRequestHeaders.AcceptEncoding.ParseAdd("deflate");
+        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("UserAgent");
     }
+
+    public async Task<string> GetStringAsync(string endpoint) => await _httpClient.GetStringAsync(endpoint);
 }
