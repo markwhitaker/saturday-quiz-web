@@ -14,7 +14,7 @@ public class GuardianRssClientTests
     public void SetUp()
     {
         var configOptions = ConfigOptionsLoader.ConfigOptions;
-        var guardianWebsiteClient = new GuardianWebsiteHttpClient(new HttpClient(), configOptions);
+        var guardianWebsiteClient = new GuardianWebsiteHttpClient(configOptions);
         _guardianRssClient = new GuardianRssClient(
             configOptions,
             guardianWebsiteClient,

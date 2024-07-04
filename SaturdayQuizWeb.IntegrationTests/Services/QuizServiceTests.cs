@@ -18,7 +18,7 @@ public class QuizServiceTests
     public void SetUp()
     {
         var configOptions = ConfigOptionsLoader.ConfigOptions;
-        var guardianWebsiteService = new GuardianWebsiteHttpClient(new HttpClient(), configOptions);
+        var guardianWebsiteService = new GuardianWebsiteHttpClient(configOptions);
         var guardianApiService = new GuardianApiClient(
             new GuardianApiHttpClient(new HttpClient(), configOptions),
             configOptions,
@@ -36,7 +36,7 @@ public class QuizServiceTests
 
         _quizService = new QuizService(
             new DateTimeWrapper(),
-            new GuardianWebsiteHttpClient(new HttpClient(), configOptions),
+            new GuardianWebsiteHttpClient(configOptions),
             new HtmlService(
                 new SectionExtractor(),
                 new HtmlStripper(),

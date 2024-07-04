@@ -35,7 +35,6 @@ app.MapGet("/api/quiz/", async (
             app.Logger.LogError(e, "Error getting quiz with ID={id}", id);
             return Results.NotFound();
         }
-
     })
     .WithTags("Quiz")
     .WithName("GetQuiz")
@@ -85,8 +84,8 @@ public partial class Program
             options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseUpper)));
 
         services.AddHttpClient<IGuardianApiHttpClient, GuardianApiHttpClient>();
-        services.AddHttpClient<IGuardianWebsiteHttpClient, GuardianWebsiteHttpClient>();
 
+        services.AddSingleton<IGuardianWebsiteHttpClient, GuardianWebsiteHttpClient>();
         services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
         services.AddSingleton<IGuardianApiClient, GuardianApiClient>();
         services.AddSingleton<IGuardianRssClient, GuardianRssClient>();

@@ -1,13 +1,19 @@
-﻿using SaturdayQuizWeb.Config;
+﻿using RestSharp;
+using SaturdayQuizWeb.Config;
 
 namespace SaturdayQuizWeb.Clients.HttpClients;
 
-public class GuardianWebsiteHttpClient(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
-    : IGuardianWebsiteHttpClient
+public class GuardianWebsiteHttpClient(IOptions<GuardianConfig> configOptions) : IGuardianWebsiteHttpClient
 {
+    private readonly RestClient _restClient = new(configOptions.Value.WebsiteBaseUrl)
+    {
+        AcceptedContentTypes = [MimeType.Text.Html]
+    };
+
     public async Task<string> GetStringAsync(string endpoint)
     {
-        httpClient.BaseAddress ??= new Uri(configOptions.Value.WebsiteBaseUrl);
-        return await httpClient.GetStringAsync(endpoint);
+        var restRequest = new RestRequest(endpoint);
+        var restResponse = await _restClient.ExecuteAsync(restRequest);
+        return restResponse.Content ?? string.Empty;
     }
 }
