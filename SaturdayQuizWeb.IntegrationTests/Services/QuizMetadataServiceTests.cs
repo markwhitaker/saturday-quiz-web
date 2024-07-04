@@ -15,7 +15,7 @@ public class QuizMetadataServiceTests
     public void SetUp()
     {
         var configOptions = ConfigOptionsLoader.ConfigOptions;
-        var guardianWebsiteService = new GuardianWebsiteHttpClient(new HttpClient(), configOptions);
+        var guardianWebsiteService = new GuardianWebsiteHttpClient(configOptions);
         var guardianApiService = new GuardianApiClient(
             new GuardianApiHttpClient(new HttpClient(), configOptions),
             configOptions,
