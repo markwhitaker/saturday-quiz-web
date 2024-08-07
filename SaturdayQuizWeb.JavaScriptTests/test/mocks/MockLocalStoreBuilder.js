@@ -1,5 +1,8 @@
 export default class MockLocalStoreBuilder {
     #mock = {
+        getQuizCacheHitTimestamp: () => {},
+        setQuizCacheHitTimestamp: () => {},
+
         getQuizDate: () => {},
         setQuizDate: () => {},
 
@@ -10,6 +13,12 @@ export default class MockLocalStoreBuilder {
         getScores: () => {},
         setScores: () => {},
 
+        get quizCacheHitTimestamp() {
+            return this.getQuizCacheHitTimestamp();
+        },
+        set quizCacheHitTimestamp(value) {
+            this.setQuizCacheHitTimestamp(value);
+        },
         get quizDate() {
             return this.getQuizDate();
         },
@@ -29,6 +38,16 @@ export default class MockLocalStoreBuilder {
             this.setScores(value);
         }
     };
+
+    getQuizCacheHitTimestamp(fn) {
+        this.#mock.getQuizCacheHitTimestamp = fn;
+        return this;
+    }
+
+    setQuizCacheHitTimestamp(fn) {
+        this.#mock.setQuizCacheHitTimestamp = fn;
+        return this;
+    }
 
     getQuizDate(fn) {
         this.#mock.getQuizDate = fn;

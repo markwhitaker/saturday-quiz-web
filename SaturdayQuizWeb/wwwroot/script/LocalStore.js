@@ -5,6 +5,7 @@ export default class LocalStore {
     #localStorageWrapper;
 
     static #KEYS = Object.freeze({
+        QUIZ_CACHE_HIT_TIMESTAMP: "quiz-cache-hit-timestamp",
         QUIZ_DATE: "quiz-date",
         QUIZ_JSON: "quiz-json",
         SCORES: "scores"
@@ -12,6 +13,15 @@ export default class LocalStore {
 
     constructor(dependencies) {
         this.#localStorageWrapper = dependencies?.localStorageWrapper ?? new LocalStorageWrapper();
+    }
+
+    get quizCacheHitTimestamp() {
+        const timestampString = this.#localStorageWrapper.getItem(LocalStore.#KEYS.QUIZ_CACHE_HIT_TIMESTAMP);
+        return timestampString ? Number(timestampString) : 0;
+    }
+
+    set quizCacheHitTimestamp(timestamp) {
+        this.#localStorageWrapper.setItem(LocalStore.#KEYS.QUIZ_CACHE_HIT_TIMESTAMP, timestamp.toString());
     }
 
     get quizDate() {
