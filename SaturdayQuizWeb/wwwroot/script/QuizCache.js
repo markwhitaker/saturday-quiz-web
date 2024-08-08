@@ -1,5 +1,6 @@
 import CalendarDate from "./CalendarDate.js";
 import DateWrapper from "./DateWrapper.js";
+import Logger from "./Logger.js";
 import LocalStore from "./LocalStore.js";
 import TimeSpan from "./TimeSpan.js";
 
@@ -26,7 +27,7 @@ export default class QuizCache {
 
         if (shouldReturnFromCache) {
             this.#localStore.quizCacheHitTimestamp = this.#dateWrapper.now;
-            console.debug("Returning cached quiz...")
+            Logger.debug("Returning cached quiz...")
             return cachedRawQuizObject;
         }
 

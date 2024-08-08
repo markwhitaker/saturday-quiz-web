@@ -1,4 +1,5 @@
-﻿import NavigatorWrapper from "./NavigatorWrapper.js";
+﻿import Logger from "./Logger.js";
+import NavigatorWrapper from "./NavigatorWrapper.js";
 import QuestionScore from "./QuestionScore.js";
 import QuizRepository from "./QuizRepository.js";
 import Scene from "./Scene.js";
@@ -32,7 +33,7 @@ export default class Presenter {
             this.#onQuizLoaded();
         }
         catch (error) {
-            console.log("Failed to load quiz. " + error.toString());
+            Logger.log("Failed to load quiz. " + error.toString());
         }
     };
 

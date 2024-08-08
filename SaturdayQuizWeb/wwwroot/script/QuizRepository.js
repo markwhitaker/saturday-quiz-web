@@ -1,5 +1,6 @@
 import FetchWrapper from "./FetchWrapper.js";
 import LocalStore from "./LocalStore.js";
+import Logger from "./Logger.js";
 import Quiz from "./Quiz.js";
 import QuizCache from "./QuizCache.js";
 
@@ -24,7 +25,7 @@ export default class QuizRepository {
     }
 
     async #downloadQuiz() {
-        console.debug("Downloading quiz...");
+        Logger.debug("Downloading quiz...");
         const response = await this.#fetchWrapper.fetch(this.#quizEndpoint);
         if (!response.ok) {
             throw new Error(`Failed to fetch ${this.#quizEndpoint}. ${response.status}: ${response.statusText}`);
