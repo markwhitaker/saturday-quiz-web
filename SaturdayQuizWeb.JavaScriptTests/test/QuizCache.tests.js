@@ -7,23 +7,16 @@ import MockDateWrapperBuilder from "./mocks/MockDateWrapperBuilder.js";
 
 suite('QuizCache', () => {
     test('GIVEN quiz is not cached WHEN get cached quiz THEN stored quiz is cleared and undefined is returned', () => {
-        const cacheHitTimestamp = 0;
-        const nowTimestamp = 10000;
         const cachedQuizDate = new CalendarDate(new Date()).subtractDays(6);
 
         let actualQuizCleared = false;
 
         const mockLocalStore = new LocalStoreMockBuilder()
             .clearQuiz(() => actualQuizCleared = true)
-            .getQuizCacheHitTimestamp(() => cacheHitTimestamp)
             .getQuizDate(() => cachedQuizDate)
             .getQuiz(() => undefined)
             .build();
-        const mockDateWrapper = new MockDateWrapperBuilder()
-            .getNow(() => nowTimestamp)
-            .build();
         const quizCache = new QuizCache({
-            dateWrapper: mockDateWrapper,
             localStore: mockLocalStore
         });
 
@@ -34,8 +27,6 @@ suite('QuizCache', () => {
     });
 
     test('GIVEN quiz is cached and 7 days old WHEN get cached quiz THEN stored quiz is cleared and undefined is returned', () => {
-        const cacheHitTimestamp = 0;
-        const nowTimestamp = 10000;
         const cachedQuizDate = new CalendarDate(new Date()).subtractDays(7);
         const cachedQuiz = {
             'date': '2020-01-02',
@@ -46,15 +37,10 @@ suite('QuizCache', () => {
 
         const mockLocalStore = new LocalStoreMockBuilder()
             .clearQuiz(() => actualQuizCleared = true)
-            .getQuizCacheHitTimestamp(() => cacheHitTimestamp)
             .getQuizDate(() => cachedQuizDate)
             .getQuiz(() => cachedQuiz)
             .build();
-        const mockDateWrapper = new MockDateWrapperBuilder()
-            .getNow(() => nowTimestamp)
-            .build();
         const quizCache = new QuizCache({
-            dateWrapper: mockDateWrapper,
             localStore: mockLocalStore
         });
 
@@ -64,9 +50,9 @@ suite('QuizCache', () => {
         assert.strictEqual(actualQuizCleared, true);
     });
 
-    test('GIVEN quiz is cached and less than 7 days old and cache was hit within last 10 seconds WHEN get cached quiz THEN stored quiz is cleared and undefined is returned', () => {
+    test(`GIVEN quiz is cached and less than 7 days old and cache was hit within last ${QuizCache.skipCacheIfReloadedWithin} WHEN get cached quiz THEN stored quiz is cleared and undefined is returned`, () => {
         const cacheHitTimestamp = 0;
-        const nowTimestamp = 9999;
+        const nowTimestamp = QuizCache.skipCacheIfReloadedWithin.milliseconds;
         const cachedQuizDate = new CalendarDate(new Date()).subtractDays(6);
         const cachedQuiz = {
             'date': '2020-01-02',
@@ -95,9 +81,9 @@ suite('QuizCache', () => {
         assert.strictEqual(actualQuizCleared, true);
     });
 
-    test('GIVEN quiz is cached and less than 7 days old and cache was not hit within last 10 seconds WHEN get cached quiz THEN stored quiz is not cleared and cached quiz is returned', () => {
+    test(`GIVEN quiz is cached and less than 7 days old and cache was not hit within last ${QuizCache.skipCacheIfReloadedWithin} WHEN get cached quiz THEN stored quiz is not cleared and cached quiz is returned`, () => {
         const cacheHitTimestamp = 0;
-        const nowTimestamp = 10000;
+        const nowTimestamp = QuizCache.skipCacheIfReloadedWithin.milliseconds + 1;
         const cachedQuizDate = new CalendarDate(new Date()).subtractDays(6);
         const expectedCachedQuiz = {
             'date': '2020-01-02',
@@ -108,12 +94,12 @@ suite('QuizCache', () => {
 
         const mockLocalStore = new LocalStoreMockBuilder()
             .clearQuiz(() => actualQuizCleared = true)
-            .getQuizCacheHitTimestamp(() => 0)
+            .getQuizCacheHitTimestamp(() => cacheHitTimestamp)
             .getQuizDate(() => cachedQuizDate)
             .getQuiz(() => expectedCachedQuiz)
             .build();
         const mockDateWrapper = new MockDateWrapperBuilder()
-            .getNow(() => 100 * 1000)
+            .getNow(() => nowTimestamp)
             .build();
         const quizCache = new QuizCache({
             dateWrapper: mockDateWrapper,
