@@ -1,5 +1,5 @@
 ﻿using SaturdayQuizWeb.Clients.HttpClients;
-using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Models;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Wrappers;
 

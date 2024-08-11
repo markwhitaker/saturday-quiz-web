@@ -1,5 +1,5 @@
-﻿using SaturdayQuizWeb.Model;
-using SaturdayQuizWeb.Model.Parsing;
+﻿using SaturdayQuizWeb.Models;
+using SaturdayQuizWeb.Models.Parsing;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;
 

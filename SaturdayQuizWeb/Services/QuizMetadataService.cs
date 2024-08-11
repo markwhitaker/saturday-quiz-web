@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using SaturdayQuizWeb.Model;
 using SaturdayQuizWeb.Clients;
+using SaturdayQuizWeb.Models;
 using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.Services;

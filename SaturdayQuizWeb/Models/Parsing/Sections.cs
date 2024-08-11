@@ -1,4 +1,4 @@
-﻿namespace SaturdayQuizWeb.Model.Parsing;
+﻿namespace SaturdayQuizWeb.Models.Parsing;
 
 public sealed record Sections
 {

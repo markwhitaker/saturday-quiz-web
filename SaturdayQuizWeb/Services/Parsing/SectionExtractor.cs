@@ -1,7 +1,7 @@
 ﻿using RegexToolbox;
 using RegexToolbox.Extensions;
 using SaturdayQuizWeb.Extensions;
-using SaturdayQuizWeb.Model.Parsing;
+using SaturdayQuizWeb.Models.Parsing;
 using static RegexToolbox.RegexOptions;
 using static RegexToolbox.RegexQuantifier;
 

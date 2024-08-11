@@ -1,4 +1,4 @@
-using SaturdayQuizWeb.Model.Parsing;
+using SaturdayQuizWeb.Models.Parsing;
 
 namespace SaturdayQuizWeb.Services.Parsing;
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using SaturdayQuizWeb.Clients;
-using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Models;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Wrappers;
 

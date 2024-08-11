@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging.Testing;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Clients.HttpClients;
-using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Models;
 
 namespace SaturdayQuizWeb.IntegrationTests.Clients;
 

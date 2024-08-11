@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Config;
-using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Models;
 using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.Clients;

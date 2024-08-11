@@ -1,4 +1,4 @@
-using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Models;
 
 namespace SaturdayQuizWeb.UnitTests.Models;
 

@@ -1,6 +1,6 @@
 ﻿using RegexToolbox;
 using RegexToolbox.Extensions;
-using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Models;
 using static RegexToolbox.RegexQuantifier;
 
 namespace SaturdayQuizWeb.Services.Parsing;

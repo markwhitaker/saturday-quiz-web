@@ -1,4 +1,4 @@
-﻿namespace SaturdayQuizWeb.Model;
+﻿namespace SaturdayQuizWeb.Models;
 
 public enum QuestionType
 {

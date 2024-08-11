@@ -1,5 +1,5 @@
 using Mainwave.MimeTypes;
-using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Models;
 
 namespace SaturdayQuizWeb.IntegrationTests.WebServer;
 

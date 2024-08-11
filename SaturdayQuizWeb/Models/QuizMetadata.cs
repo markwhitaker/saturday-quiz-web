@@ -1,6 +1,6 @@
 ﻿using SaturdayQuizWeb.Extensions;
 
-namespace SaturdayQuizWeb.Model;
+namespace SaturdayQuizWeb.Models;
 
 public sealed record QuizMetadata
 {

@@ -1,6 +1,6 @@
 using Mainwave.MimeTypes;
 using Newtonsoft.Json.Linq;
-using SaturdayQuizWeb.Model;
+using SaturdayQuizWeb.Models;
 
 namespace SaturdayQuizWeb.IntegrationTests.Api;
 
