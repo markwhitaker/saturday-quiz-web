@@ -1,69 +1,66 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
 
     <title>Saturday Quiz</title>
 
     <link rel="shortcut icon" type="image/png" href="images/icon32.png">
-	<link rel="icon" sizes="192x192" href="images/icon192.png">
-	<link rel="icon" sizes="128x128" href="images/icon128.png">
-	<link rel="apple-touch-icon" href="images/icon60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="images/icon72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="images/icon76.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="images/icon114.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="images/icon120.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="images/icon152.png">
-	<link rel="apple-touch-icon" sizes="167x167" href="images/icon167.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="images/icon180.png">
+    <link rel="icon" sizes="192x192" href="images/icon192.png">
+    <link rel="icon" sizes="128x128" href="images/icon128.png">
+    <link rel="apple-touch-icon" href="images/icon60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/icon72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/icon76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/icon114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/icon120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/icon152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="images/icon167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icon180.png">
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,700,700i&display=swap&subset=latin-ext" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="/css/styles.css" rel="stylesheet"/>
-</head>
-<body>
+  </head>
+  <body>
+    <div id="loader-container">
+      <div id="loader"></div>
+    </div>
 
-<div id="loader-container">
-    <div id="loader"></div>
-</div>
-
-<div id="quiz-container" class="hidden">
-
-    <div id="question-container">
+    <div id="quiz-container" class="hidden">
+      <div id="question-container">
         <div id="page-question">
-            <div id="question-what-links"><i class="material-icons">link</i> What links</div>
-            <div id="question-number"></div>
-            <div id="question"></div>
-            <div id="answer"></div>
+          <div id="question-what-links"><i class="material-icons">link</i> What links</div>
+          <div id="question-number"></div>
+          <div id="question"></div>
+          <div id="answer"></div>
         </div>
-    </div>
+      </div>
 
-    <div id="title-container">
+      <div id="title-container">
         <div id="page-title">
-            <div id="quiz-date"></div>
-            <div id="title"></div>
-            <div id="total-score"></div>
+          <div id="quiz-date"></div>
+          <div id="title"></div>
+          <div id="total-score"></div>
         </div>
-    </div>
+      </div>
 
-    <div id="buttons-container">
+      <div id="buttons-container">
         <div id="score-tick" class="left"><span class="button material-icons">check</span></div>
         <div id="skip-to-answers" class="right"><span class="button material-icons">fast_forward</span></div>
         <div id="score-share" class="right"><span class="button material-icons">ios_share</span></div>
+      </div>
     </div>
 
-</div>
+    <div id="nav-container">
+      <div id="nav-left"></div>
+      <div id="nav-right"></div>
+    </div>
 
-<div id="nav-container">
-    <div id="nav-left"></div>
-    <div id="nav-right"></div>
-</div>
-
-<script type="module" src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script type="module">
-    import start from "./script/index.js";
-    start();
-</script>
-</body>
+    <script type="module" src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="module">
+        import start from "./script/index.js";
+        start();
+    </script>
+  </body>
 </html>
