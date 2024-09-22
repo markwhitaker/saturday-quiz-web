@@ -2,11 +2,11 @@
 
 public sealed record Quiz
 {
-    public string Id { get; init; } = string.Empty;
+    public required string Id { get; init; } = string.Empty;
 
-    public DateTime Date { get; init; }
+    public required DateTime Date { get; init; }
 
-    public string Title { get; init; } = string.Empty;
+    public required string Title { get; init; } = string.Empty;
 
-    public IEnumerable<QuestionModel> Questions { get; init; } = new List<QuestionModel>();
+    public required IEnumerable<QuestionModel> Questions { get; init; } = new List<QuestionModel>();
 }

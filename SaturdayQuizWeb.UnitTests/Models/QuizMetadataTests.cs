@@ -25,6 +25,7 @@ public class QuizMetadataTests
         // When
         var quizMetadata = new QuizMetadata
         {
+            Id = "id",
             Date = inputDateTime
         };
 

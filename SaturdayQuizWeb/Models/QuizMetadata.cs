@@ -6,9 +6,9 @@ public sealed record QuizMetadata
 {
     private readonly DateTime _date;
 
-    public string Id { get; init; } = string.Empty;
+    public required string Id { get; init; } = string.Empty;
 
-    public DateTime Date
+    public required DateTime Date
     {
         get => _date;
         init => _date = value.ToDateUtc();
