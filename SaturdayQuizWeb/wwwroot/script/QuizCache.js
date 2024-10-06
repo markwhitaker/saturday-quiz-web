@@ -36,6 +36,6 @@ export default class QuizCache {
     }
 
     static #isFewerThan7DaysAgo(calendarDate) {
-        return calendarDate.isGreaterThan(new CalendarDate().subtractDays(7));
+        return calendarDate.diff(new CalendarDate()).isLessThan(TimeSpan.fromDays(7));
     }
 }

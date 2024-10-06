@@ -1,3 +1,5 @@
+import TimeSpan from "./TimeSpan.js";
+
 export default class CalendarDate {
     #date;
 
@@ -24,8 +26,8 @@ export default class CalendarDate {
         return new CalendarDate(newDate);
     }
 
-    isGreaterThan(other) {
-        return this.#date > other.#date;
+    diff(other) {
+        return new TimeSpan(Math.abs(this.#date - other.#date));
     }
 
     equals(other) {

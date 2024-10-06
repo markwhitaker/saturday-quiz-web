@@ -1,6 +1,7 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
 import CalendarDate from '../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js';
+import TimeSpan from "../../SaturdayQuizWeb/wwwroot/script/TimeSpan.js";
 
 suite('CalendarDate', () => {
     test ('GIVEN date with time WHEN CalendarDate is constructed THEN time is removed', () => {
@@ -17,10 +18,28 @@ suite('CalendarDate', () => {
         assert.ok(calendarDate1.equals(calendarDate2));
     });
 
-    test('GIVEN two different dates WHEN compared THEN result is correct', () => {
-        const earlierCalendarDate = new CalendarDate(new Date('2020-01-02'));
-        const laterCalendarDate = new CalendarDate(new Date('2020-01-03'));
-        assert.ok(laterCalendarDate.isGreaterThan(earlierCalendarDate));
+    test('GIVEN earlier date WHEN diffed with later date THEN result is correct', () => {
+        const earlierCalendarDate = new CalendarDate(new Date('2020-01-01'));
+        const laterCalendarDate = new CalendarDate(new Date('2020-01-02'));
+        const expectedDiff = TimeSpan.fromDays(1);
+        const actualDiff = earlierCalendarDate.diff(laterCalendarDate);
+        assert.ok(expectedDiff.equals(actualDiff));
+    });
+
+    test('GIVEN later date WHEN diffed with earlier date THEN result is correct', () => {
+        const earlierCalendarDate = new CalendarDate(new Date('2020-01-01'));
+        const laterCalendarDate = new CalendarDate(new Date('2020-01-02'));
+        const expectedDiff = TimeSpan.fromDays(1);
+        const actualDiff = laterCalendarDate.diff(earlierCalendarDate);
+        assert.ok(expectedDiff.equals(actualDiff));
+    });
+
+    test('GIVEN date WHEN diffed with equal date THEN result is correct', () => {
+        const calendarDate1 = new CalendarDate(new Date('2020-01-01'));
+        const calendarDate2 = new CalendarDate(new Date('2020-01-01'));
+        const expectedDiff = new TimeSpan(0);
+        const actualDiff = calendarDate1.diff(calendarDate2);
+        assert.ok(expectedDiff.equals(actualDiff));
     });
 
     test('GIVEN date WHEN subtracting days THEN result is correct', () => {
