@@ -1,4 +1,4 @@
-﻿import Logger from "./Logger.js";
+﻿import Logger from "./Logger.ts";
 import NavigatorWrapper from "./NavigatorWrapper.js";
 import QuestionScore from "./QuestionScore.js";
 import QuizRepository from "./QuizRepository.js";
