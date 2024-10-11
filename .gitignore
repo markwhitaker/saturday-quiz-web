@@ -6,3 +6,4 @@ obj/
 .fleet/
 *.sln.DotSettings.user
 node_modules/
+/SaturdayQuizWeb/wwwroot/js/*

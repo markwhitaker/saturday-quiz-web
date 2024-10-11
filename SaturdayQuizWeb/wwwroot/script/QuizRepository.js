@@ -1,6 +1,6 @@
 import FetchWrapper from "./FetchWrapper.js";
 import LocalStore from "./LocalStore.js";
-import Logger from "./Logger.js";
+import Logger from "./Logger.ts";
 import Quiz from "./Quiz.js";
 import QuizCache from "./QuizCache.js";
 
