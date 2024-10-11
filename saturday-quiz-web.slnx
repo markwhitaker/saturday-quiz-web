@@ -1,0 +1,14 @@
+﻿<Solution>
+  <Folder Name="/Solution items/">
+    <File Path="README.md" />
+    <File Path=".gitignore" />
+    <File Path=".github\dependabot.yml" />
+    <File Path=".github\workflows\build-and-test.yml" />
+    <File Path="Dockerfile" />
+    <File Path=".gitattributes" />
+  </Folder>
+  <Project Path="SaturdayQuizWeb.IntegrationTests\SaturdayQuizWeb.IntegrationTests.csproj" Type="Classic C#" />
+  <Project Path="SaturdayQuizWeb.JavaScriptTests\SaturdayQuizWeb.JavaScriptTests.csproj" Type="Classic C#" />
+  <Project Path="SaturdayQuizWeb.UnitTests\SaturdayQuizWeb.UnitTests.csproj" Type="Classic C#" />
+  <Project Path="SaturdayQuizWeb\SaturdayQuizWeb.csproj" Type="Classic C#" />
+</Solution>
