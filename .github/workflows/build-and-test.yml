@@ -11,14 +11,14 @@ env:
 jobs:
   build-and-test:
     name: Build and test
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
           dotnet-quality: ga
       - name: Build release build
         run: dotnet build -c Release
