@@ -80,7 +80,7 @@ public class QuizServiceTests
     }
 
     [Test]
-    public async Task GivenGuardianWebsiteServiceReturnsContent_WhenGetQuizAsyncWithNullId_ThenExpectedQuizReturned()
+    public async Task GivenGuardianWebsiteServiceReturnsContent_WhenGetLatestQuizAsync_ThenExpectedQuizReturned()
     {
         // Given
         _mockQuizMetadataService.GetQuizMetadataAsync(1).Returns(new List<QuizMetadata>
@@ -91,7 +91,7 @@ public class QuizServiceTests
         _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
 
         // When
-        var quiz = await _quizService.GetQuizAsync();
+        var quiz = await _quizService.GetLatestQuizAsync();
 
         // Then
         Assert.That(quiz.Id, Is.EqualTo(TestQuizId));

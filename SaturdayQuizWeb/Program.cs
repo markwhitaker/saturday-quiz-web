@@ -18,28 +18,58 @@ var app = builder.Build();
 SetupApp(app);
 
 app.MapGet("/api/quiz/", async (
-        string? id,
         HttpContext httpContext,
         IQuizService quizService) =>
     {
-        httpContext.Response.AddCustomHeaders(id == null ? TimeSpan.Zero : TimeSpan.FromDays(365));
+        httpContext.Response.AddCustomHeaders(TimeSpan.Zero);
 
         try
         {
-            app.Logger.LogInformation("Getting quiz with ID={id}...", id);
-            var quiz = await quizService.GetQuizAsync(id);
+            app.Logger.LogInformation("Getting latest quiz");
+            var quiz = await quizService.GetLatestQuizAsync();
             return Results.Ok(quiz);
         }
         catch (Exception e)
         {
-            app.Logger.LogError(e, "Error getting quiz with ID={id}", id);
+            app.Logger.LogError(e, "Error getting latest quiz");
             return Results.NotFound();
         }
     })
     .WithTags("Quiz")
-    .WithName("GetQuiz")
-    .WithDisplayName("Get quiz")
-    .WithDescription("Get a quiz by ID, or omit the ID to get the latest quiz")
+    .WithName("GetLatestQuiz")
+    .WithDisplayName("Get latest quiz")
+    .WithDescription("Get the latest quiz")
+    .WithOpenApi();
+
+app.MapGet("/api/quiz/{date}", async (
+        HttpContext httpContext,
+        IQuizService quizService,
+        string date) =>
+    {
+        // Check if date is valid with format yyyy-MM-dd
+        if (!DateTime.TryParse(date, out var parsedDate))
+        {
+            return Results.BadRequest();
+        }
+
+        httpContext.Response.AddCustomHeaders(TimeSpan.FromDays(365));
+
+        try
+        {
+            app.Logger.LogInformation("Getting quiz for date {date}", date);
+            var quiz = await quizService.GetQuizAsync(parsedDate);
+            return Results.Ok(quiz);
+        }
+        catch (Exception e)
+        {
+            app.Logger.LogError(e, "Error getting quiz for date {date}", date);
+            return Results.NotFound();
+        }
+    })
+    .WithTags("Quiz")
+    .WithName("GetQuizByDate")
+    .WithDisplayName("Get quiz by date")
+    .WithDescription("Get quiz by date")
     .WithOpenApi();
 
 app.MapGet("/api/quiz-metadata", async (
