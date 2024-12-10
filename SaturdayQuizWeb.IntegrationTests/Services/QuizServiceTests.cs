@@ -35,7 +35,6 @@ public class QuizServiceTests
             new FakeLogger<QuizMetadataService>());
 
         _quizService = new QuizService(
-            new DateTimeWrapper(),
             new GuardianWebsiteHttpClient(configOptions),
             new HtmlService(
                 new SectionExtractor(),

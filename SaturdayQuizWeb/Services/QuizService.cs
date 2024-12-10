@@ -1,11 +1,9 @@
 ﻿using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Models;
-using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.Services;
 
 public class QuizService(
-    IDateTimeWrapper dateTimeWrapper,
     IGuardianWebsiteHttpClient guardianWebsiteHttpClient,
     IHtmlService htmlService,
     IQuizMetadataService quizMetadataService)
