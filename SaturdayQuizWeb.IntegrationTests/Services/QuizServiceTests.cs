@@ -35,7 +35,6 @@ public class QuizServiceTests
             new FakeLogger<QuizMetadataService>());
 
         _quizService = new QuizService(
-            new DateTimeWrapper(),
             new GuardianWebsiteHttpClient(configOptions),
             new HtmlService(
                 new SectionExtractor(),
@@ -62,7 +61,7 @@ public class QuizServiceTests
             var quizMetadata = quizMetadataList[index];
             try
             {
-                await _quizService.GetQuizAsync(quizMetadata.Id);
+                await _quizService.GetQuizAsync(quizMetadata.Date);
             }
             catch (Exception e)
             {

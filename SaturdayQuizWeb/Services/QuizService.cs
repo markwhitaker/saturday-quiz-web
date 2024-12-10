@@ -1,32 +1,28 @@
 ﻿using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Models;
-using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.Services;
 
 public class QuizService(
-    IDateTimeWrapper dateTimeWrapper,
     IGuardianWebsiteHttpClient guardianWebsiteHttpClient,
     IHtmlService htmlService,
     IQuizMetadataService quizMetadataService)
     : IQuizService
 {
-    public async Task<Quiz> GetQuizAsync(string? id)
+    public async Task<Quiz> GetLatestQuizAsync()
     {
-        QuizMetadata quizMetadata;
+        var quizMetadataList = await quizMetadataService.GetQuizMetadataAsync(1);
+        var quizMetadata = quizMetadataList[0];
+        return await GetQuizAsync(quizMetadata);
+    }
 
-        if (id == null)
+    public async Task<Quiz> GetQuizAsync(DateTime date)
+    {
+        var quizMetadataList = await quizMetadataService.GetQuizMetadataAsync(50);
+        var quizMetadata = quizMetadataList.FirstOrDefault(qm => qm.Date.Date == date.Date);
+        if (quizMetadata == null)
         {
-            var quizMetadataList = await quizMetadataService.GetQuizMetadataAsync(1);
-            quizMetadata = quizMetadataList[0];
-        }
-        else
-        {
-            quizMetadata = new QuizMetadata
-            {
-                Id = id,
-                Date = dateTimeWrapper.UtcNow
-            };
+            throw new Exception($"Quiz not found for date {date:yyyy-MM-dd}");
         }
 
         return await GetQuizAsync(quizMetadata);
