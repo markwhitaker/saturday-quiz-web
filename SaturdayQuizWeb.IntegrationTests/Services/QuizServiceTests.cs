@@ -62,7 +62,7 @@ public class QuizServiceTests
             var quizMetadata = quizMetadataList[index];
             try
             {
-                await _quizService.GetQuizAsync(quizMetadata.Id);
+                await _quizService.GetQuizAsync(quizMetadata.Date);
             }
             catch (Exception e)
             {

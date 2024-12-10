@@ -85,7 +85,7 @@ public class QuizApiTests
     }
 
     [Test]
-    public async Task GivenValidQuizRequestWithId_WhenRequestIsMade_ThenExpectedResponseIsReceived()
+    public async Task GivenValidQuizRequestWithDate_WhenRequestIsMade_ThenExpectedResponseIsReceived()
     {
         // Given
         var metadataRequestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
@@ -95,12 +95,11 @@ public class QuizApiTests
         }.ToString();
         var metadataJson = await _httpClient.GetStringAsync(metadataRequestUri);
         var metadata = JsonConvert.DeserializeObject<QuizMetadata[]>(metadataJson);
-        var expectedId = metadata![0].Id;
+        var expectedDate = metadata![0].Date;
 
         var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
         {
-            Path = "api/quiz/",
-            Query = $"id={expectedId}"
+            Path = $"api/quiz/{expectedDate:yyyy-MM-dd}"
         }.ToString();
 
         // When
@@ -117,13 +116,13 @@ public class QuizApiTests
         Assert.That(quiz, Is.Not.Null);
 
         Assert.That(quiz!.ContainsKey("id"));
-        Assert.That(quiz["id"]?.Value<string>(), Is.EqualTo(expectedId));
+        Assert.That(quiz["id"]?.Value<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(quiz.ContainsKey("date"));
         Assert.That(quiz["date"]?.Value<string>(), Is.Not.Null.Or.Empty);
         Assert.That(quiz["date"]?.Value<string>(), Does.Match(@"^\d{4}-\d{2}-\d{2}T00:00:00Z$"));
         Assert.That(DateTime.TryParse(quiz["date"]?.Value<string>(), out var date), Is.True);
-        Assert.That(date.Date, Is.InRange(DateTime.Today.Subtract(TimeSpan.FromDays(7)), DateTime.Today));
+        Assert.That(date.Date, Is.EqualTo(expectedDate));
 
         Assert.That(quiz.ContainsKey("title"));
         Assert.That(quiz["title"]!.Value<string>(), Is.Not.Null.Or.Empty);
@@ -160,14 +159,36 @@ public class QuizApiTests
         Assert.That(whatLinksQuestion["type"]!.Value<string>(), Is.EqualTo("WHAT_LINKS"));
     }
 
-    [Test]
-    public async Task GivenInvalidQuizRequest_WhenRequestIsMade_ThenNotFoundResponseIsReceived()
+    [TestCase(null, "id=123")]
+    [TestCase("/123", null)]
+    public async Task GivenInvalidQuizRequest_WhenRequestIsMade_ThenBadRequestResponseIsReceived(
+        string pathPart,
+        string query)
     {
         // Given
         var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
         {
-            Path = "api/quiz",
-            Query = "id=invalid"
+            Path = $"/api/quiz{pathPart}",
+            Query = query
+        }.ToString();
+
+        // When
+        var response = await _httpClient.GetAsync(requestUri);
+
+        // Then
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.That(content, Is.Empty);
+    }
+
+    [Test]
+    public async Task GivenQuizRequestWithBadDate_WhenRequestIsMade_ThenNotFoundResponseIsReceived()
+    {
+        // Given
+        var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
+        {
+            Path = "api/quiz/2024-12-10"
         }.ToString();
 
         // When

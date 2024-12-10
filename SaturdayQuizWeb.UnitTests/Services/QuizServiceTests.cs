@@ -101,21 +101,54 @@ public class QuizServiceTests
     }
 
     [Test]
-    public async Task GivenGuardianWebsiteServiceReturnsContent_WhenGetQuizAsyncWithNonNullId_ThenExpectedQuizReturned()
+    public async Task GivenQuizMetadataServiceReturnsContent_WhenGetQuizAsyncWithValidDate_ThenExpectedQuizReturned()
     {
         // Given
         var expectedQuizDate = DateTime.UtcNow;
+        var expectedQuizMetadata = new QuizMetadata
+        {
+            Id = TestQuizId,
+            Date = expectedQuizDate,
+            Title = string.Empty,
+            Url = string.Empty
+        };
         _mockDateTimeWrapper.UtcNow.Returns(expectedQuizDate);
         _mockGuardianWebsiteHttpClient.GetStringAsync(TestQuizId).Returns(TestHtmlContent);
         _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
+        _mockQuizMetadataService.GetQuizMetadataAsync(Arg.Any<int>()).Returns([expectedQuizMetadata]);
 
         // When
-        var quiz = await _quizService.GetQuizAsync(TestQuizId);
+        var quiz = await _quizService.GetQuizAsync(expectedQuizDate);
 
         // Then
         Assert.That(quiz.Id, Is.EqualTo(TestQuizId));
         Assert.That(quiz.Date, Is.EqualTo(expectedQuizDate.Date));
         Assert.That(quiz.Title, Is.Empty);
         Assert.That(quiz.Questions, Is.EqualTo(_questions));
+    }
+
+    [Test]
+    public void GivenQuizMetadataServiceReturnsContent_WhenGetQuizAsyncWithInvalidDate_ThenExpectedQuizReturned()
+    {
+        // Given
+        var expectedQuizDate = DateTime.UtcNow;
+        var expectedQuizMetadata = new QuizMetadata
+        {
+            Id = TestQuizId,
+            Date = expectedQuizDate,
+            Title = string.Empty,
+            Url = string.Empty
+        };
+        var invalidDate = new DateTime(2000, 1, 2);
+        _mockDateTimeWrapper.UtcNow.Returns(expectedQuizDate);
+        _mockGuardianWebsiteHttpClient.GetStringAsync(TestQuizId).Returns(TestHtmlContent);
+        _mockHtmlService.FindQuestions(TestHtmlContent).Returns(_questions);
+        _mockQuizMetadataService.GetQuizMetadataAsync(Arg.Any<int>()).Returns([expectedQuizMetadata]);
+
+        // When
+        var exception = Assert.ThrowsAsync<Exception>(async () => await _quizService.GetQuizAsync(invalidDate));
+
+        // Then
+        Assert.That(exception!.Message, Is.EqualTo("Quiz not found for date 2000-01-02"));
     }
 }

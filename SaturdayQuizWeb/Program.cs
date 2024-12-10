@@ -21,6 +21,11 @@ app.MapGet("/api/quiz/", async (
         HttpContext httpContext,
         IQuizService quizService) =>
     {
+        if (httpContext.Request.QueryString.HasValue)
+        {
+            return Results.BadRequest();
+        }
+
         httpContext.Response.AddCustomHeaders(TimeSpan.Zero);
 
         try
@@ -46,6 +51,11 @@ app.MapGet("/api/quiz/{date}", async (
         IQuizService quizService,
         string date) =>
     {
+        if (httpContext.Request.QueryString.HasValue)
+        {
+            return Results.BadRequest();
+        }
+
         // Check if date is valid with format yyyy-MM-dd
         if (!DateTime.TryParse(date, out var parsedDate))
         {

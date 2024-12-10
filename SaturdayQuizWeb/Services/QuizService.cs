@@ -20,7 +20,7 @@ public class QuizService(
 
     public async Task<Quiz> GetQuizAsync(DateTime date)
     {
-        var quizMetadataList = await quizMetadataService.GetQuizMetadataAsync(20);
+        var quizMetadataList = await quizMetadataService.GetQuizMetadataAsync(50);
         var quizMetadata = quizMetadataList.FirstOrDefault(qm => qm.Date.Date == date.Date);
         if (quizMetadata == null)
         {

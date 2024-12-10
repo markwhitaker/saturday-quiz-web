@@ -73,7 +73,7 @@ public class WebServerTests
     }
 
     [Test]
-    public async Task GivenQuizApiUriWithId_WhenRequested_ThenCacheControlHeaderValueIs365Days()
+    public async Task GivenQuizApiUriWithValidDate_WhenRequested_ThenCacheControlHeaderValueIs365Days()
     {
         // Given
         var metadataRequestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
@@ -87,8 +87,7 @@ public class WebServerTests
 
         var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
         {
-            Path = "api/quiz",
-            Query = $"id={metadata.Id}"
+            Path = $"api/quiz/{metadata.Date:yyyy-MM-dd}"
         }.ToString();
         var expectedCacheControlMaxAge = TimeSpan.FromDays(365);
 
