@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 using SaturdayQuizWeb.Extensions;
 
 namespace SaturdayQuizWeb.UnitTests.Extensions;
@@ -21,8 +22,13 @@ public class HttpResponseExtensionsTests
         httpResponse.AddCustomHeaders(cacheDuration);
 
         // Then
-        Assert.That(httpResponse.Headers.CacheControl, Is.EqualTo(expectedCacheControlHeaderValue));
-        Assert.That(httpResponse.Headers.XContentTypeOptions, Is.EqualTo(expectedXContentTypeOptionsHeaderValue));
+        Assert.That(httpResponse.Headers, Has.Exactly(2).Items);
+
+        Assert.That(httpResponse.Headers, Contains.Key(HeaderNames.CacheControl));
+        Assert.That(httpResponse.Headers.CacheControl.ToString(), Is.EqualTo(expectedCacheControlHeaderValue));
+
+        Assert.That(httpResponse.Headers, Contains.Key(HeaderNames.XContentTypeOptions));
+        Assert.That(httpResponse.Headers.XContentTypeOptions.ToString(), Is.EqualTo(expectedXContentTypeOptionsHeaderValue));
     }
 }
 
