@@ -25,10 +25,10 @@ public class HttpResponseExtensionsTests
         Assert.That(httpResponse.Headers, Has.Exactly(2).Items);
 
         Assert.That(httpResponse.Headers, Contains.Key(HeaderNames.CacheControl));
-        Assert.That(httpResponse.Headers.CacheControl.ToString(), Is.EqualTo(expectedCacheControlHeaderValue));
+        Assert.That(httpResponse.Headers.CacheControl, Is.EqualTo(expectedCacheControlHeaderValue));
 
         Assert.That(httpResponse.Headers, Contains.Key(HeaderNames.XContentTypeOptions));
-        Assert.That(httpResponse.Headers.XContentTypeOptions.ToString(), Is.EqualTo(expectedXContentTypeOptionsHeaderValue));
+        Assert.That(httpResponse.Headers.XContentTypeOptions, Is.EqualTo(expectedXContentTypeOptionsHeaderValue));
     }
 }
 
@@ -46,12 +46,12 @@ file class TestHttpResponse : HttpResponse
     {
     }
 
-    public override HttpContext HttpContext => default!;
+    public override HttpContext HttpContext => null!;
     public override int StatusCode { get; set; }
     public override IHeaderDictionary Headers { get; } = new HeaderDictionary();
-    public override Stream Body { get; set; } = default!;
+    public override Stream Body { get; set; } = null!;
     public override long? ContentLength { get; set; }
     public override string? ContentType { get; set; }
-    public override IResponseCookies Cookies => default!;
-    public override bool HasStarted => default;
+    public override IResponseCookies Cookies => null!;
+    public override bool HasStarted => false;
 }
