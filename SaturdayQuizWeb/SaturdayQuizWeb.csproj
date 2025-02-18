@@ -22,7 +22,14 @@
 
     <ItemGroup>
       <Content Remove="wwwroot\script\package.json" />
-      <None Include="wwwroot\script\package.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="package.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\ts\" />
     </ItemGroup>
 
 </Project>
