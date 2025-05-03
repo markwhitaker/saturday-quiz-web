@@ -80,7 +80,12 @@ app.MapGet("/api/quiz/{date}", async (
     .WithName("GetQuizByDate")
     .WithDisplayName("Get quiz by date")
     .WithDescription("Get quiz by date")
-    .WithOpenApi();
+    .WithOpenApi(operation =>
+    {
+        var dateParam = operation.Parameters.First();
+        dateParam.Description = "Date in yyyy-MM-dd format";
+        return operation;
+    });
 
 app.MapGet("/api/quiz-metadata", async (
         HttpContext httpContext,
