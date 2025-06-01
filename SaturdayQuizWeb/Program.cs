@@ -5,7 +5,9 @@ using Microsoft.OpenApi.Models;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Config;
+using SaturdayQuizWeb.Dtos;
 using SaturdayQuizWeb.Extensions;
+using SaturdayQuizWeb.Models;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;
 using SaturdayQuizWeb.Utils;
@@ -32,7 +34,8 @@ app.MapGet("/api/quiz/", async (
         {
             app.Logger.LogInformation("Getting latest quiz");
             var quiz = await quizService.GetLatestQuizAsync();
-            return Results.Ok(quiz);
+            var quizDto = new QuizDto(quiz);
+            return Results.Ok(quizDto);
         }
         catch (Exception e)
         {
@@ -40,6 +43,9 @@ app.MapGet("/api/quiz/", async (
             return Results.NotFound();
         }
     })
+    .Produces<QuizDto>(contentType: MimeType.Application.Json)
+    .Produces(StatusCodes.Status400BadRequest)
+    .Produces(StatusCodes.Status404NotFound)
     .WithTags("Quiz")
     .WithName("GetLatestQuiz")
     .WithDisplayName("Get latest quiz")
@@ -68,7 +74,8 @@ app.MapGet("/api/quiz/{date}", async (
         {
             app.Logger.LogInformation("Getting quiz for date {date}", date);
             var quiz = await quizService.GetQuizAsync(parsedDate);
-            return Results.Ok(quiz);
+            var quizDto = new QuizDto(quiz);
+            return Results.Ok(quizDto);
         }
         catch (Exception e)
         {
@@ -76,6 +83,9 @@ app.MapGet("/api/quiz/{date}", async (
             return Results.NotFound();
         }
     })
+    .Produces<QuizDto>(contentType: MimeType.Application.Json)
+    .Produces(StatusCodes.Status400BadRequest)
+    .Produces(StatusCodes.Status404NotFound)
     .WithTags("Quiz")
     .WithName("GetQuizByDate")
     .WithDisplayName("Get quiz by date")
@@ -99,7 +109,8 @@ app.MapGet("/api/quiz-metadata", async (
         {
             app.Logger.LogInformation("Getting quiz metadata for last {count} {quizNoun}...", count, quizNoun);
             var quizMetadata = await quizMetadataService.GetQuizMetadataAsync(count);
-            return Results.Ok(quizMetadata);
+            var quizMetadataDtos = quizMetadata.Select(q => new QuizMetadataDto(q)).ToArray();
+            return Results.Ok(quizMetadataDtos);
         }
         catch (Exception e)
         {
@@ -107,6 +118,8 @@ app.MapGet("/api/quiz-metadata", async (
             return Results.BadRequest();
         }
     })
+    .Produces<QuizMetadata[]>(contentType: MimeType.Application.Json)
+    .Produces(StatusCodes.Status400BadRequest)
     .WithTags("Quiz Metadata")
     .WithName("GetQuizMetadata")
     .WithDisplayName("Get quiz metadata")
@@ -124,9 +137,6 @@ public partial class Program
             .AddEnvironmentVariables();
 
         services.Configure<GuardianConfig>(configuration.GetSection(Constants.ConfigSectionGuardian));
-
-        services.ConfigureHttpJsonOptions(options =>
-            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseUpper)));
 
         services.AddHttpClient<IGuardianApiHttpClient, GuardianApiHttpClient>();
 
