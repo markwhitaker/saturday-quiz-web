@@ -18,5 +18,8 @@
     "@types/jquery": "^3.5.32",
     "@types/node": "^24.0.13",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "jquery": "^3.7.1"
   }
 }
