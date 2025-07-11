@@ -1,7 +1,7 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
-import QuizCache from '../../SaturdayQuizWeb/wwwroot/script/QuizCache.js';
-import CalendarDate from "../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js";
+import QuizCache from '../../SaturdayQuizWeb/wwwroot/script/dist/QuizCache.js';
+import CalendarDate from "../../SaturdayQuizWeb/wwwroot/script/dist/CalendarDate.js";
 import LocalStoreMockBuilder from "./mocks/MockLocalStoreBuilder.js";
 import MockDateWrapperBuilder from "./mocks/MockDateWrapperBuilder.js";
 

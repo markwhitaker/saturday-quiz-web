@@ -1,8 +1,8 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
 import MockLocalStoreBuilder from "./mocks/MockLocalStoreBuilder.js";
-import QuestionScore from "../../SaturdayQuizWeb/wwwroot/script/QuestionScore.js";
-import ScoreRepository from '../../SaturdayQuizWeb/wwwroot/script/ScoreRepository.js';
+import QuestionScore from "../../SaturdayQuizWeb/wwwroot/script/dist/QuestionScore.js";
+import ScoreRepository from '../../SaturdayQuizWeb/wwwroot/script/dist/ScoreRepository.js';
 
 suite('ScoreRepository', () => {
     test('GIVEN no scores WHEN total score is calculated THEN total score is zero', () => {

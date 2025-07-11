@@ -2,12 +2,17 @@
   "type": "module",
   "module": "es6",
   "scripts": {
-    "test": "mocha"
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "test": "npm run build && mocha dist/**/*.js",
+    "test:js": "mocha test/**/*.js"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.10",
+    "@types/mocha": "^11.0.5",
     "@types/node": "^24.0.13",
-    "mocha": "^11.7.1",
+    "mocha": "^11.6.0",
     "typescript": "^5.8.3"
   }
 }

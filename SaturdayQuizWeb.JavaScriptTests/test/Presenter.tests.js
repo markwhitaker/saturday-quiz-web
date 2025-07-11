@@ -4,10 +4,10 @@ import MockNavigatorWrapperBuilder from "./mocks/MockNavigatorWrapperBuilder.js"
 import MockQuizRepositoryBuilder from "./mocks/MockQuizRepositoryBuilder.js";
 import MockScoreRepositoryBuilder from "./mocks/MockScoreRepositoryBuilder.js";
 import MockViewBuilder from "./mocks/MockViewBuilder.js";
-import Presenter from "../../SaturdayQuizWeb/wwwroot/script/Presenter.js";
-import Question from "../../SaturdayQuizWeb/wwwroot/script/Question.js";
-import QuestionScore from "../../SaturdayQuizWeb/wwwroot/script/QuestionScore.js";
-import Quiz from "../../SaturdayQuizWeb/wwwroot/script/Quiz.js";
+import Presenter from "../../SaturdayQuizWeb/wwwroot/script/dist/Presenter.js";
+import Question from "../../SaturdayQuizWeb/wwwroot/script/dist/Question.js";
+import QuestionScore from "../../SaturdayQuizWeb/wwwroot/script/dist/QuestionScore.js";
+import Quiz from "../../SaturdayQuizWeb/wwwroot/script/dist/Quiz.js";
 
 suite('Presenter', () => {
     test('GIVEN quiz repository WHEN view is ready THEN quiz is loaded AND questions title scene is shown', async () => {
@@ -430,7 +430,7 @@ suite('Presenter', () => {
 
         const expectedSharedData = {
             title: 'QUIZ RESULTS',
-            text: 'We have quizzed! Our total score this week is 1½...\n\n' +
+            text: 'We have quizzed! Our total score this week is 1½...\\n\\n' +
                   '2 (half), 3'
         };
 
