@@ -6,3 +6,15 @@ obj/
 .fleet/
 *.sln.DotSettings.user
 node_modules/
+
+# TypeScript build artifacts
+dist/
+*.tsbuildinfo
+*.map
+
+# TypeScript declaration files (if not needed in source control)
+# *.d.ts
+
+# Package lock files (optional - choose based on your preference)
+# package-lock.json
+# yarn.lock
