@@ -25,7 +25,9 @@ jobs:
       - name: Run unit tests
         run: dotnet test SaturdayQuizWeb.UnitTests -c Release -v normal
       - name: Run integration tests
-        run: dotnet test SaturdayQuizWeb.IntegrationTests -c Release -v normal --filter Category!=LongRunning
+        run: |
+          pushd SaturdayQuizWeb/wwwroot/script/ && npm run build && popd
+          dotnet test SaturdayQuizWeb.IntegrationTests -c Release -v normal --filter Category!=LongRunning
         if: github.actor != 'dependabot[bot]'
       - name: Run JavaScript tests
         run: |
