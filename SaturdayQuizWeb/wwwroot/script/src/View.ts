@@ -42,15 +42,15 @@ export default class View {
     };
 
     enableNavigation = (): void => {
-        elements.navLeft().on("click", (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
+        elements.navLeft().on("click", e => {
             this.#presenter.onPrevious();
             e.preventDefault();
         });
-        elements.navRight().on("click", (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
+        elements.navRight().on("click", e => {
             this.#presenter.onNext();
             e.preventDefault();
         });
-        elements.document().on("keyup", (e: JQuery.KeyUpEvent<Document, undefined, Document, Document>) => {
+        elements.document().on("keyup", e => {
             switch (e.code) {
                 case 'ArrowLeft':
                     this.#presenter.onPrevious();
@@ -67,17 +67,17 @@ export default class View {
             e.preventDefault();
         });
 
-        elements.scoreTick().on("click", (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
+        elements.scoreTick().on("click", e => {
             this.#presenter.toggleScore();
             e.preventDefault();
         });
 
-        elements.scoreShare().on("click", async (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
+        elements.scoreShare().on("click", async e => {
             await this.#presenter.shareScore();
             e.preventDefault();
         });
 
-        elements.skipToAnswers().on("click", (e: JQuery.ClickEvent<HTMLElement, undefined, HTMLElement, HTMLElement>) => {
+        elements.skipToAnswers().on("click", e => {
             this.#presenter.toggleSkipToAnswers();
             e.preventDefault();
         });
