@@ -1,6 +1,6 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
-import TimeSpan from '../../SaturdayQuizWeb/wwwroot/script/dist/TimeSpan.js';
+import TimeSpan from '../../SaturdayQuizWeb/wwwroot/script/src/TimeSpan.js';
 
 suite('TimeSpan', () => {
     test('GIVEN TimeSpan with all parts WHEN converting to string THEN expected string is returned', () => {

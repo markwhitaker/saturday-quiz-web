@@ -1,6 +1,6 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
-import QuestionScore from '../../SaturdayQuizWeb/wwwroot/script/dist/QuestionScore.js';
+import QuestionScore from '../../SaturdayQuizWeb/wwwroot/script/src/QuestionScore.js';
 
 suite('QuestionScore', () => {
     test('QuestionScore.NONE should be 0', () => {

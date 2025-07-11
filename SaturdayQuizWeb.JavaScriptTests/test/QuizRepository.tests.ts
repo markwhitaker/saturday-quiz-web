@@ -1,11 +1,11 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
-import CalendarDate from "../../SaturdayQuizWeb/wwwroot/script/dist/CalendarDate.js";
+import CalendarDate from "../../SaturdayQuizWeb/wwwroot/script/src/CalendarDate.js";
 import MockFetchWrapperBuilder from "./mocks/MockFetchWrapperBuilder.js";
 import MockLocalStoreBuilder from "./mocks/MockLocalStoreBuilder.js";
 import MockQuizCacheBuilder from "./mocks/MockQuizCacheBuilder.js";
-import Quiz from "../../SaturdayQuizWeb/wwwroot/script/dist/Quiz.js";
-import QuizRepository from "../../SaturdayQuizWeb/wwwroot/script/dist/QuizRepository.js";
+import Quiz from "../../SaturdayQuizWeb/wwwroot/script/src/Quiz.js";
+import QuizRepository from "../../SaturdayQuizWeb/wwwroot/script/src/QuizRepository.js";
 
 suite('QuizRepository', () => {
     test('GIVEN quiz is cached WHEN load latest quiz THEN cached quiz is returned and quiz date is stored', () => {

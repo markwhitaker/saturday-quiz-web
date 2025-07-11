@@ -1,6 +1,6 @@
 import { suite, test } from 'mocha';
 import assert from 'assert';
-import Quiz from '../../SaturdayQuizWeb/wwwroot/script/dist/Quiz.js';
+import Quiz from '../../SaturdayQuizWeb/wwwroot/script/src/Quiz.js';
 
 suite('Quiz', () => {
     test('GIVEN raw quiz object WHEN quiz is constructed THEN expected quiz is returned', () => {
