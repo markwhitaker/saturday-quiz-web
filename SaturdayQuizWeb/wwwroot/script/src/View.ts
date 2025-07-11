@@ -42,15 +42,15 @@ export default class View {
     };
 
     enableNavigation = (): void => {
-        elements.navLeft().on("click", e => {
+        elements.navLeft().on("click", (e: JQuery.ClickEvent) => {
             this.#presenter.onPrevious();
             e.preventDefault();
         });
-        elements.navRight().on("click", e => {
+        elements.navRight().on("click", (e: JQuery.ClickEvent) => {
             this.#presenter.onNext();
             e.preventDefault();
         });
-        elements.document().on("keyup", e => {
+        elements.document().on("keyup", (e: JQuery.KeyUpEvent) => {
             switch (e.code) {
                 case 'ArrowLeft':
                     this.#presenter.onPrevious();
@@ -67,17 +67,17 @@ export default class View {
             e.preventDefault();
         });
 
-        elements.scoreTick().on("click", e => {
+        elements.scoreTick().on("click", (e: JQuery.ClickEvent) => {
             this.#presenter.toggleScore();
             e.preventDefault();
         });
 
-        elements.scoreShare().on("click", async e => {
+        elements.scoreShare().on("click", async (e: JQuery.ClickEvent) => {
             await this.#presenter.shareScore();
             e.preventDefault();
         });
 
-        elements.skipToAnswers().on("click", e => {
+        elements.skipToAnswers().on("click", (e: JQuery.ClickEvent) => {
             this.#presenter.toggleSkipToAnswers();
             e.preventDefault();
         });
