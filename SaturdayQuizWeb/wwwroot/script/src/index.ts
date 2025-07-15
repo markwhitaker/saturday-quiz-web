@@ -2,7 +2,7 @@ import $ from "./jqueryModule.js";
 import Presenter from "./Presenter.js";
 import View from "./View.js";
 
-export default function start() {
+export default function start(): void {
     $(async () => {
         const presenter = new Presenter();
         const view = new View(presenter);

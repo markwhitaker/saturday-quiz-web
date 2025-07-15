@@ -1,31 +1,39 @@
-﻿import Logger from "./Logger.js";
+import Logger from "./Logger.js";
 import NavigatorWrapper from "./NavigatorWrapper.js";
 import QuestionScore from "./QuestionScore.js";
 import QuizRepository from "./QuizRepository.js";
 import Scene from "./Scene.js";
 import ScoreRepository from "./ScoreRepository.js";
+import Quiz from "./Quiz.js";
+import View from "./View.js";
+
+interface PresenterDependencies {
+    navigatorWrapper?: NavigatorWrapper;
+    quizRepository?: QuizRepository;
+    scoreRepository?: ScoreRepository;
+}
 
 export default class Presenter {
-    #navigatorWrapper;
-    #quiz;
-    #quizRepository;
-    #sceneIndex;
-    #scenes;
-    #scoreRepository;
-    #skipToAnswers;
-    #view;
+    #navigatorWrapper: NavigatorWrapper;
+    #quiz: Quiz;
+    #quizRepository: QuizRepository;
+    #sceneIndex: number;
+    #scenes: Scene[];
+    #scoreRepository: ScoreRepository;
+    #skipToAnswers: boolean;
+    #view!: View;
 
-    constructor(dependencies) {
-        this.#navigatorWrapper = dependencies?.navigatorWrapper ?? new NavigatorWrapper();
-        this.#quizRepository = dependencies?.quizRepository ?? new QuizRepository();
-        this.#scoreRepository = dependencies?.scoreRepository ?? new ScoreRepository();
+    constructor(dependencies: PresenterDependencies = {}) {
+        this.#navigatorWrapper = dependencies.navigatorWrapper ?? new NavigatorWrapper();
+        this.#quizRepository = dependencies.quizRepository ?? new QuizRepository();
+        this.#scoreRepository = dependencies.scoreRepository ?? new ScoreRepository();
         this.#sceneIndex = 0;
-        this.#quiz = {};
+        this.#quiz = {} as Quiz;
         this.#scenes = [];
         this.#skipToAnswers = false;
     }
 
-    async onViewReady(view) {
+    async onViewReady(view: View): Promise<void> {
         this.#view = view;
 
         try {
@@ -33,26 +41,29 @@ export default class Presenter {
             this.#onQuizLoaded();
         }
         catch (error) {
-            Logger.log("Failed to load quiz. " + error.toString());
+            Logger.log("Failed to load quiz. " + (error as Error).toString());
         }
-    };
+    }
 
-    onNext() {
+    onNext(): void {
         if (this.#sceneIndex < this.#scenes.length - 1) {
             this.#sceneIndex++;
             this.#showScene();
         }
-    };
+    }
 
-    onPrevious() {
+    onPrevious(): void {
         if (this.#sceneIndex > 0) {
             this.#sceneIndex--;
             this.#showScene();
         }
-    };
+    }
 
-    onSpace() {
-        switch (this.#scenes[this.#sceneIndex].type) {
+    onSpace(): void {
+        const scene = this.#scenes[this.#sceneIndex];
+        if (!scene) return;
+        
+        switch (scene.type) {
             case Scene.Type.QUESTIONS_TITLE:
                 this.toggleSkipToAnswers();
                 break;
@@ -60,18 +71,17 @@ export default class Presenter {
                 this.toggleScore();
                 break;
         }
-    };
+    }
 
-    toggleScore() {
+    toggleScore(): void {
         const scene = this.#scenes[this.#sceneIndex];
-        if (scene.type !== Scene.Type.QUESTION_ANSWER) {
+        if (!scene || scene.type !== Scene.Type.QUESTION_ANSWER) {
             return;
         }
 
-        const questionNumber = scene.question.number;
+        const questionNumber = scene.question!.number;
         let score = this.#scoreRepository.getScore(questionNumber);
-        switch (score)
-        {
+        switch (score) {
             case QuestionScore.NONE:
                 score = QuestionScore.FULL;
                 break;
@@ -86,8 +96,9 @@ export default class Presenter {
         this.#view.showScoreTick(score);
     }
 
-    toggleSkipToAnswers() {
-        if (this.#scenes[this.#sceneIndex].type !== Scene.Type.QUESTIONS_TITLE) {
+    toggleSkipToAnswers(): void {
+        const scene = this.#scenes[this.#sceneIndex];
+        if (!scene || scene.type !== Scene.Type.QUESTIONS_TITLE) {
             return;
         }
 
@@ -96,7 +107,7 @@ export default class Presenter {
         this.#buildScenes();
     }
 
-    async shareScore() {
+    async shareScore(): Promise<void> {
         const totalScore = Presenter.#formatTotalScore(this.#scoreRepository.totalScore);
         const scoreBreakdown = this.#scoreRepository.allScores
             .map((score, index) =>
@@ -110,14 +121,15 @@ export default class Presenter {
         try {
             await this.#navigatorWrapper.share({
                 title: 'QUIZ RESULTS',
-                text: 'We have quizzed! Our total score this week is ' + totalScore + '...\n\n' + scoreBreakdown
+                text: 'We have quizzed! Our total score this week is ' + totalScore + '...\\n\\n' + scoreBreakdown
             });
         }
         catch (error) {
+            // Ignore share errors
         }
     }
 
-    #onQuizLoaded() {
+    #onQuizLoaded(): void {
         this.#scoreRepository.initialiseScores(this.#quiz);
         this.#skipToAnswers = this.#scoreRepository.hasScores;
         this.#buildScenes();
@@ -125,18 +137,20 @@ export default class Presenter {
         this.#view.enableNavigation();
         this.#view.setSkipToAnswers(this.#skipToAnswers);
         this.#view.onQuizLoaded();
-    };
+    }
 
-    #showScene() {
+    #showScene(): void {
         const scene = this.#scenes[this.#sceneIndex];
+        if (!scene) return;
+        
         const question = scene.question;
         const view = this.#view;
 
-        switch(scene.type) {
+        switch (scene.type) {
             case Scene.Type.QUESTIONS_TITLE:
                 view.hideScoreTick();
                 view.hideScoreShare();
-                view.showQuestionsTitle(scene.date.toDisplayString());
+                view.showQuestionsTitle(scene.date!.toDisplayString());
                 view.showTitlePage();
                 view.showSkipToAnswers();
                 break;
@@ -144,7 +158,7 @@ export default class Presenter {
                 view.hideScoreTick();
                 view.hideScoreShare();
                 view.hideSkipToAnswers();
-                view.showQuestion(question);
+                view.showQuestion(question!);
                 view.hideAnswer();
                 view.showQuestionPage();
                 break;
@@ -158,10 +172,10 @@ export default class Presenter {
             case Scene.Type.QUESTION_ANSWER:
                 view.hideScoreShare();
                 view.hideSkipToAnswers();
-                view.showQuestion(question);
-                view.showAnswer(question.answer);
+                view.showQuestion(question!);
+                view.showAnswer(question!.answer);
                 view.showQuestionPage();
-                view.showScoreTick(this.#scoreRepository.getScore(question.number));
+                view.showScoreTick(this.#scoreRepository.getScore(question!.number));
                 break;
             case Scene.Type.END_TITLE:
                 view.hideScoreTick();
@@ -173,9 +187,9 @@ export default class Presenter {
                 }
                 break;
         }
-    };
+    }
 
-    #buildScenes() {
+    #buildScenes(): void {
         this.#scenes = [];
 
         this.#scenes.push(Scene.questionsTitleScene(this.#quiz.date));
@@ -197,10 +211,10 @@ export default class Presenter {
         this.#scenes.push(Scene.endTitleScene());
     }
 
-    static #formatTotalScore(totalScore) {
-        let totalScoreString = Math.floor(totalScore);
+    static #formatTotalScore(totalScore: number): string {
+        let totalScoreString = Math.floor(totalScore).toString();
         if (totalScore % 1 === QuestionScore.HALF) {
-            totalScoreString += "½"
+            totalScoreString += "½";
         }
         return totalScoreString;
     }

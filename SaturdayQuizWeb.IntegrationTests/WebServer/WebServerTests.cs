@@ -13,7 +13,8 @@ public class WebServerTests
 
     [TestCase("")]
     [TestCase("css/styles.css")]
-    [TestCase("script/Presenter.js")]
+    [TestCase("index.html")]
+    [TestCase("script/dist/Presenter.js")]
     [TestCase("images/icon32.png")]
     [TestCase("api/quiz")]
     [TestCase("api/quiz-metadata")]
@@ -52,8 +53,9 @@ public class WebServerTests
     }
 
     [TestCase("")]
+    [TestCase("index.html")]
     [TestCase("css/styles.css")]
-    [TestCase("script/Presenter.js")]
+    [TestCase("script/dist/Presenter.js")]
     [TestCase("images/icon32.png")]
     public async Task GivenStaticFileUri_WhenRequested_ThenCacheControlHeaderValueIs30DaysCache(string path)
     {
@@ -100,8 +102,9 @@ public class WebServerTests
     }
 
     [TestCase("")]
+    [TestCase("index.html")]
     [TestCase("css/styles.css")]
-    [TestCase("script/Presenter.js")]
+    [TestCase("script/dist/Presenter.js")]
     [TestCase("images/icon32.png")]
     [TestCase("api/quiz")]
     [TestCase("api/quiz-metadata")]
@@ -122,8 +125,9 @@ public class WebServerTests
     }
 
     [TestCase("", MimeType.Text.Html)]
+    [TestCase("index.html", MimeType.Text.Html)]
     [TestCase("css/styles.css", MimeType.Text.Css)]
-    [TestCase("script/Presenter.js", MimeType.Text.Javascript)]
+    [TestCase("script/dist/Presenter.js", MimeType.Text.Javascript)]
     public async Task GivenTextResourceUri_WhenRequested_ThenContentTypeHeaderValueHasCharsetUtf8(
         string path,
         string expectedContentType)

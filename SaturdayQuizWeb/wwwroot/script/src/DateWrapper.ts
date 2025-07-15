@@ -1,5 +1,5 @@
 export default class DateWrapper {
-    get now() {
+    get now(): number {
         return Date.now();
     }
 }

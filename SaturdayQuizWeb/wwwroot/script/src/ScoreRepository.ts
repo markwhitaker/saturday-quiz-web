@@ -1,47 +1,52 @@
-﻿import LocalStore from "./LocalStore.js";
+import LocalStore from "./LocalStore.js";
 import QuestionScore from "./QuestionScore.js";
+import Quiz from "./Quiz.js";
+
+interface ScoreRepositoryDependencies {
+    localStore?: LocalStore;
+}
 
 export default class ScoreRepository {
-    #localStore;
-    #scores;
+    #localStore: LocalStore;
+    #scores: number[];
 
-    constructor(dependencies) {
-        this.#localStore = dependencies?.localStore ?? new LocalStore();
+    constructor(dependencies: ScoreRepositoryDependencies = {}) {
+        this.#localStore = dependencies.localStore ?? new LocalStore();
         this.#scores = [];
     }
 
-    get totalScore() {
+    get totalScore(): number {
         return this.#scores.length === 0 ? 0 : this.#scores.reduce((a, b) => a + b);
     }
 
-    get hasScores() {
+    get hasScores(): boolean {
         return !this.#scores.every(s => s === QuestionScore.NONE);
     }
 
-    get allScores() {
+    get allScores(): number[] {
         return this.#scores;
     }
 
-    initialiseScores(quiz) {
+    initialiseScores(quiz: Quiz): void {
         this.#scores = this.#loadScores() ?? new Array(quiz.questions.length).fill(QuestionScore.NONE);
         this.#saveScores();
     }
 
-    getScore(questionNumber) {
-        return this.#scores[questionNumber - 1];
+    getScore(questionNumber: number): number {
+        return this.#scores[questionNumber - 1] ?? QuestionScore.NONE;
     }
 
-    setScore(questionNumber, score) {
+    setScore(questionNumber: number, score: number): void {
         this.#scores[questionNumber - 1] = score;
         this.#saveScores();
     }
 
-    #loadScores() {
+    #loadScores(): number[] | undefined {
         const scoreString = this.#localStore.scores;
         return scoreString?.split(",").map(parseFloat);
     }
 
-    #saveScores() {
+    #saveScores(): void {
         this.#localStore.scores = this.#scores.toString();
     }
 }

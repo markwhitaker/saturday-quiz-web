@@ -1,8 +1,22 @@
 import CalendarDate from "./CalendarDate.js";
 import LocalStorageWrapper from "./LocalStorageWrapper.js";
 
+interface LocalStoreDependencies {
+    localStorageWrapper?: LocalStorageWrapper;
+}
+
+interface RawQuiz {
+    date: string;
+    questions: Array<{
+        number: number;
+        type: string;
+        question: string;
+        answer: string;
+    }>;
+}
+
 export default class LocalStore {
-    #localStorageWrapper;
+    #localStorageWrapper: LocalStorageWrapper;
 
     static #KEYS = Object.freeze({
         QUIZ_CACHE_HIT_TIMESTAMP: "quiz-cache-hit-timestamp",
@@ -11,49 +25,50 @@ export default class LocalStore {
         SCORES: "scores"
     });
 
-    constructor(dependencies) {
-        this.#localStorageWrapper = dependencies?.localStorageWrapper ?? new LocalStorageWrapper();
+    constructor(dependencies: LocalStoreDependencies = {}) {
+        this.#localStorageWrapper = dependencies.localStorageWrapper ?? new LocalStorageWrapper();
     }
 
-    get quizCacheHitTimestamp() {
+    get quizCacheHitTimestamp(): number {
         const timestampString = this.#localStorageWrapper.getItem(LocalStore.#KEYS.QUIZ_CACHE_HIT_TIMESTAMP);
         return timestampString ? Number(timestampString) : 0;
     }
 
-    set quizCacheHitTimestamp(timestamp) {
+    set quizCacheHitTimestamp(timestamp: number) {
         this.#localStorageWrapper.setItem(LocalStore.#KEYS.QUIZ_CACHE_HIT_TIMESTAMP, timestamp.toString());
     }
 
-    get quizDate() {
+    get quizDate(): CalendarDate | undefined {
         const dateString = this.#localStorageWrapper.getItem(LocalStore.#KEYS.QUIZ_DATE);
         return dateString ? new CalendarDate(dateString) : undefined;
     }
 
-    set quizDate(calendarDate) {
+    set quizDate(calendarDate: CalendarDate) {
         const storedCalendarDate = this.quizDate;
-        if (!calendarDate.equals(storedCalendarDate)) {
+        if (!storedCalendarDate || !calendarDate.equals(storedCalendarDate)) {
             this.#localStorageWrapper.removeItem(LocalStore.#KEYS.SCORES);
             this.#localStorageWrapper.setItem(LocalStore.#KEYS.QUIZ_DATE, calendarDate.toString());
         }
     }
 
-    get quiz() {
-        return JSON.parse(this.#localStorageWrapper.getItem(LocalStore.#KEYS.QUIZ_JSON));
+    get quiz(): RawQuiz | null {
+        const quizJson = this.#localStorageWrapper.getItem(LocalStore.#KEYS.QUIZ_JSON);
+        return quizJson ? JSON.parse(quizJson) : null;
     }
 
-    set quiz(json) {
+    set quiz(json: RawQuiz) {
         this.#localStorageWrapper.setItem(LocalStore.#KEYS.QUIZ_JSON, JSON.stringify(json));
     }
 
-    clearQuiz() {
+    clearQuiz(): void {
         this.#localStorageWrapper.removeItem(LocalStore.#KEYS.QUIZ_JSON);
     }
 
-    get scores() {
+    get scores(): string | null {
         return this.#localStorageWrapper.getItem(LocalStore.#KEYS.SCORES);
     }
 
-    set scores(value) {
+    set scores(value: string) {
         this.#localStorageWrapper.setItem(LocalStore.#KEYS.SCORES, value);
     }
 }

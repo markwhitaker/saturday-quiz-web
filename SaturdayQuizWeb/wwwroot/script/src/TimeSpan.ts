@@ -4,34 +4,44 @@ const MILLISECONDS_PER_HOUR = 60 * MILLISECONDS_PER_MINUTE;
 const MILLISECONDS_PER_DAY = 24 * MILLISECONDS_PER_HOUR;
 
 export default class TimeSpan {
-    #milliseconds;
+    #milliseconds: number;
 
-    constructor(milliseconds) {
+    constructor(milliseconds: number) {
         this.#milliseconds = milliseconds;
     }
 
-    get milliseconds() {
+    get milliseconds(): number {
         return this.#milliseconds;
     }
 
-    static fromSeconds = seconds => new TimeSpan(seconds * MILLISECONDS_PER_SECOND);
+    static fromSeconds(seconds: number): TimeSpan {
+        return new TimeSpan(seconds * MILLISECONDS_PER_SECOND);
+    }
 
-    static fromMinutes = minutes => new TimeSpan(minutes * MILLISECONDS_PER_MINUTE);
+    static fromMinutes(minutes: number): TimeSpan {
+        return new TimeSpan(minutes * MILLISECONDS_PER_MINUTE);
+    }
 
-    static fromHours = hours => new TimeSpan(hours * MILLISECONDS_PER_HOUR);
+    static fromHours(hours: number): TimeSpan {
+        return new TimeSpan(hours * MILLISECONDS_PER_HOUR);
+    }
 
-    static fromDays = days => new TimeSpan(days * MILLISECONDS_PER_DAY);
+    static fromDays(days: number): TimeSpan {
+        return new TimeSpan(days * MILLISECONDS_PER_DAY);
+    }
 
-    isLessThan = other => other && this.#milliseconds < other.#milliseconds;
+    isLessThan(other: TimeSpan): boolean {
+        return other != null && this.#milliseconds < other.#milliseconds;
+    }
 
-    toString = () => {
+    toString(): string {
         const milliseconds = this.#milliseconds % MILLISECONDS_PER_SECOND;
         const seconds = Math.floor((this.#milliseconds % MILLISECONDS_PER_MINUTE) / MILLISECONDS_PER_SECOND);
         const minutes = Math.floor((this.#milliseconds % MILLISECONDS_PER_HOUR) / MILLISECONDS_PER_MINUTE);
         const hours = Math.floor((this.#milliseconds % MILLISECONDS_PER_DAY) / MILLISECONDS_PER_HOUR);
         const days = Math.floor(this.#milliseconds / MILLISECONDS_PER_DAY);
 
-        const parts = [];
+        const parts: string[] = [];
 
         if (days > 0) {
             parts.push(`${days}d`);
@@ -52,5 +62,8 @@ export default class TimeSpan {
         return parts.join(' ');
     }
 
-    equals = other => other && this.#milliseconds === other.#milliseconds;
+    equals(other: TimeSpan): boolean {
+        return other != null && this.#milliseconds === other.#milliseconds;
+    }
 }
+

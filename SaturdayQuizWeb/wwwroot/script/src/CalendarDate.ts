@@ -1,18 +1,18 @@
 import TimeSpan from "./TimeSpan.js";
 
 export default class CalendarDate {
-    #date;
+    #date: Date;
 
-    constructor(date) {
+    constructor(date?: string | Date) {
         this.#date = date ? new Date(date) : new Date();
         this.#date.setHours(0, 0, 0, 0);
     }
 
-    toString() {
+    toString(): string {
         return this.#date.toDateString();
     }
 
-    toDisplayString() {
+    toDisplayString(): string {
         return this.#date.toLocaleDateString('en-GB', {
             day: 'numeric',
             month: 'long',
@@ -20,17 +20,17 @@ export default class CalendarDate {
         });
     }
 
-    subtractDays(days) {
+    subtractDays(days: number): CalendarDate {
         const newDate = new Date(this.#date);
         newDate.setDate(newDate.getDate() - days);
         return new CalendarDate(newDate);
     }
 
-    diff(other) {
-        return new TimeSpan(Math.abs(this.#date - other.#date));
+    diff(other: CalendarDate): TimeSpan {
+        return new TimeSpan(Math.abs(this.#date.getTime() - other.#date.getTime()));
     }
 
-    equals(other) {
-        return other && this.#date.getTime() === other.#date.getTime();
+    equals(other: CalendarDate): boolean {
+        return other != null && this.#date.getTime() === other.#date.getTime();
     }
 }
