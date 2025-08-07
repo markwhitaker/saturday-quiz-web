@@ -1,13 +1,13 @@
 export default class LocalStorageWrapper {
-    setItem(key, value) {
+    setItem(key: string, value: string): void {
         localStorage.setItem(key, value);
     }
 
-    getItem(key) {
+    getItem(key: string): string | null {
         return localStorage.getItem(key);
     }
 
-    removeItem(key) {
+    removeItem(key: string): void {
         localStorage.removeItem(key);
     }
 }

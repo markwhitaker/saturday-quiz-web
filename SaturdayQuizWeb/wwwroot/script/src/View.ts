@@ -1,5 +1,6 @@
 import $ from "./jqueryModule.js";
 import QuestionScore from "./QuestionScore.js";
+import Presenter from "./Presenter.js";
 
 const elements = Object.freeze({
     answer: () => $("#answer"),
@@ -21,34 +22,35 @@ const elements = Object.freeze({
     totalScore: () => $("#total-score")
 });
 
-const scoreClasses = Object.freeze(new Map([
+const scoreClasses = Object.freeze(new Map<QuestionScore, string>([
     [QuestionScore.NONE, "none"],
     [QuestionScore.HALF, "half"],
     [QuestionScore.FULL, "full"]
 ]));
 
 export default class View {
-    #presenter;
+    #presenter: Presenter;
 
-    constructor(presenter) {
+    constructor(presenter: Presenter) {
         this.#presenter = presenter;
-    };
+    }
 
-    onQuizLoaded = () =>
+    onQuizLoaded = (): void => {
         elements.loaderContainer().fadeOut(() => {
             elements.quizContainer().removeClass('hidden');
         });
+    };
 
-    enableNavigation = () => {
-        elements.navLeft().on("click", e => {
+    enableNavigation = (): void => {
+        elements.navLeft().on("click", (e: JQuery.ClickEvent) => {
             this.#presenter.onPrevious();
             e.preventDefault();
         });
-        elements.navRight().on("click", e => {
+        elements.navRight().on("click", (e: JQuery.ClickEvent) => {
             this.#presenter.onNext();
             e.preventDefault();
         });
-        elements.document().on("keyup", e => {
+        elements.document().on("keyup", (e: JQuery.KeyUpEvent) => {
             switch (e.code) {
                 case 'ArrowLeft':
                     this.#presenter.onPrevious();
@@ -65,75 +67,95 @@ export default class View {
             e.preventDefault();
         });
 
-        elements.scoreTick().on("click", e => {
+        elements.scoreTick().on("click", (e: JQuery.ClickEvent) => {
             this.#presenter.toggleScore();
             e.preventDefault();
         });
 
-        elements.scoreShare().on("click", async e => {
+        elements.scoreShare().on("click", async (e: JQuery.ClickEvent) => {
             await this.#presenter.shareScore();
             e.preventDefault();
         });
 
-        elements.skipToAnswers().on("click", e => {
+        elements.skipToAnswers().on("click", (e: JQuery.ClickEvent) => {
             this.#presenter.toggleSkipToAnswers();
             e.preventDefault();
         });
     };
 
-    showTitlePage = () => {
+    showTitlePage = (): void => {
         elements.pageQuestion().hide();
         elements.pageTitle().show();
     };
 
-    showQuestionPage = () => {
+    showQuestionPage = (): void => {
         elements.pageTitle().hide();
         elements.pageQuestion().show();
     };
 
-    showQuestionsTitle = dateString => {
+    showQuestionsTitle = (dateString: string): void => {
         elements.title().text('Ready?');
         elements.quizDate().text(dateString);
         elements.totalScore().text('');
     };
 
-    showAnswersTitle = () => {
+    showAnswersTitle = (): void => {
         elements.title().text('Answers');
         elements.quizDate().text('');
         elements.totalScore().text('');
     };
 
-    showEndTitle = totalScore => {
+    showEndTitle = (totalScore: string): void => {
         elements.title().text('End');
         elements.quizDate().text('');
         elements.totalScore().text("Total score: " + totalScore);
     };
 
-    showQuestion = question => {
+    showQuestion = (question: { number: number, question: string, isWhatLinks: boolean }): void => {
         elements.questionNumber().text(question.number + '.');
         elements.question().text(question.question);
         elements.questionWhatLinks().toggleClass('visible', question.isWhatLinks);
     };
 
-    hideAnswer = () => elements.answer().hide();
+    hideAnswer = (): void => {
+        elements.answer().hide();
+    };
 
-    showAnswer = answer => elements.answer().text(answer).show();
+    showAnswer = (answer: string): void => {
+        elements.answer().text(answer).show();
+    };
 
-    hideScoreTick = () => elements.scoreTick().hide();
+    hideScoreTick = (): void => {
+        elements.scoreTick().hide();
+    };
 
-    showScoreTick = score =>
-        elements.scoreTick()
-            .removeClass(Array.from(scoreClasses.values()))
-            .addClass(scoreClasses.get(score))
-            .show();
+    showScoreTick = (score: QuestionScore): void => {
+        const className = scoreClasses.get(score);
+        if (className) {
+            elements.scoreTick()
+                .removeClass(Array.from(scoreClasses.values()))
+                .addClass(className)
+                .show();
+        }
+    };
 
-    hideScoreShare = () => elements.scoreShare().hide();
+    hideScoreShare = (): void => {
+        elements.scoreShare().hide();
+    };
 
-    showScoreShare = () => elements.scoreShare().show();
+    showScoreShare = (): void => {
+        elements.scoreShare().show();
+    };
 
-    hideSkipToAnswers = () => elements.skipToAnswers().hide();
+    hideSkipToAnswers = (): void => {
+        elements.skipToAnswers().hide();
+    };
 
-    showSkipToAnswers = () => elements.skipToAnswers().show();
+    showSkipToAnswers = (): void => {
+        elements.skipToAnswers().show();
+    };
 
-    setSkipToAnswers = state => elements.skipToAnswers().toggleClass('selected', state);
+    setSkipToAnswers = (state: boolean): void => {
+        elements.skipToAnswers().toggleClass('selected', state);
+    };
 }

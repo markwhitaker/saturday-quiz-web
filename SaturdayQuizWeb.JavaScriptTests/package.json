@@ -1,10 +1,19 @@
 {
   "type": "module",
-  "module": "es6",
   "scripts": {
-    "test": "mocha"
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "test": "NODE_OPTIONS='--loader ts-node/esm' mocha 'test/**/*.ts'",
+    "test:js": "mocha 'test/**/*.js'"
   },
   "devDependencies": {
-    "mocha": "^11.7.1"
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.0.13",
+    "mocha": "^11.6.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }
