@@ -1,0 +1,27 @@
+# .github/workflows/dependabot-auto-merge.yml
+name: Dependabot auto-merge (minor)
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot-auto-merge:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge for semver-minor updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-minor'
+        uses: peter-evans/enable-pull-request-automerge@v4
+        with:
+          merge-method: squash

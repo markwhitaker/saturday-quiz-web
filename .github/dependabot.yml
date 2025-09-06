@@ -6,9 +6,21 @@ updates:
       interval: weekly
     assignees:
       - markwhitaker
+    groups:
+      minor-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
   - package-ecosystem: npm
     directory: /SaturdayQuizWeb.JavaScriptTests
     schedule:
       interval: weekly
     assignees:
       - markwhitaker
+    groups:
+      minor-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
