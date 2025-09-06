@@ -1,6 +1,4 @@
-# .github/workflows/dependabot-auto-merge.yml
-name: Dependabot auto-merge (minor)
-
+name: Auto-merge Dependabot PR (minor)
 on:
   pull_request_target:
     types: [opened, reopened, synchronize, ready_for_review]
