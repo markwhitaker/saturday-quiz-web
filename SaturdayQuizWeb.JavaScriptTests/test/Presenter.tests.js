@@ -429,8 +429,7 @@ suite('Presenter', () => {
         const totalScore = 1.5;
 
         const expectedSharedData = {
-            title: 'QUIZ RESULTS',
-            text: 'We have quizzed! Our total score this week is 1½...\n\n' +
+            text: '1½...\n\n' +
                   '2 (half), 3'
         };
 
