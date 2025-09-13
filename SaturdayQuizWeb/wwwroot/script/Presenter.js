@@ -109,8 +109,7 @@ export default class Presenter {
 
         try {
             await this.#navigatorWrapper.share({
-                title: 'QUIZ RESULTS',
-                text: 'We have quizzed! Our total score this week is ' + totalScore + '...\n\n' + scoreBreakdown
+                text: totalScore + '...\n\n' + scoreBreakdown
             });
         }
         catch (error) {
@@ -181,14 +180,12 @@ export default class Presenter {
         this.#scenes.push(Scene.questionsTitleScene(this.#quiz.date));
 
         if (!this.#skipToAnswers) {
-            // First just show the questions
             for (const question of this.#quiz.questions) {
                 this.#scenes.push(Scene.questionScene(question));
             }
             this.#scenes.push(Scene.answersTitleScene());
         }
 
-        // Now recap the questions, showing the answer after each one
         for (const question of this.#quiz.questions) {
             this.#scenes.push(Scene.questionScene(question));
             this.#scenes.push(Scene.questionAnswerScene(question));
