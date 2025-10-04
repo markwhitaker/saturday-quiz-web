@@ -161,8 +161,8 @@ public class QuizMetadataServiceTests
     public void GivenApiAndRssBothReturnNoMetadata_WhenGettingMetadata_ThenExceptionIsThrown()
     {
         // Given
-        _mockGuardianApiClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(Array.Empty<QuizMetadata>());
-        _mockGuardianRssClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(Array.Empty<QuizMetadata>());
+        _mockGuardianApiClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs([]);
+        _mockGuardianRssClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs([]);
 
         // When/Then
         var exception = Assert.ThrowsAsync<Exception>(() => _quizMetadataService.GetQuizMetadataAsync(1));

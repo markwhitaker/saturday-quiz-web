@@ -54,7 +54,7 @@ public class GuardianApiClient(
             logger.LogError(e, "Failed to get quiz metadata from Guardian API");
         }
 
-        return Array.Empty<QuizMetadata>();
+        return [];
     }
 
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]

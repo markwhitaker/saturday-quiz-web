@@ -39,7 +39,7 @@ public class GuardianRssClient(
         catch (Exception e)
         {
             logger.LogError(e, "Failed to get quiz metadata from Guardian RSS feed");
-            return Array.Empty<QuizMetadata>();
+            return [];
         }
     }
 
