@@ -21,6 +21,10 @@ public class GuardianApiClient(
     public async Task<IReadOnlyList<QuizMetadata>> GetQuizMetadataAsync(int count)
     {
         var config = configOptions.Value;
+        if (string.IsNullOrWhiteSpace(config.ApiKey))
+        {
+            throw new Exception("Guardian API key is not set");
+        }
         var url = $"{config.ApiEndpoint}?api-key={config.ApiKey}&page-size={count}";
 
         try
