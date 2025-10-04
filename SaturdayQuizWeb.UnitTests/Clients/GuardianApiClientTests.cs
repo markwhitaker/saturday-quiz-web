@@ -73,7 +73,7 @@ public class GuardianApiClientTests
         var expectedConfig = new GuardianConfig
         {
             ApiEndpoint = string.Empty,
-            ApiKey = string.Empty
+            ApiKey = "api-key"
         };
 
         _mockConfigOptions.Value.Returns(expectedConfig);
@@ -94,7 +94,7 @@ public class GuardianApiClientTests
         var expectedConfig = new GuardianConfig
         {
             ApiEndpoint = string.Empty,
-            ApiKey = string.Empty
+            ApiKey = "api-key"
         };
 
         _mockConfigOptions.Value.Returns(expectedConfig);
