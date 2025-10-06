@@ -20,6 +20,6 @@ jobs:
 
       - name: Enable auto-merge for semver-minor updates
         if: steps.metadata.outputs.update-type == 'version-update:semver-minor'
-        uses: peter-evans/enable-pull-request-automerge@v4
-        with:
-          merge-method: squash
+        run: gh pr merge --squash --auto "1"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

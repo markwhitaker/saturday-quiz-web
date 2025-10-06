@@ -6,6 +6,7 @@
     <File Path=".github\workflows\build-and-test.yml" />
     <File Path="Dockerfile" />
     <File Path=".gitattributes" />
+    <File Path=".github\workflows\dependabot_auto_merge_minor.yml" />
   </Folder>
   <Project Path="SaturdayQuizWeb.IntegrationTests\SaturdayQuizWeb.IntegrationTests.csproj" Type="Classic C#" />
   <Project Path="SaturdayQuizWeb.JavaScriptTests\SaturdayQuizWeb.JavaScriptTests.csproj" Type="Classic C#" />
