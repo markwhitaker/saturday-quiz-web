@@ -9,6 +9,6 @@ permissions:
 
 jobs:
   auto-merge:
-    uses: markwhitaker/shared-workflows/.github/workflows/dependabot-auto-merge-minor.yml@main
+    uses: markwhitaker/shared-workflows/.github/workflows/dependabot-auto-merge-minor-patch.yml@main
     with:
       pr-number: ${{ github.event.pull_request.number }}
