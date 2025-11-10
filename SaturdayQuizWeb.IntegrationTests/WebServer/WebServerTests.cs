@@ -14,7 +14,8 @@ public class WebServerTests
     [TestCase("")]
     [TestCase("css/styles.css")]
     [TestCase("script/Presenter.js")]
-    [TestCase("images/icon32.png")]
+    [TestCase("images/icon.png")]
+    [TestCase("images/icon.svg")]
     [TestCase("api/quiz")]
     [TestCase("api/quiz-metadata")]
     public async Task GivenAnyUri_WhenRequested_ThenResponseStatusIsOK(string path)
@@ -54,7 +55,8 @@ public class WebServerTests
     [TestCase("")]
     [TestCase("css/styles.css")]
     [TestCase("script/Presenter.js")]
-    [TestCase("images/icon32.png")]
+    [TestCase("images/icon.png")]
+    [TestCase("images/icon.svg")]
     public async Task GivenStaticFileUri_WhenRequested_ThenCacheControlHeaderValueIs30DaysCache(string path)
     {
         // Given
@@ -102,7 +104,8 @@ public class WebServerTests
     [TestCase("")]
     [TestCase("css/styles.css")]
     [TestCase("script/Presenter.js")]
-    [TestCase("images/icon32.png")]
+    [TestCase("images/icon.png")]
+    [TestCase("images/icon.svg")]
     [TestCase("api/quiz")]
     [TestCase("api/quiz-metadata")]
     public async Task GivenAnyUri_WhenRequested_ThenXContentTypeOptionsHeaderValueIsNosniff(string path)
@@ -144,7 +147,7 @@ public class WebServerTests
             Has.One.Items.EqualTo(expectedContentTypeWithCharset));
     }
 
-    [TestCase("images/icon32.png", MimeType.Image.Png)]
+    [TestCase("images/icon.png", MimeType.Image.Png)]
     public async Task GivenNonTextResourceUri_WhenRequested_ThenContentTypeHeaderValueDoesNotHaveCharsetUtf8(
         string path,
         string expectedContentType)
