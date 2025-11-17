@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Config;
