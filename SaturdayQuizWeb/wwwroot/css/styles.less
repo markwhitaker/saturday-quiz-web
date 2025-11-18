@@ -148,7 +148,7 @@ body {
 }
 
 #question-what-links {
-  .indented;
+  .indented();
   visibility: hidden;
   color: var(--colour-foreground-dimmed);
   font-size: @font-size-what-links;
@@ -169,13 +169,13 @@ body {
 }
 
 #question {
-  .indented;
+  .indented();
   color: var(--colour-foreground);
   font-size: @font-size-question;
 }
 
 #answer {
-  .indented;
+  .indented();
   color: var(--colour-foreground-highlight);
   font-size: @font-size-question;
   margin-top: @dimen-answer-top-margin;
@@ -228,10 +228,10 @@ body {
     color: var(--colour-background);
 
     &.full {
-      .active-button;
+      .active-button();
     }
     &.half {
-      .inactive-button;
+      .inactive-button();
     }
     .button {
       font-size: @font-size-button-icon-large;
@@ -240,26 +240,26 @@ body {
   }
 
   #score-share {
-    .inactive-button;
+    .inactive-button();
 
     .button {
       font-size: @font-size-button-icon-small;
     }
 
     &:active {
-      .active-button;
+      .active-button();
     }
   }
 
   #skip-to-answers {
-    .inactive-button;
+    .inactive-button();
 
     .button {
       font-size: @font-size-button-icon-large;
     }
 
     &.selected {
-      .active-button;
+      .active-button();
     }
   }
 }
@@ -282,7 +282,7 @@ body {
     }
   }
   #question-what-links {
-    .non-indented;
+    .non-indented();
   }
   #question-number {
     float: none;
@@ -292,10 +292,10 @@ body {
     }
   }
   #question {
-    .non-indented;
+    .non-indented();
     display: inline;
   }
   #answer {
-    .non-indented;
+    .non-indented();
   }
 }
