@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi;
 using SaturdayQuizWeb.Clients;
@@ -47,12 +48,12 @@ app.MapGet("/api/quiz/", async (
     .WithTags("Quiz")
     .WithName("GetLatestQuiz")
     .WithDisplayName("Get latest quiz")
-    .WithDescription("Get the latest quiz")
-    .WithOpenApi();
+    .WithDescription("Get the latest quiz");
 
 app.MapGet("/api/quiz/{date}", async (
         HttpContext httpContext,
         IQuizService quizService,
+        [Description("Date in yyyy-MM-dd format")]
         string date) =>
     {
         if (httpContext.Request.QueryString.HasValue)
@@ -87,13 +88,7 @@ app.MapGet("/api/quiz/{date}", async (
     .WithTags("Quiz")
     .WithName("GetQuizByDate")
     .WithDisplayName("Get quiz by date")
-    .WithDescription("Get quiz by date")
-    .WithOpenApi(operation =>
-    {
-        var dateParam = operation.Parameters.First();
-        dateParam.Description = "Date in yyyy-MM-dd format";
-        return operation;
-    });
+    .WithDescription("Get quiz by date");
 
 app.MapGet("/api/quiz-metadata", async (
         HttpContext httpContext,
@@ -121,8 +116,7 @@ app.MapGet("/api/quiz-metadata", async (
     .WithTags("Quiz Metadata")
     .WithName("GetQuizMetadata")
     .WithDisplayName("Get quiz metadata")
-    .WithDescription("Get quiz metadata for the most recent specified number of quizzes, or omit count to get the last 10")
-    .WithOpenApi();
+    .WithDescription("Get quiz metadata for the most recent specified number of quizzes, or omit count to get the last 10");
 
 await app.RunAsync();
 
