@@ -6,6 +6,11 @@ using static RegexToolbox.RegexQuantifier;
 
 namespace SaturdayQuizWeb.Services.Parsing;
 
+public interface IHtmlStripper
+{
+    string StripHtml(string htmlString);
+}
+
 public class HtmlStripper : IHtmlStripper
 {
     private static readonly Regex UnwantedTagsRegex = new RegexBuilder()

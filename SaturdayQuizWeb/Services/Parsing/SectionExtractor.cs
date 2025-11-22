@@ -7,6 +7,11 @@ using static RegexToolbox.RegexQuantifier;
 
 namespace SaturdayQuizWeb.Services.Parsing;
 
+public interface ISectionExtractor
+{
+    Sections ExtractSections(string wholePageHtml);
+}
+
 public class SectionExtractor : ISectionExtractor
 {
     private static readonly Regex OpenPTagRegex = new RegexBuilder()
@@ -93,7 +98,8 @@ public class SectionExtractor : ISectionExtractor
 
         if (paragraphLines.Count < 2)
         {
-            throw new ParsingException($"Found {paragraphLines.Count} lines in <p> tags in source HTML (expected at least 2)");
+            throw new ParsingException(
+                $"Found {paragraphLines.Count} lines in <p> tags in source HTML (expected at least 2)");
         }
 
         return paragraphLines;

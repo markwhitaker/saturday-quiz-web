@@ -6,6 +6,8 @@ using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.Clients;
 
+public interface IGuardianRssClient : IGuardianQuizMetadataClient;
+
 public class GuardianRssClient(
     IOptions<GuardianConfig> guardianConfig,
     IGuardianWebsiteHttpClient guardianWebsiteHttpClient,
@@ -46,24 +48,19 @@ public class GuardianRssClient(
     [XmlRoot("rss")]
     public class XmlRssRoot
     {
-        [XmlElement("channel")]
-        public XmlChannelElement Channel { get; init; } = new();
+        [XmlElement("channel")] public XmlChannelElement Channel { get; init; } = new();
     }
 
     public class XmlChannelElement
     {
-        [XmlElement("item")]
-        public XmlItemElement[] Items { get; init; } = [];
+        [XmlElement("item")] public XmlItemElement[] Items { get; init; } = [];
     }
 
     public class XmlItemElement
     {
-        [XmlElement("title")]
-        public string Title { get; init; } = string.Empty;
-        [XmlElement("pubDate")]
-        public string PubDate { get; init; } = string.Empty;
-        [XmlElement("link")]
-        public string Link { get; init; } = string.Empty;
+        [XmlElement("title")] public string Title { get; init; } = string.Empty;
+        [XmlElement("pubDate")] public string PubDate { get; init; } = string.Empty;
+        [XmlElement("link")] public string Link { get; init; } = string.Empty;
 
         public DateTime Date => DateTime.Parse(PubDate);
     }

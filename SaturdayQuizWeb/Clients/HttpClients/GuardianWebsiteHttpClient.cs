@@ -2,6 +2,8 @@
 
 namespace SaturdayQuizWeb.Clients.HttpClients;
 
+public interface IGuardianWebsiteHttpClient : IGuardianHttpClient;
+
 public class GuardianWebsiteHttpClient : IGuardianWebsiteHttpClient
 {
     private readonly HttpClient _httpClient;

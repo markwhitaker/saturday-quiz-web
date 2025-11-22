@@ -3,6 +3,11 @@ using SaturdayQuizWeb.Services.Parsing;
 
 namespace SaturdayQuizWeb.Services;
 
+public interface IHtmlService
+{
+    IEnumerable<QuestionModel> FindQuestions(string html);
+}
+
 public class HtmlService(
     ISectionExtractor sectionExtractor,
     IHtmlStripper htmlStripper,

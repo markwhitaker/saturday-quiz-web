@@ -2,6 +2,8 @@ using SaturdayQuizWeb.Config;
 
 namespace SaturdayQuizWeb.Clients.HttpClients;
 
+public interface IGuardianApiHttpClient : IGuardianHttpClient;
+
 public class GuardianApiHttpClient(HttpClient httpClient, IOptions<GuardianConfig> configOptions)
     : IGuardianApiHttpClient
 {

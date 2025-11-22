@@ -7,6 +7,8 @@ using SaturdayQuizWeb.Utils;
 
 namespace SaturdayQuizWeb.Clients;
 
+public interface IGuardianApiClient : IGuardianQuizMetadataClient;
+
 public class GuardianApiClient(
     IGuardianApiHttpClient httpClient,
     IOptions<GuardianConfig> configOptions,
@@ -25,6 +27,7 @@ public class GuardianApiClient(
         {
             throw new Exception("Guardian API key is not set");
         }
+
         var url = $"{config.ApiEndpoint}?api-key={config.ApiKey}&page-size={count}";
 
         try

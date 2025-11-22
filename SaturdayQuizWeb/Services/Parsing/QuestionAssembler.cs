@@ -5,6 +5,11 @@ using static RegexToolbox.RegexQuantifier;
 
 namespace SaturdayQuizWeb.Services.Parsing;
 
+public interface IQuestionAssembler
+{
+    IEnumerable<QuestionModel> AssembleQuestions(IEnumerable<string> questionsSection, IEnumerable<string> answersSection);
+}
+
 public class QuestionAssembler : IQuestionAssembler
 {
     private const string GroupNameNumber = "number";
@@ -28,7 +33,8 @@ public class QuestionAssembler : IQuestionAssembler
         .Text(">")
         .BuildRegex();
 
-    public IEnumerable<QuestionModel> AssembleQuestions(IEnumerable<string> questionsSection, IEnumerable<string> answersSection)
+    public IEnumerable<QuestionModel> AssembleQuestions(IEnumerable<string> questionsSection,
+        IEnumerable<string> answersSection)
     {
         var questions = ProcessQuestionsSection(questionsSection);
         ProcessAnswersSection(answersSection, questions);
