@@ -1,5 +1,4 @@
-import { describe, test, expect } from 'bun:test';
-import MockLocalStoreBuilder from "./mocks/MockLocalStoreBuilder.js";
+import { describe, test, expect, mock } from 'bun:test';
 import QuestionScore from "../../SaturdayQuizWeb/wwwroot/script/QuestionScore.js";
 import ScoreRepository from '../../SaturdayQuizWeb/wwwroot/script/ScoreRepository.js';
 
@@ -10,40 +9,60 @@ describe('ScoreRepository', () => {
     });
 
     test('GIVEN no scores are stored WHEN repository is initialised THEN new score array is stored', () => {
-        let actualStoredScores = undefined;
-        const mockLocalStore = new MockLocalStoreBuilder()
-            .getScores(() => undefined)
-            .setScores(value => actualStoredScores = value)
-            .build();
+        const mockLocalStore = {
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            getQuizDate: mock(),
+            setQuizDate: mock(),
+            getQuiz: mock(),
+            setQuiz: mock(),
+            clearQuiz: mock(),
+            getScores: mock(() => undefined),
+            setScores: mock()
+        };
         const scoreRepository = new ScoreRepository({
             localStore: mockLocalStore
         });
 
         scoreRepository.initialiseScores({ getQuestions: () => [{}, {}, {}] });
 
-        expect(actualStoredScores).toBe('0,0,0');
+        expect(mockLocalStore.setScores).toHaveBeenCalledWith('0,0,0');
     });
 
     test('GIVEN scores are stored WHEN repository is initialised THEN existing score array is stored', () => {
-        let actualStoredScores = undefined;
-        const mockLocalStore = new MockLocalStoreBuilder()
-            .getScores(() => '0,0.5,1')
-            .setScores(value => actualStoredScores = value)
-            .build();
+        const mockLocalStore = {
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            getQuizDate: mock(),
+            setQuizDate: mock(),
+            getQuiz: mock(),
+            setQuiz: mock(),
+            clearQuiz: mock(),
+            getScores: mock(() => '0,0.5,1'),
+            setScores: mock()
+        };
         const scoreRepository = new ScoreRepository({
             localStore: mockLocalStore
         });
 
         scoreRepository.initialiseScores({ getQuestions: () => [{}, {}, {}] });
 
-        expect(actualStoredScores).toBe('0,0.5,1');
+        expect(mockLocalStore.setScores).toHaveBeenCalledWith('0,0.5,1');
     });
 
     test('GIVEN scores are stored WHEN total score is calculated THEN expected total score is returned', () => {
         const expectedTotalScore = 1.5;
-        const mockLocalStore = new MockLocalStoreBuilder()
-            .getScores(() => '0,0.5,1')
-            .build();
+        const mockLocalStore = {
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            getQuizDate: mock(),
+            setQuizDate: mock(),
+            getQuiz: mock(),
+            setQuiz: mock(),
+            clearQuiz: mock(),
+            getScores: mock(() => '0,0.5,1'),
+            setScores: mock()
+        };
         const scoreRepository = new ScoreRepository({
             localStore: mockLocalStore
         });
@@ -56,9 +75,17 @@ describe('ScoreRepository', () => {
 
     test('GIVEN scores are stored WHEN all scores are retrieved THEN expected scores are returned', () => {
         const expectedAllScores = [QuestionScore.NONE, QuestionScore.HALF, QuestionScore.FULL];
-        const mockLocalStore = new MockLocalStoreBuilder()
-            .getScores(() => '0,0.5,1')
-            .build();
+        const mockLocalStore = {
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            getQuizDate: mock(),
+            setQuizDate: mock(),
+            getQuiz: mock(),
+            setQuiz: mock(),
+            clearQuiz: mock(),
+            getScores: mock(() => '0,0.5,1'),
+            setScores: mock()
+        };
         const scoreRepository = new ScoreRepository({
             localStore: mockLocalStore
         });
@@ -70,9 +97,17 @@ describe('ScoreRepository', () => {
     });
 
     test('GIVEN all stored scores are zero WHEN has scores THEN false is returned', () => {
-        const mockLocalStore = new MockLocalStoreBuilder()
-            .getScores(() => '0,0,0')
-            .build();
+        const mockLocalStore = {
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            getQuizDate: mock(),
+            setQuizDate: mock(),
+            getQuiz: mock(),
+            setQuiz: mock(),
+            clearQuiz: mock(),
+            getScores: mock(() => '0,0,0'),
+            setScores: mock()
+        };
         const scoreRepository = new ScoreRepository({
             localStore: mockLocalStore
         });
@@ -84,9 +119,17 @@ describe('ScoreRepository', () => {
     });
 
     test('GIVEN one stored score is greater than zero WHEN has scores THEN true is returned', () => {
-        const mockLocalStore = new MockLocalStoreBuilder()
-            .getScores(() => '0,0,0.5')
-            .build();
+        const mockLocalStore = {
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            getQuizDate: mock(),
+            setQuizDate: mock(),
+            getQuiz: mock(),
+            setQuiz: mock(),
+            clearQuiz: mock(),
+            getScores: mock(() => '0,0,0.5'),
+            setScores: mock()
+        };
         const scoreRepository = new ScoreRepository({
             localStore: mockLocalStore
         });
@@ -99,9 +142,17 @@ describe('ScoreRepository', () => {
 
     test('GIVEN scores are stored WHEN question score is retrieved THEN expected question score is returned', () => {
         const expectedQuestionScore = 0.5;
-        const mockLocalStore = new MockLocalStoreBuilder()
-            .getScores(() => '0,0.5,1')
-            .build();
+        const mockLocalStore = {
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            getQuizDate: mock(),
+            setQuizDate: mock(),
+            getQuiz: mock(),
+            setQuiz: mock(),
+            clearQuiz: mock(),
+            getScores: mock(() => '0,0.5,1'),
+            setScores: mock()
+        };
         const scoreRepository = new ScoreRepository({
             localStore: mockLocalStore
         });
@@ -113,12 +164,17 @@ describe('ScoreRepository', () => {
     });
 
     test('GIVEN scores are stored WHEN question score is set THEN expected scores are stored', () => {
-        const expectedStoredScores = '0,0,1';
-        let actualStoredScores = '';
-        const mockLocalStore = new MockLocalStoreBuilder()
-            .getScores(() => '0,0,0')
-            .setScores(value => actualStoredScores = value)
-            .build();
+        const mockLocalStore = {
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            getQuizDate: mock(),
+            setQuizDate: mock(),
+            getQuiz: mock(),
+            setQuiz: mock(),
+            clearQuiz: mock(),
+            getScores: mock(() => '0,0,0'),
+            setScores: mock()
+        };
         const scoreRepository = new ScoreRepository({
             localStore: mockLocalStore
         });
@@ -126,5 +182,5 @@ describe('ScoreRepository', () => {
 
         scoreRepository.setScore(3, QuestionScore.FULL);
 
-        expect(actualStoredScores).toBe(expectedStoredScores);
+        expect(mockLocalStore.setScores).toHaveBeenCalledWith('0,0,1');
     });});

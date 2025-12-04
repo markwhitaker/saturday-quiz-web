@@ -1,8 +1,5 @@
-import { describe, test, expect } from 'bun:test';
+import { describe, test, expect, mock } from 'bun:test';
 import CalendarDate from "../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js";
-import MockFetchWrapperBuilder from "./mocks/MockFetchWrapperBuilder.js";
-import MockLocalStoreBuilder from "./mocks/MockLocalStoreBuilder.js";
-import MockQuizCacheBuilder from "./mocks/MockQuizCacheBuilder.js";
 import Quiz from "../../SaturdayQuizWeb/wwwroot/script/Quiz.js";
 import QuizRepository from "../../SaturdayQuizWeb/wwwroot/script/QuizRepository.js";
 
@@ -14,14 +11,20 @@ describe('QuizRepository', () => {
         };
         const expectedQuiz = new Quiz(cachedRawQuiz);
 
-        let actualStoredQuizDate;
-
-        const mockLocalStore = new MockLocalStoreBuilder()
-            .setQuizDate(date => actualStoredQuizDate = date)
-            .build();
-        const mockQuizCache = new MockQuizCacheBuilder()
-            .getCachedQuiz(() => cachedRawQuiz)
-            .build();
+        const mockLocalStore = {
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            getQuizDate: mock(),
+            setQuizDate: mock(),
+            getQuiz: mock(),
+            setQuiz: mock(),
+            clearQuiz: mock(),
+            getScores: mock(),
+            setScores: mock()
+        };
+        const mockQuizCache = {
+            getCachedQuiz: mock(() => cachedRawQuiz)
+        };
         const quizRepository = new QuizRepository({
             localStore: mockLocalStore,
             quizCache: mockQuizCache
@@ -29,7 +32,7 @@ describe('QuizRepository', () => {
 
         quizRepository.loadLatestQuiz().then(actualQuiz => {
                 expect(actualQuiz).toEqual(expectedQuiz);
-                expect(actualStoredQuizDate).toEqual(new CalendarDate(cachedRawQuiz.date));
+                expect(mockLocalStore.setQuizDate).toHaveBeenCalledWith(new CalendarDate(cachedRawQuiz.date));
             }
         );
     });
@@ -42,22 +45,26 @@ describe('QuizRepository', () => {
 
         const expectedQuiz = new Quiz(fetchedRawQuiz);
 
-        let actualStoredQuiz;
-        let actualStoredQuizDate;
-
-        const mockFetchWrapper = new MockFetchWrapperBuilder()
-            .fetch(async () => ({
+        const mockFetchWrapper = {
+            fetch: mock(async () => ({
                 ok: true,
                 json: async() => fetchedRawQuiz
             }))
-            .build();
-        const mockLocalStore = new MockLocalStoreBuilder()
-            .setQuiz(quiz => actualStoredQuiz = quiz)
-            .setQuizDate(date => actualStoredQuizDate = date)
-            .build();
-        const mockQuizCache = new MockQuizCacheBuilder()
-            .getCachedQuiz(() => undefined)
-            .build();
+        };
+        const mockLocalStore = {
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            getQuizDate: mock(),
+            setQuizDate: mock(),
+            getQuiz: mock(),
+            setQuiz: mock(),
+            clearQuiz: mock(),
+            getScores: mock(),
+            setScores: mock()
+        };
+        const mockQuizCache = {
+            getCachedQuiz: mock(() => undefined)
+        };
         const quizRepository = new QuizRepository({
             fetchWrapper: mockFetchWrapper,
             localStore: mockLocalStore,
@@ -67,7 +74,7 @@ describe('QuizRepository', () => {
         const actualQuiz = await quizRepository.loadLatestQuiz();
 
         expect(actualQuiz).toEqual(expectedQuiz);
-        expect(actualStoredQuiz).toEqual(fetchedRawQuiz);
-        expect(actualStoredQuizDate).toEqual(new CalendarDate(fetchedRawQuiz.date));
+        expect(mockLocalStore.setQuiz).toHaveBeenCalledWith(fetchedRawQuiz);
+        expect(mockLocalStore.setQuizDate).toHaveBeenCalledWith(new CalendarDate(fetchedRawQuiz.date));
     });
 });

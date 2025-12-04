@@ -1,20 +1,22 @@
-import { describe, test, expect } from 'bun:test';
+import { describe, test, expect, mock } from 'bun:test';
 import QuizCache from '../../SaturdayQuizWeb/wwwroot/script/QuizCache.js';
 import CalendarDate from "../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js";
-import LocalStoreMockBuilder from "./mocks/MockLocalStoreBuilder.js";
-import MockDateWrapperBuilder from "./mocks/MockDateWrapperBuilder.js";
 
 describe('QuizCache', () => {
     test('GIVEN quiz is not cached WHEN get cached quiz THEN stored quiz is cleared and undefined is returned', () => {
         const cachedQuizDate = new CalendarDate(new Date()).subtractDays(6);
 
-        let actualQuizCleared = false;
-
-        const mockLocalStore = new LocalStoreMockBuilder()
-            .clearQuiz(() => actualQuizCleared = true)
-            .getQuizDate(() => cachedQuizDate)
-            .getQuiz(() => undefined)
-            .build();
+        const mockLocalStore = {
+            clearQuiz: mock(),
+            getQuizDate: mock(() => cachedQuizDate),
+            getQuiz: mock(() => undefined),
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            setQuizDate: mock(),
+            setQuiz: mock(),
+            getScores: mock(),
+            setScores: mock()
+        };
         const quizCache = new QuizCache({
             localStore: mockLocalStore
         });
@@ -22,7 +24,7 @@ describe('QuizCache', () => {
         const actualCachedQuiz = quizCache.getCachedQuiz();
 
         expect(actualCachedQuiz).toBeUndefined();
-        expect(actualQuizCleared).toBe(true);
+        expect(mockLocalStore.clearQuiz).toHaveBeenCalled();
     });
 
     test('GIVEN quiz is cached and 7 days old WHEN get cached quiz THEN stored quiz is cleared and undefined is returned', () => {
@@ -32,13 +34,17 @@ describe('QuizCache', () => {
             'questions': [{ 'number': 1, 'type': 'NORMAL', 'question': 'question', 'answer': 'answer' }]
         };
 
-        let actualQuizCleared = false;
-
-        const mockLocalStore = new LocalStoreMockBuilder()
-            .clearQuiz(() => actualQuizCleared = true)
-            .getQuizDate(() => cachedQuizDate)
-            .getQuiz(() => cachedQuiz)
-            .build();
+        const mockLocalStore = {
+            clearQuiz: mock(),
+            getQuizDate: mock(() => cachedQuizDate),
+            getQuiz: mock(() => cachedQuiz),
+            getQuizCacheHitTimestamp: mock(),
+            setQuizCacheHitTimestamp: mock(),
+            setQuizDate: mock(),
+            setQuiz: mock(),
+            getScores: mock(),
+            setScores: mock()
+        };
         const quizCache = new QuizCache({
             localStore: mockLocalStore
         });
@@ -46,7 +52,7 @@ describe('QuizCache', () => {
         const actualCachedQuiz = quizCache.getCachedQuiz();
 
         expect(actualCachedQuiz).toBeUndefined();
-        expect(actualQuizCleared).toBe(true);
+        expect(mockLocalStore.clearQuiz).toHaveBeenCalled();
     });
 
     test(`GIVEN quiz is cached and less than 7 days old and cache was hit within last ${QuizCache.skipCacheIfReloadedWithin} WHEN get cached quiz THEN stored quiz is cleared and undefined is returned`, () => {
@@ -58,17 +64,20 @@ describe('QuizCache', () => {
             'questions': [{ 'number': 1, 'type': 'NORMAL', 'question': 'question', 'answer': 'answer' }]
         };
 
-        let actualQuizCleared = false;
-
-        const mockLocalStore = new LocalStoreMockBuilder()
-            .clearQuiz(() => actualQuizCleared = true)
-            .getQuizCacheHitTimestamp(() => cacheHitTimestamp)
-            .getQuizDate(() => cachedQuizDate)
-            .getQuiz(() => cachedQuiz)
-            .build();
-        const mockDateWrapper = new MockDateWrapperBuilder()
-            .getNow(() => nowTimestamp)
-            .build();
+        const mockLocalStore = {
+            clearQuiz: mock(),
+            getQuizCacheHitTimestamp: mock(() => cacheHitTimestamp),
+            getQuizDate: mock(() => cachedQuizDate),
+            getQuiz: mock(() => cachedQuiz),
+            setQuizCacheHitTimestamp: mock(),
+            setQuizDate: mock(),
+            setQuiz: mock(),
+            getScores: mock(),
+            setScores: mock()
+        };
+        const mockDateWrapper = {
+            getNow: mock(() => nowTimestamp)
+        };
         const quizCache = new QuizCache({
             dateWrapper: mockDateWrapper,
             localStore: mockLocalStore
@@ -77,7 +86,7 @@ describe('QuizCache', () => {
         const actualCachedQuiz = quizCache.getCachedQuiz();
 
         expect(actualCachedQuiz).toBeUndefined();
-        expect(actualQuizCleared).toBe(true);
+        expect(mockLocalStore.clearQuiz).toHaveBeenCalled();
     });
 
     test(`GIVEN quiz is cached and less than 7 days old and cache was not hit within last ${QuizCache.skipCacheIfReloadedWithin} WHEN get cached quiz THEN stored quiz is not cleared and cached quiz is returned`, () => {
@@ -89,17 +98,20 @@ describe('QuizCache', () => {
             'questions': [{ 'number': 1, 'type': 'NORMAL', 'question': 'question', 'answer': 'answer' }]
         };
 
-        let actualQuizCleared = false;
-
-        const mockLocalStore = new LocalStoreMockBuilder()
-            .clearQuiz(() => actualQuizCleared = true)
-            .getQuizCacheHitTimestamp(() => cacheHitTimestamp)
-            .getQuizDate(() => cachedQuizDate)
-            .getQuiz(() => expectedCachedQuiz)
-            .build();
-        const mockDateWrapper = new MockDateWrapperBuilder()
-            .getNow(() => nowTimestamp)
-            .build();
+        const mockLocalStore = {
+            clearQuiz: mock(),
+            getQuizCacheHitTimestamp: mock(() => cacheHitTimestamp),
+            getQuizDate: mock(() => cachedQuizDate),
+            getQuiz: mock(() => expectedCachedQuiz),
+            setQuizCacheHitTimestamp: mock(),
+            setQuizDate: mock(),
+            setQuiz: mock(),
+            getScores: mock(),
+            setScores: mock()
+        };
+        const mockDateWrapper = {
+            getNow: mock(() => nowTimestamp)
+        };
         const quizCache = new QuizCache({
             dateWrapper: mockDateWrapper,
             localStore: mockLocalStore
@@ -108,6 +120,6 @@ describe('QuizCache', () => {
         const actualCachedQuiz = quizCache.getCachedQuiz();
 
         expect(actualCachedQuiz).toBe(expectedCachedQuiz);
-        expect(actualQuizCleared).toBe(false);
+        expect(mockLocalStore.clearQuiz).not.toHaveBeenCalled();
     });
 });
