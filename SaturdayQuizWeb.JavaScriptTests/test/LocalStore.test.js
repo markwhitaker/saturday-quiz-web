@@ -1,10 +1,9 @@
-import { suite, test } from 'mocha';
-import assert from 'assert';
+import { describe, test, expect } from 'bun:test';
 import CalendarDate from '../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js';
 import LocalStore from '../../SaturdayQuizWeb/wwwroot/script/LocalStore.js';
 import MockLocalStorageWrapperBuilder from './mocks/MockLocalStorageWrapperBuilder.js';
 
-suite('LocalStore', () => {
+describe('LocalStore', () => {
     test('GIVEN quiz date is set WHEN quiz date is retrieved THEN quiz date is correct', () => {
         const mockLocalStorageWrapper = new MockLocalStorageWrapperBuilder()
             .getItem(key => key === 'quiz-date' ? '2020-01-02' : undefined)
@@ -12,7 +11,7 @@ suite('LocalStore', () => {
         const localStore = new LocalStore({
             localStorageWrapper: mockLocalStorageWrapper
         });
-        assert.strictEqual(localStore.quizDate.toString(), 'Thu Jan 02 2020');
+        expect(localStore.quizDate.toString()).toBe('Thu Jan 02 2020');
     });
 
     test('GIVEN quiz date is not set WHEN quiz date is retrieved THEN quiz date is undefined', () => {
@@ -20,7 +19,7 @@ suite('LocalStore', () => {
         const localStore = new LocalStore({
             localStorageWrapper: mockLocalStorageWrapper
         });
-        assert.strictEqual(localStore.quizDate, undefined);
+        expect(localStore.quizDate).toBeUndefined();
     });
 
     test('GIVEN a quiz date WHEN quiz date is set THEN quiz date is stored', () => {
@@ -35,7 +34,7 @@ suite('LocalStore', () => {
 
         localStore.quizDate = new CalendarDate(new Date('2020-01-02'));
 
-        assert.strictEqual(actualStoredValue, expectedStoredValue);
+        expect(actualStoredValue).toBe(expectedStoredValue);
     });
 
     test('GIVEN a previous quiz date is already stored WHEN quiz date is set THEN scores are cleared AND quiz date is stored', () => {
@@ -54,8 +53,8 @@ suite('LocalStore', () => {
 
         localStore.quizDate = new CalendarDate(new Date('2020-01-02'));
 
-        assert.strictEqual(actualStoredValue, expectedStoredValue);
-        assert.strictEqual(scoresCleared, true);
+        expect(actualStoredValue).toBe(expectedStoredValue);
+        expect(scoresCleared).toBe(true);
     });
 
     test('GIVEN quiz json is stored WHEN quiz is retrieved THEN expected quiz is returned', () => {
@@ -70,7 +69,7 @@ suite('LocalStore', () => {
 
         const actualQuiz = localStore.quiz;
 
-        assert.deepStrictEqual(actualQuiz, expectedQuiz);
+        expect(actualQuiz).toEqual(expectedQuiz);
     });
 
     test('GIVEN in-memory quiz WHEN quiz is set THEN expected quiz json is stored', () => {
@@ -86,7 +85,7 @@ suite('LocalStore', () => {
 
         localStore.quiz = quiz;
 
-        assert.strictEqual(actualQuizJson, expectedQuizJson);
+        expect(actualQuizJson).toBe(expectedQuizJson);
     });
 
     test('GIVEN local store WHEN quiz is cleared THEN quiz json is removed', () => {
@@ -101,7 +100,7 @@ suite('LocalStore', () => {
 
         localStore.clearQuiz();
 
-        assert.strictEqual(actualRemovedKey, expectedRemovedKey);
+        expect(actualRemovedKey).toBe(expectedRemovedKey);
     });
 
     test('GIVEN scores are stored WHEN scores are retrieved THEN expected scores are returned', () => {
@@ -115,7 +114,7 @@ suite('LocalStore', () => {
 
         const actualScores = localStore.scores;
 
-        assert.strictEqual(actualScores, expectedScores);
+        expect(actualScores).toBe(expectedScores);
     });
 
     test('GIVEN scores WHEN scores are set THEN expected scores are stored', () => {
@@ -130,6 +129,6 @@ suite('LocalStore', () => {
 
         localStore.scores = expectedStoredScores;
 
-        assert.strictEqual(actualStoredScores, expectedStoredScores);
+        expect(actualStoredScores).toBe(expectedStoredScores);
     });
 });

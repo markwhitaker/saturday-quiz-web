@@ -1,11 +1,10 @@
-import { suite, test } from 'mocha';
-import assert from 'assert';
+import { describe, test, expect } from 'bun:test';
 import QuizCache from '../../SaturdayQuizWeb/wwwroot/script/QuizCache.js';
 import CalendarDate from "../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js";
 import LocalStoreMockBuilder from "./mocks/MockLocalStoreBuilder.js";
 import MockDateWrapperBuilder from "./mocks/MockDateWrapperBuilder.js";
 
-suite('QuizCache', () => {
+describe('QuizCache', () => {
     test('GIVEN quiz is not cached WHEN get cached quiz THEN stored quiz is cleared and undefined is returned', () => {
         const cachedQuizDate = new CalendarDate(new Date()).subtractDays(6);
 
@@ -22,8 +21,8 @@ suite('QuizCache', () => {
 
         const actualCachedQuiz = quizCache.getCachedQuiz();
 
-        assert.strictEqual(actualCachedQuiz, undefined);
-        assert.strictEqual(actualQuizCleared, true);
+        expect(actualCachedQuiz).toBeUndefined();
+        expect(actualQuizCleared).toBe(true);
     });
 
     test('GIVEN quiz is cached and 7 days old WHEN get cached quiz THEN stored quiz is cleared and undefined is returned', () => {
@@ -46,8 +45,8 @@ suite('QuizCache', () => {
 
         const actualCachedQuiz = quizCache.getCachedQuiz();
 
-        assert.strictEqual(actualCachedQuiz, undefined);
-        assert.strictEqual(actualQuizCleared, true);
+        expect(actualCachedQuiz).toBeUndefined();
+        expect(actualQuizCleared).toBe(true);
     });
 
     test(`GIVEN quiz is cached and less than 7 days old and cache was hit within last ${QuizCache.skipCacheIfReloadedWithin} WHEN get cached quiz THEN stored quiz is cleared and undefined is returned`, () => {
@@ -77,8 +76,8 @@ suite('QuizCache', () => {
 
         const actualCachedQuiz = quizCache.getCachedQuiz();
 
-        assert.strictEqual(actualCachedQuiz, undefined);
-        assert.strictEqual(actualQuizCleared, true);
+        expect(actualCachedQuiz).toBeUndefined();
+        expect(actualQuizCleared).toBe(true);
     });
 
     test(`GIVEN quiz is cached and less than 7 days old and cache was not hit within last ${QuizCache.skipCacheIfReloadedWithin} WHEN get cached quiz THEN stored quiz is not cleared and cached quiz is returned`, () => {
@@ -108,7 +107,7 @@ suite('QuizCache', () => {
 
         const actualCachedQuiz = quizCache.getCachedQuiz();
 
-        assert.deepStrictEqual(actualCachedQuiz, expectedCachedQuiz);
-        assert.strictEqual(actualQuizCleared, false);
+        expect(actualCachedQuiz).toBe(expectedCachedQuiz);
+        expect(actualQuizCleared).toBe(false);
     });
 });

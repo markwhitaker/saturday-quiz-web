@@ -1,8 +1,7 @@
-import { suite, test } from 'mocha';
-import assert from 'assert';
+import { describe, test, expect } from 'bun:test';
 import Question from '../../SaturdayQuizWeb/wwwroot/script/Question.js';
 
-suite('Question', () => {
+describe('Question', () => {
     test('GIVEN raw question with NORMAL type WHEN question is constructed THEN expected question is returned', () => {
         const expectedNumber = 1;
         const expectedType = 'NORMAL';
@@ -17,11 +16,11 @@ suite('Question', () => {
             answer: expectedAnswer
         });
 
-        assert.strictEqual(question.number, expectedNumber);
-        assert.strictEqual(question.type, expectedType);
-        assert.strictEqual(question.question, expectedQuestion);
-        assert.strictEqual(question.answer, expectedAnswer);
-        assert.strictEqual(question.isWhatLinks, expectedIsWhatLinks);
+        expect(question.number).toBe(expectedNumber);
+        expect(question.type).toBe(expectedType);
+        expect(question.question).toBe(expectedQuestion);
+        expect(question.answer).toBe(expectedAnswer);
+        expect(question.isWhatLinks).toBe(expectedIsWhatLinks);
     });
 
     test('GIVEN raw question with WHAT_LINKS type WHEN question is constructed THEN expected question is returned', () => {
@@ -38,10 +37,10 @@ suite('Question', () => {
             answer: expectedAnswer
         });
 
-        assert.strictEqual(question.number, expectedNumber);
-        assert.strictEqual(question.type, expectedType);
-        assert.strictEqual(question.question, expectedQuestion);
-        assert.strictEqual(question.answer, expectedAnswer);
-        assert.strictEqual(question.isWhatLinks, expectedIsWhatLinks);
+        expect(question.number).toBe(expectedNumber);
+        expect(question.type).toBe(expectedType);
+        expect(question.question).toBe(expectedQuestion);
+        expect(question.answer).toBe(expectedAnswer);
+        expect(question.isWhatLinks).toBe(expectedIsWhatLinks);
     });
 });

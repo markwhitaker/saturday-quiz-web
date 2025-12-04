@@ -14,7 +14,7 @@ This is an ASP.NET Core 9.0 web application with JavaScript testing components. 
 - `dotnet test SaturdayQuizWeb.UnitTests` - Run C# unit tests
 - `dotnet test SaturdayQuizWeb.IntegrationTests` - Run C# integration tests
 - `dotnet test SaturdayQuizWeb.IntegrationTests --filter Category!=LongRunning` - Run integration tests excluding long-running tests
-- `cd SaturdayQuizWeb.JavaScriptTests && npm install && npm test` - Run JavaScript tests using Mocha
+- `cd SaturdayQuizWeb.JavaScriptTests && bun test` - Run JavaScript tests using Bun
 
 ### Running the Application
 - `dotnet run --project SaturdayQuizWeb` - Start the web application
@@ -28,7 +28,7 @@ This is a Saturday Quiz web application that fetches quiz data from The Guardian
 - **SaturdayQuizWeb/** - Main web application project
 - **SaturdayQuizWeb.UnitTests/** - C# unit tests using NUnit
 - **SaturdayQuizWeb.IntegrationTests/** - Integration tests
-- **SaturdayQuizWeb.JavaScriptTests/** - JavaScript tests using Mocha
+- **SaturdayQuizWeb.JavaScriptTests/** - JavaScript tests using Bun
 
 ### Key Components
 

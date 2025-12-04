@@ -1,5 +1,4 @@
-import { suite, test } from 'mocha';
-import assert from 'assert';
+import { describe, test, expect } from 'bun:test';
 import CalendarDate from "../../SaturdayQuizWeb/wwwroot/script/CalendarDate.js";
 import MockFetchWrapperBuilder from "./mocks/MockFetchWrapperBuilder.js";
 import MockLocalStoreBuilder from "./mocks/MockLocalStoreBuilder.js";
@@ -7,7 +6,7 @@ import MockQuizCacheBuilder from "./mocks/MockQuizCacheBuilder.js";
 import Quiz from "../../SaturdayQuizWeb/wwwroot/script/Quiz.js";
 import QuizRepository from "../../SaturdayQuizWeb/wwwroot/script/QuizRepository.js";
 
-suite('QuizRepository', () => {
+describe('QuizRepository', () => {
     test('GIVEN quiz is cached WHEN load latest quiz THEN cached quiz is returned and quiz date is stored', () => {
         const cachedRawQuiz = {
             'date': '2020-01-02',
@@ -29,8 +28,8 @@ suite('QuizRepository', () => {
         });
 
         quizRepository.loadLatestQuiz().then(actualQuiz => {
-                assert.deepStrictEqual(actualQuiz, expectedQuiz);
-                assert.deepStrictEqual(actualStoredQuizDate, new CalendarDate(cachedRawQuiz.date));
+                expect(actualQuiz).toEqual(expectedQuiz);
+                expect(actualStoredQuizDate).toEqual(new CalendarDate(cachedRawQuiz.date));
             }
         );
     });
@@ -67,8 +66,8 @@ suite('QuizRepository', () => {
 
         const actualQuiz = await quizRepository.loadLatestQuiz();
 
-        assert.deepStrictEqual(actualQuiz, expectedQuiz);
-        assert.deepStrictEqual(actualStoredQuiz, fetchedRawQuiz);
-        assert.deepStrictEqual(actualStoredQuizDate, new CalendarDate(fetchedRawQuiz.date));
+        expect(actualQuiz).toEqual(expectedQuiz);
+        expect(actualStoredQuiz).toEqual(fetchedRawQuiz);
+        expect(actualStoredQuizDate).toEqual(new CalendarDate(fetchedRawQuiz.date));
     });
 });

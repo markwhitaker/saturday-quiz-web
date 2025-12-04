@@ -27,8 +27,11 @@ jobs:
       - name: Run integration tests
         run: dotnet test SaturdayQuizWeb.IntegrationTests -c Release -v normal --filter Category!=LongRunning
         if: github.actor != 'dependabot[bot]'
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
       - name: Run JavaScript tests
         run: |
           cd SaturdayQuizWeb.JavaScriptTests
-          npm install
-          npm test
+          bun test

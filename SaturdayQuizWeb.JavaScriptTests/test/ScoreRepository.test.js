@@ -1,13 +1,12 @@
-import { suite, test } from 'mocha';
-import assert from 'assert';
+import { describe, test, expect } from 'bun:test';
 import MockLocalStoreBuilder from "./mocks/MockLocalStoreBuilder.js";
 import QuestionScore from "../../SaturdayQuizWeb/wwwroot/script/QuestionScore.js";
 import ScoreRepository from '../../SaturdayQuizWeb/wwwroot/script/ScoreRepository.js';
 
-suite('ScoreRepository', () => {
+describe('ScoreRepository', () => {
     test('GIVEN no scores WHEN total score is calculated THEN total score is zero', () => {
         const scoreRepository = new ScoreRepository();
-        assert.strictEqual(scoreRepository.totalScore, 0);
+        expect(scoreRepository.totalScore).toBe(0);
     });
 
     test('GIVEN no scores are stored WHEN repository is initialised THEN new score array is stored', () => {
@@ -22,7 +21,7 @@ suite('ScoreRepository', () => {
 
         scoreRepository.initialiseScores({ questions: [{}, {}, {}] });
 
-        assert.strictEqual(actualStoredScores, '0,0,0');
+        expect(actualStoredScores).toBe('0,0,0');
     });
 
     test('GIVEN scores are stored WHEN repository is initialised THEN existing score array is stored', () => {
@@ -37,7 +36,7 @@ suite('ScoreRepository', () => {
 
         scoreRepository.initialiseScores({ questions: [{}, {}, {}] });
 
-        assert.strictEqual(actualStoredScores, '0,0.5,1');
+        expect(actualStoredScores).toBe('0,0.5,1');
     });
 
     test('GIVEN scores are stored WHEN total score is calculated THEN expected total score is returned', () => {
@@ -52,7 +51,7 @@ suite('ScoreRepository', () => {
 
         const actualTotalScore = scoreRepository.totalScore;
 
-        assert.strictEqual(actualTotalScore, expectedTotalScore);
+        expect(actualTotalScore).toBe(expectedTotalScore);
     });
 
     test('GIVEN scores are stored WHEN all scores are retrieved THEN expected scores are returned', () => {
@@ -67,7 +66,7 @@ suite('ScoreRepository', () => {
 
         const actualAllScores = scoreRepository.allScores;
 
-        assert.deepStrictEqual(actualAllScores, expectedAllScores);
+        expect(actualAllScores).toEqual(expectedAllScores);
     });
 
     test('GIVEN all stored scores are zero WHEN has scores THEN false is returned', () => {
@@ -81,7 +80,7 @@ suite('ScoreRepository', () => {
 
         const actualHasScores = scoreRepository.hasScores;
 
-        assert.strictEqual(actualHasScores, false);
+        expect(actualHasScores).toBe(false);
     });
 
     test('GIVEN one stored score is greater than zero WHEN has scores THEN true is returned', () => {
@@ -95,7 +94,7 @@ suite('ScoreRepository', () => {
 
         const actualHasScores = scoreRepository.hasScores;
 
-        assert.strictEqual(actualHasScores, true);
+        expect(actualHasScores).toBe(true);
     });
 
     test('GIVEN scores are stored WHEN question score is retrieved THEN expected question score is returned', () => {
@@ -110,7 +109,7 @@ suite('ScoreRepository', () => {
 
         const actualQuestionScore = scoreRepository.getScore(2);
 
-        assert.strictEqual(actualQuestionScore, expectedQuestionScore);
+        expect(actualQuestionScore).toBe(expectedQuestionScore);
     });
 
     test('GIVEN scores are stored WHEN question score is set THEN expected scores are stored', () => {
@@ -127,5 +126,5 @@ suite('ScoreRepository', () => {
 
         scoreRepository.setScore(3, QuestionScore.FULL);
 
-        assert.strictEqual(actualStoredScores, expectedStoredScores);
+        expect(actualStoredScores).toBe(expectedStoredScores);
     });});

@@ -1,17 +1,16 @@
-import { suite, test } from 'mocha';
-import assert from 'assert';
+import { describe, test, expect } from 'bun:test';
 import QuestionScore from '../../SaturdayQuizWeb/wwwroot/script/QuestionScore.js';
 
-suite('QuestionScore', () => {
+describe('QuestionScore', () => {
     test('QuestionScore.NONE should be 0', () => {
-        assert.strictEqual(QuestionScore.NONE, 0);
+        expect(QuestionScore.NONE).toBe(0);
     });
 
     test('QuestionScore.HALF should be 0.5', () => {
-        assert.strictEqual(QuestionScore.HALF, 0.5);
+        expect(QuestionScore.HALF).toBe(0.5);
     });
 
     test('QuestionScore.FULL should be 1', () => {
-        assert.strictEqual(QuestionScore.FULL, 1);
+        expect(QuestionScore.FULL).toBe(1);
     });
 });

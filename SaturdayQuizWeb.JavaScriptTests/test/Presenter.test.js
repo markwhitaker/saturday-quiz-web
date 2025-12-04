@@ -1,5 +1,4 @@
-import { suite, test } from 'mocha';
-import assert from 'assert';
+import { describe, test, expect } from 'bun:test';
 import MockNavigatorWrapperBuilder from "./mocks/MockNavigatorWrapperBuilder.js";
 import MockQuizRepositoryBuilder from "./mocks/MockQuizRepositoryBuilder.js";
 import MockScoreRepositoryBuilder from "./mocks/MockScoreRepositoryBuilder.js";
@@ -9,7 +8,7 @@ import Question from "../../SaturdayQuizWeb/wwwroot/script/Question.js";
 import QuestionScore from "../../SaturdayQuizWeb/wwwroot/script/QuestionScore.js";
 import Quiz from "../../SaturdayQuizWeb/wwwroot/script/Quiz.js";
 
-suite('Presenter', () => {
+describe('Presenter', () => {
     test('GIVEN quiz repository WHEN view is ready THEN quiz is loaded AND questions title scene is shown', async () => {
         let actualIsQuizStored;
         let actualIsViewNavigationEnabled;
@@ -57,15 +56,15 @@ suite('Presenter', () => {
 
         await presenter.onViewReady(mockView);
 
-        assert.strictEqual(actualIsQuizStored, true);
-        assert.strictEqual(actualIsViewNavigationEnabled, true);
-        assert.strictEqual(actualIsViewSkipToAnswersToggled, areScoresStored);
-        assert.strictEqual(actualIsViewQuizLoaded, true);
-        assert.strictEqual(actualViewQuestionsTitleDateString, expectedQuestionsTitleDateString);
-        assert.strictEqual(actualIsViewScoreShareHidden, true);
-        assert.strictEqual(actualIsViewScoreTickHidden, true);
-        assert.strictEqual(actualIsViewSkipToAnswersShown, true);
-        assert.strictEqual(actualIsViewTitlePageShown, true);
+        expect(actualIsQuizStored).toBe(true);
+        expect(actualIsViewNavigationEnabled).toBe(true);
+        expect(actualIsViewSkipToAnswersToggled).toBe(areScoresStored);
+        expect(actualIsViewQuizLoaded).toBe(true);
+        expect(actualViewQuestionsTitleDateString).toBe(expectedQuestionsTitleDateString);
+        expect(actualIsViewScoreShareHidden).toBe(true);
+        expect(actualIsViewScoreTickHidden).toBe(true);
+        expect(actualIsViewSkipToAnswersShown).toBe(true);
+        expect(actualIsViewTitlePageShown).toBe(true);
     });
 
     test('GIVEN questions title is shown WHEN on next THEN first question is shown', async () => {
@@ -103,12 +102,12 @@ suite('Presenter', () => {
 
         presenter.onNext();
 
-        assert.strictEqual(actualIsViewAnswerHidden, true);
-        assert.strictEqual(actualIsViewScoreShareHidden, true);
-        assert.strictEqual(actualIsViewScoreTickHidden, true);
-        assert.strictEqual(actualIsViewSkipToAnswersHidden, true);
-        assert.deepStrictEqual(actualViewQuestion, quiz.questions[0]);
-        assert.strictEqual(actualIsViewQuestionPageShown, true);
+        expect(actualIsViewAnswerHidden).toBe(true);
+        expect(actualIsViewScoreShareHidden).toBe(true);
+        expect(actualIsViewScoreTickHidden).toBe(true);
+        expect(actualIsViewSkipToAnswersHidden).toBe(true);
+        expect(actualViewQuestion).toEqual(quiz.questions[0]);
+        expect(actualIsViewQuestionPageShown).toBe(true);
     });
 
     test('GIVEN questions title is shown WHEN on space THEN skip to answers is toggled', async () => {
@@ -139,7 +138,7 @@ suite('Presenter', () => {
 
         presenter.onSpace();
 
-        assert.deepStrictEqual(actualSkipToAnswersValues, expectedSkipToAnswersValues);
+        expect(actualSkipToAnswersValues).toEqual(expectedSkipToAnswersValues);
     });
 
     test('GIVEN last question is shown WHEN on next THEN answers title is shown', async () => {
@@ -176,11 +175,11 @@ suite('Presenter', () => {
 
         presenter.onNext();
 
-        assert.strictEqual(actualIsViewScoreShareHidden, true);
-        assert.strictEqual(actualIsViewScoreTickHidden, true);
-        assert.strictEqual(actualIsViewSkipToAnswersHidden, true);
-        assert.strictEqual(actualIsViewAnswersTitleShown, true);
-        assert.strictEqual(actualIsViewTitlePageShown, true);
+        expect(actualIsViewScoreShareHidden).toBe(true);
+        expect(actualIsViewScoreTickHidden).toBe(true);
+        expect(actualIsViewSkipToAnswersHidden).toBe(true);
+        expect(actualIsViewAnswersTitleShown).toBe(true);
+        expect(actualIsViewTitlePageShown).toBe(true);
     });
 
     test('GIVEN answers title is shown WHEN on next THEN first question is shown', async () => {
@@ -220,12 +219,12 @@ suite('Presenter', () => {
 
         presenter.onNext(); // show first question again
 
-        assert.strictEqual(actualIsViewAnswerHidden, true);
-        assert.strictEqual(actualIsViewScoreShareHidden, true);
-        assert.strictEqual(actualIsViewScoreTickHidden, true);
-        assert.strictEqual(actualIsViewSkipToAnswersHidden, true);
-        assert.deepStrictEqual(actualViewQuestion, quiz.questions[0]);
-        assert.strictEqual(actualIsViewQuestionPageShown, true);
+        expect(actualIsViewAnswerHidden).toBe(true);
+        expect(actualIsViewScoreShareHidden).toBe(true);
+        expect(actualIsViewScoreTickHidden).toBe(true);
+        expect(actualIsViewSkipToAnswersHidden).toBe(true);
+        expect(actualViewQuestion).toEqual(quiz.questions[0]);
+        expect(actualIsViewQuestionPageShown).toBe(true);
     });
 
     test('GIVEN question is shown for a second time WHEN on next THEN first answer is shown', async () => {
@@ -266,12 +265,12 @@ suite('Presenter', () => {
 
         presenter.onNext(); // show first answer
 
-        assert.strictEqual(actualIsViewAnswerShown, true);
-        assert.strictEqual(actualIsViewScoreShareHidden, true);
-        assert.strictEqual(actualIsViewScoreTickShown, true);
-        assert.strictEqual(actualIsViewSkipToAnswersHidden, true);
-        assert.deepStrictEqual(actualViewQuestion, quiz.questions[0]);
-        assert.strictEqual(actualIsViewQuestionPageShown, true);
+        expect(actualIsViewAnswerShown).toBe(true);
+        expect(actualIsViewScoreShareHidden).toBe(true);
+        expect(actualIsViewScoreTickShown).toBe(true);
+        expect(actualIsViewSkipToAnswersHidden).toBe(true);
+        expect(actualViewQuestion).toEqual(quiz.questions[0]);
+        expect(actualIsViewQuestionPageShown).toBe(true);
     });
 
     test('GIVEN answer is shown WHEN on space THEN score is toggled', async () => {
@@ -319,7 +318,7 @@ suite('Presenter', () => {
         presenter.onSpace();
         presenter.onSpace();
 
-        assert.deepStrictEqual(actualQuestionScoreSequence, expectedQuestionScoreSequence);
+        expect(actualQuestionScoreSequence).toEqual(expectedQuestionScoreSequence);
     });
 
     test('GIVEN last answer is shown WHEN on next THEN end title is shown', async () => {
@@ -363,11 +362,11 @@ suite('Presenter', () => {
 
         presenter.onNext();
 
-        assert.strictEqual(actualIsViewScoreTickHidden, true);
-        assert.strictEqual(actualIsViewSkipToAnswersHidden, true);
-        assert.strictEqual(actualIsViewEndTitleShown, true);
-        assert.strictEqual(actualIsViewScoreShareShown, true);
-        assert.deepStrictEqual(actualIsViewTitlePageShown, true);
+        expect(actualIsViewScoreTickHidden).toBe(true);
+        expect(actualIsViewSkipToAnswersHidden).toBe(true);
+        expect(actualIsViewEndTitleShown).toBe(true);
+        expect(actualIsViewScoreShareShown).toBe(true);
+        expect(actualIsViewTitlePageShown).toBe(true);
     });
 
     test('GIVEN end title is shown WHEN on previous THEN last answer is shown', async () => {
@@ -414,12 +413,12 @@ suite('Presenter', () => {
 
         presenter.onPrevious();
 
-        assert.strictEqual(actualIsViewAnswerShown, true);
-        assert.strictEqual(actualIsViewScoreShareHidden, true);
-        assert.strictEqual(actualIsViewScoreTickShown, true);
-        assert.strictEqual(actualIsViewSkipToAnswersHidden, true);
-        assert.deepStrictEqual(actualViewQuestion, quiz.questions[0]);
-        assert.strictEqual(actualIsViewQuestionPageShown, true);
+        expect(actualIsViewAnswerShown).toBe(true);
+        expect(actualIsViewScoreShareHidden).toBe(true);
+        expect(actualIsViewScoreTickShown).toBe(true);
+        expect(actualIsViewSkipToAnswersHidden).toBe(true);
+        expect(actualViewQuestion).toEqual(quiz.questions[0]);
+        expect(actualIsViewQuestionPageShown).toBe(true);
     });
 
     test('GIVEN score repository has scores WHEN share score THEN expected data is shared', async () => {
@@ -449,6 +448,6 @@ suite('Presenter', () => {
 
         await presenter.shareScore();
 
-        assert.deepStrictEqual(actualSharedData, expectedSharedData);
+        expect(actualSharedData).toEqual(expectedSharedData);
     });
 });
