@@ -20,7 +20,7 @@ export default class QuizRepository {
     async loadLatestQuiz() {
         const quizJson = this.#quizCache.getCachedQuiz() ?? await this.#downloadQuiz();
         const quiz = new Quiz(quizJson);
-        this.#localStore.quizDate = quiz.date;
+        this.#localStore.setQuizDate(quiz.getDate());
         return quiz;
     }
 
@@ -31,7 +31,7 @@ export default class QuizRepository {
             throw new Error(`Failed to fetch ${this.#quizEndpoint}. ${response.status}: ${response.statusText}`);
         }
         const rawQuizObject = await response.json();
-        this.#localStore.quiz = rawQuizObject;
+        this.#localStore.setQuiz(rawQuizObject);
         return rawQuizObject;
     }
 }

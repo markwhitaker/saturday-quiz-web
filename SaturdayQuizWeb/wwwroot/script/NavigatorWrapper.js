@@ -1,5 +1,5 @@
 export default class NavigatorWrapper {
-    get isShareSupported() {
+    isShareSupported() {
         return navigator && navigator.share;
     }
 

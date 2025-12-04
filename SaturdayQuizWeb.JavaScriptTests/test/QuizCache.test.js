@@ -51,7 +51,7 @@ describe('QuizCache', () => {
 
     test(`GIVEN quiz is cached and less than 7 days old and cache was hit within last ${QuizCache.skipCacheIfReloadedWithin} WHEN get cached quiz THEN stored quiz is cleared and undefined is returned`, () => {
         const cacheHitTimestamp = 0;
-        const nowTimestamp = QuizCache.skipCacheIfReloadedWithin.milliseconds;
+        const nowTimestamp = QuizCache.skipCacheIfReloadedWithin.getMilliseconds();
         const cachedQuizDate = new CalendarDate(new Date()).subtractDays(6);
         const cachedQuiz = {
             'date': '2020-01-02',
@@ -82,7 +82,7 @@ describe('QuizCache', () => {
 
     test(`GIVEN quiz is cached and less than 7 days old and cache was not hit within last ${QuizCache.skipCacheIfReloadedWithin} WHEN get cached quiz THEN stored quiz is not cleared and cached quiz is returned`, () => {
         const cacheHitTimestamp = 0;
-        const nowTimestamp = QuizCache.skipCacheIfReloadedWithin.milliseconds + 1;
+        const nowTimestamp = QuizCache.skipCacheIfReloadedWithin.getMilliseconds() + 1;
         const cachedQuizDate = new CalendarDate(new Date()).subtractDays(6);
         const expectedCachedQuiz = {
             'date': '2020-01-02',

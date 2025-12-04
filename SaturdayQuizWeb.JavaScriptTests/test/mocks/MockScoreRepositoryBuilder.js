@@ -1,23 +1,11 @@
 export default class MockScoreRepositoryBuilder {
     #mock = {
         getAllScores: () => {},
-        getHasScores: () => {},
+        hasScores: () => {},
         getScore: () => {},
         getTotalScore: () => {},
         initialiseScores: () => {},
-        setScore: () => {},
-
-        get allScores() {
-            return this.getAllScores();
-        },
-
-        get hasScores() {
-            return this.getHasScores();
-        },
-
-        get totalScore() {
-            return this.getTotalScore();
-        }
+        setScore: () => {}
     }
 
     getAllScores(fn) {
@@ -25,8 +13,8 @@ export default class MockScoreRepositoryBuilder {
         return this;
     }
 
-    getHasScores(fn) {
-        this.#mock.getHasScores = fn;
+    hasScores(fn) {
+        this.#mock.hasScores = fn;
         return this;
     }
 

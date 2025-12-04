@@ -15,33 +15,33 @@ export default class LocalStore {
         this.#localStorageWrapper = dependencies?.localStorageWrapper ?? new LocalStorageWrapper();
     }
 
-    get quizCacheHitTimestamp() {
+    getQuizCacheHitTimestamp() {
         const timestampString = this.#localStorageWrapper.getItem(LocalStore.#KEYS.QUIZ_CACHE_HIT_TIMESTAMP);
         return timestampString ? Number(timestampString) : 0;
     }
 
-    set quizCacheHitTimestamp(timestamp) {
+    setQuizCacheHitTimestamp(timestamp) {
         this.#localStorageWrapper.setItem(LocalStore.#KEYS.QUIZ_CACHE_HIT_TIMESTAMP, timestamp.toString());
     }
 
-    get quizDate() {
+    getQuizDate() {
         const dateString = this.#localStorageWrapper.getItem(LocalStore.#KEYS.QUIZ_DATE);
         return dateString ? new CalendarDate(dateString) : undefined;
     }
 
-    set quizDate(calendarDate) {
-        const storedCalendarDate = this.quizDate;
+    setQuizDate(calendarDate) {
+        const storedCalendarDate = this.getQuizDate();
         if (!calendarDate.equals(storedCalendarDate)) {
             this.#localStorageWrapper.removeItem(LocalStore.#KEYS.SCORES);
             this.#localStorageWrapper.setItem(LocalStore.#KEYS.QUIZ_DATE, calendarDate.toString());
         }
     }
 
-    get quiz() {
+    getQuiz() {
         return JSON.parse(this.#localStorageWrapper.getItem(LocalStore.#KEYS.QUIZ_JSON));
     }
 
-    set quiz(json) {
+    setQuiz(json) {
         this.#localStorageWrapper.setItem(LocalStore.#KEYS.QUIZ_JSON, JSON.stringify(json));
     }
 
@@ -49,11 +49,11 @@ export default class LocalStore {
         this.#localStorageWrapper.removeItem(LocalStore.#KEYS.QUIZ_JSON);
     }
 
-    get scores() {
+    getScores() {
         return this.#localStorageWrapper.getItem(LocalStore.#KEYS.SCORES);
     }
 
-    set scores(value) {
+    setScores(value) {
         this.#localStorageWrapper.setItem(LocalStore.#KEYS.SCORES, value);
     }
 }

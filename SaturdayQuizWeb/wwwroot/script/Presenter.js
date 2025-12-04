@@ -68,7 +68,7 @@ export default class Presenter {
             return;
         }
 
-        const questionNumber = scene.question.number;
+        const questionNumber = scene.question.getNumber();
         let score = this.#scoreRepository.getScore(questionNumber);
         switch (score)
         {
@@ -97,8 +97,8 @@ export default class Presenter {
     }
 
     async shareScore() {
-        const totalScore = Presenter.#formatTotalScore(this.#scoreRepository.totalScore);
-        const scoreBreakdown = this.#scoreRepository.allScores
+        const totalScore = Presenter.#formatTotalScore(this.#scoreRepository.getTotalScore());
+        const scoreBreakdown = this.#scoreRepository.getAllScores()
             .map((score, index) =>
                 score === QuestionScore.NONE ? null :
                 score === QuestionScore.HALF ? (index + 1) + ' (half)' :
@@ -118,7 +118,7 @@ export default class Presenter {
 
     #onQuizLoaded() {
         this.#scoreRepository.initialiseScores(this.#quiz);
-        this.#skipToAnswers = this.#scoreRepository.hasScores;
+        this.#skipToAnswers = this.#scoreRepository.hasScores();
         this.#buildScenes();
         this.#showScene();
         this.#view.enableNavigation();
@@ -158,16 +158,16 @@ export default class Presenter {
                 view.hideScoreShare();
                 view.hideSkipToAnswers();
                 view.showQuestion(question);
-                view.showAnswer(question.answer);
+                view.showAnswer(question.getAnswer());
                 view.showQuestionPage();
-                view.showScoreTick(this.#scoreRepository.getScore(question.number));
+                view.showScoreTick(this.#scoreRepository.getScore(question.getNumber()));
                 break;
             case Scene.Type.END_TITLE:
                 view.hideScoreTick();
                 view.hideSkipToAnswers();
-                view.showEndTitle(Presenter.#formatTotalScore(this.#scoreRepository.totalScore));
+                view.showEndTitle(Presenter.#formatTotalScore(this.#scoreRepository.getTotalScore()));
                 view.showTitlePage();
-                if (this.#navigatorWrapper.isShareSupported) {
+                if (this.#navigatorWrapper.isShareSupported()) {
                     view.showScoreShare();
                 }
                 break;
@@ -177,16 +177,16 @@ export default class Presenter {
     #buildScenes() {
         this.#scenes = [];
 
-        this.#scenes.push(Scene.questionsTitleScene(this.#quiz.date));
+        this.#scenes.push(Scene.questionsTitleScene(this.#quiz.getDate()));
 
         if (!this.#skipToAnswers) {
-            for (const question of this.#quiz.questions) {
+            for (const question of this.#quiz.getQuestions()) {
                 this.#scenes.push(Scene.questionScene(question));
             }
             this.#scenes.push(Scene.answersTitleScene());
         }
 
-        for (const question of this.#quiz.questions) {
+        for (const question of this.#quiz.getQuestions()) {
             this.#scenes.push(Scene.questionScene(question));
             this.#scenes.push(Scene.questionAnswerScene(question));
         }

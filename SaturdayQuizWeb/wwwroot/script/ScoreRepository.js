@@ -10,20 +10,20 @@ export default class ScoreRepository {
         this.#scores = [];
     }
 
-    get totalScore() {
+    getTotalScore() {
         return this.#scores.length === 0 ? 0 : this.#scores.reduce((a, b) => a + b);
     }
 
-    get hasScores() {
+    hasScores() {
         return !this.#scores.every(s => s === QuestionScore.NONE);
     }
 
-    get allScores() {
+    getAllScores() {
         return this.#scores;
     }
 
     initialiseScores(quiz) {
-        this.#scores = this.#loadScores() ?? new Array(quiz.questions.length).fill(QuestionScore.NONE);
+        this.#scores = this.#loadScores() ?? new Array(quiz.getQuestions().length).fill(QuestionScore.NONE);
         this.#saveScores();
     }
 
@@ -37,11 +37,11 @@ export default class ScoreRepository {
     }
 
     #loadScores() {
-        const scoreString = this.#localStore.scores;
+        const scoreString = this.#localStore.getScores();
         return scoreString?.split(",").map(parseFloat);
     }
 
     #saveScores() {
-        this.#localStore.scores = this.#scores.toString();
+        this.#localStore.setScores(this.#scores.toString());
     }
 }

@@ -16,17 +16,17 @@ export default class QuizCache {
     }
 
     getCachedQuiz() {
-        const cachedRawQuizObject = this.#localStore.quiz;
-        const quizDate = this.#localStore.quizDate;
-        const msSinceLastCacheHit = this.#dateWrapper.now - this.#localStore.quizCacheHitTimestamp;
+        const cachedRawQuizObject = this.#localStore.getQuiz();
+        const quizDate = this.#localStore.getQuizDate();
+        const msSinceLastCacheHit = this.#dateWrapper.getNow() - this.#localStore.getQuizCacheHitTimestamp();
         const shouldReturnFromCache =
             !!cachedRawQuizObject &&
             !!quizDate &&
             QuizCache.#isFewerThan7DaysAgo(quizDate) &&
-            msSinceLastCacheHit > QuizCache.skipCacheIfReloadedWithin.milliseconds;
+            msSinceLastCacheHit > QuizCache.skipCacheIfReloadedWithin.getMilliseconds();
 
         if (shouldReturnFromCache) {
-            this.#localStore.quizCacheHitTimestamp = this.#dateWrapper.now;
+            this.#localStore.setQuizCacheHitTimestamp(this.#dateWrapper.getNow());
             Logger.debug("Returning cached quiz...")
             return cachedRawQuizObject;
         }

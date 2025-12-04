@@ -1,10 +1,6 @@
 export default class MockDateWrapperBuilder {
     #mock = {
-        getNow: () => {},
-
-        get now() {
-            return this.getNow();
-        }
+        getNow: () => {}
     };
 
     getNow(fn) {

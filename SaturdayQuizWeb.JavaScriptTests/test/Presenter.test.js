@@ -35,7 +35,7 @@ describe('Presenter', () => {
             .loadLatestQuiz(async () => (quiz))
             .build();
         const mockScoreRepository = new MockScoreRepositoryBuilder()
-            .getHasScores(() => areScoresStored)
+            .hasScores(() => areScoresStored)
             .initialiseScores(() => actualIsQuizStored = true)
             .build();
         const mockView = new MockViewBuilder()
@@ -106,7 +106,7 @@ describe('Presenter', () => {
         expect(actualIsViewScoreShareHidden).toBe(true);
         expect(actualIsViewScoreTickHidden).toBe(true);
         expect(actualIsViewSkipToAnswersHidden).toBe(true);
-        expect(actualViewQuestion).toEqual(quiz.questions[0]);
+        expect(actualViewQuestion).toEqual(quiz.getQuestions()[0]);
         expect(actualIsViewQuestionPageShown).toBe(true);
     });
 
@@ -123,7 +123,7 @@ describe('Presenter', () => {
             .loadLatestQuiz(async () => (quiz))
             .build();
         const mockScoreRepository = new MockScoreRepositoryBuilder()
-            .getHasScores(() => false)
+            .hasScores(() => false)
             .build();
         const mockView = new MockViewBuilder()
             .setSkipToAnswers(skipToAnswers => actualSkipToAnswersValues.push(skipToAnswers))
@@ -223,7 +223,7 @@ describe('Presenter', () => {
         expect(actualIsViewScoreShareHidden).toBe(true);
         expect(actualIsViewScoreTickHidden).toBe(true);
         expect(actualIsViewSkipToAnswersHidden).toBe(true);
-        expect(actualViewQuestion).toEqual(quiz.questions[0]);
+        expect(actualViewQuestion).toEqual(quiz.getQuestions()[0]);
         expect(actualIsViewQuestionPageShown).toBe(true);
     });
 
@@ -269,7 +269,7 @@ describe('Presenter', () => {
         expect(actualIsViewScoreShareHidden).toBe(true);
         expect(actualIsViewScoreTickShown).toBe(true);
         expect(actualIsViewSkipToAnswersHidden).toBe(true);
-        expect(actualViewQuestion).toEqual(quiz.questions[0]);
+        expect(actualViewQuestion).toEqual(quiz.getQuestions()[0]);
         expect(actualIsViewQuestionPageShown).toBe(true);
     });
 
@@ -417,7 +417,7 @@ describe('Presenter', () => {
         expect(actualIsViewScoreShareHidden).toBe(true);
         expect(actualIsViewScoreTickShown).toBe(true);
         expect(actualIsViewSkipToAnswersHidden).toBe(true);
-        expect(actualViewQuestion).toEqual(quiz.questions[0]);
+        expect(actualViewQuestion).toEqual(quiz.getQuestions()[0]);
         expect(actualIsViewQuestionPageShown).toBe(true);
     });
 

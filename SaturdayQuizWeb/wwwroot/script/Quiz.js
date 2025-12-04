@@ -10,11 +10,11 @@ export default class Quiz {
         this.#questions = rawQuizObject.questions.map(q => new Question(q));
     }
 
-    get date() {
+    getDate() {
         return this.#date;
     }
 
-    get questions() {
+    getQuestions() {
         return this.#questions;
     }
 }

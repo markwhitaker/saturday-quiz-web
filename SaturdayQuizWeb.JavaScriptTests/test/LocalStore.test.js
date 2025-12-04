@@ -11,7 +11,7 @@ describe('LocalStore', () => {
         const localStore = new LocalStore({
             localStorageWrapper: mockLocalStorageWrapper
         });
-        expect(localStore.quizDate.toString()).toBe('Thu Jan 02 2020');
+        expect(localStore.getQuizDate().toString()).toBe('Thu Jan 02 2020');
     });
 
     test('GIVEN quiz date is not set WHEN quiz date is retrieved THEN quiz date is undefined', () => {
@@ -19,7 +19,7 @@ describe('LocalStore', () => {
         const localStore = new LocalStore({
             localStorageWrapper: mockLocalStorageWrapper
         });
-        expect(localStore.quizDate).toBeUndefined();
+        expect(localStore.getQuizDate()).toBeUndefined();
     });
 
     test('GIVEN a quiz date WHEN quiz date is set THEN quiz date is stored', () => {
@@ -32,7 +32,7 @@ describe('LocalStore', () => {
             localStorageWrapper: mockLocalStorageWrapper
         });
 
-        localStore.quizDate = new CalendarDate(new Date('2020-01-02'));
+        localStore.setQuizDate(new CalendarDate(new Date('2020-01-02')));
 
         expect(actualStoredValue).toBe(expectedStoredValue);
     });
@@ -51,7 +51,7 @@ describe('LocalStore', () => {
             localStorageWrapper: mockLocalStorageWrapper
         });
 
-        localStore.quizDate = new CalendarDate(new Date('2020-01-02'));
+        localStore.setQuizDate(new CalendarDate(new Date('2020-01-02')));
 
         expect(actualStoredValue).toBe(expectedStoredValue);
         expect(scoresCleared).toBe(true);
@@ -67,7 +67,7 @@ describe('LocalStore', () => {
             localStorageWrapper: mockLocalStorageWrapper
         });
 
-        const actualQuiz = localStore.quiz;
+        const actualQuiz = localStore.getQuiz();
 
         expect(actualQuiz).toEqual(expectedQuiz);
     });
@@ -83,7 +83,7 @@ describe('LocalStore', () => {
             localStorageWrapper: mockLocalStorageWrapper
         });
 
-        localStore.quiz = quiz;
+        localStore.setQuiz(quiz);
 
         expect(actualQuizJson).toBe(expectedQuizJson);
     });
@@ -112,7 +112,7 @@ describe('LocalStore', () => {
             localStorageWrapper: mockLocalStorageWrapper
         });
 
-        const actualScores = localStore.scores;
+        const actualScores = localStore.getScores();
 
         expect(actualScores).toBe(expectedScores);
     });
@@ -127,7 +127,7 @@ describe('LocalStore', () => {
             localStorageWrapper: mockLocalStorageWrapper
         });
 
-        localStore.scores = expectedStoredScores;
+        localStore.setScores(expectedStoredScores);
 
         expect(actualStoredScores).toBe(expectedStoredScores);
     });

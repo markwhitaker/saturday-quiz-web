@@ -6,7 +6,7 @@ import ScoreRepository from '../../SaturdayQuizWeb/wwwroot/script/ScoreRepositor
 describe('ScoreRepository', () => {
     test('GIVEN no scores WHEN total score is calculated THEN total score is zero', () => {
         const scoreRepository = new ScoreRepository();
-        expect(scoreRepository.totalScore).toBe(0);
+        expect(scoreRepository.getTotalScore()).toBe(0);
     });
 
     test('GIVEN no scores are stored WHEN repository is initialised THEN new score array is stored', () => {
@@ -19,7 +19,7 @@ describe('ScoreRepository', () => {
             localStore: mockLocalStore
         });
 
-        scoreRepository.initialiseScores({ questions: [{}, {}, {}] });
+        scoreRepository.initialiseScores({ getQuestions: () => [{}, {}, {}] });
 
         expect(actualStoredScores).toBe('0,0,0');
     });
@@ -34,7 +34,7 @@ describe('ScoreRepository', () => {
             localStore: mockLocalStore
         });
 
-        scoreRepository.initialiseScores({ questions: [{}, {}, {}] });
+        scoreRepository.initialiseScores({ getQuestions: () => [{}, {}, {}] });
 
         expect(actualStoredScores).toBe('0,0.5,1');
     });
@@ -49,7 +49,7 @@ describe('ScoreRepository', () => {
         });
         scoreRepository.initialiseScores();
 
-        const actualTotalScore = scoreRepository.totalScore;
+        const actualTotalScore = scoreRepository.getTotalScore();
 
         expect(actualTotalScore).toBe(expectedTotalScore);
     });
@@ -64,7 +64,7 @@ describe('ScoreRepository', () => {
         });
         scoreRepository.initialiseScores();
 
-        const actualAllScores = scoreRepository.allScores;
+        const actualAllScores = scoreRepository.getAllScores();
 
         expect(actualAllScores).toEqual(expectedAllScores);
     });
@@ -78,7 +78,7 @@ describe('ScoreRepository', () => {
         });
         scoreRepository.initialiseScores();
 
-        const actualHasScores = scoreRepository.hasScores;
+        const actualHasScores = scoreRepository.hasScores();
 
         expect(actualHasScores).toBe(false);
     });
@@ -92,7 +92,7 @@ describe('ScoreRepository', () => {
         });
         scoreRepository.initialiseScores();
 
-        const actualHasScores = scoreRepository.hasScores;
+        const actualHasScores = scoreRepository.hasScores();
 
         expect(actualHasScores).toBe(true);
     });

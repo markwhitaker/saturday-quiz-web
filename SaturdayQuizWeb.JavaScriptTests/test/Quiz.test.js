@@ -13,17 +13,17 @@ describe('Quiz', () => {
 
         const quiz = new Quiz(rawQuizObject);
 
-        expect(quiz.date.toString()).toBe('Thu Jan 02 2020');
-        expect(quiz.questions.length).toBe(2);
-        expect(quiz.questions[0].number).toBe(1);
-        expect(quiz.questions[0].type).toBe('NORMAL');
-        expect(quiz.questions[0].question).toBe('question-1');
-        expect(quiz.questions[0].answer).toBe('answer-1');
-        expect(quiz.questions[0].isWhatLinks).toBe(false);
-        expect(quiz.questions[1].number).toBe(2);
-        expect(quiz.questions[1].type).toBe('WHAT_LINKS');
-        expect(quiz.questions[1].question).toBe('question-2');
-        expect(quiz.questions[1].answer).toBe('answer-2');
-        expect(quiz.questions[1].isWhatLinks).toBe(true);
+        expect(quiz.getDate().toString()).toBe('Thu Jan 02 2020');
+        expect(quiz.getQuestions().length).toBe(2);
+        expect(quiz.getQuestions()[0].getNumber()).toBe(1);
+        expect(quiz.getQuestions()[0].getType()).toBe('NORMAL');
+        expect(quiz.getQuestions()[0].getQuestion()).toBe('question-1');
+        expect(quiz.getQuestions()[0].getAnswer()).toBe('answer-1');
+        expect(quiz.getQuestions()[0].isWhatLinks()).toBe(false);
+        expect(quiz.getQuestions()[1].getNumber()).toBe(2);
+        expect(quiz.getQuestions()[1].getType()).toBe('WHAT_LINKS');
+        expect(quiz.getQuestions()[1].getQuestion()).toBe('question-2');
+        expect(quiz.getQuestions()[1].getAnswer()).toBe('answer-2');
+        expect(quiz.getQuestions()[1].isWhatLinks()).toBe(true);
     });
 });

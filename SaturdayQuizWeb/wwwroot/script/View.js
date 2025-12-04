@@ -110,9 +110,9 @@ export default class View {
     };
 
     showQuestion = question => {
-        elements.questionNumber().text(question.number + '.');
-        elements.question().text(question.question);
-        elements.questionWhatLinks().toggleClass('visible', question.isWhatLinks);
+        elements.questionNumber().text(question.getNumber() + '.');
+        elements.question().text(question.getQuestion());
+        elements.questionWhatLinks().toggleClass('visible', question.isWhatLinks());
     };
 
     hideAnswer = () => elements.answer().hide();

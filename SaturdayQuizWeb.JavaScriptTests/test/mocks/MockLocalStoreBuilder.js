@@ -11,32 +11,7 @@ export default class MockLocalStoreBuilder {
         clearQuiz: () => {},
 
         getScores: () => {},
-        setScores: () => {},
-
-        get quizCacheHitTimestamp() {
-            return this.getQuizCacheHitTimestamp();
-        },
-        set quizCacheHitTimestamp(value) {
-            this.setQuizCacheHitTimestamp(value);
-        },
-        get quizDate() {
-            return this.getQuizDate();
-        },
-        set quizDate(value) {
-            this.setQuizDate(value);
-        },
-        get quiz() {
-            return this.getQuiz();
-        },
-        set quiz(value) {
-            this.setQuiz(value);
-        },
-        get scores() {
-            return this.getScores();
-        },
-        set scores(value) {
-            this.setScores(value);
-        }
+        setScores: () => {}
     };
 
     getQuizCacheHitTimestamp(fn) {

@@ -16,23 +16,23 @@
         this.#answer = object.answer;
     }
 
-    get number() {
+    getNumber() {
         return this.#number;
     }
 
-    get type() {
+    getType() {
         return this.#type;
     }
 
-    get question() {
+    getQuestion() {
         return this.#question;
     }
 
-    get answer() {
+    getAnswer() {
         return this.#answer;
     }
 
-    get isWhatLinks() {
+    isWhatLinks() {
         return this.#type === Question.Type.WHAT_LINKS;
     }
 }

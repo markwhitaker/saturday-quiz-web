@@ -10,7 +10,7 @@ export default class TimeSpan {
         this.#milliseconds = milliseconds;
     }
 
-    get milliseconds() {
+    getMilliseconds() {
         return this.#milliseconds;
     }
 

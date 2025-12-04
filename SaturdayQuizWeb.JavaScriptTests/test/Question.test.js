@@ -16,11 +16,11 @@ describe('Question', () => {
             answer: expectedAnswer
         });
 
-        expect(question.number).toBe(expectedNumber);
-        expect(question.type).toBe(expectedType);
-        expect(question.question).toBe(expectedQuestion);
-        expect(question.answer).toBe(expectedAnswer);
-        expect(question.isWhatLinks).toBe(expectedIsWhatLinks);
+        expect(question.getNumber()).toBe(expectedNumber);
+        expect(question.getType()).toBe(expectedType);
+        expect(question.getQuestion()).toBe(expectedQuestion);
+        expect(question.getAnswer()).toBe(expectedAnswer);
+        expect(question.isWhatLinks()).toBe(expectedIsWhatLinks);
     });
 
     test('GIVEN raw question with WHAT_LINKS type WHEN question is constructed THEN expected question is returned', () => {
@@ -37,10 +37,10 @@ describe('Question', () => {
             answer: expectedAnswer
         });
 
-        expect(question.number).toBe(expectedNumber);
-        expect(question.type).toBe(expectedType);
-        expect(question.question).toBe(expectedQuestion);
-        expect(question.answer).toBe(expectedAnswer);
-        expect(question.isWhatLinks).toBe(expectedIsWhatLinks);
+        expect(question.getNumber()).toBe(expectedNumber);
+        expect(question.getType()).toBe(expectedType);
+        expect(question.getQuestion()).toBe(expectedQuestion);
+        expect(question.getAnswer()).toBe(expectedAnswer);
+        expect(question.isWhatLinks()).toBe(expectedIsWhatLinks);
     });
 });
