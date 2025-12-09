@@ -4,17 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
-This is an ASP.NET Core 9.0 web application with JavaScript testing components. Common development commands:
+This is an ASP.NET Core web application targeting .NET 10.0 with JavaScript testing components. Common development commands:
 
 ### Building
 - `dotnet build` - Build the solution
 - `dotnet build -c Release` - Build in release configuration
 
 ### Testing
-- `dotnet test SaturdayQuizWeb.UnitTests` - Run C# unit tests
+- `dotnet test SaturdayQuizWeb.UnitTests` - Run C# unit tests (NUnit)
 - `dotnet test SaturdayQuizWeb.IntegrationTests` - Run C# integration tests
 - `dotnet test SaturdayQuizWeb.IntegrationTests --filter Category!=LongRunning` - Run integration tests excluding long-running tests
-- `cd SaturdayQuizWeb.JavaScriptTests && bun test` - Run JavaScript tests using Bun
+- `dotnet test --filter "FullyQualifiedName~MethodName"` - Run specific test by name
+- `bun test` (from SaturdayQuizWeb.JavaScriptTests/) - Run JavaScript tests using Bun
 
 ### Running the Application
 - `dotnet run --project SaturdayQuizWeb` - Start the web application
@@ -46,11 +47,13 @@ This is a Saturday Quiz web application that fetches quiz data from The Guardian
 - **wwwroot/** - Static web assets including JavaScript
 
 #### Technology Stack
-- **.NET 9.0** with nullable reference types enabled
+- **.NET 10.0** with nullable reference types enabled
 - **ASP.NET Core** minimal APIs
 - **Swagger/OpenAPI** for API documentation
 - **Global usings** defined in GlobalUsings.cs
 - **User secrets** for local development configuration
+- **NUnit** and **NSubstitute** for C# testing
+- **Bun** for JavaScript testing
 
 #### External Dependencies
 - **Guardian API** - Source for quiz data (requires API key via Guardian__ApiKey)
