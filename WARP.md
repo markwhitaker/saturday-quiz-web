@@ -4,7 +4,7 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 ## Stack and prerequisites
 
-- .NET SDK 10.0.x (target framework is net10.0). A `global.json` is present allowing roll-forward from 8.0 to the latest major.
+- .NET SDK 10.0.x (target framework is net10.0).
 - Bun (for JavaScript tests) in `SaturdayQuizWeb.JavaScriptTests/`.
 - Guardian API key is required for the running app and some integration tests:
   - Environment variable: `Guardian__ApiKey`
