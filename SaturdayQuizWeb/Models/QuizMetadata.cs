@@ -4,14 +4,12 @@ namespace SaturdayQuizWeb.Models;
 
 public sealed record QuizMetadata
 {
-    private readonly DateTime _date;
-
     public required string Id { get; init; } = string.Empty;
 
     public required DateTime Date
     {
-        get => _date;
-        init => _date = value.ToDateUtc();
+        get;
+        init => field = value.ToDateUtc();
     }
 
     public string Title { get; init; } = string.Empty;
