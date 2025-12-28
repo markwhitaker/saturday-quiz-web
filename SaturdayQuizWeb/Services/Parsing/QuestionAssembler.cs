@@ -33,7 +33,8 @@ public class QuestionAssembler : IQuestionAssembler
         .Text(">")
         .BuildRegex();
 
-    public IEnumerable<QuestionModel> AssembleQuestions(IEnumerable<string> questionsSection,
+    public IEnumerable<QuestionModel> AssembleQuestions(
+        IEnumerable<string> questionsSection,
         IEnumerable<string> answersSection)
     {
         var questions = ProcessQuestionsSection(questionsSection);

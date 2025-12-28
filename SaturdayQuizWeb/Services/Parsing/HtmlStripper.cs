@@ -8,7 +8,7 @@ namespace SaturdayQuizWeb.Services.Parsing;
 
 public interface IHtmlStripper
 {
-    string StripHtml(string htmlString);
+    string RemoveUnwantedHtmlTagsAndSpaces(string htmlString);
 }
 
 public class HtmlStripper : IHtmlStripper
@@ -33,7 +33,7 @@ public class HtmlStripper : IHtmlStripper
         .PossibleHtmlWhitespace()
         .BuildRegex(IgnoreCase);
 
-    public string StripHtml(string htmlString) =>
+    public string RemoveUnwantedHtmlTagsAndSpaces(string htmlString) =>
         htmlString.Remove(UnwantedTagsRegex)
             .Replace(BrTagRegex, "\n")
             .Replace("&nbsp;", " ")

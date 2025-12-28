@@ -1,5 +1,4 @@
 ﻿using SaturdayQuizWeb.Models;
-using SaturdayQuizWeb.Models.Parsing;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;
 
@@ -40,11 +39,7 @@ public class HtmlServiceTests
         const string expectedAnswersHtml = "answersHtml";
         const string expectedQuestionsHtmlStripped = "questionsHtmlStripped";
         const string expectedAnswersHtmlStripped = "answersHtmlStripped";
-        var expectedSections = new Sections
-        {
-            QuestionsSectionHtml = expectedQuestionsHtml,
-            AnswersSectionHtml = expectedAnswersHtml
-        };
+        var expectedSections = new[] { expectedQuestionsHtml, expectedAnswersHtml };
         var expectedQuestionsList = new List<string> {"questions"};
         var expectedAnswersList = new List<string> {"answers"};
         var expectedQuestions = new List<QuestionModel>
@@ -58,11 +53,11 @@ public class HtmlServiceTests
             }
         };
 
-        _mockSectionExtractor.ExtractSections(html).Returns(expectedSections);
-        _mockHtmlStripper.StripHtml(expectedQuestionsHtml).Returns(expectedQuestionsHtmlStripped);
-        _mockHtmlStripper.StripHtml(expectedAnswersHtml).Returns(expectedAnswersHtmlStripped);
-        _mockSectionSplitter.SplitSection(expectedQuestionsHtmlStripped).Returns(expectedQuestionsList);
-        _mockSectionSplitter.SplitSection(expectedAnswersHtmlStripped).Returns(expectedAnswersList);
+        _mockSectionExtractor.ExtractQuestionsAndAnswersSections(html).Returns(expectedSections);
+        _mockHtmlStripper.RemoveUnwantedHtmlTagsAndSpaces(expectedQuestionsHtml).Returns(expectedQuestionsHtmlStripped);
+        _mockHtmlStripper.RemoveUnwantedHtmlTagsAndSpaces(expectedAnswersHtml).Returns(expectedAnswersHtmlStripped);
+        _mockSectionSplitter.SplitSectionIntoLines(expectedQuestionsHtmlStripped).Returns(expectedQuestionsList);
+        _mockSectionSplitter.SplitSectionIntoLines(expectedAnswersHtmlStripped).Returns(expectedAnswersList);
         _mockQuestionAssembler.AssembleQuestions(expectedQuestionsList, expectedAnswersList).Returns(expectedQuestions);
 
         // When

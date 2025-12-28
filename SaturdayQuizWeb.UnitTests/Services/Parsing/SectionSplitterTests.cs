@@ -58,7 +58,7 @@ public class SectionSplitterTests
         };
 
         // When
-        var actualSplitSection = _sectionSplitter.SplitSection(questionsSection).ToList();
+        var actualSplitSection = _sectionSplitter.SplitSectionIntoLines(questionsSection).ToList();
 
         // Then
         Assert.That(actualSplitSection, Is.EqualTo(expectedSplitSection));
@@ -109,7 +109,7 @@ public class SectionSplitterTests
         };
 
         // When
-        var actualSplitSection = _sectionSplitter.SplitSection(answersSection).ToList();
+        var actualSplitSection = _sectionSplitter.SplitSectionIntoLines(answersSection).ToList();
 
         // Then
         Assert.That(actualSplitSection, Is.EqualTo(expectedSplitSection));

@@ -5,7 +5,7 @@ namespace SaturdayQuizWeb.Services.Parsing;
 
 public interface ISectionSplitter
 {
-    IEnumerable<string> SplitSection(string section);
+    IEnumerable<string> SplitSectionIntoLines(string section);
 }
 
 public class SectionSplitter : ISectionSplitter
@@ -14,7 +14,7 @@ public class SectionSplitter : ISectionSplitter
         .Whitespace(AtLeast(2))
         .BuildRegex();
 
-    public IEnumerable<string> SplitSection(string section)
+    public IEnumerable<string> SplitSectionIntoLines(string section)
     {
         var splitSection = section.Split("\n").ToList();
 

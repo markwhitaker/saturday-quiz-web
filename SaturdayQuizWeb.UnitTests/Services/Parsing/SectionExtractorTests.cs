@@ -60,10 +60,10 @@ public class SectionExtractorTests
             "<strong>15</strong> Caskets chosen by Portia’s suitors in The Merchant Of Venice: gold; silver; lead.</p>";
 
         // When
-        var sections = _sectionExtractor.ExtractSections(_wholePageHtml);
+        var sections = _sectionExtractor.ExtractQuestionsAndAnswersSections(_wholePageHtml).ToArray();
 
         // Then
-        Assert.That(sections.QuestionsSectionHtml, Is.EqualTo(expectedQuestionsSectionHtml));
-        Assert.That(sections.AnswersSectionHtml, Is.EqualTo(expectedAnswersSectionHtml));
+        Assert.That(sections[0], Is.EqualTo(expectedQuestionsSectionHtml));
+        Assert.That(sections[1], Is.EqualTo(expectedAnswersSectionHtml));
     }
 }

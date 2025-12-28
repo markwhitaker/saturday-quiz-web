@@ -1,7 +1,6 @@
 ﻿using RegexToolbox;
 using RegexToolbox.Extensions;
 using SaturdayQuizWeb.Extensions;
-using SaturdayQuizWeb.Models.Parsing;
 using static RegexToolbox.RegexOptions;
 using static RegexToolbox.RegexQuantifier;
 
@@ -9,7 +8,7 @@ namespace SaturdayQuizWeb.Services.Parsing;
 
 public interface ISectionExtractor
 {
-    Sections ExtractSections(string wholePageHtml);
+    IEnumerable<string> ExtractQuestionsAndAnswersSections(string wholePageHtml);
 }
 
 public class SectionExtractor : ISectionExtractor
@@ -34,7 +33,7 @@ public class SectionExtractor : ISectionExtractor
         .HtmlCloseTag("strong")
         .BuildRegex(IgnoreCase);
 
-    public Sections ExtractSections(string wholePageHtml)
+    public IEnumerable<string> ExtractQuestionsAndAnswersSections(string wholePageHtml)
     {
         var allHtmlLines = wholePageHtml
             .Replace("\n", string.Empty)
@@ -60,11 +59,7 @@ public class SectionExtractor : ISectionExtractor
             throw new ParsingException($"Found {sectionLines.Count} matching line(s) in source HTML (expected 2)");
         }
 
-        return new Sections
-        {
-            QuestionsSectionHtml = sectionLines[0],
-            AnswersSectionHtml = sectionLines[1]
-        };
+        return sectionLines;
     }
 
     private static List<string> StitchSectionLines(IEnumerable<string> possiblyBrokenSectionLines)
@@ -105,5 +100,5 @@ public class SectionExtractor : ISectionExtractor
         return paragraphLines;
     }
 
-    private static bool IsSectionLine(string line) => QuestionNumberRegex.Matches(line).Count >= 3;
+    private static bool IsSectionLine(string line) => QuestionNumberRegex.Count(line) >= 3;
 }

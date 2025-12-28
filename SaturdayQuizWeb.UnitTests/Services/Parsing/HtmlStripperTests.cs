@@ -89,8 +89,8 @@ public class HtmlStripperTests
             "15 Caskets chosen by Portia’s suitors in The Merchant Of Venice: gold; silver; lead.";
 
         // When
-        var actualQuestionsSection = _htmlStripper.StripHtml(questionsSectionHtml);
-        var actualAnswersSection = _htmlStripper.StripHtml(answersSectionHtml);
+        var actualQuestionsSection = _htmlStripper.RemoveUnwantedHtmlTagsAndSpaces(questionsSectionHtml);
+        var actualAnswersSection = _htmlStripper.RemoveUnwantedHtmlTagsAndSpaces(answersSectionHtml);
 
         // Then
         Assert.That(actualQuestionsSection, Is.EqualTo(expectedQuestionsSection));
