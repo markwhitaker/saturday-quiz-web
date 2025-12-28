@@ -10,7 +10,6 @@ using SaturdayQuizWeb.Models;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;
 using SaturdayQuizWeb.Utils;
-using SaturdayQuizWeb.Wrappers;
 
 var builder = WebApplication.CreateBuilder(args);
 SetupServices(builder.Services, builder.Configuration);
@@ -132,10 +131,10 @@ public partial class Program
 
         services.AddHttpClient<IGuardianApiHttpClient, GuardianApiHttpClient>();
 
-        services.AddSingleton<IGuardianWebsiteHttpClient, GuardianWebsiteHttpClient>();
-        services.AddSingleton<IDateTimeWrapper, DateTimeWrapper>();
+        services.AddSingleton<IDateTimeService, DateTimeService>();
         services.AddSingleton<IGuardianApiClient, GuardianApiClient>();
         services.AddSingleton<IGuardianRssClient, GuardianRssClient>();
+        services.AddSingleton<IGuardianWebsiteHttpClient, GuardianWebsiteHttpClient>();
         services.AddSingleton<IHtmlService, HtmlService>();
         services.AddSingleton<IHtmlStripper, HtmlStripper>();
         services.AddSingleton<IQuestionAssembler, QuestionAssembler>();

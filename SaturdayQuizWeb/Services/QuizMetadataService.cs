@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Models;
-using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.Services;
 
@@ -11,7 +10,7 @@ public interface IQuizMetadataService
 }
 
 public class QuizMetadataService(
-    IDateTimeWrapper dateTimeWrapper,
+    IDateTimeService dateTimeService,
     IGuardianApiClient guardianApiClient,
     IGuardianRssClient guardianRssClient,
     ILogger<QuizMetadataService> logger)
@@ -45,5 +44,5 @@ public class QuizMetadataService(
     }
 
     private bool IsOlderThanOneWeek(QuizMetadata quizMetadata) =>
-        dateTimeWrapper.UtcNow.Date.Subtract(quizMetadata.Date.Date) >= TimeSpan.FromDays(7);
+        dateTimeService.UtcNow.Date.Subtract(quizMetadata.Date.Date) >= TimeSpan.FromDays(7);
 }

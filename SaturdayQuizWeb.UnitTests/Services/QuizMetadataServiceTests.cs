@@ -2,7 +2,6 @@
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Models;
 using SaturdayQuizWeb.Services;
-using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.UnitTests.Services;
 
@@ -10,7 +9,7 @@ namespace SaturdayQuizWeb.UnitTests.Services;
 [TestOf(typeof(QuizMetadataService))]
 public class QuizMetadataServiceTests
 {
-    private IDateTimeWrapper _mockDateTimeWrapper = null!;
+    private IDateTimeService _mockDateTimeService = null!;
     private IGuardianApiClient _mockGuardianApiClient = null!;
     private IGuardianRssClient _mockGuardianRssClient = null!;
     private ILogger<QuizMetadataService> _mockLogger = null!;
@@ -20,13 +19,13 @@ public class QuizMetadataServiceTests
     [SetUp]
     public void SetUp()
     {
-        _mockDateTimeWrapper = Substitute.For<IDateTimeWrapper>();
+        _mockDateTimeService = Substitute.For<IDateTimeService>();
         _mockGuardianApiClient = Substitute.For<IGuardianApiClient>();
         _mockGuardianRssClient = Substitute.For<IGuardianRssClient>();
         _mockLogger = Substitute.For<ILogger<QuizMetadataService>>();
 
         _quizMetadataService = new QuizMetadataService(
-            _mockDateTimeWrapper,
+            _mockDateTimeService,
             _mockGuardianApiClient,
             _mockGuardianRssClient,
             _mockLogger);
@@ -81,7 +80,7 @@ public class QuizMetadataServiceTests
             apiMetadata1
         };
 
-        _mockDateTimeWrapper.UtcNow.Returns(today);
+        _mockDateTimeService.UtcNow.Returns(today);
         _mockGuardianApiClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedApiResponse);
         _mockGuardianRssClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedRssResponse);
 
@@ -143,7 +142,7 @@ public class QuizMetadataServiceTests
             apiMetadata2
         };
 
-        _mockDateTimeWrapper.UtcNow.Returns(today);
+        _mockDateTimeService.UtcNow.Returns(today);
         _mockGuardianApiClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedApiResponse);
         _mockGuardianRssClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs(expectedRssResponse);
 

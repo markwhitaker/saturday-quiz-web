@@ -3,7 +3,6 @@ using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Clients.HttpClients;
 using SaturdayQuizWeb.Services;
 using SaturdayQuizWeb.Services.Parsing;
-using SaturdayQuizWeb.Wrappers;
 
 namespace SaturdayQuizWeb.IntegrationTests.Services;
 
@@ -29,7 +28,7 @@ public class QuizServiceTests
             new FakeLogger<GuardianRssClient>());
 
         _quizMetadataService = new QuizMetadataService(
-            new DateTimeWrapper(),
+            new DateTimeService(),
             guardianApiService,
             guardianRssService,
             new FakeLogger<QuizMetadataService>());
