@@ -43,7 +43,6 @@ This is a Saturday Quiz web application that fetches quiz data from The Guardian
 - **Extensions/** - Extension methods
 - **Config/** - Configuration classes
 - **Utils/** - Utility classes
-- **Wrappers/** - Wrapper classes
 - **wwwroot/** - Static web assets including JavaScript
 
 #### Technology Stack
