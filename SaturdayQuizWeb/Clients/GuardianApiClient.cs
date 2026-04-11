@@ -28,7 +28,8 @@ public class GuardianApiClient(
             throw new Exception("Guardian API key is not set");
         }
 
-        var results = new List<QuizMetadata>(await FetchFromEndpointAsync(config, config.ApiEndpoint, count));
+        var results = new List<QuizMetadata>();
+        results.AddRange(await FetchFromEndpointAsync(config, config.ApiEndpoint, count));
 
         if (!string.IsNullOrWhiteSpace(config.ApiFallbackEndpoint))
         {
