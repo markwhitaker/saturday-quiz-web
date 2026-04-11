@@ -9,6 +9,8 @@ public sealed record GuardianConfig
 
     public string ApiEndpoint { get; init; } = string.Empty;
 
+    public string ApiFallbackEndpoint { get; init; } = string.Empty;
+
     public string RssEndpoint { get; init; } = string.Empty;
 
     public string WebsiteBaseUrl { get; init; } = string.Empty;

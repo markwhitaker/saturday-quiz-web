@@ -28,7 +28,24 @@ public class GuardianApiClient(
             throw new Exception("Guardian API key is not set");
         }
 
-        var url = $"{config.ApiEndpoint}?api-key={config.ApiKey}&page-size={count}";
+        var results = new List<QuizMetadata>();
+        results.AddRange(await FetchFromEndpointAsync(config, config.ApiEndpoint, count));
+
+        if (!string.IsNullOrWhiteSpace(config.ApiFallbackEndpoint))
+        {
+            results.AddRange(await FetchFromEndpointAsync(config, config.ApiFallbackEndpoint, count));
+        }
+
+        return results
+            .Distinct()
+            .OrderByDescending(quizMetadata => quizMetadata.Date)
+            .Take(count)
+            .ToList();
+    }
+
+    private async Task<IReadOnlyList<QuizMetadata>> FetchFromEndpointAsync(GuardianConfig config, string endpoint, int count)
+    {
+        var url = $"{endpoint}?api-key={config.ApiKey}&page-size={count}";
 
         try
         {
@@ -45,20 +62,17 @@ public class GuardianApiClient(
                         Url = item.WebUrl.Trim(),
                         Source = Constants.SourceApi
                     })
-                    .Distinct()
-                    .OrderByDescending(quizMetadata => quizMetadata.Date)
-                    .Take(count)
                     .ToList();
             }
         }
         catch (HttpRequestException e)
         {
-            logger.LogError(e, "Failed to get quiz metadata from Guardian API: {StatusCode} {StatusMessage}",
-                (int?)e.StatusCode, e.StatusCode);
+            logger.LogError(e, "Failed to get quiz metadata from Guardian API endpoint {Endpoint}: {StatusCode} {StatusMessage}",
+                endpoint, (int?)e.StatusCode, e.StatusCode);
         }
         catch (Exception e)
         {
-            logger.LogError(e, "Failed to get quiz metadata from Guardian API");
+            logger.LogError(e, "Failed to get quiz metadata from Guardian API endpoint {Endpoint}", endpoint);
         }
 
         return [];
