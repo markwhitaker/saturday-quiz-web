@@ -22,7 +22,7 @@ public class QuizMetadataService(
 
         if (!IsUpToDate(set))
         {
-            logger.LogWarning("Didn't get up-to-date quiz metadata from API, Trying RSS...");
+            logger.LogWarning("Didn't get up-to-date quiz metadata from API, trying RSS...");
             set.UnionWith(await guardianRssClient.GetQuizMetadataAsync(count));
         }
 
