@@ -152,7 +152,7 @@ public class QuizMetadataServiceTests
         // Then
         await _mockGuardianApiClient.Received().GetQuizMetadataAsync(quizzesRequestedCount);
         await _mockGuardianRssClient.Received().GetQuizMetadataAsync(quizzesRequestedCount);
-        _mockLogger.Received().LogWarning("Didn't get up-to-date quiz metadata from API, Trying RSS...");
+        _mockLogger.Received().LogWarning("Didn't get up-to-date quiz metadata from API, trying RSS...");
         Assert.That(expectedMetadataServiceResponse, Is.EqualTo(actualMetadataServiceResponse));
     }
 
