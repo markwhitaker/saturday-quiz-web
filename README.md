@@ -2,8 +2,8 @@
 
 ## Web App
 
-https://eaton-bitrot.koyeb.app/
+[quiz.bitrot.net](https://quiz.bitrot.net)
 
 ## REST API
 
-https://eaton-bitrot.koyeb.app/swagger/
+[quiz.bitrot.net/swagger/](https://quiz.bitrot.net/swagger/)
