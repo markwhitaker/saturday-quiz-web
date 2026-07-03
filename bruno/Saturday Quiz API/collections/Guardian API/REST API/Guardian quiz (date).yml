@@ -1,0 +1,19 @@
+info:
+  name: Guardian quiz (date)
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: https://content.guardianapis.com/lifeandstyle/2026/jan/03/what-phase-follows-a-full-moon-the-saturday-quiz?api-key={{API_KEY}}
+  params:
+    - name: api-key
+      value: "{{API_KEY}}"
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

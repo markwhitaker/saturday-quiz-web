@@ -1,0 +1,15 @@
+info:
+  name: Guardian quiz (list)
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: https://www.theguardian.com/theguardian/series/the-quiz-thomas-eaton/rss
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

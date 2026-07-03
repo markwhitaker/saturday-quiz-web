@@ -1,0 +1,4 @@
+name: Koyeb
+variables:
+  - name: BASE_URL
+    value: https://quiz.bitrot.net

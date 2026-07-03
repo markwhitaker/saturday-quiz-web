@@ -1,0 +1,16 @@
+opencollection: 1.0.0
+info:
+  name: "Saturday Quiz"
+  type: workspace
+
+collections:
+  - name: "Quiz API"
+    path: "collections/Quiz API"
+  - name: "Guardian API"
+    path: "collections/Guardian API"
+  - name: "Saturday Quiz API"
+    path: "collections/Saturday Quiz API"
+
+specs:
+
+docs: ''

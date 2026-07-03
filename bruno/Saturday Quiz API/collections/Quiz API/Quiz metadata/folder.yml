@@ -1,0 +1,7 @@
+info:
+  name: Quiz metadata
+  type: folder
+  seq: 3
+
+request:
+  auth: inherit
