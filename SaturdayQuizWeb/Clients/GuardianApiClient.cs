@@ -28,7 +28,7 @@ public class GuardianApiClient(
             throw new Exception("Guardian API key is not set");
         }
 
-        var url = $"{config.ApiEndpoint}?api-key={config.ApiKey}&page-size={count}";
+        var url = $"{config.ApiEndpoint}&api-key={config.ApiKey}&page-size={count}";
 
         try
         {

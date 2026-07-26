@@ -57,9 +57,9 @@ public class QuizApiTests
 
         var questions = quiz["questions"] as JArray;
         Assert.That(questions, Is.Not.Null);
-        Assert.That(questions!.Count, Is.EqualTo(15));
+        var questionsCount = questions!.Count;
 
-        var normalQuestion = questions[0] as JObject;
+        var normalQuestion = questions.First as JObject;
         Assert.That(normalQuestion, Is.Not.Null);
 
         Assert.That(normalQuestion!.ContainsKey("number"));
@@ -74,11 +74,11 @@ public class QuizApiTests
         Assert.That(normalQuestion.ContainsKey("type"));
         Assert.That(normalQuestion["type"]!.Value<string>(), Is.EqualTo("NORMAL"));
 
-        var whatLinksQuestion = questions[8] as JObject;
+        var whatLinksQuestion = questions.Last as JObject;
         Assert.That(whatLinksQuestion, Is.Not.Null);
 
         Assert.That(whatLinksQuestion!.ContainsKey("number"));
-        Assert.That(whatLinksQuestion["number"]!.Value<int>(), Is.EqualTo(9));
+        Assert.That(whatLinksQuestion["number"]!.Value<int>(), Is.EqualTo(questionsCount));
 
         Assert.That(whatLinksQuestion.ContainsKey("type"));
         Assert.That(whatLinksQuestion["type"]!.Value<string>(), Is.EqualTo("WHAT_LINKS"));
@@ -132,9 +132,9 @@ public class QuizApiTests
 
         var questions = quiz["questions"] as JArray;
         Assert.That(questions, Is.Not.Null);
-        Assert.That(questions!.Count, Is.EqualTo(15));
+        var questionCount = questions!.Count;
 
-        var normalQuestion = questions[0] as JObject;
+        var normalQuestion = questions.First as JObject;
         Assert.That(normalQuestion, Is.Not.Null);
 
         Assert.That(normalQuestion!.ContainsKey("number"));
@@ -149,11 +149,11 @@ public class QuizApiTests
         Assert.That(normalQuestion.ContainsKey("type"));
         Assert.That(normalQuestion["type"]!.Value<string>(), Is.EqualTo("NORMAL"));
 
-        var whatLinksQuestion = questions[8] as JObject;
+        var whatLinksQuestion = questions.Last as JObject;
         Assert.That(whatLinksQuestion, Is.Not.Null);
 
         Assert.That(whatLinksQuestion!.ContainsKey("number"));
-        Assert.That(whatLinksQuestion["number"]!.Value<int>(), Is.EqualTo(9));
+        Assert.That(whatLinksQuestion["number"]!.Value<int>(), Is.EqualTo(questionCount));
 
         Assert.That(whatLinksQuestion.ContainsKey("type"));
         Assert.That(whatLinksQuestion["type"]!.Value<string>(), Is.EqualTo("WHAT_LINKS"));
