@@ -35,7 +35,7 @@ public class GuardianApiClientTests
         const string apiEndpoint = "api-endpoint";
         const string apiKey = "api-key";
         const int expectedCount = 3;
-        const string expectedUrl = "api-endpoint&api-key=api-key&page-size=3";
+        const string expectedUrl = "api-endpoint?api-key=api-key&page-size=3";
 
         var expectedConfig = new GuardianConfig
         {

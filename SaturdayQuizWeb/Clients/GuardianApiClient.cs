@@ -28,11 +28,12 @@ public class GuardianApiClient(
             throw new Exception("Guardian API key is not set");
         }
 
-        var url = $"{config.ApiEndpoint}&api-key={config.ApiKey}&page-size={count}";
+        var separator = config.ApiEndpoint.Contains('?') ? '&' : '?';
+        var endpoint = $"{config.ApiEndpoint}{separator}api-key={config.ApiKey}&page-size={count}";
 
         try
         {
-            var responseJson = await httpClient.GetStringAsync(url);
+            var responseJson = await httpClient.GetStringAsync(endpoint);
             var response = JsonSerializer.Deserialize<GuardianApiResponse>(responseJson, JsonSerializerOptions);
             if (response is not null)
             {
