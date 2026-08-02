@@ -110,7 +110,7 @@ app.MapGet("/api/quiz-metadata", async (
             return Results.BadRequest();
         }
     })
-    .Produces<QuizMetadata[]>(contentType: MimeType.Application.Json)
+    .Produces<QuizMetadataDto[]>(contentType: MimeType.Application.Json)
     .Produces(StatusCodes.Status400BadRequest)
     .WithTags("Quiz Metadata")
     .WithName("GetQuizMetadata")
