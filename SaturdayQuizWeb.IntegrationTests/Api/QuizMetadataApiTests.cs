@@ -61,6 +61,11 @@ public class QuizMetadataApiTests
 
         Assert.That(quizMetadata.ContainsKey("source"));
         Assert.That(quizMetadata["source"]!.Value<string>(), Is.EqualTo("API").Or.EqualTo("RSS"));
+
+        Assert.That(quizMetadata.ContainsKey("apiUrl"));
+        var apiUrlValue = quizMetadata["apiUrl"]!.Value<string>();
+        var expectedApiUrl = new Uri(_httpClient.BaseAddress!, $"/api/quiz/{date:yyyy-MM-dd}").AbsoluteUri;
+        Assert.That(apiUrlValue, Is.EqualTo(expectedApiUrl));
     }
 
     [Test]

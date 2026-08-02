@@ -33,6 +33,25 @@ public class QuizMetadataTests
         Assert.That(quizMetadata.Date, Is.EqualTo(expectedDate));
     }
 
+    [TestCase(2022, 1, 2, "/api/quiz/2022-01-02")]
+    [TestCase(2022, 12, 31, "/api/quiz/2022-12-31")]
+    public void GivenDate_WhenApiUrlIsRetrieved_ThenExpectedApiUrlIsReturned(
+        int year, int month, int day, string expectedApiUrl)
+    {
+        // Given
+        var quizMetadata = new QuizMetadata
+        {
+            Id = "id",
+            Date = new DateTime(year, month, day)
+        };
+
+        // When
+        var apiUrl = quizMetadata.ApiUrl;
+
+        // Then
+        Assert.That(apiUrl, Is.EqualTo(expectedApiUrl));
+    }
+
     [Test]
     public void GivenTwoQuizMetadatasWithSameUrl_WhenCompared_ThenMetadatasAreEqual()
     {
