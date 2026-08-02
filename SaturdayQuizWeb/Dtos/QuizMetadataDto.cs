@@ -10,13 +10,15 @@ public sealed record QuizMetadataDto
     public string Title { [UsedImplicitly] get; }
     public string Url { [UsedImplicitly] get; }
     public string Source { [UsedImplicitly] get; }
+    public string ApiUrl { [UsedImplicitly] get; }
 
-    public QuizMetadataDto(QuizMetadata quizMetadata)
+    public QuizMetadataDto(QuizMetadata quizMetadata, Uri baseUrl)
     {
         Id = quizMetadata.Id;
         Date = quizMetadata.Date;
         Title = quizMetadata.Title;
         Url = quizMetadata.Url;
         Source = quizMetadata.Source;
+        ApiUrl = new Uri(baseUrl, quizMetadata.ApiUrl).AbsoluteUri;
     }
 }

@@ -100,8 +100,9 @@ app.MapGet("/api/quiz-metadata", async (
         try
         {
             app.Logger.LogInformation("Getting quiz metadata for last {count} {quizNoun}...", count, quizNoun);
+            var baseUrl = new Uri($"{httpContext.Request.Scheme}://{httpContext.Request.Host}");
             var quizMetadata = await quizMetadataService.GetQuizMetadataAsync(count);
-            var quizMetadataDtos = quizMetadata.Select(q => new QuizMetadataDto(q)).ToArray();
+            var quizMetadataDtos = quizMetadata.Select(q => new QuizMetadataDto(q, baseUrl)).ToArray();
             return Results.Ok(quizMetadataDtos);
         }
         catch (Exception e)

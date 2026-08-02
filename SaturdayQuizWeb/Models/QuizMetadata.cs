@@ -18,6 +18,8 @@ public sealed record QuizMetadata
 
     public string Source { get; init; } = string.Empty;
 
+    public string ApiUrl => $"/api/quiz/{Date:yyyy-MM-dd}";
+
     public override int GetHashCode() => Url.GetHashCode();
 
     public bool Equals(QuizMetadata? other) => Url.Equals(other?.Url);
