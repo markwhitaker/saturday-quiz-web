@@ -1,15 +1,19 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Mainwave.MimeTypes;
-using Newtonsoft.Json.Linq;
 using SaturdayQuizWeb.Models;
 
 namespace SaturdayQuizWeb.IntegrationTests.Api;
 
 [TestFixture]
+[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
 public class QuizApiTests
 {
-    private static readonly JsonSerializerSettings JsonSerializerSettings = new()
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
     {
-        DateParseHandling = DateParseHandling.None
+        PropertyNameCaseInsensitive = true
     };
 
     private HttpClient _httpClient = null!;
@@ -36,52 +40,52 @@ public class QuizApiTests
         var content = await response.Content.ReadAsStringAsync();
         Assert.That(content, Is.Not.Null.Or.Empty);
 
-        var quiz = JsonConvert.DeserializeObject(content, JsonSerializerSettings) as JObject;
+        var quiz = JsonNode.Parse(content) as JsonObject;
         Assert.That(quiz, Is.Not.Null);
 
         Assert.That(quiz!.ContainsKey("id"));
-        Assert.That(quiz["id"]?.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(quiz["id"]?.GetValue<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(quiz.ContainsKey("date"));
-        var dateValue = quiz["date"]!.Value<string>();
+        var dateValue = quiz["date"]!.GetValue<string>();
         Assert.That(dateValue, Is.Not.Null.Or.Empty);
         Assert.That(dateValue, Does.Match(@"^\d{4}-\d{2}-\d{2}T00:00:00Z$"));
         Assert.That(DateTime.TryParse(dateValue, out var date), Is.True);
         Assert.That(date.Date, Is.InRange(DateTime.Today.Subtract(TimeSpan.FromDays(7)), DateTime.Today));
 
         Assert.That(quiz.ContainsKey("title"));
-        Assert.That(quiz["title"]!.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(quiz["title"]!.GetValue<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(quiz.ContainsKey("questions"));
         Assert.That(quiz["questions"], Is.Not.Null.Or.Empty);
 
-        var questions = quiz["questions"] as JArray;
+        var questions = quiz["questions"] as JsonArray;
         Assert.That(questions, Is.Not.Null);
         var questionsCount = questions!.Count;
 
-        var normalQuestion = questions.First as JObject;
+        var normalQuestion = questions.First() as JsonObject;
         Assert.That(normalQuestion, Is.Not.Null);
 
         Assert.That(normalQuestion!.ContainsKey("number"));
-        Assert.That(normalQuestion["number"]!.Value<int>(), Is.EqualTo(1));
+        Assert.That(normalQuestion["number"]!.GetValue<int>(), Is.EqualTo(1));
 
         Assert.That(normalQuestion.ContainsKey("question"));
-        Assert.That(normalQuestion["question"]!.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(normalQuestion["question"]!.GetValue<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(normalQuestion.ContainsKey("answer"));
-        Assert.That(normalQuestion["answer"]!.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(normalQuestion["answer"]!.GetValue<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(normalQuestion.ContainsKey("type"));
-        Assert.That(normalQuestion["type"]!.Value<string>(), Is.EqualTo("NORMAL"));
+        Assert.That(normalQuestion["type"]!.GetValue<string>(), Is.EqualTo("NORMAL"));
 
-        var whatLinksQuestion = questions.Last as JObject;
+        var whatLinksQuestion = questions.Last() as JsonObject;
         Assert.That(whatLinksQuestion, Is.Not.Null);
 
         Assert.That(whatLinksQuestion!.ContainsKey("number"));
-        Assert.That(whatLinksQuestion["number"]!.Value<int>(), Is.EqualTo(questionsCount));
+        Assert.That(whatLinksQuestion["number"]!.GetValue<int>(), Is.EqualTo(questionsCount));
 
         Assert.That(whatLinksQuestion.ContainsKey("type"));
-        Assert.That(whatLinksQuestion["type"]!.Value<string>(), Is.EqualTo("WHAT_LINKS"));
+        Assert.That(whatLinksQuestion["type"]!.GetValue<string>(), Is.EqualTo("WHAT_LINKS"));
     }
 
     [Test]
@@ -94,7 +98,7 @@ public class QuizApiTests
             Query = "count=1"
         }.ToString();
         var metadataJson = await _httpClient.GetStringAsync(metadataRequestUri);
-        var metadata = JsonConvert.DeserializeObject<QuizMetadata[]>(metadataJson);
+        var metadata = JsonSerializer.Deserialize<QuizMetadata[]>(metadataJson, JsonSerializerOptions);
         var expectedDate = metadata![0].Date;
 
         var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
@@ -112,51 +116,51 @@ public class QuizApiTests
         var content = await response.Content.ReadAsStringAsync();
         Assert.That(content, Is.Not.Null.Or.Empty);
 
-        var quiz = JsonConvert.DeserializeObject(content, JsonSerializerSettings) as JObject;
+        var quiz = JsonNode.Parse(content) as JsonObject;
         Assert.That(quiz, Is.Not.Null);
 
         Assert.That(quiz!.ContainsKey("id"));
-        Assert.That(quiz["id"]?.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(quiz["id"]?.GetValue<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(quiz.ContainsKey("date"));
-        Assert.That(quiz["date"]?.Value<string>(), Is.Not.Null.Or.Empty);
-        Assert.That(quiz["date"]?.Value<string>(), Does.Match(@"^\d{4}-\d{2}-\d{2}T00:00:00Z$"));
-        Assert.That(DateTime.TryParse(quiz["date"]?.Value<string>(), out var date), Is.True);
+        Assert.That(quiz["date"]?.GetValue<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(quiz["date"]?.GetValue<string>(), Does.Match(@"^\d{4}-\d{2}-\d{2}T00:00:00Z$"));
+        Assert.That(DateTime.TryParse(quiz["date"]?.GetValue<string>(), out var date), Is.True);
         Assert.That(date.Date, Is.EqualTo(expectedDate));
 
         Assert.That(quiz.ContainsKey("title"));
-        Assert.That(quiz["title"]!.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(quiz["title"]!.GetValue<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(quiz.ContainsKey("questions"));
         Assert.That(quiz["questions"], Is.Not.Null.Or.Empty);
 
-        var questions = quiz["questions"] as JArray;
+        var questions = quiz["questions"] as JsonArray;
         Assert.That(questions, Is.Not.Null);
         var questionCount = questions!.Count;
 
-        var normalQuestion = questions.First as JObject;
+        var normalQuestion = questions.First() as JsonObject;
         Assert.That(normalQuestion, Is.Not.Null);
 
         Assert.That(normalQuestion!.ContainsKey("number"));
-        Assert.That(normalQuestion["number"]!.Value<int>(), Is.EqualTo(1));
+        Assert.That(normalQuestion["number"]!.GetValue<int>(), Is.EqualTo(1));
 
         Assert.That(normalQuestion.ContainsKey("question"));
-        Assert.That(normalQuestion["question"]!.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(normalQuestion["question"]!.GetValue<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(normalQuestion.ContainsKey("answer"));
-        Assert.That(normalQuestion["answer"]!.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(normalQuestion["answer"]!.GetValue<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(normalQuestion.ContainsKey("type"));
-        Assert.That(normalQuestion["type"]!.Value<string>(), Is.EqualTo("NORMAL"));
+        Assert.That(normalQuestion["type"]!.GetValue<string>(), Is.EqualTo("NORMAL"));
 
-        var whatLinksQuestion = questions.Last as JObject;
+        var whatLinksQuestion = questions.Last() as JsonObject;
         Assert.That(whatLinksQuestion, Is.Not.Null);
 
         Assert.That(whatLinksQuestion!.ContainsKey("number"));
-        Assert.That(whatLinksQuestion["number"]!.Value<int>(), Is.EqualTo(questionCount));
+        Assert.That(whatLinksQuestion["number"]!.GetValue<int>(), Is.EqualTo(questionCount));
 
         Assert.That(whatLinksQuestion.ContainsKey("type"));
-        Assert.That(whatLinksQuestion["type"]!.Value<string>(), Is.EqualTo("WHAT_LINKS"));
+        Assert.That(whatLinksQuestion["type"]!.GetValue<string>(), Is.EqualTo("WHAT_LINKS"));
     }
 
     [TestCase(null, "id=123")]

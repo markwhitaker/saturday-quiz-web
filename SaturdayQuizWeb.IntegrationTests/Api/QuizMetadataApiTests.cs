@@ -1,9 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text.Json.Nodes;
 using Mainwave.MimeTypes;
-using Newtonsoft.Json.Linq;
 
 namespace SaturdayQuizWeb.IntegrationTests.Api;
 
 [TestFixture]
+[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
 public class QuizMetadataApiTests
 {
     private HttpClient _httpClient = null!;
@@ -21,11 +24,6 @@ public class QuizMetadataApiTests
             Path = "api/quiz-metadata"
         }.ToString();
 
-        var jsonSerializerSettings = new JsonSerializerSettings
-        {
-            DateParseHandling = DateParseHandling.None
-        };
-
         // When
         var response = await _httpClient.GetAsync(requestUri);
 
@@ -36,34 +34,34 @@ public class QuizMetadataApiTests
         var content = await response.Content.ReadAsStringAsync();
         Assert.That(content, Is.Not.Null.Or.Empty);
 
-        var quizMetadataArray = JsonConvert.DeserializeObject(content, jsonSerializerSettings) as JArray;
+        var quizMetadataArray = JsonNode.Parse(content) as JsonArray;
         Assert.That(quizMetadataArray, Is.Not.Null);
         Assert.That(quizMetadataArray!.Count, Is.EqualTo(expectedCount));
 
-        var quizMetadata = quizMetadataArray.First as JObject;
+        var quizMetadata = quizMetadataArray.First() as JsonObject;
         Assert.That(quizMetadata, Is.Not.Null);
 
         Assert.That(quizMetadata!.ContainsKey("id"));
-        Assert.That(quizMetadata["id"]!.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(quizMetadata["id"]!.GetValue<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(quizMetadata.ContainsKey("date"));
-        var dateValue = quizMetadata["date"]!.Value<string>();
+        var dateValue = quizMetadata["date"]!.GetValue<string>();
         Assert.That(dateValue, Is.Not.Null.Or.Empty);
         Assert.That(dateValue, Does.Match(@"^\d{4}-\d{2}-\d{2}T00:00:00Z$"));
         Assert.That(DateTime.TryParse(dateValue, out var date), Is.True);
         Assert.That(date.Date, Is.InRange(DateTime.Today.Subtract(TimeSpan.FromDays(7)), DateTime.Today));
 
         Assert.That(quizMetadata.ContainsKey("title"));
-        Assert.That(quizMetadata["title"]!.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(quizMetadata["title"]!.GetValue<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(quizMetadata.ContainsKey("url"));
-        Assert.That(quizMetadata["url"]!.Value<string>(), Is.Not.Null.Or.Empty);
+        Assert.That(quizMetadata["url"]!.GetValue<string>(), Is.Not.Null.Or.Empty);
 
         Assert.That(quizMetadata.ContainsKey("source"));
-        Assert.That(quizMetadata["source"]!.Value<string>(), Is.EqualTo("API").Or.EqualTo("RSS"));
+        Assert.That(quizMetadata["source"]!.GetValue<string>(), Is.EqualTo("API").Or.EqualTo("RSS"));
 
         Assert.That(quizMetadata.ContainsKey("apiUrl"));
-        var apiUrlValue = quizMetadata["apiUrl"]!.Value<string>();
+        var apiUrlValue = quizMetadata["apiUrl"]!.GetValue<string>();
         var expectedApiUrl = new Uri(_httpClient.BaseAddress!, $"/api/quiz/{date:yyyy-MM-dd}").AbsoluteUri;
         Assert.That(apiUrlValue, Is.EqualTo(expectedApiUrl));
     }
@@ -89,7 +87,7 @@ public class QuizMetadataApiTests
         var content = await response.Content.ReadAsStringAsync();
         Assert.That(content, Is.Not.Null.Or.Empty);
 
-        var quizMetadataArray = JArray.Parse(content);
-        Assert.That(quizMetadataArray.Count, Is.EqualTo(expectedCount));
+        var quizMetadataArray = JsonNode.Parse(content) as JsonArray;
+        Assert.That(quizMetadataArray!.Count, Is.EqualTo(expectedCount));
     }
 }

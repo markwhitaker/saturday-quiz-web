@@ -1,11 +1,20 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text.Json;
 using Mainwave.MimeTypes;
 using SaturdayQuizWeb.Models;
 
 namespace SaturdayQuizWeb.IntegrationTests.WebServer;
 
 [TestFixture]
+[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
 public class WebServerTests
 {
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
     private HttpClient _httpClient = null!;
 
     [SetUp]
@@ -85,7 +94,7 @@ public class WebServerTests
         }.ToString();
         var metadataResponse = await _httpClient.GetAsync(metadataRequestUri);
         var metadataJson = await metadataResponse.Content.ReadAsStringAsync();
-        var metadata = JsonConvert.DeserializeObject<QuizMetadata[]>(metadataJson)!.First();
+        var metadata = JsonSerializer.Deserialize<QuizMetadata[]>(metadataJson, JsonSerializerOptions)!.First();
 
         var requestUri = new UriBuilder(_httpClient.BaseAddress!.AbsoluteUri)
         {
