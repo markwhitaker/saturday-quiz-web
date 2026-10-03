@@ -157,17 +157,17 @@ public class QuizMetadataServiceTests
     }
 
     [Test]
-    public void GivenApiAndRssBothReturnNoMetadata_WhenGettingMetadata_ThenExceptionIsThrown()
+    public async Task GivenApiAndRssBothReturnNoMetadata_WhenGettingMetadata_ThenExceptionIsThrown()
     {
         // Given
         _mockGuardianApiClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs([]);
         _mockGuardianRssClient.GetQuizMetadataAsync(default).ReturnsForAnyArgs([]);
 
         // When/Then
-        var exception = Assert.ThrowsAsync<Exception>(() => _quizMetadataService.GetQuizMetadataAsync(1));
+        var exception = await Assert.ThrowsAsync<Exception>(() => _quizMetadataService.GetQuizMetadataAsync(1));
 
         // Then
         Assert.That(exception, Is.Not.Null);
-        Assert.That(exception!.Message, Is.EqualTo("Couldn't get data from the Guardian API or RSS feed"));
+        Assert.That(exception.Message, Is.EqualTo("Couldn't get data from the Guardian API or RSS feed"));
     }
 }
