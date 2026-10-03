@@ -123,7 +123,7 @@ public class QuizServiceTests
     }
 
     [Test]
-    public void GivenQuizMetadataServiceReturnsContent_WhenGetQuizAsyncWithInvalidDate_ThenExpectedQuizReturned()
+    public async Task GivenQuizMetadataServiceReturnsContent_WhenGetQuizAsyncWithInvalidDate_ThenExpectedQuizReturned()
     {
         // Given
         var expectedQuizDate = DateTime.UtcNow;
@@ -140,7 +140,7 @@ public class QuizServiceTests
         _mockQuizMetadataService.GetQuizMetadataAsync(Arg.Any<int>()).Returns([expectedQuizMetadata]);
 
         // When
-        var exception = Assert.ThrowsAsync<Exception>(async () => await _quizService.GetQuizAsync(invalidDate));
+        var exception = await Assert.ThrowsAsync<Exception>(async () => await _quizService.GetQuizAsync(invalidDate));
 
         // Then
         Assert.That(exception!.Message, Is.EqualTo("Quiz not found for date 2000-01-02"));
