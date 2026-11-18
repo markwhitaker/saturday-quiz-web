@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging.Testing;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Clients.HttpClients;
@@ -6,6 +7,7 @@ using SaturdayQuizWeb.Models;
 namespace SaturdayQuizWeb.IntegrationTests.Clients;
 
 [TestFixture]
+[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
 public class GuardianRssClientTests
 {
     private IGuardianRssClient _guardianRssClient = null!;
@@ -34,6 +36,6 @@ public class GuardianRssClientTests
         // Then
         Assert.That(metadata, Has.Exactly(expectedCount).Items);
         Assert.That(metadata, Is.Ordered.Descending.By(nameof(QuizMetadata.Date)));
-        Assert.That(metadata, Is.All.Matches<QuizMetadata>(qm => qm.Source == "RSS"));
+        Assert.That(metadata, Is.All.Matches<QuizMetadata>(qm => qm is { Source: "RSS" }));
     }
 }

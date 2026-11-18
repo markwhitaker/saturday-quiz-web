@@ -6,6 +6,7 @@ namespace SaturdayQuizWeb.UnitTests.Services;
 
 [TestFixture]
 [TestOf(typeof(HtmlService))]
+[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
 public class HtmlServiceTests
 {
     private ISectionExtractor _mockSectionExtractor = null!;

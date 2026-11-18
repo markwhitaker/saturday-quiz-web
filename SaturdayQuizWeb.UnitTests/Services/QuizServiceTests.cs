@@ -6,6 +6,7 @@ namespace SaturdayQuizWeb.UnitTests.Services;
 
 [TestFixture]
 [TestOf(typeof(QuizService))]
+[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
 public class QuizServiceTests
 {
     // Constants

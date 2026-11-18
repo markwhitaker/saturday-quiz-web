@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 using SaturdayQuizWeb.Clients;
 using SaturdayQuizWeb.Models;
 using SaturdayQuizWeb.Services;
@@ -7,6 +8,7 @@ namespace SaturdayQuizWeb.UnitTests.Services;
 
 [TestFixture]
 [TestOf(typeof(QuizMetadataService))]
+[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
 public class QuizMetadataServiceTests
 {
     private IDateTimeService _mockDateTimeService = null!;
@@ -168,6 +170,7 @@ public class QuizMetadataServiceTests
 
         // Then
         Assert.That(exception, Is.Not.Null);
+        Debug.Assert(exception != null, nameof(exception) + " != null");
         Assert.That(exception.Message, Is.EqualTo("Couldn't get data from the Guardian API or RSS feed"));
     }
 }
